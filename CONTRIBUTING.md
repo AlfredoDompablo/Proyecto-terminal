@@ -108,13 +108,11 @@ Para mantener un historial de Git limpio, legible y profesional, seguimos la esp
 La estructura general de un commit es:
 
 ````
-
 <tipo>(<alcance>): <descripción breve>
 
 [cuerpo opcional con más detalles]
 
 [pie de página opcional para breaking changes o issues]
-
 ````
 
 ---
