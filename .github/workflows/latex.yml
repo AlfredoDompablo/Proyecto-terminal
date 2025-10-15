@@ -1,41 +1,50 @@
-# Nombre del flujo de trabajo que aparecerá en la pestaña "Actions" de GitHub
+# Nombre del flujo de trabajo
 name: Compilar Tesis LaTeX a PDF
 
-# Define cuándo se debe ejecutar este flujo de trabajo
+# Define cuándo se debe ejecutar
 on:
-  # Se ejecuta cada vez que haces 'push' a la rama 'main'
   push:
     branches:
-      - main # Puedes cambiar 'main' a 'master' si usas esa como tu rama principal
+      - main # O la rama que uses como principal
 
 # Define los trabajos (jobs) que se ejecutarán
 jobs:
-  # Nombramos nuestro trabajo 'build_latex'
   build_latex:
-    # El tipo de máquina virtual en la que se ejecutará el trabajo
+    # El tipo de máquina virtual
     runs-on: ubuntu-latest
+
+    # IMPORTANTE: Da permiso al workflow para crear un Release
+    permissions:
+      contents: write
 
     # La secuencia de pasos que realizará el trabajo
     steps:
-      # Paso 1: Descarga una copia de tu repositorio a la máquina virtual
+      # Paso 1: Descarga una copia de tu repositorio
       - name: Checkout del Repositorio
         uses: actions/checkout@v4
 
       # Paso 2: Compila el archivo .tex para generar el PDF
       - name: Compilar documento LaTeX
-        # Usamos una "acción" pre-hecha por la comunidad que instala LaTeX y compila
         uses: xu-cheng/latex-action@v3
         with:
-          # El nombre de tu archivo LaTeX principal
           root_file: main.tex
-          # Usamos 'latexmk' porque es inteligente y maneja la bibliografía (.bib) y las referencias automáticamente
           compiler: latexmk
 
-      # Paso 3: Sube el PDF generado para que puedas descargarlo
-      - name: Subir PDF como artefacto
-        uses: actions/upload-artifact@v4
+      # Paso 3: Crea o actualiza un Release con el PDF adjunto
+      - name: Crear Release y adjuntar PDF
+        uses: softprops/action-gh-release@v2
         with:
-          # El nombre que tendrá el archivo ZIP que descargues
-          name: Tesis-PDF
-          # La ruta al archivo que queremos subir (el PDF que se generó en el paso anterior)
-          path: main.pdf
+          # El nombre del tag que se creará o actualizará.
+          # Al usar un nombre fijo, siempre se actualiza el mismo release.
+          tag_name: tesis-pdf-automatico
+          
+          # El título que tendrá el Release en GitHub
+          name: Tesis PDF (Compilación Automática ${{ github.run_number }})
+          
+          # El texto que aparecerá en la descripción del Release
+          body: |
+            PDF generado automáticamente a partir del último commit.
+            Commit: `${{ github.sha }}`
+          
+          # Los archivos que quieres adjuntar. ¡Aquí está la magia!
+          files: main.pdf
