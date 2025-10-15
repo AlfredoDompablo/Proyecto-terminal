@@ -11,10 +11,10 @@ Este es el primer y único paso que necesitas para descargar el proyecto a tu co
 * #### `git clone <URL-del-repositorio>`
     **¿Qué hace?** Crea una copia local completa del repositorio remoto.
     **¿Cómo se usa?**
-    1.  Ve a la página principal del repositorio en GitHub.
-    2.  Haz clic en el botón verde que dice **`< > Code`**.
-    3.  Copia la URL que aparece (se recomienda usar HTTPS).
-    4.  Abre una terminal en la carpeta donde quieras descargar el proyecto y ejecuta el comando:
+    1. Ve a la página principal del repositorio en GitHub.
+    2. Haz clic en el botón verde que dice **`< > Code`**.
+    3. Copia la URL que aparece (se recomienda usar HTTPS).
+    4. Abre una terminal en la carpeta donde quieras descargar el proyecto y ejecuta el comando:
         ```bash
         git clone [https://github.com/tu-usuario/nombre-del-repositorio.git](https://github.com/tu-usuario/nombre-del-repositorio.git)
         ```
@@ -29,10 +29,6 @@ Este es el ciclo de trabajo que usarás el 90% del tiempo para guardar y subir t
 1.  #### `git pull`
     **¿Qué hace?** Descarga los cambios del repositorio remoto (GitHub) y los fusiona con tu rama actual. Es una combinación de `git fetch` (descargar) + `git merge` (fusionar).
     **Truco:** Acostúmbrate a hacer `git pull` antes de empezar a trabajar para asegurarte de tener la versión más reciente.
----
-* #### `git clone <URL-del-repositorio>`
-    **¿Qué hace?** Crea una copia local de un repositorio remoto existente. Solo lo usas la primera vez que descargas un proyecto en una nueva computadora.
----
 
 2.  #### `git status`
     **¿Qué hace?** Te da un resumen del estado de tu repositorio. Te dice qué archivos han sido modificados (`M`), cuáles son nuevos (`??`) y cuáles están listos para el próximo commit.
@@ -83,11 +79,19 @@ Todos cometemos errores. Git es tu máquina del tiempo personal.
     **¿Qué hace?** Muestra el historial de commits, del más reciente al más antiguo.
     **Truco:** Usa `git log --oneline --graph` para una vista mucho más compacta y visual del historial y las ramas.
 
+* #### `git log --oneline --graph --decorate --all`
+    **¿Qué hace?** Te muestra una vista **compacta y visual** de todo el historial de commits. Es el mejor comando para entender cómo se han movido las ramas y quién ha hecho qué.
+    * `--oneline`: Muestra cada commit en una sola línea.
+    * `--graph`: Dibuja el árbol de ramas con caracteres ASCII.
+    * `--decorate`: Muestra dónde están las ramas (ej. `HEAD -> main`, `origin/main`).
+    * `--all`: Muestra los commits de todas las ramas, no solo la actual.
+
 * #### `git reset <archivo>`
     **¿Qué hace?** Saca un archivo del "área de preparación". Si hiciste `git add` a un archivo por error, este comando lo "des-añade".
 
 * #### `git checkout -- <archivo>`
-    **⚠️⚠️¡CUIDADO!⚠️⚠️** Este comando **descarta todos los cambios no guardados** en un archivo, devolviéndolo a su estado del último commit. No hay vuelta atrás para esos cambios.
+    > **⚠️ ¡CUIDADO!** Este comando **descarta permanentemente** todos los cambios no guardados en un archivo, devolviéndolo a su estado del último commit. No hay vuelta atrás para esos cambios.
+
 
 * #### `git commit --amend`
     **¿Qué hace?** Te permite modificar el último commit. Es perfecto si te equivocaste en el mensaje o si olvidaste añadir un archivo.
@@ -95,17 +99,15 @@ Todos cometemos errores. Git es tu máquina del tiempo personal.
     1.  `git add archivo-olvidado.tex` (Añades el archivo que faltaba).
     2.  `git commit --amend --no-edit` (Añade el archivo al commit anterior sin cambiar el mensaje).
 
+---
 
-
-¡Claro\! Aquí tienes la guía completa sobre formatos de commit en un solo bloque de Markdown, listo para que lo copies y pegues en un archivo como `CONTRIBUTING.md`.
-
-
-# 🎨 Guía de Formato para Commits
+## 🎨 Guía de Formato para Commits
 
 Para mantener un historial de Git limpio, legible y profesional, seguimos la especificación de **Commits Convencionales (Conventional Commits)**. Esto nos permite entender fácilmente el propósito de cada cambio y automatizar procesos en el futuro.
 
 La estructura general de un commit es:
-```
+
+````
 
 <tipo>(<alcance>): <descripción breve>
 
@@ -117,7 +119,7 @@ La estructura general de un commit es:
 
 ---
 
-## 🚀 Tipos de Commit Principales
+### 🚀 Tipos de Commit Principales
 
 Estos son los prefijos que debes usar para describir la naturaleza de tus cambios.
 
@@ -174,20 +176,15 @@ Estos son los prefijos que debes usar para describir la naturaleza de tus cambio
 * #### **Pie de Página (Footer)**
     * **Opcional.** Se usa para referenciar `issues` de GitHub (`Closes #123`) o para marcar **Breaking Changes**.
 
-### 🎨 Ejemplo Completo
+---
 
+### 🎨 Ejemplo Completo
 ```bash
 # Un commit simple
 fix(referencias): corrige el formato de la cita para 'Smith 2020'
 
-# Un commit más completo y profesional
+# Un commit más completo
 feat(capitulo5): agrega análisis estadístico de los resultados
 
-Se implementa la prueba t de Student para comparar los resultados de los sensores A y B. Esto es necesario para validar la hipótesis de que el sensor B es más preciso.
-
-Se añade una nueva subsección (5.3) con las tablas y la interpretación de los resultados estadísticos.
-
-Closes #42
+Se implementa la prueba t de Student para comparar los resultados de los sensores A y B, validando la hipótesis de que el sensor B es más preciso.
 ````
-
-```
