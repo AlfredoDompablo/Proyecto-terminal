@@ -31,22 +31,31 @@ Los datos recolectados se envían a una **central de procesamiento**, donde se a
 
 ---
 
-## 🧩 Estructura del Repositorio
+## 📁 Estructura del Repositorio
 
-├── Documento/             # Carpeta principal del contenido de la tesis
-│   ├── Imagenes/          # Subcarpeta para las figuras y diagramas
-│   ├── Tablas/            # Subcarpeta para tablas complejas o datos
-│   ├── 1-Introduccion.tex # Archivo .tex para el Capítulo 1
-│   ├── 2-Planteamiento.tex# Archivo .tex para el Capítulo 2
-│   └── ...                # Y así sucesivamente con los demás capítulos
-├── bst/                   # Estilos para la bibliografía (ej. IEEEtran.bst)
-├── STY/                   # Macros y estilos personalizados (ej. EPN.sty)
-├── main.tex               # 📄 Documento principal que une todas las partes
-├── Bibliografia.bib       # 📚 Base de datos de referencias en formato BibTeX
-├── IPN.png, UPIITA.png    # 🖼️ Logos para la portada o encabezados
-├── .gitignore             # Archivos a ignorar por Git
-├── latexmkrc              # ⚙️ Configuración para la herramienta latexmk
-└── README.md              # ⏪ Este archivo
+```
+
+.
+├── .github/
+│   └── workflows/
+│       └── latex.yml      \# Workflow para compilar el PDF automáticamente
+├── Documento/             \# Carpeta principal del contenido de la tesis
+│   ├── Imagenes/          \# Subcarpeta para las figuras y diagramas
+│   ├── Tablas/            \# Subcarpeta para tablas complejas o datos
+│   ├── 1-Introduccion.tex \# Archivo .tex para el Capítulo 1
+│   └── ...                \# Y así sucesivamente con los demás capítulos
+├── bst/                   \# Estilos para la bibliografía (ej. IEEEtran.bst)
+├── STY/                   \# Macros y estilos personalizados (ej. EPN.sty)
+├── main.tex               \# 📄 Documento principal que une todas las partes
+├── Bibliografia.bib       \# 📚 Base de datos de referencias en formato BibTeX
+├── IPN.png, UPIITA.png    \# 🖼️ Logos para la portada o encabezados
+├── .gitignore             \# Archivos a ignorar por Git
+├── CONTRIBUTING.md        \# 🌱 Guía de colaboración y uso de Git
+├── LICENSE                \# 📜 Licencia del proyecto (MIT)
+├── latexmkrc              \# ⚙️ Configuración para la herramienta latexmk
+└── README.md              \# ⏪ Este archivo
+
+```
 
 ---
 
