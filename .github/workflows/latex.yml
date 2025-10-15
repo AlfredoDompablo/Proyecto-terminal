@@ -1,0 +1,41 @@
+# Nombre del flujo de trabajo que aparecerá en la pestaña "Actions" de GitHub
+name: Compilar Tesis LaTeX a PDF
+
+# Define cuándo se debe ejecutar este flujo de trabajo
+on:
+  # Se ejecuta cada vez que haces 'push' a la rama 'main'
+  push:
+    branches:
+      - main # Puedes cambiar 'main' a 'master' si usas esa como tu rama principal
+
+# Define los trabajos (jobs) que se ejecutarán
+jobs:
+  # Nombramos nuestro trabajo 'build_latex'
+  build_latex:
+    # El tipo de máquina virtual en la que se ejecutará el trabajo
+    runs-on: ubuntu-latest
+
+    # La secuencia de pasos que realizará el trabajo
+    steps:
+      # Paso 1: Descarga una copia de tu repositorio a la máquina virtual
+      - name: Checkout del Repositorio
+        uses: actions/checkout@v4
+
+      # Paso 2: Compila el archivo .tex para generar el PDF
+      - name: Compilar documento LaTeX
+        # Usamos una "acción" pre-hecha por la comunidad que instala LaTeX y compila
+        uses: xu-cheng/latex-action@v3
+        with:
+          # El nombre de tu archivo LaTeX principal
+          root_file: main.tex
+          # Usamos 'latexmk' porque es inteligente y maneja la bibliografía (.bib) y las referencias automáticamente
+          compiler: latexmk
+
+      # Paso 3: Sube el PDF generado para que puedas descargarlo
+      - name: Subir PDF como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          # El nombre que tendrá el archivo ZIP que descargues
+          name: Tesis-PDF
+          # La ruta al archivo que queremos subir (el PDF que se generó en el paso anterior)
+          path: main.pdf
