@@ -42,11 +42,13 @@ Este es el ciclo de trabajo que usarás el 90% del tiempo para guardar y subir t
     **¿Qué hace?** Prepara tus cambios para ser guardados (los añade al "Staging Area"). `git add .` añade todos los archivos modificados y nuevos.
     **Truco:** Para crear commits más lógicos y pequeños, añade archivos de uno en uno: `git add Documento/3-Propuesta.tex`.
 
-4.  #### `git commit -m "Tu mensaje descriptivo"`
+4.  #### `git commit -m "Describe tu cambio aquí"`
     **¿Qué hace?** Guarda permanentemente los cambios que preparaste con `git add` en el historial del proyecto.
-    **Truco para el mensaje:** Usa el "modo imperativo". En lugar de "Agregué la sección de...", escribe "**Agrega** la sección de...". Es un estándar y hace el historial más fácil de leer.
-    * ✅ **Bien:** `git commit -m "Corrige error de tipeo en la introducción"`
-    * ❌ **Mal:** `git commit -m "cambios"`
+    **Truco para el mensaje:** Usa el "modo imperativo". En lugar de "Agregué la sección de...", escribe: "**Agrega** la sección de...". Es un estándar y hace el historial más fácil de leer.
+    * ✅ **Buen mensaje:** `git commit -m "Agrega la sección de metodología al capítulo 3"`
+    * ❌ **Mal mensaje:** `git commit -m "actualización"`
+
+    > 💡 **Nota:** Para un historial profesional, seguimos un formato estándar. Consulta la [guía completa de formato para commits](#-guía-de-formato-para-commits) para ver todos los tipos y ejemplos.
 
 5.  #### `git push`
     **¿Qué hace?** Sube tu commit (tus puntos de guardado) desde tu computadora local al repositorio remoto en GitHub para que todos los colaboradores puedan verlo.
@@ -93,3 +95,99 @@ Todos cometemos errores. Git es tu máquina del tiempo personal.
     1.  `git add archivo-olvidado.tex` (Añades el archivo que faltaba).
     2.  `git commit --amend --no-edit` (Añade el archivo al commit anterior sin cambiar el mensaje).
 
+
+
+¡Claro\! Aquí tienes la guía completa sobre formatos de commit en un solo bloque de Markdown, listo para que lo copies y pegues en un archivo como `CONTRIBUTING.md`.
+
+
+# 🎨 Guía de Formato para Commits
+
+Para mantener un historial de Git limpio, legible y profesional, seguimos la especificación de **Commits Convencionales (Conventional Commits)**. Esto nos permite entender fácilmente el propósito de cada cambio y automatizar procesos en el futuro.
+
+La estructura general de un commit es:
+```
+
+<tipo>(<alcance>): <descripción breve>
+
+[cuerpo opcional con más detalles]
+
+[pie de página opcional para breaking changes o issues]
+
+````
+
+---
+
+## 🚀 Tipos de Commit Principales
+
+Estos son los prefijos que debes usar para describir la naturaleza de tus cambios.
+
+* ### **`feat`** (Feature - Característica)
+    Se usa cuando añades una **nueva funcionalidad** al proyecto.
+    * **Ejemplo:** `feat(capitulo4): Añade sección de análisis de resultados`
+
+* ### **`fix`** (Fix - Corrección)
+    Se usa cuando **corriges un error (bug)** en el código o en el documento.
+    * **Ejemplo:** `fix(referencias): Corrige entrada de BibTeX para la norma APA`
+
+* ### **`docs`** (Documentation - Documentación)
+    Se usa para **cambios exclusivos en la documentación**, como el `README.md`, guías de contribución o comentarios.
+    * **Ejemplo:** `docs(readme): Añade instrucciones de compilación`
+
+* ### **`style`** (Style - Estilo)
+    Se usa para cambios que **no afectan el significado del contenido**, solo el formato (espacios, sangrías, etc.).
+    * **Ejemplo:** `style(main.tex): Ajusta espaciado entre párrafos`
+
+* ### **`refactor`** (Refactor - Refactorización)
+    Se usa cuando **reescribes o mejoras una parte del texto o código** sin cambiar su comportamiento externo ni añadir nuevas funcionalidades.
+    * **Ejemplo:** `refactor(capitulo2): Reescribe el planteamiento del problema para mayor claridad`
+
+* ### **`test`** (Test - Pruebas)
+    Se usa para **añadir o corregir pruebas automatizadas**.
+    * **Ejemplo:** `test(graficas): Agrega prueba para verificar la generación de gráficas`
+
+* ### **`chore`** (Chore - Tarea)
+    Se usa para **cambios en el proceso de construcción o herramientas auxiliares** que no tienen que ver con el contenido principal. Es el mantenimiento del repositorio.
+    * **Ejemplo:** `chore(ci): Actualiza la versión de la acción de GitHub para compilar LaTeX`
+
+* ### **`revert`** (Revert - Revertir)
+    Se usa cuando **reviertes un commit anterior**. El mensaje debe empezar con `revert:`, seguido del encabezado del commit revertido.
+    * **Ejemplo:** `revert: feat(capitulo4): Añade sección de análisis de resultados`
+
+---
+
+## 📝 Estructura Detallada y Buenas Prácticas
+
+* #### **Alcance (Scope)**
+    El `<alcance>` entre paréntesis es **opcional** y sirve para especificar la parte del proyecto que estás modificando (ej. `(readme)`, `(capitulo3)`, `(ci)`).
+
+* #### **Descripción (Subject)**
+    * **Usa el modo imperativo:** "Agrega", "Corrige", "Cambia".
+    * No uses mayúscula inicial.
+    * No pongas un punto final.
+    * Mantenlo corto (idealmente < 50 caracteres).
+
+* #### **Cuerpo (Body)**
+    * **Opcional**, pero muy recomendado para commits complejos.
+    * Explica el **qué y el porqué** del cambio.
+    * Sepáralo de la descripción con una línea en blanco.
+
+* #### **Pie de Página (Footer)**
+    * **Opcional.** Se usa para referenciar `issues` de GitHub (`Closes #123`) o para marcar **Breaking Changes**.
+
+### 🎨 Ejemplo Completo
+
+```bash
+# Un commit simple
+fix(referencias): corrige el formato de la cita para 'Smith 2020'
+
+# Un commit más completo y profesional
+feat(capitulo5): agrega análisis estadístico de los resultados
+
+Se implementa la prueba t de Student para comparar los resultados de los sensores A y B. Esto es necesario para validar la hipótesis de que el sensor B es más preciso.
+
+Se añade una nueva subsección (5.3) con las tablas y la interpretación de los resultados estadísticos.
+
+Closes #42
+````
+
+```
