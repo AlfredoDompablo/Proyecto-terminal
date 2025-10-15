@@ -1,0 +1,950 @@
+\chapter{Análisis}
+
+\section{Análisis del sistema y requerimientos del prototipo}
+
+A continuación, se presenta una lista con los posibles requerimientos identificados para el desarrollo del prototipo de monitoreo ambiental. Estos requerimientos están organizados en subsistemas funcionales y servirán como guía para el diseño e implementación del sistema.
+
+
+En la figura \ref{Dig:diagramaAB} se presenta un diagrama a bloques que muestra el funcionamiento del sistema, la interconexión entre módulos, los componentes dentro de cada uno y las funciones de cada módulo dentro del sistema de monitoreo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Documento/Imagenes/Análisis/DiagramaAB2 (3).pdf}
+    \caption{Diagrama a bloques del sistema.}
+    \label{Dig:diagramaAB}
+\end{figure}
+   
+
+\subsubsection*{Módulo 1. Red inalámbrica de sensores}
+
+\begin{enumerate}
+    \item Subsistema – Sensado de parámetros de calidad del agua \\
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Documento/Imagenes/Análisis/DiagramaAB2 (2).pdf}
+    \caption{Diagrama a bloques del Nodeo sensor.}
+    \label{Dig:diagramaAB2}
+\end{figure}
+    Este subsistema se encargará de obtener mediciones periódicas sobre las condiciones físico-químicas del agua mediante sensores especializados.
+    \begin{itemize}
+        \item Sensor de pH: permite medir el nivel de acidez del agua en intervalos definidos.
+        \item Sensor de oxígeno disuelto (OD): monitorea la oxigenación del agua.
+        \item Sensor de turbidez: indica la presencia de partículas suspendidas.
+        \item Sensor de conductividad eléctrica: mide la concentración de iones disueltos.
+        \item Sensor de temperatura: contextualiza las demás variables, ya que la temperatura afecta los valores de pH, OD y conductividad.
+        \item Integración en un nodo sensor flotante: los sensores estarán integrados en un nodo con protección IP adecuada al entorno fluvial.
+    \end{itemize}
+    La Tabla \ref{tab:parametros_calidad_agua} presenta los rangos de medición establecidos según las recomendaciones de la Comisión Nacional del Agua (CONAGUA) \cite{conagua2022} y las Normas Oficiales Mexicanas (NOM) para análisis de agua \cite{nmx0082016, nmx0122001, nmx0382001, nmx0932000}.
+    
+    \input{Documento/Tablas/RangosParamCalidadAgua}
+
+    \item Subsistema – Cámara \\
+    Encargado de capturar imágenes periódicas de la superficie del agua para identificar residuos sólidos flotantes.
+    \begin{itemize}
+        \item Captura de imágenes: se utilizará una cámara compatible con el microcontrolador.
+        \item Montaje en posición fija: las cámaras estarán orientadas hacia la superficie del agua.
+        \item Iluminación diurna natural: se aprovechará la luz solar para evitar consumo energético adicional.
+    \end{itemize}
+
+    \item Subsistema – Microcontrolador \\
+    Gestiona el funcionamiento de sensores, adquisición de datos, almacenamiento temporal y envío de información al servidor.
+    \begin{itemize}
+        \item Tarjeta de desarrollo: se empleará una tarjeta de bajo consumo energético y con capacidad de conectividad de largo alcance.
+        \item Organización y empaquetado de datos: procesa, organiza y empaqueta los datos obtenidos de sensores y cámara antes de su transmisión.
+        \item Manejo eficiente de energía: optimiza el consumo de energía en los nodos, considerando las limitaciones de alimentación en entornos remotos.
+        \item Memoria: gestiona la memoria interna que almacenará temporalmente los datos antes de su transmisión.
+    \end{itemize}
+
+    \item Subsistema – Transceptor \\
+    Encargado de transmitir los datos obtenidos por el nodo sensor al nodo vecino, y posteriormente al servidor central.
+    \begin{itemize}
+        \item Transmisión de datos: utiliza tecnologías de comunicación inalámbrica para garantizar conectividad en áreas remotas.
+        \item Optimización del consumo energético: minimiza el consumo durante la transmisión mediante protocolos de bajo consumo.
+        \item Enrutamiento de datos: gestiona la comunicación entre nodos mediante técnicas de reenvío.
+    \end{itemize}
+
+    \item Subsistema – Fuente de alimentación \\
+    Este subsistema proporciona energía a todos los componentes del nodo.
+    \begin{itemize}
+        \item Batería: proporciona la energía necesaria para el funcionamiento completo del nodo.
+        \item Panel solar: recarga la batería utilizando energía solar para garantizar autonomía en entornos remotos.
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection*{Módulo 2. Nodo concentrador}
+
+El nodo concentrador cuenta con los mismos componentes que los nodos sensores, pero con la función adicional de recibir la información recolectada a través de la red. Este nodo centraliza los datos, los organiza y los transmite al servidor central para su procesamiento.
+
+\begin{enumerate}
+    \item Subsistema – Recepción de datos de nodos sensores
+    \begin{itemize}
+        \item Recepción de datos inalámbricos: debe recibir múltiples transmisiones periódicas para su almacenamiento temporal.
+    \end{itemize}
+
+    \item Subsistema – Almacenamiento temporal y organización de datos
+    \begin{itemize}
+        \item Almacenamiento temporal en buffer: los datos de los nodos se almacenan temporalmente en el buffer del concentrador.
+        \item Organización de datos: se estructuran para facilitar su transmisión posterior.
+    \end{itemize}
+
+    \item Subsistema – Gateway
+    \begin{itemize}
+        \item Reenvío al servidor: envía los datos al servidor central mediante WLAN o red celular.
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection*{Módulo 3. Servidor}
+
+\begin{enumerate}
+    \item Subsistema – Recepción de datos del gateway
+    \begin{itemize}
+        \item Clasificación de datos: organiza y asigna metadatos a la información de sensores para su análisis.
+    \end{itemize}
+
+    \item Subsistema – Procesamiento de imágenes
+    \begin{itemize}
+        \item Detección de residuos: las imágenes son analizadas mediante visión artificial para identificar residuos flotantes.
+        \item Marcas de detección: se agregan metadatos visuales a las imágenes para facilitar su interpretación.
+    \end{itemize}
+
+    \item Subsistema – Almacenamiento en base de datos
+    \begin{itemize}
+        \item Gestión de datos históricos: almacena la información adquirida para su análisis a largo plazo.
+        \item Optimización de consultas: estructura la base de datos para recuperación rápida y eficiente.
+    \end{itemize}
+
+    \item Subsistema – API / Comunicación con página web
+    \begin{itemize}
+        \item API de comunicación: permite acceder a los datos e imágenes desde la página web.
+        \item Enlace con la página web: proporciona una interfaz para que los usuarios consulten los resultados de monitoreo.
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection*{Módulo 4. Página web}
+
+La página web permite consultar los datos recopilados por los nodos sensores y procesados en el servidor. Presenta información sobre calidad del agua y residuos flotantes en una interfaz responsiva.
+
+\begin{enumerate}
+    \item Subsistema – Conexión al servidor (API / Backend)
+    \begin{itemize}
+        \item API RESTful: gestiona solicitudes y respuestas de datos para visualización web.
+        \item Conexión segura: implementa protocolos como HTTPS para proteger la transmisión de datos.
+        \item Manejo de solicitudes y respuestas: estructura los datos enviados al frontend.
+    \end{itemize}
+
+    \item Subsistema – Interfaz de usuario (Frontend)
+    \begin{itemize}
+        \item HTML (estructura): define las secciones de visualización de datos.
+        \item CSS (estilo): adapta el diseño para distintos dispositivos.
+        \item JavaScript (interactividad): permite la actualización dinámica y navegación fluida.
+    \end{itemize}
+\end{enumerate}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%          ANALISIS REQUERIMIENTOS                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\input{Documento/Tablas/Requerimientos}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: Analisis sensores           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Selección de Sensores}
+
+La selección de los sensores más adecuados para el sistema se rige por los requerimientos funcionales y no funcionales previamente definidos. Como base para la evaluación, cada transductor debe cumplir con las siguientes especificaciones mínimas, derivadas de la Tabla~\ref{tab:parametros_calidad_agua} y el requerimiento RNF01:
+
+\begin{itemize}
+    \item Sensor de pH: Rango de medición mínimo de 5.0 a 8.0 unidades de pH, con una precisión de $\pm0.1$ unidades.
+    
+    \item Sensor de Oxígeno Disuelto: Capacidad para medir concentraciones superiores a 10~mg/L.
+    
+    \item Sensor de Turbidez: Rango que cubra hasta 5~UNT, con un margen de error máximo del 2\%.
+    
+    \item Sensor de Conductividad: Rango de hasta 1{,}000~\si{\micro\siemens\per\centi\meter}.
+    
+    \item Sensor de Temperatura: Cobertura del rango ambiental esperado en cuerpos de agua, típicamente de 5~a~30~\si{\celsius}.
+\end{itemize}
+
+Adicionalmente, se consideran como criterios clave la compatibilidad con una tensión de operación de 3.3--5.5~V, una interfaz de comunicación compatible con el microcontrolador seleccionado, un bajo consumo energético y un diseño robusto para inmersión continua. 
+
+A continuación, se presenta el análisis comparativo de las opciones de mercado frente a estos criterios.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: pH                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Análisis sensores pH}
+\input{Documento/Tablas/S.pH}
+Para la medición de pH, se han considerado dos alternativas principales de sensores de la línea Gravity de DFRobot: el \textit{Analog pH Meter V2} y el \textit{Industrial Analog pH Meter Pro Kit V2}. Ambos dispositivos ofrecen un rango de medición de 0 a 14 pH y una precisión de $\pm$0.1 pH a 25°C, con salidas analógicas compatibles con microcontroladores basados en ESP32.
+
+La elección definitiva entre estos sensores dependerá de la evaluación del entorno específico donde se implementará el sistema. El \textit{Analog pH Meter V2} constituye una opción económica y de fácil integración, adecuada para aplicaciones en condiciones controladas o de baja exigencia ambiental. Por su parte, el \textit{Industrial Analog pH Meter Pro Kit V2} presenta características superiores para monitoreo continuo en ambientes hostiles, como un cable de sonda de 5 metros, un diseño robusto de grado industrial y una mayor resistencia a la exposición prolongada.
+
+Considerando que el proyecto contempla la instalación de sensores en cuerpos de agua lóticos, donde se enfrentan condiciones variables de corriente y turbidez, el \textit{Industrial Analog pH Meter Pro Kit V2} se perfila como la opción más adecuada. No obstante, la selección final será confirmada tras la validación de las condiciones ambientales específicas del sitio de prueba.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: Oxigeno Disuelto            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Análisis sensores oxigeno disuelto}
+\input{Documento/Tablas/S.OxigenDis}
+
+Para la medición de oxígeno disuelto (OD) en el agua, se consideran dos opciones principales: el sensor Gravity: Analog Dissolved Oxygen Sensor (SEN0237) de DFRobot y el Atlas Scientific EZO-DO™.
+
+El sensor Gravity Analog es una opción de bajo costo, basado en tecnología galvánica, que ofrece un rango de medición de 0 a 20 mg/L con una precisión de aproximadamente $\pm$0.2 mg/L. Su salida analógica facilita la integración con microcontroladores basados en ESP32. No obstante, presenta ciertas limitaciones para monitoreo continuo, ya que sufre interferencias por temperatura y flujo, y requiere calibraciones más frecuentes.
+
+Por otro lado, el sensor Atlas Scientific EZO-DO™ utiliza tecnología óptica, ofreciendo un rango extendido de 0 a 50 mg/L y una alta precisión de $\pm$0.05 mg/L. Además, es adecuado para operaciones de monitoreo continuo en ambientes variables, con una mínima necesidad de calibración y una vida útil superior a los dos años. Sin embargo, su costo significativamente más elevado y su integración más compleja deben ser considerados.
+
+Debido a que el sistema propuesto busca un equilibrio entre costos razonables y confiabilidad operativa, el sensor Gravity Analog se perfila como la opción más viable para su implementación inicial. No obstante, se mantiene abierta la posibilidad de considerar el sensor Atlas Scientific EZO-DO™ en futuras fases de ampliación o mejora del sistema, en caso de que se requiera una mayor precisión y robustez frente a condiciones ambientales extremas.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: Turbidez                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Análisis sensor de turbidez}
+\input{Documento/Tablas/S.turbidez}
+
+Para la medición de turbidez en el sistema propuesto se ha seleccionado el sensor Gravity: Analog Turbidity Sensor (SKU: SEN0189) de DFRobot. Este sensor permite medir niveles de turbidez en un rango de 0 a 1000 NTU, entregando una señal analógica proporcional a la concentración de partículas suspendidas en el agua. Su compatibilidad con microcontroladores basados en ESP32, su facilidad de integración mediante conversión analógica lo hacen adecuado para el presente proyecto.
+
+Aunque su precisión es limitada en comparación con sensores digitales o de grado industrial, y su desempeño puede verse afectado por condiciones extremas de suciedad o humedad prolongada, su bajo costo y facilidad de implementación representan una alternativa viable para una primera fase de monitoreo distribuido en cuerpos de agua lóticos. La utilización de este sensor permitirá realizar una estimación práctica del nivel de sólidos suspendidos en el agua y, de ser necesario, futuras iteraciones del sistema podrán contemplar la adopción de tecnologías más robustas.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: Conductividad               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Análisis sensores conductividad}
+\input{Documento/Tablas/S.conductividad}
+
+Para la medición de conductividad eléctrica (EC) en el sistema propuesto se consideraron dos opciones: el sensor Gravity: Analog Electrical Conductivity Sensor V2 (SKU: DFR0300) de DFRobot y el Atlas Scientific EZO-EC™.
+
+El sensor Gravity EC V2 ofrece un rango de medición de 0 a 20 mS/cm, con una precisión de $\pm$5\% de la escala completa. Su salida analógica facilita la integración directa con microcontroladores basados en ESP32, mediante el uso del convertidor analógico-digital (ADC) interno. Además, su costo accesible y su diseño robusto lo convierten en una opción viable para proyectos de monitoreo distribuido en cuerpos de agua lóticos. No obstante, requiere calibraciones periódicas utilizando soluciones estándar de conductividad, especialmente en aplicaciones de largo plazo.
+
+En contraste, el sensor Atlas Scientific EZO-EC™ proporciona un rango extendido de hasta 200 mS/cm, alta precisión de $\pm$2\%, y mínimas necesidades de calibración. Sin embargo, su costo elevado y su integración más compleja lo hacen menos accesible para un sistema que busca un equilibrio entre funcionalidad y viabilidad económica.
+
+Considerando los objetivos de este Proyecto y las restricciones presupuestarias, se selecciona el sensor Gravity: Analog Electrical Conductivity Sensor V2 como la opción más adecuada para la medición de conductividad, dejando abierta la posibilidad de futuras mejoras en etapas posteriores del proyecto.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: Temperatura                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Análisis sensores temperatura}
+\input{Documento/Tablas/S.temperatura}
+
+Para la medición de temperatura en el sistema propuesto se consideraron dos alternativas: el sensor digital sumergible DS18B20 y el sensor industrial Atlas Scientific EZO-RTD™.
+
+El sensor DS18B20, ampliamente utilizado en aplicaciones de monitoreo ambiental, ofrece un rango de medición de -55°C a 125°C con una precisión típica de ±0.5°C en el rango de -10°C a 85°C. Su comunicación mediante el protocolo digital 1-Wire facilita su integración directa con microcontroladores basados en ESP32. Además, su bajo costo, facilidad de adquisición y resistencia a la inmersión continua en agua lo convierten en una opción práctica y adecuada para sistemas de monitoreo distribuidos en cuerpos de agua.
+
+Por su parte, el sensor Atlas Scientific EZO-RTD™ proporciona una mayor precisión (±0.1°C) y un rango de operación mucho más amplio, gracias al uso de sensores RTD de tipo PT-1000. Sin embargo, su alto costo y mayor complejidad de integración lo hacen menos adecuado para proyectos donde se busca un balance entre funcionalidad y viabilidad económica.
+
+Considerando los objetivos de este Proyecto y las condiciones operativas previstas, se selecciona el sensor DS18B20 sumergible como la opción más adecuada para la medición de temperatura en cuerpos de agua lóticos.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: Topologia de red            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Análisis de la topología de red}
+
+El diseño de la red inalámbrica de sensores (WSN) implementa una topología lineal, compuesta por cuatro nodos sensores distribuidos a lo largo de un cuerpo de agua lótico (río) y un nodo concentrador o sink, ubicado en una de las puntas de la red. Cada nodo sensor se encarga de la captura de parámetros físico-químicos y de imágenes, transmitiendo sus datos hacia el nodo sink a través de los nodos intermedios, que actúan como repetidores. 
+
+El nodo sink cumple la función de backbone de la red, ya que recibe toda la información proveniente de los sensores y la envía al servidor central en la nube mediante una conexión Wi-Fi. Esta configuración aprovecha la geometría natural del cauce del río y el flujo unidireccional del agua, al tiempo que mantiene un balance entre eficiencia energética, simplicidad en el enrutamiento y posibilidad de escalar la red para cubrir mayores extensiones.
+
+\subsection*{Justificación de la topología lineal}
+
+En entornos fluviales, una topología lineal permite alinear la ubicación de los sensores con la dirección del flujo, facilitando el seguimiento longitudinal de parámetros ambientales. Esta estructura favorece la recolección secuencial de datos, siendo ideal para medir la evolución espacial de variables como turbidez, pH o acumulación de residuos sólidos flotantes.
+
+Las principales razones para emplear esta topología son:
+
+\begin{itemize}
+    \item \textbf{Adaptación al entorno}: se alinea naturalmente con la morfología y dinámica de cuerpos de agua lóticos.
+    \item \textbf{Cobertura eficiente}: permite cubrir tramos extensos del cauce con un número reducido de nodos.
+    \item \textbf{Simplicidad de encaminamiento}: los datos fluyen de manera determinista hacia el nodo concentrador final.
+\end{itemize}
+
+\subsection*{Esquema de retransmisión y comunicación con servidor}
+
+Cada nodo sensor transmite sus mediciones hacia el nodo concentrador mediante un esquema de retransmisión secuencial (\textit{store-and-forward}), donde los nodos intermedios actúan como repetidores. La comunicación entre nodos se realiza mediante transceptores Wi-Fi HaLow (IEEE 802.11ah), que operan en modo \textbf{half-duplex}, alternando entre recepción y transmisión.
+
+El \textbf{nodo sink}, ubicado en una de las puntas de la red, cumple la función de concentrador: recibe los datos de todos los nodos sensores, los consolida y los envía al servidor central en la nube a través de una conexión Wi-Fi convencional (IEEE 802.11n/b/g). De esta manera, se centraliza la salida de la red en un único punto con conectividad de largo alcance.
+
+\begin{itemize}
+    \item \textbf{Nodos 1 a 4}: sensores + retransmisión hacia el siguiente nodo.
+    \item \textbf{Nodo sink}: recepción total + enlace Wi-Fi al servidor.
+\end{itemize}
+
+\subsection*{Implicaciones técnicas}
+
+\begin{itemize}
+    \item \textbf{Carga energética acumulada}: el nodo sink es el más exigente energéticamente, ya que gestiona tanto su propia operación como la consolidación y envío de toda la información hacia la nube.
+    \item \textbf{Retardo acumulado}: los datos del nodo más alejado atraviesan cuatro saltos antes de llegar al servidor, lo cual introduce retardo; sin embargo, es tolerable dada la baja frecuencia de muestreo requerida en el monitoreo ambiental.
+    \item \textbf{Tolerancia a fallos limitada}: la pérdida de un nodo intermedio interrumpe la cadena de transmisión, por lo que es recomendable implementar mecanismos de detección de fallos o estrategias de redundancia si la aplicación lo demanda.
+\end{itemize}
+
+La topología lineal con nodo concentrador en un extremo resulta adecuada para el monitoreo ambiental en cuerpos de agua lóticos, al equilibrar simplicidad, eficiencia energética y compatibilidad con la estructura geográfica. Además, la incorporación de Wi-Fi tradicional en el nodo sink facilita la integración con el servidor en la nube y con la página web desarrollada para la visualización remota de los datos adquiridos, sin necesidad de gateways adicionales.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: Transceptores               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Análisis de Transceptores Inalámbricos}
+\label{sec:analisis_tecnologias}
+
+Para seleccionar la tecnología más adecuada para la transmisión de datos en el sistema de monitoreo, se evaluaron distintos estándares inalámbricos considerando tres criterios fundamentales:
+
+\begin{enumerate}
+    \item \textbf{Consumo energético}: Factor determinante para asegurar una operación prolongada mediante baterías, minimizando la necesidad de mantenimiento.
+    \item \textbf{Alcance efectivo}: Capacidad del protocolo para cubrir distancias en una topología lineal, considerando la presencia de obstáculos naturales como vegetación y accidentes geográficos.
+    \item \textbf{Tasa máxima de transmisión}: Velocidad teórica máxima con la que se pueden enviar datos, clave para asegurar el envío oportuno de lecturas y archivos, como imágenes capturadas por el sistema.
+\end{enumerate}
+
+La Tabla~\ref{tab:redes_corto_alcance} presenta un resumen comparativo de soluciones de red de corto alcance comúnmente utilizadas en aplicaciones de monitoreo ambiental con WSN. Se incluyen tecnologías basadas en los estándares IEEE 802.15.4 y 802.15.1, como ZigBee, 6LoWPAN, Bluetooth y BLE, analizando sus tasas de transmisión, topologías soportadas, rango típico de cobertura, frecuencia de operación y consumo energético. Estas soluciones priorizan eficiencia energética y bajo costo de despliegue, aunque con limitaciones en velocidad o alcance.
+
+\begin{table}[H]
+\centering
+\caption{Resumen de soluciones de red de corto alcance \cite{lopez2023}}
+\label{tab:redes_corto_alcance}
+\renewcommand{\arraystretch}{1.3}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{p{2.5cm}p{2.5cm}p{2cm}p{2.5cm}p{2cm}p{1.5cm}p{2.3cm}}
+\toprule
+\textbf{Solution} & \textbf{Standard} & \textbf{Data rate} & \textbf{Coverage} & \textbf{Topology} & \textbf{Carrier freq} & \textbf{Energy cost} \\
+\midrule
+IEEE 802.15.4      & IEEE 802.15.4     & 250 kbps           & $<$100 m          & Star, tree, cluster tree, mesh & 868/915 MHz, 2.4 GHz & Low \\
+ZigBee             & IEEE 802.15.4     & 250, 40, 20 kbps    & $>$100 m          & Mesh, star, tree               & 868/915 MHz, 2.4 GHz & Low \\
+6LoWPAN            & IEEE 802.15.4     & 250 kbps           & $<$100 m          & Mesh, star                     & 868/915 MHz, 2.4 GHz & Low \\
+Bluetooth          & IEEE 802.15.1     & 1 Mbps             & Up to 100 m       & Star, P2P                      & 2.4 GHz              & Low \\
+BLE                & IEEE 802.15.1     & 1 Mbps             & Up to 200 m       & Star, P2P                      & 2.4 GHz              & Very low \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+La Tabla~\ref{tab:redes_alcance_medio} complementa el análisis anterior al enfocarse en redes de alcance medio. Se comparan dos variantes del estándar IEEE 802.11: Wi-Fi tradicional y Wi-Fi HaLow (802.11ah). Aunque Wi-Fi convencional ofrece altas tasas de transferencia, su consumo energético es elevado y su cobertura limitada. En cambio, Wi-Fi HaLow opera en bandas sub-GHz, permitiendo mayor alcance, menor consumo y adecuada velocidad, lo que lo hace más apropiado para entornos remotos como cuerpos de agua lóticos.
+
+\begin{table}[H]
+\centering
+\caption{Resumen de soluciones de red de alcance medio \cite{lopez2023}}
+\label{tab:redes_alcance_medio}
+\renewcommand{\arraystretch}{1.3}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{p{2.5cm}p{2.5cm}p{2cm}p{2.5cm}p{2.5cm}p{1.5cm}p{2.3cm}}
+\toprule
+\textbf{Solution} & \textbf{Standard} & \textbf{Data rate} & \textbf{Coverage} & \textbf{Topology} & \textbf{Carrier freq} & \textbf{Energy cost} \\
+\midrule
+Wi-Fi & IEEE 802.11 & Up to 54 Mbps & 200 m & Infrastructure, mesh & 2.4 GHz, 5 GHz & High \\
+Wi-Fi HaLow & IEEE 802.11ah   & 0.15 to 4 Mbps @ 1 MHz bandwidth, an 0.65 to 7.8 Mbps @ 2 MHz bandwidth & 1000m & star, mesh & ISM Sub-GHz & Low \\ 
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+Dadas las posibles soluciones, en la Tabla~\ref{tab:comparativa_transceptores} se comparan módulos transceptores comerciales representativos de cada tecnología evaluada. Se contrastan parámetros clave como tasa máxima de transmisión, potencia de transmisión y sensibilidad de recepción, alcance en línea de vista (LOS), y consumo de corriente en modos activo y en reposo. 
+\begin{table}[H]
+\renewcommand{\arraystretch}{1.5}
+\centering
+\caption{Comparativa de transceptores comerciales para WSN}
+\label{tab:comparativa_transceptores}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|p{3.2cm}|C{3cm}|C{3cm}|C{3cm}|C{3cm}|C{3cm}|}
+\hline
+\textbf{Parámetro} 
+& \shortstack{\\ \textbf{Wi-Fi HaLow}\\ \textbf{(802.11ah)}} 
+& \shortstack{\\ \textbf{Wi-Fi}\\ \textbf{(802.11n)}} 
+& \shortstack{\\ \textbf{Zigbee}\\ \textbf{(802.15.4)}} 
+& \shortstack{\\ \textbf{Bluetooth} \\ \textbf{(802.15.1)}}
+& \shortstack{\\ \textbf{LoRaWAN}\\ \textbf{(P1451.5.5)}} \\ \hline
+
+\textbf{Módulo} & FGH100M \cite{QuectelFGH100M} & ESP32-S3 \cite{EspressifESP32S3} & XBee S2C \cite{DigiXBeeS2C} & HC-05 \cite{HC05Datasheet} & Wio E5 LE \cite{SeeedWioE5LE} \\ \hline
+\textbf{Tasa Máx. (Mbps)} & 32.5 & 150 & 0.25 & 2.1 & 0.05 \\ \hline
+\textbf{Potencia Tx / Sensibilidad Rx (dBm)} & 20 / -98 & 19 / -75 & 5 / -100 & 4 / -84 & 13.461 / -137 \\ \hline
+\textbf{Alcance LOS\footnote{Line Of Sight} (m)} & 1000 & 120 & 1200 & 40 & 10000 \\ \hline
+\textbf{Consumo Tx (mA)} & 54 & 286 & 33 & 30 & 26 \\ \hline
+\textbf{Consumo Rx (mA)} & 43 & 95 & 28 & 30 & 13 \\ \hline
+\textbf{Consumo en Sleep (µA)} & TBD & 240 & 1 & TBD & 1.3 \\ \hline
+
+\end{tabular}
+}
+\end{table}
+
+Esta comparativa refuerza la selección de Wi-Fi HaLow mediante el módulo FGH100M, al ofrecer un equilibrio favorable entre alcance, velocidad, consumo y viabilidad de integración en nodos autónomos. En la tabla \ref{tab:imagenes_transceptore} se presentan imágenes representativas de cada transceptor evaluado para facilitar su identificación visual.
+
+
+\begin{table}[H]
+\renewcommand{\arraystretch}{1.5}
+\centering
+\caption{Ilustraciones transceptores}
+\label{tab:imagenes_transceptore}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|C{3.5cm}|C{3.5cm}|C{3.5cm}|C{3.5cm}|C{3.5cm}|}
+\hline
+ \textbf{FGH100M} & \textbf{ESP32-S3} & \textbf{XBee S2C} & \textbf{HC-05} & \textbf{Wio E5 LE} \\ \hline
+
+\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/Xiao Halow.jpg}}
+&
+\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/Esp32.jpg}}
+&
+\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/zigbee.jpg}}
+&
+\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/HC-05.jpg}}
+&
+\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/Lorawan.jpg}}
+\\ \hline
+\end{tabular}
+}
+\end{table}
+
+
+Como solución óptima para la transmisión bidireccional de los datos, en este caso, datos de los sensores e imagenes captadas en entornos fluviales, se propone el módulo FGH100M (Wi-Fi HaLow) como transceptor preliminar. Esta selección se fundamenta por su  exelente equilibrio entre alcance efectivo (1 km en condiciones ideales) y consumo energético moderado (54 mA en TX/43 mA en RX), características críticas para la operación prolongada en topologías lineales con nodos distribuidos. Su operación en banda sub-1 GHz (902-928 MHz) proporciona mayor penetración en vegetación ribereña comparado con soluciones en 2.4 GHz, manteniendo compatibilidad con el estándar IEEE 802.11ah para gestión adaptativa de energía mediante mecanismos TIM/RAW. Adicionalmente, soporta tasas de transferencia suficientes (32.5 Mbps) para la transmisión eficiente de datos sensoriales e imágenes comprimidas, cumpliendo con los requisitos de bidireccionalidad para recepción de comandos desde el servidor central.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: Cámaras                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Análisis de cámaras}
+
+Para la selección de la cámara que formará parte del sistema de visión artificial, se evaluaron cuatro módulos de uso frecuente en plataformas embebidas: la OV2640, la OV5640, la Raspberry Pi Camera Module v2 y la Raspberry Pi Camera Module v3. La comparación se realizó con base en criterios como resolución, tipo de interfaz, compatibilidad con microcontroladores y computadoras de placa reducida, consumo energético, facilidad de integración y costo. Estos factores son determinantes para garantizar que el sistema sea eficiente en la captura de imágenes, considerando tanto la calidad visual necesaria para la detección de residuos sólidos flotantes en cuerpos de agua como las limitaciones energéticas y de procesamiento propias de una red de sensores. Además, la elección final también dependerá de la correspondencia entre las características de la cámara y la calidad de las imágenes disponibles en los conjuntos de datos utilizados para el entrenamiento del modelo de visión artificial, ya que la coherencia entre ambos elementos influye directamente en el desempeño del sistema.
+%Para la selección de la cámara que formará parte del sistema de visión artificial, se evaluaron dos módulos ampliamente utilizados en plataformas embebidas: la OV2640 y la OV5640. La comparación se basó en criterios como resolución, tipo de interfaz, compatibilidad con microcontroladores, consumo energético, facilidad de integración y costo. Estos factores son determinantes para garantizar que el sistema sea eficiente en la captura de imágenes para la detección de residuos sólidos flotantes en cuerpos de agua.
+
+
+\input{Documento/Tablas/Cámaras2}
+
+%Ambas cámaras, OV2640 y OV5640, ofrecen características valiosas dependiendo de los requerimientos del sistema. La OV2640 es reconocida por su bajo consumo energético y facilidad de integración con microcontroladores de recursos limitados, lo que la hace adecuada para aplicaciones donde la eficiencia energética es prioritaria. La OV5640 mejora la resolución y la calidad de imagen, pero implica mayor consumo y complejidad. No obstante, debido a la necesidad de capturar imágenes de alta calidad para el análisis visual de residuos flotantes, se optó por la Raspberry Pi Camera Module 3. Esta cámara proporciona imágenes en alta resolución, mejor rendimiento en condiciones de baja iluminación y soporte para autoenfoque, lo que la convierte en la opción más adecuada para el sistema propuesto, a pesar de su mayor consumo energético.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: Microcontroladores          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Análisis de microcontroladores}    
+La selección del microcontrolador constituye una decisión crítica en el diseño del sistema, determinando directamente las capacidades de integración sensorial, gestión energética, conectividad inalámbrica y procesamiento local de datos. Considerando los requerimientos específicos del proyecto, se llevó a cabo un análisis comparativo entre diversas placas de desarrollo ampliamente adoptadas en sistemas embebidos. Este estudio evaluó parámetros clave como arquitectura, capacidad de memoria, interfaces de comunicación, opciones de conectividad inalámbrica y costo. El objetivo fundamental es identificar la solución que optimice el equilibrio entre rendimiento computacional, eficiencia energética y viabilidad de implementación. A continuación, se presenta la comparativa técnica de las alternativas evaluadas.  
+
+\input{Documento/Tablas/Microcontroladores2} 
+
+\begin{table}[H]
+\centering
+\caption{Comparativa de microcontroladores para nodos fluviales}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\textbf{MCU} & \textbf{Periféricos} & \textbf{Memoria} & \textbf{Consumo Activo} & \textbf{Consumo Sleep} & \textbf{Conectividad} \\ \hline
+Xiao ESP32-S3 & 11 GPIOs, 8 ADC & 8MB Flash & 91 mA & 240 µA & WiFi 2.4GHz + BLE \\ \hline
+LilyGO T-HaLow & 36 GPIOs, 20 ADC & 16MB Flash & 91 mA & 240 µA & WiFi HaLow (900MHz) \\ \hline
+RPi Pico W & 23 GPIOs, 3 ADC & 2MB Flash & 50 mA & 390 µA & WiFi 2.4GHz \\ \hline
+ESP8266 NodeMCU & 17 GPIOs, 1 ADC & 4MB Flash & 80 mA & 20 µA & WiFi 2.4GHz \\ \hline
+RPi Zero W & 40 GPIOs (sin ADC) & Micro SD & 2.5 A & - & WiFi 2.4GHz + BLE 4.0 \\ \hline
+RPi Zero 2 W & 40 GPIOs (sin ADC) & Micro SD & 2.5 A & - & WiFi 2.4GHz + BLE 4.2 \\ \hline
+\end{tabular}
+}
+\end{table}
+
+Para el nodo sensor y concentrador, encargado de capturar datos de sensores (pH, turbidez, oxígeno disuelto) y transmitir imágenes sin procesamiento, se considera preliminarmente la tarjeta Xiao ESP32-S3 debido a su interfaz completa con 8 canales ADC y puertos UART/SPI/I2C para conectar sensores y módulo HaLow, memoria suficiente de 8MB Flash para almacenamiento temporal de imágenes JPEG antes de transmisión, bajo consumo de 91mA en active mode y 10 µA en sleep mode ideal para operación con baterías, y costo competitivo de ~\$12 por unidad, cumpliendo con los requisitos de conectividad, eficiencia energética y manejo simultáneo de datos sensoriales e imágenes, aunque requiere validación experimental de estabilidad en transmisiones continuas y posibles limitaciones de GPIOs.
+
+\subsection{Comparativa de microcontroladores PIC para control de sensores}
+\label{subsec:comparativa_pic}
+
+Dado que el Xiao ESP32-S3 Sense presenta un número limitado de pines GPIO disponibles (especialmente al estar asignados a la cámara OV5640 y al módulo Wi-Fi HaLow), se decidió incorporar un microcontrolador auxiliar dedicado exclusivamente a la gestión de sensores. Este microcontrolador debe ser de bajo consumo, tamaño reducido, fácil de programar y con recursos suficientes para:
+
+\begin{itemize}
+    \item Controlar encendido y apagado de sensores vía demultiplexor (74HC238).
+    \item Leer señales analógicas mediante entradas ADC.
+    \item Comunicarse con la Xiao ESP32.
+    \item Mantener una operación eficiente en modo \textit{sleep}.
+\end{itemize}
+
+Con estos criterios, se evaluaron tres microcontroladores PIC de arquitectura de 8 bits con tecnología \textit{nanoWatt XLP}, comparados en la Tabla~\ref{tab:comparativa_pic}.
+
+\begin{table}[H]
+\centering
+\caption{Comparativa de microcontroladores PIC para nodo sensor}
+\label{tab:comparativa_pic}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{@{}|l|c|c|c|@{}}
+\hline
+\textbf{Característica} & \textbf{PIC12LF1822} & \textbf{PIC16LF1823} & \textbf{PIC16LF1847} \\
+\hline
+Arquitectura         & 8-bit & 8-bit & 8-bit \\ \hline
+GPIO disponibles     & 6     & 12    & 16 \\ \hline
+Entradas ADC         & 4     & 8     & 12 \\ \hline
+Módulo UART (EUSART) & Sí    & Sí    & Sí \\ \hline
+Módulo SPI & Sí    & Sí    & Sí \\ \hline
+Módulo I2C & Sí    & Sí    & Sí \\ \hline
+Frecuencia máx. (MHz)& 32    & 32    & 32 \\ \hline
+Consumo \textit{Sleep} & 20 nA & 20 nA & 20 nA \\ \hline
+Consumo activo (@1MHz) & 30~\unit{uA} & 30~\unit{uA} & 65~\unit{uA} \\ \hline
+Memoria Flash (Bytes) & 2048  & 2048  & 8192 \\ \hline
+RAM (Bytes)           & 128   & 128   & 1024 \\ \hline
+Tamaño encapsulado    & 8 pines & 14 pines & 28 pines \\ \hline
+Precio aproximado (USD) & \$3 & \$3 & \$3 \\ \hline
+\end{tabular}
+\end{table}
+
+
+El modelo seleccionado para el diseño del nodo es el \textbf{PIC16LF1823}, ya que representa el punto óptimo entre capacidad, eficiencia y costo:
+
+\begin{itemize}
+    \item Dispone de 11 pines GPIO, suficientes para controlar el DEMUX (3 líneas), adquirir hasta 8 señales analógicas y mantener UART dedicado.
+    \item Integra un módulo EUSART que permite comunicación estable con el Xiao ESP32.
+    \item Su bajo consumo en modo \textit{sleep} (20nA) y modo activo (50\unit{uA}/MHz) lo hacen ideal para sistemas alimentados por batería.
+    \item Su encapsulado de 14 pines facilita el montaje en placas compactas sin sacrificar funcionalidad.
+    \item Presenta compatibilidad con herramientas estándar de Microchip (MPLAB X, XC8).
+\end{itemize}
+
+En contraste, el PIC12LF1822 resulta limitado en pines y entradas ADC, mientras que el PIC16LF1847 ofrece mayores recursos a costa de un tamaño físico mayor, mayor consumo y un costo menos competitivo, innecesario para esta aplicación específica.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: Alimentación                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Análisis de la alimentación}
+
+El sistema de monitoreo propuesto está diseñado para operar de forma autónoma en entornos naturales, donde no se dispone de infraestructura eléctrica. Por ello, la alimentación eléctrica representa un componente crítico para garantizar la continuidad operativa del sistema. La solución adoptada se basa en el uso de baterías recargables de ion-litio, complementadas con paneles solares que aseguran la autosuficiencia energética de los nodos sensores distribuidos.
+
+\subsection*{Requerimientos de alimentación de los componentes}
+
+La Tabla~\ref{tab:componentes_energia} presenta los principales componentes del nodo sensor, junto con sus requerimientos estimados de voltaje y corriente bajo condiciones típicas de operación.
+
+\input{Documento/Tablas/ConsumosElectricos}
+
+
+\subsection{Análisis del tiempo de transmisión y recepción por nodo}
+
+Para estimar de forma realista el consumo energético del sistema, es indispensable cuantificar la duración efectiva de la etapa de transmisión, considerando tanto el volumen de datos como la velocidad efectiva de comunicación del transceptor Wi-Fi HaLow (FGH100M).
+
+\subsubsection*{Tamaño de datos a transmitir por nodo}
+Cada nodo sensor genera dos tipos de información:
+
+\begin{enumerate}
+    \item \textbf{Una muestra sensorial única}, compuesta por:
+    \begin{itemize}
+        \item 4 sensores analógicos (12 bits): $4 \times 12 = 48$ bits = 6 bytes
+        \item Sensor digital (DS18B20): 2 bytes
+        \item Timestamp + cabecera (ID, tipo de trama): 6 bytes
+    \end{itemize}
+    \[
+    \text{Tamaño}_{\text{sensores}} = 6 + 2 + 6 = \textbf{14 bytes}
+    \]
+
+    \item \textbf{120 imágenes} capturadas por la cámara OV5640 en un intervalo de 2 minutos:
+    \[
+    \text{Tamaño}_{\text{imagen}} = 150\,\text{kB} = 153600\,\text{bytes}
+    \]
+    \[
+    \text{Total}_{\text{imágenes}} = 120 \times 153600 = \textbf{18.43\,MB}
+    \]
+\end{enumerate}
+
+\subsubsection*{Tiempo de transmisión por nodo}
+La tasa efectiva de transmisión del enlace Wi-Fi HaLow, operando con modulación MCS 7 a 8\,MHz, es de aproximadamente 4.4\,Mbps. Bajo esta condición:
+
+\begin{itemize}
+    \item \textbf{Tiempo para transmitir una muestra sensorial}:
+    \[
+    T_{\text{sensores}} = \frac{14 \times 8}{4.4 \times 10^6} \approx 25.45\,\mu s
+    \]
+    \item \textbf{Tiempo para transmitir una imagen de 150\,kB}:
+    \[
+    T_{\text{imagen}} = \frac{153600 \times 8}{4.4 \times 10^6} = 279.27\,\text{ms}
+    \]
+    \item \textbf{Tiempo total para 120 imágenes}:
+    \[
+    T_{\text{total-imágenes}} = 120 \times 279.27\,\text{ms} = 33512.4\,\text{ms}
+    \]
+    \item \textbf{Tiempo total de transmisión por nodo}:
+    \[
+    T_{\text{transmisión-nodo}} = T_{\text{sensores}} + T_{\text{total-imágenes}} \approx \textbf{33.54 segundos}
+    \]
+\end{itemize}
+
+\subsubsection*{Consideración de half-duplex en 802.11ah}
+
+El protocolo IEEE 802.11ah (Wi-Fi HaLow), como derivado de 802.11, opera en modo half-duplex, lo que significa que los nodos no pueden transmitir y recibir simultáneamente. En una red lineal, esto implica que un nodo que debe retransmitir datos de nodos anteriores primero debe recibirlos completamente antes de iniciar su propia transmisión.
+
+Así, el nodo más lejano (Nodo 4) no solo transmite un volumen de datos equivalente a cuatro nodos, sino que también debe escuchar ese mismo volumen, duplicando efectivamente su tiempo de operación activa.
+
+\[
+T_{\text{nodo 4}} = T_{\text{rx}} + T_{\text{tx}} = 134.16 + 134.16 = \boxed{268.32~\text{s}} \approx \boxed{4.47~\text{min}} = 0.075~\text{h}
+\]
+
+\subsection{Escenario operativo}
+
+El sistema emplea un ciclo \textbf{semanal} (168 horas) que optimiza consumo energético mientras cumple con los requisitos de calidad del agua establecidos por la \textit{NOM-001-SEMARNAT-2021}. Dentro de cada ciclo, distribuye aproximadamente 6.8 minutos de actividad entre modos operativos, considerando el nodo más crítico (Nodo 4):
+
+\begin{itemize}
+    \item \textbf{Captura de imágenes}: 2.0 min
+    \item \textbf{Lectura sensores (5 x 5 s)}: 0.416 min
+    \item \textbf{Recepción}: 2.235 min
+    \item \textbf{Transmisión}: 2.235 min
+    \item \textbf{Sleep}: 167.886 h (99.93\% del ciclo)
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{Documento/Imagenes/Análisis/ciclo modos op.pdf}
+    \caption{Ciclo de modos operativos}
+    \label{fig:ciclo_mod_op}
+\end{figure}
+
+\subsection*{Consumo por modo operativo}
+Tomando en cuenta los valores de corriente de cada componente detallados previamente en la Tabla~\ref{tab:componentes_energia}, a continuación se presenta el desglose del consumo energético semanal estimado por modo de operación para el nodo más exigente (Nodo 4), considerando su papel en la retransmisión de datos dentro de una topología lineal.
+
+\begin{longtable}{l c l c c}
+\caption{Detalle de consumo energético por modo operativo (Nodo 4)} \label{tab:consumo_operativo} \\
+\toprule
+\textbf{Modo} & \textbf{Duración} & \textbf{Componente} & \textbf{Corriente} & \textbf{Total} \\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Modo} & \textbf{Duración} & \textbf{Componente} & \textbf{Corriente} & \textbf{Total} \\
+\midrule
+\endhead
+
+\hline
+\multicolumn{5}{r}{\textit{Continúa en la siguiente página}} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+\multirow{2}{*}{\textbf{Recepción}} & \multirow{2}{*}{2.235 min} & Microcontrolador & 91\,mA & \multirow{2}{*}{134\,mA} \\
+& & Transceptor RX & 43\,mA & \\
+\cmidrule(lr){1-5}
+
+\multirow{2}{*}{\textbf{Transmisión}} & \multirow{2}{*}{2.235 min} & Microcontrolador & 91\,mA & \multirow{2}{*}{145\,mA} \\
+& & Transceptor TX & 54\,mA & \\
+\cmidrule(lr){1-5}
+
+\multirow{2}{*}{\textbf{Lectura sensores}} & \multirow{2}{*}{25 s} & Microcontrolador & 91\,mA & \multirow{2}{*}{141\,mA} \\
+& & Sensor activo (1 a la vez) & 50\,mA & \\
+\cmidrule(lr){1-5}
+
+\multirow{2}{*}{\textbf{Captura imágenes}} & \multirow{2}{*}{2 min} & Microcontrolador & 91\,mA & \multirow{2}{*}{231\,mA} \\
+& & Cámara OV2640 & 140\,mA & \\
+\cmidrule(lr){1-5}
+
+\multirow{3}{*}{\textbf{Modo Sleep}} & \multirow{3}{*}{167.886 h} & Microcontrolador & 0.240\,mA & \multirow{3}{*}{0.270\,mA} \\
+& & Transceptor & 0.010\,mA & \\
+& & Cámara & 0.020\,mA & \\
+
+\end{longtable}
+
+\subsection{Cálculo de consumo energético}
+A partir de los tiempos de operación definidos en la Tabla~\ref{tab:consumo_operativo}, se estima el consumo energético semanal del nodo más exigente mediante la siguiente expresión:
+
+\begin{equation}
+E_{\text{sem}} = \sum_{i=1}^{n} (I_i \times t_i)
+\end{equation}
+    
+
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\caption{Cálculo detallado del consumo energético semanal}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Modo operativo} & \textbf{Corriente} & \textbf{Tiempo} & \textbf{Energía} \\
+\hline
+Recepción               & 134\,mA & $2.235/60$ h & 4.99\,mAh \\
+Transmisión             & 145\,mA & $2.235/60$ h & 5.40\,mAh \\
+Lectura sensores        & 141\,mA & $25/3600$ h  & 0.98\,mAh \\
+Captura imágenes        & 231\,mA & $2/60$ h     & 7.70\,mAh \\
+Modo Sleep              & 0.270\,mA & 167.886 h   & 45.33\,mAh \\
+\hline
+\textbf{Total}          & — & — & \textbf{64.4\,mAh} \\
+\hline
+\end{tabular}
+\label{tab:consumo_actualizado}
+\end{table}
+
+\subsection{Análisis de baterías}
+La elección de la batería es crucial para asegurar el funcionamiento continuo del sistema en condiciones autónomas. En esta subsección se comparan distintas opciones de baterías recargables disponibles comercialmente, considerando criterios como capacidad, voltaje, corriente de descarga y dimensiones físicas.
+
+\renewcommand{\arraystretch}{1.5}
+\begin{longtable}{|p{4.2cm}|c|c|c|}
+\caption{Comparativa de baterías recargables para el nodo sensor}
+\label{tab:baterias} \\
+\hline
+\textbf{Característica} & \textbf{104050} & \textbf{18650 2200mAh} & \textbf{18650 3000mAh} \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{Característica} & \textbf{104050} & \textbf{18650 2200mAh} & \textbf{18650 3000mAh}  \\
+\hline
+\endhead
+
+\hline
+\multicolumn{4}{r}{\textit{Continúa en la siguiente página}} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+Tipo de batería & LiPo & Li-ion & Li-ion \\
+\hline
+Capacidad (mAh) & 2500 & 2200 & 3000 \\
+\hline
+Voltaje nominal (V) & 3.7 & 3.7 & 3.7 \\
+\hline
+Corriente máxima de descarga (A) & 2.5 & 2.2 & 3 \\
+\hline
+Dimensiones (mm) & 50x40x10 & 18x65 & 18x65 \\
+\hline
+Peso (g) & 44 & 43 & 46 \\
+\hline
+Número de ciclos de carga & $>800$ & $>1000$ & $>1000$ \\
+\hline
+Protección integrada (BMS) & Sí & No & No \\
+\hline
+Precio aproximado (MXN) & \$8 & \$4 & \$5 \\
+\hline
+Imagen 
+& \shortstack{\\ \includegraphics[scale=0.1]{Documento/Imagenes/Análisis/Bat-Pan/Bateria-104050.jpg}}
+& \shortstack{\\ \includegraphics[scale=0.11]{Documento/Imagenes/Análisis/Bat-Pan/Bateria-18650-2200mAh.jpg}}
+& \shortstack{\\ \includegraphics[scale=0.1]{Documento/Imagenes/Análisis/Bat-Pan/Bateria-18650-3000mAh.jpg}} \\
+\end{longtable}
+
+\subsection{Análisis de paneles solares}
+Con el fin de mantener la autonomía del sistema, es necesario evaluar paneles solares que aseguren una recarga eficiente de la batería. Esta subsección compara distintas opciones considerando su potencia, corriente de salida y compatibilidad con el sistema.
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\caption{Comparativa de paneles solares para el nodo sensor}
+\label{tab:paneles_solares}
+\begin{tabular}{|p{4cm}|c|c|c|}
+\hline
+\textbf{Característica} & \textbf{Panel 5V} & \textbf{Panel 6V} & \textbf{Panel 12V} \\
+\hline
+Potencia nominal (W) & 1.9 & 1.92 & 3 \\\hline
+Corriente de salida (mA) & 320 & 320 & 250 \\
+\hline
+Voltaje de salida (V) & 5 & 6 & 12 \\
+\hline
+Medición de intensidad de luz & \multicolumn{3}{|c|}{38000 LUX} \\
+\hline
+Dimensiones (mm) & 135x130 & 104x140 & 145x145 \\
+\hline
+Peso (g) & 65 & 54 & 34 \\
+\hline
+Precio aproximado (USD) & \$6 & \$5 & \$7 \\
+\hline
+Imagen 
+&\shortstack{\\ \includegraphics[scale = 0.1]{Documento/Imagenes/Análisis/Bat-Pan/PanelSolar-5V.jpg}}
+& \shortstack{\\ \includegraphics[scale = 0.1]{Documento/Imagenes/Análisis/Bat-Pan/Panel-Solar-6V.jpg}}
+& \shortstack{\\ \includegraphics[scale = 0.1]{Documento/Imagenes/Análisis/Bat-Pan/Panel-Solar-12V.jpg}} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Análisis de módulos de carga}
+
+El módulo de carga es el componente encargado de gestionar la recarga segura de la batería desde el panel solar. Su función principal es proteger la batería contra sobrecargas, sobredescargas y controlar el flujo de corriente, lo cual es esencial para extender su vida útil. Esta subsección presenta una comparativa entre distintos módulos de carga compatibles con baterías Li-ion o LiPo, considerando su capacidad de carga, compatibilidad con paneles solares, protección integrada y facilidad de integración con el sistema.
+
+\renewcommand{\arraystretch}{1.5}
+\begin{longtable}{|p{4.5cm}|c|c|c|}
+\caption{Comparativa de módulos de carga para baterías recargables}
+\label{tab:modulos_carga} \\
+\hline
+\textbf{Característica} & \textbf{CN3065} & \textbf{SD05CRMA} & \textbf{CN3791} \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{Característica} & \textbf{CN3065} & \textbf{SD05CRMA} & \textbf{CN3791} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{4}{r}{\textit{Continúa en la siguiente página}} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+Tipo de batería compatible & Li-ion/Li-Po & Li-ion/Li-Po & Li-ion \\
+\hline
+Voltaje de entrada (V) & 4.4 - 6 & 4.4 - 6 & 4.5 - 28 \\
+\hline
+Corriente máxima de carga (mA) & 1000 & 1000 & 4000 \\
+\hline
+Protección integrada (sobre/descarga) & Sí & Sí & Sí \\
+\hline
+Compatibilidad con panel solar & Sí & Sí & Sí \\
+\hline
+Tamaño (mm) & 40x20x7 & 10.3x18.3 & 45x20 \\
+\hline
+Precio aproximado (USD) & \$2 & \$3 & \$4 \\
+\hline
+Imagen 
+& \includegraphics[scale=0.1]{Documento/Imagenes/Análisis/Bat-Pan/Cargador-Solar.jpg}
+& \includegraphics[scale=0.17]{Documento/Imagenes/Análisis/Bat-Pan/Cargador-SD05CRMA.jpg}
+& \includegraphics[scale=0.1]{Documento/Imagenes/Análisis/Bat-Pan/Cargador-CN3791.jpg} \\
+\end{longtable}
+
+
+
+\subsubsection*{Autonomía con batería de 2200 mAh}
+
+\[
+\text{Autonomía} = \frac{2200 \unit{mAh}}{64.4 \unit{mAh/sem}} \approx 34.16 \text{ semanas} \approx 239 \text{ días}
+\]
+
+\subsection{Sistema de carga solar}
+
+\begin{itemize}
+    \item Panel solar: 1.9 W @ 380 mA
+    \item Generación diaria (4 h de sol): $380 \times 4 = 1520$\,mAh
+    \item Consumo diario: $\frac{64.4}{7} \approx 9.2$\,mAh
+    \item Excedente diario: $1520 - 9.2 = 1510.8$\,mAh
+    \item Tiempo de recarga semanal: $\frac{64.4}{380} \approx 0.169$ h $\approx 10.1$ minutos
+\end{itemize}
+
+ El sistema cuenta con una autonomía superior a 240 días sin recarga externa. El panel solar genera diariamente un excedente energético más de 160 veces superior al consumo promedio, lo cual permite garantizar funcionamiento sostenido incluso ante condiciones de baja irradiación solar.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: Cálculo de residuos         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Análisis de la medición de residuos sólidos flotantes en cuerpos de agua lóticos}
+
+La acumulación de residuos sólidos flotantes representa un problema creciente en cuerpos de agua lóticos como ríos y arroyos, debido a su capacidad para transportar contaminantes desde zonas urbanas, agrícolas o industriales hacia cuerpos receptores mayores. Estos residuos, compuestos principalmente por plásticos, envases, metales y material no biodegradable, afectan no solo la estética del entorno natural, sino también la salud ambiental y humana.
+
+Según las guías operacionales de la UNEP/IOC, las evaluaciones de basura flotante en ambientes marinos deben considerar tanto la recolección mediante redes superficiales ("trawl surveys") como observaciones visuales sistemáticas desde plataformas móviles \cite{cheshire2009directrices}. Al adaptar estas estrategias a cuerpos de agua interiores, se propone una metodología de monitoreo basada en:
+
+\begin{itemize}
+    \item \textbf{Captura de imágenes periódicas:} mediante cámaras fijas instaladas en puntos estratégicos del río. Estas imágenes permitirán realizar una estimación visual de la cantidad de residuos sólidos flotantes.
+    \item \textbf{Frecuencia de muestreo adaptada:} al comportamiento hidrodinámico del cuerpo de agua y a los patrones locales de generación de basura. Por ejemplo, se sugiere capturar imágenes diariamente o durante eventos climáticos relevantes (lluvias, crecidas).
+    \item \textbf{Plataforma de análisis automatizado:} que en fases posteriores permitirá integrar algoritmos de visión por computadora para la clasificación y cuantificación automática de los residuos identificados.
+\end{itemize}
+
+La implementación de este módulo de monitoreo visual no busca sustituir técnicas de muestreo físico, sino complementarlas al proporcionar una evaluación continua y no invasiva de la contaminación superficial. Esta información puede utilizarse para calcular indicadores como densidad de residuos (elementos por metro cuadrado de superficie visible) o tasa de acumulación, adaptando los métodos sugeridos por la \textit{UNEP/IOC} al contexto fluvial.
+
+\subsection{Cálculo de densidad temporal de residuos flotantes}
+
+Para cuantificar la cantidad de residuos sólidos flotantes observados en un tramo de río durante un intervalo de tiempo determinado, se utiliza la siguiente expresión para calcular la densidad temporal:
+
+\begin{equation}
+D_t = \frac{N_t}{A \cdot \Delta t}
+\label{eq:densidad_basura_tiempo}
+\end{equation}
+
+Donde:
+\begin{itemize}
+    \item $D_t$ es la densidad temporal de residuos (elementos/m²/unidad de tiempo),
+    \item $N_t$ es el número total de residuos observados durante el intervalo $\Delta t$,
+    \item $A$ es el área superficial observada (en metros cuadrados),
+    \item $\Delta t$ es el intervalo de tiempo de observación (en horas, días, etc.).
+\end{itemize}
+
+Esta fórmula permite calcular la tasa de acumulación de residuos flotantes en la superficie del agua, lo cual es útil para identificar zonas críticas de contaminación o evaluar el impacto de eventos específicos (como lluvias o descargas urbanas) sobre el ingreso de residuos. Esta función será realizada por los nodos con cámara OV2640/OV5640 integrados en la red inalámbrica, que operan de forma autónoma y sincronizada con el resto del sistema de monitoreo. La estimación visual depende de variables como el campo de visión efectivo de la cámara, la reflectancia de los residuos, la turbidez del agua y las condiciones de luz ambiental. Estos factores pueden introducir incertidumbre en los parámetros $N_t$ y $A$ de la ecuación.
+
+
+
+\section{Análisis de Servidor}
+\section{Análisis de Algoritmos de Visión Artificial}
+
+\renewcommand{\arraystretch}{1.5}
+\begin{longtable}{|p{1.8cm}|p{2cm}|p{2cm}|p{1.8cm}|p{3cm}|p{2cm}|p{2.3cm}|}
+\caption{Comparativa de Versiones YOLO} \label{tab:comparativa_yolo} \\
+
+\hline
+\textbf{YOLO} & \textbf{Precisión (mAP)} & \textbf{Velocidad (FPS)} & \textbf{Latencia} & \textbf{Requerimientos de Hardware} & \textbf{Tamaño del Modelo (Peso)} & \textbf{Flexibilidad} \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{YOLO} & \textbf{Precisión (mAP)} & \textbf{Velocidad (FPS)} & \textbf{Latencia} & \textbf{Requerimientos de Hardware} & \textbf{Tamaño del Modelo (Peso)} & \textbf{Flexibilidad} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{7}{r}{\textit{Continúa en la siguiente página}} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+YOLOv1 & $\sim$ 63.4\% & $\sim$ 30 FPS & 50 ms & Baja (GPU básica o CPU) & Ligero ($\sim$200MB) & Baja \\ \hline
+YOLOv2 & $\sim$ 72.9\% & $\sim$ 40 FPS & 45 ms & Moderado (GPU básica) & Moderado ($\sim$200MB) & Media \\ \hline
+YOLOv3 & $\sim$ 57.9\% & $\sim$ 30 FPS & 70 ms & Alta (GPU de gama media) & Alto ($\sim$300MB) & Media \\ \hline
+YOLOv4 & $\sim$ 43.5\% & $\sim$ 60 FPS & 60 ms & Alta (GPU de gama alta) & Alto ($\sim$400MB) & Alta \\ \hline
+YOLOv5 & $\sim$ 44.5\% & $\sim$ 80 FPS & 30 ms & Baja/Moderada (GPU básica a media) & Moderado ($\sim$250MB) & Muy Alta \\ \hline
+YOLOv6 & $\sim$ 48.2\% & $\sim$ 75 FPS & 35 ms & Baja/Moderada (GPU media) & Moderado ($\sim$300MB) & Alta \\ \hline
+YOLOv7 & $\sim$ 48.6\% & $\sim$ 55 FPS & 50 ms & Alta (GPU de gama alta) & Alto ($\sim$500MB) & Alta \\ \hline
+YOLOv8 & $\sim$ 53.9\% & $\sim$ 75 FPS & 40 ms & Alta (GPU de gama alta) & Alto ($\sim$400MB) & Muy Alta \\ \hline
+YOLOv9 & $\sim$ 54.3\% & $\sim$ 50 FPS & 60 ms & Alta (GPU de gama alta) & Alto ($\sim$550MB) & Alta \\ \hline
+YOLOv10 & $\sim$ 55.2\% & $\sim$ 70 FPS & 40 ms & Moderada (GPU de gama media) & Moderado ($\sim$450MB) & Alta \\ \hline
+YOLOv11 & $\sim$ 55.4\% & $\sim$ 50 FPS & 55 ms & Alta (GPU de gama alta) & Alto ($\sim$600MB) & Muy Alta \\ \hline
+YOLOv12 & $\sim$ 56.5\% & $\sim$ 45 FPS & 50 ms & Alta (GPU de gama alta) & Muy alto ($\sim$650MB) & Muy Alta \\ \hline
+
+\end{longtable}
+
+
+
+Para seleccionar una versión de YOLO para la detección de basura flotante en cuerpos de agua se consideran las principales características:
+
+\begin{itemize}
+    \item Precisión (mAP): Alta precisión para detectar objetos pequeños en imágenes de 1200x720 píxeles.
+    \item Velocidad/Latencia: No es crítico en tiempo real, pero la latencia debe ser razonable para el procesamiento.
+    \item Requerimientos de Hardware: El modelo debe ser ligero y funcionar para dispositivos con recursos limitados.
+    \item Tamaño del Modelo: Modelo no tan robusto, para ajustarse a las limitaciones de memoria.
+    \item Flexibilidad: Capacidad para ajustarse a diferentes tamaños de objetos y condiciones variables (iluminación, ángulos).
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\caption{Comparativa entre las versiones de YOLO}
+\label{tab:yolo_comparison1}
+\begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|p{3cm}|p{3cm}|}
+\hline
+\textbf{Versión YOLO} & \textbf{Precisión (mAP)} & \textbf{Tamaño del Modelo} & \textbf{Requerimientos de Hardware} & \textbf{Flexibilidad} \\ \hline
+YOLOv5       & 44.5\%                  & Moderado ($\sim$ 250MB)          & Baja/Moderada (GPU básica)         & Flexibilidad alta, fácil de usar, ideal para dispositivos limitados. \\ \hline
+YOLOv6       & 48.2\%                  & Moderado ($\sim$ 300MB)          & Baja/Moderada (GPU media)          & Buena precisión, optimización para hardware limitado. \\ \hline
+YOLOv7       & 48.6\%                  & Alto ($\sim$ 500MB)              & Alta (GPU de gama alta)            & Excelente precisión, pero más pesado y requiere una GPU potente. \\ \hline
+YOLOv8       & 53.9\%                  & Alto ($\sim$400MB)              & Alta (GPU de gama alta)            & Excelente precisión y segmentación, pero demasiado pesado para hardware limitado. \\ \hline
+\end{tabular}
+\end{table}
+
+Dado que el sistema no requiere procesamiento avanzado ni detección en tiempo real, el objetivo principal es seleccionar un algoritmo de procesamiento de imágenes que sea fácil de implementar, eficiente en términos de recursos y con un tamaño reducido, para asegurar un rendimiento adecuado en dispositivos con limitaciones de hardware. A pesar de las restricciones de recursos, se debe garantizar que el algoritmo ofrezca una buena precisión en la detección de objetos, basura flotante en cuerpos de agua. Por sus buenos valores en precisión, se consideran las versiones YOLOv5 y YOLOv6.
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\caption{Comparativa entre YOLOv5 y YOLOv6}
+\label{tab:yolo_comparison2}
+\begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{3cm}|p{4cm}|}
+\hline
+\textbf{Característica}         & \textbf{YOLOv5}                             & \textbf{YOLOv6}                             \\ \hline
+\textbf{Precisión (mAP)}        & 44.5\% en COCO                              & 48.2\% en COCO                              \\ \hline
+\textbf{Tamaño del Modelo}      & Moderado (~250MB)                          & Moderado (~300MB)                          \\ \hline
+\textbf{Velocidad (FPS)}        & 80 FPS                   & 75 FPS                                      \\ \hline
+\textbf{Latencia}               & 30 ms                                      & 35 ms                                       \\ \hline
+\textbf{Requerimientos de Hardware} & Baja/Moderada (GPU básica a media)        & Baja/Moderada (GPU media)                  \\ \hline
+\textbf{Optimización}           & Muy buena para dispositivos limitados      & Excelente optimización para eficiencia     \\ \hline
+\textbf{Flexibilidad}           & Alta                                       & Alta                                       \\ \hline
+\textbf{Escalabilidad}          & Alta                                       & Alta                                       \\ \hline
+\textbf{Facilidad de Uso}       & Muy fácil de usar, amplia documentación    & Fácil de usar, pero con más opciones avanzadas \\ \hline
+\textbf{Ideal para}             & Proyectos rápidos y optimizados, buena para hardware con recursos limitados & Mejor precisión sin sacrificar demasiado la eficiencia, optimizado para hardware moderado \\ \hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+

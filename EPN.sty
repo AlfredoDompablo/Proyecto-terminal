@@ -1,0 +1,207 @@
+\ProvidesPackage{EPN}
+%%%%%%%%%%%%%%%%%%%%%%% Paquetes %%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[spanish,es-tabla]{babel}
+\decimalpoint
+
+\usepackage{amsmath, amssymb, mathtools, amsfonts, amsthm}
+\usepackage[table,svgnames,xcdraw]{xcolor}
+\usepackage{graphicx}
+\usepackage{subfigure, caption, sidecap}
+\sidecaptionvpos{figure}{c}
+\usepackage{commath, cancel, tcolorbox, lipsum, answers, nccmath}
+\usepackage[shortlabels]{enumitem}
+\usepackage[acronym,toc]{glossaries}
+\captionsetup[table]{position=top}
+\tcbuselibrary{skins,breakable}
+\usetikzlibrary{shadings,shadows}
+\usepackage{float, lmodern, textcomp, gensymb, tikz, multirow}
+\usetikzlibrary{positioning,fit}
+\usepackage{geometry}
+\usepackage{color}
+\usepackage{capt-of}
+\usepackage{anysize}
+\usepackage{csquotes}
+\usepackage{makeidx}
+\usepackage{nccmath}
+\usepackage{siunitx}
+ \usepackage{booktabs}
+% \usepackage{tablefootnote}
+\usepackage{ifthen}
+
+ \usepackage{tikz}           % Para diagramas
+\geometry{margin=2.5cm}
+\usetikzlibrary{shapes,arrows,positioning}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+ \tikzset{
+    block/.style = {draw, rectangle, minimum height=1.5cm, minimum width=2cm, text width=1.8cm, align=center},
+    line/.style = {draw, -latex}
+}
+
+
+%Agrega espacios entre parrafos
+% Ajusta estos valores según necesites:
+\setlength{\parskip}{0.5\baselineskip} % Espacio entre párrafos
+\setlength{\parindent}{15pt} % Sangría inicial (valor por defecto en "article")
+
+% Corrige el espacio después de encabezados (secciones, subsecciones, etc.)
+\usepackage{etoolbox}
+\makeatletter
+\preto{\@afterheading}{%
+  \setlength{\parskip}{0pt}% Elimina espacio extra después de títulos
+}
+\appto{\@afterheading}{%
+  \setlength{\parskip}{0.5\baselineskip}% Restaura el espacio original
+}
+\makeatother
+
+
+%\usepackage{newclude}
+
+%\geometry{a4paper, total={6in, 9in}}
+\setcounter{secnumdepth}{4}
+
+%-_-_-_-_-_-_-_-_-_-
+%=================== Márgenes ===================
+\marginsize{2cm}{2cm}{2cm}{2cm} % Izquierda, derecha, arriba, abajo
+%=================== Insertar PDFs ===================
+\usepackage{pdfpages} 
+%=================== Estilo de Bibliografía ===================
+%\usepackage[backend=bibtex,style=ieee]{biblatex}
+\usepackage[backend=biber,style=ieee]{biblatex}
+%\usepackage{biblatex}
+\addbibresource{Bibliografia.bib}
+%=================== Apéndices ===================
+\usepackage{appendix}
+\renewcommand{\appendixname}{Apéndices}
+\renewcommand{\appendixtocname}{Apéndices}
+\renewcommand{\appendixpagename}{Apéndices} 
+
+%===================  Encabezado y Pie de Página ===================
+\usepackage{fancyhdr} 
+\pagestyle{fancy}
+\fancyhf{}
+%\fancyhead[L]{\footnotesize Protocolo}
+\fancyhead[R]{\footnotesize Proyecto Terminal}
+%\fancyfoot[R]{\footnotesize SEGURIDAD EN REDES}
+\fancyfoot[C]{\thepage}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%-_-_-_-_-_-_-_-_-_- Para introducir código C con listings-_-_-_-_-_-_-_-_-_-
+\usepackage{listings}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5} 
+\lstset{language=C,
+   keywords={break,case,catch,continue,else,else if,goto,for, default, if,return,switch,do,while,typedef,sizeof},
+   basicstyle=\ttfamily,
+   keywordstyle=\color{blue},
+   commentstyle=\color{red},
+   stringstyle=\color{dkgreen},
+   numbers=left,
+   numberstyle=\tiny\color{gray},
+   stepnumber=1,
+   numbersep=10pt,
+   backgroundcolor=\color{white},
+   tabsize=4,
+   showspaces=false,
+   showstringspaces=false}
+
+%=================== Hipervínculos ===================
+\usepackage[colorlinks=true,plainpages=false,citecolor=black,linkcolor=black]{hyperref}
+\usepackage{labelschanged}
+
+%=================== Del Inglés al Español ===================
+\newcommand{\sen}{\operatorname{\sen}}	% Definimos el comando \sen para el seno
+%en español
+\newcommand{\asignatura}[1]{
+  \def\@asignatura{#1}
+}
+\newcommand{\carrera}[1]{
+  \def\@carrera{#1}
+}
+\newcommand{\titulo}[1]{
+  \def\@titulo{#1}
+}
+\newcommand{\grupo}[1]{
+  \def\@grupo{#1}
+}
+\newcommand{\profesor}[1]{
+  \def\@profesor{#1}
+}
+\newcommand{\alumno}[1]{
+  \def\@alumno{#1}
+}
+
+
+%=================== Portada ===================
+\newcommand*{\maketitlepage}
+ {\begingroup
+\begin{titlepage}
+  \thispagestyle{empty}
+  \begin{minipage}[c][0.17\textheight][c]{0.25\textwidth}
+    \begin{center}
+    \hspace*{-13mm}
+      \includegraphics[ height=5cm]{IPN.png}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}[c][0.195\textheight][t]{0.75\textwidth}
+    \begin{center}
+      \vspace{0.3cm}
+             {\color{black}\textsc{\Large Instituto Politécnico Nacional} }\\[0.5cm]
+             \vspace{0.3cm}
+                    %{\color{black}\hrule height3pt}
+                    %\vspace{.2cm}
+                     %      {\color{black}\hrule height2pt}
+                      %     \vspace{.8cm}
+                            \textsc{\Large{Unidad Profesional Interdisciplinaria en Ingeniería y Tecnologías Avanzadas} }\\[0cm]
+    \end{center}
+  \end{minipage}
+  \begin{minipage}[c][0.81\textheight][t]{0.25\textwidth}
+    \vspace*{5mm}
+    \begin{center}
+      \hskip0.5mm
+             %{\color{purple}\vrule width1pt height13cm }
+             \vspace{5mm}
+             \hskip2pt
+                 {\color{black}\vrule width3pt height13cm}
+                 \hskip2mm
+                     {\color{black}\vrule width1pt height13cm} \\
+                     \vspace{5mm}
+                     \hspace*{2mm}
+                     \includegraphics[height=4cm]{UPIITA.png}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}[c][0.81\textheight][t]{0.75\textwidth}
+    \begin{center}
+      \vspace{0.5cm}
+
+       {\color{black}{ \textsc{\large Proyecto Terminal I }}}\\[2cm]
+
+      {\color{black}{ \textsc{\LARGE Sistema de monitoreo de contaminación en cuerpos de agua basado en una red inalámbrica de sensores y visión artificial}}}\\[2cm]
+
+      %\vspace{1.5cm}            
+
+      %\textsc{\LARGE T\hspace{0.5cm}E\hspace{0.5cm}S\hspace{0.5cm}I\hspace{0.5cm}S}\\[1.5cm]
+      %\textsc{\large que para obtener el grado de:}\\[0.5cm]
+      %\textsc{\large Doctorado en Tecnología Avanzada}\\[0.5cm] \scshape
+      
+      %{\color{black}\textsc{\large presenta:}}\\[0.5cm]
+      
+      \textsc{\large Alumnos:}\\[0.5cm]
+      \textsc{\large Dompablo Celaya Oscar Alfredo\\
+      López Ramírez Itzel }\\[1cm]
+        
+      \textsc{\large Asesor:}\\[0.5cm]
+      \textsc{\large Dra. Iclia Villordo Jiménez}\\[2cm]
+
+      \vspace{1cm}
+       
+     \begin{flushright}
+        {\large \today}
+    \end{flushright}
+
+    \end{center}
+  \end{minipage}
+\end{titlepage}
+\endgroup}

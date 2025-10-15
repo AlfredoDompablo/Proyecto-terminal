@@ -1,0 +1,36 @@
+\section{Escenario de Pruebas}
+
+Las pruebas se realizarán en un entorno controlado que simule condiciones reales de operación en un cuerpo de agua con movimiento constante en una misma dirección. 
+Se instalarán los nodos sensores en puntos estratégicos verificando que midan correctamente pH, temperatura, turbidez, oxígeno disuelto y conductividad.
+Se probará la transmisión de datos desde los nodos sensores hacia la estación base, midiendo la cobertura efectiva. Se colocarán objetos flotantes para validar la visión artificial en la identificación de desechos visibles. Se medirá el tiempo de respuesta entre la captura de datos y su visualización en la plataforma web.
+ 
+%Este enfoque garantizará que el sistema funcione de manera óptima y que los datos proporcionados sean precisos y útiles para la toma de decisiones.
+
+%definir mas el entorno controlado, contenedores pero no se dice cuantos, definir lo de la red y los tiempos
+
+
+%El sistema será evaluado en las instalaciones de la UPIITA, utilizando contenedores de agua distribuidos en diferentes locaciones y por medio de una bomba de agua y canales simular las condiciones del cuerpo de agua en este caso las condiciones de un cuerpo de agua lótico. El propósito de estas pruebas es verificar el correcto funcionamiento de los nodos sensores, la red de transmisión de datos y el sistema de visión artificial, asegurando que cada componente del sistema cumpla con los parámetros establecidos.
+El sistema será evaluado en las instalaciones de la UPIITA, utilizando contenedores de agua dispuestos en diferentes ubicaciones. Para simular las condiciones de un cuerpo de agua lótico, se emplearán una bomba de agua y canales que recrearán el flujo característico de este tipo de entornos. Estas pruebas tienen como objetivo verificar el funcionamiento adecuado de los nodos sensores, la red de transmisión de datos y el sistema de visión artificial, asegurándose de que cada componente cumpla con los parámetros definidos.
+
+\begin{itemize}
+    \item \textbf{Pruebas de Sensores de Calidad de Agua:} Los nodos sensores se instalarán en puntos estratégicos dentro de los contenedores de agua, a una distancia de al menos 50 metros y con una topología lineal o semi-lineal, cada uno equipado con los sensores para medir los parámetros de calidad del agua: pH, temperatura, turbidez, oxígeno disuelto y conductividad. Durante esta fase, se verificará que los sensores proporcionen lecturas precisas bajo diferentes condiciones, simulando fluctuaciones en los parámetros ambientales para evaluar su respuesta y sensibilidad.
+  %  Los nodos sensores tendran una carcasa que los proteja de la humedad y condiciones como alta turbidez o corrientes rápidas. 
+    Los nodos sensores tendran una carcasa que los proteja de manera segura para no dañar los sensores, así como de condiciones adversas como corrientes rápidas o objetos que puedan generar algun daño. 
+    
+    \item \textbf{Pruebas de Transmisión de Datos:} Se probará la transmisión inalámbrica de los datos recolectados por los nodos hacia una estación base, verificando la integridad de los datos transmitidos. Se evaluará la estabilidad de la red y la capacidad del sistema para transmitir datos en intervalos de tiempo definidos, registrando cualquier pérdida de datos o interferencia durante la transmisión. Este proceso asegurará que la información recolectada por los sensores llegue a la central de procesamiento de manera confiable.
+
+    \item \textbf{Pruebas de Visión Artificial:} Se colocarán objetos flotantes que simulen desechos visibles (como botellas PET y envases de plástico) en la superficie del agua para verificar la precisión del sistema de visión artificial. El sistema deberá detectar, identificar y clasificar correctamente los residuos flotantes en condiciones de luz diurna, asegurando que las imágenes capturadas por las cámaras se procesen adecuadamente para una clasificación precisa.
+
+    %\item \textbf{Medición de Tiempo de Respuesta:} Se registrará el tiempo de respuesta entre la captura de datos por los sensores y su visualización en la aplicación web. Esto permitirá verificar si el sistema cumple con los requisitos de actualización en tiempo real, asegurando que los datos sean útiles para informar a los interesados.
+\end{itemize}
+
+%no se sabe las caracteristicas del cuerpo de agua controlado, que precision, que tasa
+\subsection{Validación del sistema}
+El desempeño del sistema será evaluado mediante pruebas piloto en cuerpos de agua controlados. Se considerarán métricas como:
+\begin{itemize}
+    \item Precisión en la detección de residuos sólidos flotantes.
+    \item Tasa de falsos positivos y negativos en el análisis visual.
+    \item Eficiencia en la transmisión de datos bajo diferentes condiciones ambientales.
+    \item Autonomía energética de los nodos sensores.
+\end{itemize}
+Estas pruebas permitirán ajustar el diseño y optimizar el rendimiento antes de su implementación en escenarios reales.

@@ -1,0 +1,1385 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%          ANALISIS REQUERIMIENTOS                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcounter{RF}
+
+% Comando con contador y etiqueta opcional
+\makeatletter
+\newcommand{\RF}[1][]{%
+  \refstepcounter{RF}%
+  RF\@tempcnta=\value{RF}%
+  \ifnum\@tempcnta<10 0\fi%
+  \arabic{RF}%
+  \if\relax#1\relax\else\label{#1}\fi%
+}
+\makeatother
+
+\section{Análisis de Requerimientos}
+A continuación, se presentan las tablas de los requerimientos funcionales y no funcionales identificados para el proyecto, los cuales servirán como base de referencia a lo largo de las etapas de diseño, implementación y pruebas.
+\subsection{Requerimientos Funcionales}
+A manera de resumen, la siguiente lista contiene los títulos de todos los requerimientos funcionales documentados a lo largo de los diferentes módulos del sistema:
+
+\subsubsection*{Módulo 1. Red Inalámbrica de Sensores}
+\begin{itemize}
+    \item \textbf{RF01}: Obtención de Parámetros de Calidad del Agua.
+    \item \textbf{RF02}: Protección del Nodo Sensor.
+    \item \textbf{RF03}: Captura de Imágenes para Detección de Residuos.
+    \item \textbf{RF04}: Coordinación del Ciclo de Operación de Sensores y Cámara
+    \item \textbf{RF05}: Adquisición de Datos y Metadatos de Imagen.
+    \item \textbf{RF06}: Gestión de Búfer y Memoria Temporal del Nodo Sensor.
+    \item \textbf{RF07}: Estructuración y Empaquetado de Tramas de Datos.
+    \item \textbf{RF08}: Garantía de Integridad de Tramas Antes de la Transmisión
+    \item \textbf{RF09}: Gestión de Energía.
+    \item \textbf{RF10}: Transmisión Inalámbrica de Datos.
+    \item \textbf{RF11}: Proporcionar Energía a los Componentes del Nodo.
+    \item \textbf{RF12}: Recarga de la Batería con Energía Solar.
+\end{itemize}
+
+\subsubsection*{Módulo 2. Nodo Concentrador}
+\begin{itemize}
+    \item \textbf{RF13}: Recepción de Datos de Nodos Sensores.
+    \item \textbf{RF14}: Almacenamiento Temporal y Organización de Datos.
+    \item \textbf{RF15}: Transmisión de Datos Organizados al Servidor Central
+    \item \textbf{RF16}: Implementación de Protocolo de Detección y Corrección de Errores.
+    \item \textbf{RF17}: Retransmisión de Datos en Caso de Fallo de Conexión.
+\end{itemize}
+
+\subsubsection*{Módulo 3. Servidor}
+\begin{itemize}
+    \item \textbf{RF18}: Recepción de Datos de Gateway.
+    \item \textbf{RF19}: Organización de Datos Recibidos.
+    \item \textbf{RF20}: Procesamiento de Imágenes para Cuantificación de Área de Basura.
+    \item \textbf{RF21}: Almacenamiento Persistente de Datos y Metadatos.
+    \item \textbf{RF22}: Exposición de Datos y Servicios Mediante API (RESTful).
+\end{itemize}
+
+\subsubsection*{Módulo 4. Página Web}
+\begin{itemize}
+    \item \textbf{RF23}: Consumo de Servicios del Servidor API.
+    \item \textbf{RF24}: Visualización y Presentación Interactiva de Datos (Frontend).
+    \item \textbf{RF25}: Permitir la Visualización de Datos Históricos.
+\end{itemize}
+
+
+\subsection*{Tablas de requerimientos funcionales}
+
+%%%%%%%%%%%%%%       MODULO 1        %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% subsistema sensado de parametros
+\subsubsection*{Módulo 1. Red Inalámbrica de Sensores}
+
+%%%%%%%%
+% RF01
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Obtención de Parámetros de Calidad del Agua.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo. \\ 
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Sensado de Parámetros de Calidad del Agua.\\
+\hline
+\textbf{Propósito} & Obtener mediciones periódicas de la calidad del agua a través de sensores especializados. \\
+\hline
+\textbf{Descripción} & El subsistema de sensado incluirá sensores de pH, oxígeno disuelto, turbidez, conductividad y temperatura, los cuales tomarán mediciones de los parámetros de calidad del agua en intervalos predefinidos. \\
+\hline
+\textbf{Especificación} & Los sensores deben medir parámetros de calidad del agua, y deben proporcionar mediciones precisas a intervalos regulares. Los datos deben ser transmitidos periódicamente al Nodo concentrador a través de una red de sensores inalámbricos para ser procesados. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La obtención de parámetros de calidad del agua es crucial para la información y prevención de problemas de contaminación en cuerpos de agua utilizados para consumo humano o en procesos industriales. El monitoreo periódico permitirá la intervención temprana. \\
+\hline
+\end{longtable}
+
+
+%%%%%%%%
+% RF02
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Protección del Nodo Sensor.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Sensado de Parámetros. \\
+%\hline
+
+%\textbf{Propósito} & Proteger todos los componentes en una estructura flotante que sea resistente a las condiciones acuáticas. \\
+\hline
+\textbf{Propósito} & Proteger los componentes del nodo sensor mediante una boya flotante con protección IP adecuada para ambientes acuáticos.  \\
+\hline
+\textbf{Descripción} & La boya debe estar diseñada con materiales resistentes para ser hermético al agua y debe proteger todos los componentes internos, los sensores y otros elementos electrónicos contra la humedad y el contacto con el agua. Esta estructura debe proteger los componentes internos y permitir el funcionamiento confiable cuando se utilice en cuerpos de agua. \\
+\hline
+\textbf{Especificación} & La estructura del nodo sensor debe tener una protección mínima de IP68, lo que asegura que es impermeable al agua y polvo. Además, el nodo debe ser capaz de soportar el movimiento brusco en condiciones desfavorables para el sistema, sin comprometer su funcionalidad. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La protección adecuada de los sensores es esencial para asegurar su rendimiento y vida útil en ambientes acuáticos. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RF03
+%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% subsistema camara
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Captura de Imágenes para Detección de Residuos.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Camára. \\
+\hline
+\textbf{Propósito} & Capturar imágenes periódicas de la superficie del agua para permitir la cuantificación del área cubierta por cúmulos de residuos flotantes. \\
+\hline
+\textbf{Descripción} & El sistema debe utilizar una cámara de bajo consumo energético para capturar imágenes de la superficie del agua, las cuales serán transmitidas al Servidor para su procesamiento. El nodo sensor solo gestionará una imagen a la vez en su memoria antes de su transmisión. \\
+\hline
+\textbf{Especificación} & La imagen original debe ser almacenada temporalmente y transmitida al nodo concentrador para su posterior envío al servidor central sin procesamiento ni clasificación previo en el nodo sensor. El nodo sensor no debe almacenar más de una imagen de 640×640 simultáneamente para su procesamiento y transmisión. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La captura precisa de imágenes es esencial para identificar residuos flotantes en la superficie del agua. La cámara debe ser capaz de operar en condiciones de luz natural y estar protegida de las condiciones ambientales adversas. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RF04
+%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% subsistema-Microcontrolador
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF[rf:coordinacion_sensores]} & \textbf{Coordinación del Ciclo de Operación de Sensores y Cámara} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Microcontrolador. \\
+\hline
+\textbf{Propósito} & Coordinar y sincronizar la activación y desactivación de los componentes, optimizando el consumo energético, para asegurar la adquisición de datos de manera eficiente. \\
+\hline
+\textbf{Descripción} & El microcontrolador deberá gestionar un ciclo de operación predefinido que activará secuencialmente los sensores y la cámara solo cuando sea necesario, y los pondrá en modo de reposo. \\
+\hline
+\textbf{Especificación} &  El microcontrolador deberá ser capaz de activar y desactivar los componentes eficientemente. El sistema debe asegurar que los componentes no esenciales entren en modo de reposo o baja energía cuando el ciclo de adquisición no esté activo. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La coordinación eficiente es esencial para garantizar que los datos y las imágenes se adquieran sin interferencias ni retrasos y que la autonomía del sistema se mantenga. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RF05
+%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% subsistema-Microcontrolador
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Adquisición de Datos y Metadatos de Imagen.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Microcontrolador. \\
+\hline
+\textbf{Propósito} & Obtener las mediciones de los sensores y la captura de la imagen, asegurando su entrega al búfer para su posterior empaquetado y transmisión. \\
+\hline
+\textbf{Descripción} & Una vez activados, los sensores y la cámara deberán entregar sus datos y capturas, los cuales serán almacenados en el búfer del microcontrolador. \\
+\hline
+\textbf{Especificación} &  El sistema deberá adquirir mediciones de pH, turbidez, oxígeno disuelto, conductividad y temperatura conforme al ciclo de operación coordinado y almacenar los datos de los sensores y las imágenes temporalmente en el búfer del nodo sensor hasta su transmisión al nodo concentrador. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La correcta adquisición y almacenamiento temporal son pasos críticos para garantizar la integridad y disponibilidad de toda la información (parámetros e imágenes) antes de que se empaqueten y se envíen al servidor. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RF06
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Gestión de Búfer y Memoria Temporal del Nodo Sensor.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Microcontrolador. \\
+\hline
+\textbf{Propósito} & Gestionar la memoria interna del microcontrolador para almacenar temporalmente los datos adquiridos (sensores y la imagen única) antes de su transmisión, evitando la sobrecarga y asegurando la no pérdida de datos. \\
+\hline
+\textbf{Descripción} & 	El microcontrolador debe utilizar su memoria interna para almacenar de forma temporal los datos adquiridos de los sensores y una única imagen antes de que sean transmitidos al nodo concentrador. La memoria debe gestionarse eficientemente para evitar la sobrecarga. \\
+\hline
+\textbf{Especificación} & El microcontrolador debe ser capaz de almacenar los datos de todos los sensores y una sola imagen de 640×640 antes de la transmisión. El sistema debe permitir el borrado o sobrescritura de datos antiguos cuando la memoria esté llena, para garantizar la disponibilidad de espacio para nuevas mediciones. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & 	La gestión de memoria es crucial para asegurar que los datos no se pierdan antes de ser transmitidos, lo que podría comprometer el análisis posterior. \\
+\hline
+\end{longtable}
+
+
+%%%%%%%%
+% RF07
+%%%%%%%%
+
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF[rf:Empaquetado_datos]} & \textbf{Estructuración y Empaquetado de Tramas de Datos.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Microcontrolador. \\
+\hline
+\textbf{Propósito} & Organizar y empaquetar los datos obtenidos de los sensores y cámara en tramas de información de manera estructurada para su eficiente transmisión y posterior procesamiento. \\
+\hline
+\textbf{Descripción} & El microcontrolador debe organizar los datos adquiridos de los sensores y cámara en tramas de información, incluyendo campos como tipo de medición, valor, fecha y hora. \\
+\hline
+\textbf{Especificación} & Las tramas deben estar estructuradas de manera que contengan campos definidos como: tipo de medición, valor de la medición, fecha y hora de la medición, y cualquier metadato necesario. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & El correcto empaquetado de las tramas de información es esencial para garantizar la fiabilidad de los datos. La estructura de las tramas debe ser clara y uniforme. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RF08
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Garantía de Integridad de Tramas Antes de la Transmisión} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Microcontrolador. \\
+\hline
+\textbf{Propósito} & Asegurar que las tramas de información empaquetadas estén completas, sin errores, y listas para su transmisión al nodo concentrador. \\
+\hline
+\textbf{Descripción} & Una vez empaquetados (RF0\ref{rf:Empaquetado_datos}), el microcontrolador debe aplicar métodos de verificación (ej. checksum) para asegurar que las tramas de datos están completas y sin datos faltantes o errores internos antes de iniciar la transmisión. \\
+\hline
+\textbf{Especificación} & El sistema debe asegurar que las tramas sean completas, sin datos faltantes, y sin errores de transmisión , y estas tramas deben ser enviadas al servidor o nodo concentrador de manera periódica, en intervalos predefinidos, asegurando que todos los datos sean correctamente transmitidos y almacenados para su análisis posterior. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & Esta validación previa es un paso crítico para reducir la tasa de error en la transmisión inalámbrica y garantizar la calidad de los datos. \\
+\hline
+\end{longtable}
+
+
+
+%%%%%%%%
+% RF09
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Gestión de Energía.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Microcontrolador. \\
+\hline
+\textbf{Propósito} & Optimizar el consumo energético de los sensores y otros componentes del sistema para garantizar su funcionamiento eficiente en entornos remotos. \\
+\hline
+\textbf{Descripción} & El microcontrolador debe gestionar el consumo energético de los sensores y otros componentes, asegurando que solo estén activos cuando sea necesario y que los componentes entren en modo de reposo para maximizar la duración de la batería. \\
+\hline
+\textbf{Especificación} & El microcontrolador debe ser capaz de activar y desactivar los sensores y otros componentes del sistema de forma eficiente, gestionando el consumo de energía para operar durante largos períodos sin recargar. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RF10
+%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%% subsistema transceptor
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Transmisión Inalámbrica de Datos.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Transceptor. \\
+\hline
+\textbf{Propósito} & Asegurar que los datos obtenidos por el nodo sensor sean transmitidos de manera inalámbrica al nodo vecinos para su procesamiento y análisis. \\
+\hline
+\textbf{Descripción} & Los nodos sensores deben transmitir los datos adquiridos a través de tecnologías inalámbricas, al nodo vecino, posteriormente al nodo concentrador. La transmisión debe ser confiable y asegurar que no haya pérdida de información. \\
+\hline
+\textbf{Especificación} & Los datos deben ser transmitidos en paquetes de datos estructurados al nodo concentrador. El sistema debe operar eficientemente en distancias de al menos 50 metros entre nodos y sin pérdida de datos. Se deben utilizar tecnologías de comunicación inalámbrica confiables para mantener la calidad de la transmisión. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La transmisión inalámbrica proporciona flexibilidad y reduce los costos de instalación, ya que no requiere cableado físico. Es esencial garantizar que los datos se transmitan sin pérdidas y que la red sea resistente a interferencias para asegurar la continuidad del monitoreo. \\
+\hline
+\end{longtable}
+
+
+%%%%%%%%
+% RF11
+%%%%%%%%
+%%%%%%%%%%%%%%%% subsistema fuente de alimentacion 
+
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Proporcionar Energía a los Componentes del Nodo.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Fuente de Alimentación. \\
+\hline
+\textbf{Propósito} & Asegurar que todos los componentes del nodo, incluidos el microcontrolador, los sensores, la cámara y el transceptor, reciban la energía necesaria para su funcionamiento. \\
+\hline
+\textbf{Descripción} & El subsistema debe ser capaz de proporcionar energía de manera continua a todos los componentes del nodo, de modo que el sistema funcione de forma autónoma sin depender de fuentes externas de energía. \\
+\hline
+\textbf{Especificación} & La batería debe proporcionar energía suficiente para el funcionamiento de los componentes del nodo durante un período mínimo de 24 horas sin necesidad de recarga. La batería debe ser lo suficientemente potente para soportar el consumo combinado de todos los dispositivos conectados en el nodo. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & Este subsistema es fundamental para que el sistema funcione de manera autónoma en entornos remotos donde el acceso a fuentes de energía externas es limitado o inexistente. \\
+\hline
+\end{longtable}
+
+
+%%%%%%%%
+% RF12
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Recarga de la Batería con Energía Solar.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema de Fuente de Alimentación. \\
+\hline
+\textbf{Propósito} & Asegurar que la batería se recargue utilizando energía solar de manera continua para mantener el funcionamiento autónomo del nodo. \\
+\hline
+\textbf{Descripción} & El panel solar debe ser capaz de recargar la batería durante el día, aprovechando la energía solar, para que el nodo siga funcionando de manera autónoma. \\
+\hline
+\textbf{Especificación} & El panel solar debe recargar completamente la batería durante aproximadamente 6 horas de luz solar directa. El sistema debe tener circuitos de protección para evitar sobrecarga o daño a la batería. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & Este subsistema es esencial para garantizar el funcionamiento continuo del sistema en entornos remotos y ayuda a reducir la dependencia de fuentes externas de energía. \\
+\hline
+\end{longtable}
+
+
+%%%%%%%%%%%%%%%%%%           MODULO 2        %%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{Módulo 2. Nodo Concentrador}
+
+%%%%%%%%
+% RF13
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Recepción de Datos de Nodos Sensores.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Recepción de datos de nodos sensores. \\
+\hline
+\textbf{Propósito} & Asegurar que el nodo concentrador pueda recibir datos de los nodos sensores de manera confiable y periódica. \\
+\hline
+\textbf{Descripción} & El subsistema debe ser capaz de recibir los datos transmitidos desde el último nodo sensor a través de la red inalámbrica. \\
+\hline
+\textbf{Especificación} & El nodo concentrador debe ser capaz de recibir múltiples transmisiones de datos periódicas del nodo sensor anterior a él sin perder información. Los datos deben ser recibidos en un formato estructurado y organizado para su almacenamiento temporal. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La confiabilidad en la recepción de los datos es esencial para evitar pérdidas de información y garantizar que todos los parámetros monitoreados sean procesados correctamente. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RF14
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Almacenamiento Temporal y Organización de Datos.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Almacenamiento Temporal y Organización de Datos. \\
+\hline
+\textbf{Propósito} & Almacenar temporalmente los datos recibidos de los nodos sensores en el buffer del nodo concentrador y organizarlos para su posterior transmisión al servidor central. \\
+\hline
+\textbf{Descripción} & El subsistema debe ser capaz de recibir los datos de los nodos sensores transmitidos por el nodo anterior y almacenarlos de manera temporal en el buffer del nodo concentrador. Además, debe organizar los datos de forma estructurada, asegurando que sean fácilmente accesibles y listos para ser transmitidos al servidor central. \\
+\hline
+\textbf{Especificación} & Los datos recibidos deben ser almacenados temporalmente en el buffer del nodo concentrador, y deben ser organizados en una estructura que facilite su acceso y transmisión posterior. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & El almacenamiento temporal y la organización eficiente de los datos son esenciales para asegurar que la información se mantenga accesible y lista para su transmisión rápida al servidor sin pérdida de datos. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RF15
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Transmisión de Datos Organizados al Servidor Central} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Gateway. \\
+\hline
+\textbf{Propósito} & Enviar los datos procesados y organizados al servidor central para su almacenamiento y análisis. \\
+\hline
+\textbf{Descripción} & El nodo concentrador debe transmitir los datos organizados y procesados al servidor central utilizando una red confiable (WLAN o enlace celular). La transmisión debe ser eficiente y sin pérdidas de datos. \\
+\hline
+\textbf{Especificación} & El nodo concentrador debe enviar los datos al servidor central utilizando una conexión estable y confiable , y si es necesario, se deben utilizar enlaces celulares para garantizar la conectividad remota , y el sistema debe garantizar que la transmisión sea segura y sin errores con algún método de conexión de errores. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La transmisión de los datos al servidor es esencial para el procesamiento y almacenamiento a largo plazo. Debe asegurarse que la red utilizada sea confiable y no haya pérdidas de datos durante el envío. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RF16
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Implementación de Protocolo de Detección y Corrección de Errores.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Gateway. \\
+\hline
+\textbf{Propósito} &  Asegurar que la transmisión de datos al servidor central sea segura y sin errores mediante la aplicación de un método de corrección de errores. \\
+\hline
+\textbf{Descripción} & El nodo concentrador debe implementar un mecanismo o protocolo (ej. control de flujo, CRC) que permita la detección y corrección de errores durante la transmisión al servidor central, garantizando la integridad de los datos. \\
+\hline
+\textbf{Especificación} & El sistema debe garantizar que la transmisión sea segura y sin errores con algún método de conexión de errores, y deberá realizar una validación de la trama recibida por el servidor (ACK/NACK) para confirmar la entrega exitosa de los datos. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & Este requerimiento es la base técnica que soporta el requisito funcional de retransmisión en caso de fallo, mejorando la fiabilidad general del sistema. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RF17
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Retransmisión de Datos en Caso de Fallo de Conexión.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Gateway. \\
+\hline
+\textbf{Propósito} & Asegurar que los datos se retransmitan en caso de fallo de conexión hasta lograr su entrega exitosa al servidor. \\
+\hline
+\textbf{Descripción} & El sistema debe ser capaz de retransmitir los datos cada vez que se detecte un fallo de conexión con el servidor, hasta que la transmisión se realice con éxito. \\
+\hline
+\textbf{Especificación} & El sistema debe realizar retransmisiones automáticas de los datos en intervalos predefinidos si no recibe confirmación de entrega exitosa. La retransmisión debe continuar hasta que el servidor confirme la recepción exitosa de los datos. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La retransmisión de datos es crítica para asegurar que los datos no se pierdan en caso de fallos de comunicación, garantizando la integridad de la información. \\
+\hline
+\end{longtable}
+
+
+
+%%%%%%%%%%%%%%%     MODULO 3. SERVIDOR
+\subsubsection*{Módulo 3. Servidor}
+
+%   subsistema 1
+%%%%%%%%
+% RF18
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Recepción de Datos de Gateway.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Recepción de datos de gateway. \\
+\hline
+\textbf{Propósito} & Recibir los datos enviados por el gateway para su posterior organización y almacenamiento. \\
+\hline
+\textbf{Descripción} & El servidor debe ser capaz de recibir los datos transmitidos por el gateway desde los nodos sensores. \\
+\hline
+\textbf{Especificación} & El servidor debe ser capaz de recibir múltiples transmisiones de datos de manera periódica. Los datos deben ser almacenados en una base de datos estructurada para su posterior análisis. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La recepción de datos confiable es esencial para evitar pérdidas de información que puedan afectar el análisis posterior. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RF19
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Organización de Datos Recibidos.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Recepción de  datos de Gateway. \\
+\hline
+\textbf{Propósito} & Organizar los datos recibidos para su almacenamiento y análisis eficiente. \\
+\hline
+\textbf{Descripción} & El servidor debe organizar los datos procesados de manera estructurada, clasificando los datos por tipo de medición, fecha, hora y otros metadatos. \\
+\hline
+\textbf{Especificación} & Los datos deben ser organizados en una base de datos estructurada que permita consultas rápidas y eficientes. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La organización eficiente de los datos permite un acceso rápido y preciso para análisis futuros y toma de decisiones. \\
+\hline
+\end{longtable}
+ 
+%   subsistema 2 proceso de imagenes
+%%%%%%%%
+% RF20
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Procesamiento de Imágenes para Cuantificación de Área de Basura.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Procesamiento de Imágenes. \\
+\hline
+\textbf{Propósito} & Procesar las imágenes enviadas por el nodo concentrador, aplicar algoritmos de visión artificial y generar un valor numérico que represente el área cubierta por los cúmulos de residuos flotantes. \\
+\hline
+\textbf{Descripción} & El sistema debe procesar las imágenes enviadas desde el nodo concentrador, aplicar algoritmos de visión artificial para detectar cúmulos de residuos sólidos flotantes, y calcular el área que cubren en la superficie del agua. El resultado debe ser un metadato numérico que se adjuntará a la imagen procesada. \\
+\hline
+\textbf{Especificación} & El sistema debe ser capaz de procesar imágenes, aplicar algoritmos de visión artificial (ej. YOLOv8 o segmentación) para detectar los cúmulos de residuos flotantes y generar un metadato numérico del área cubierta para su análisis y posterior almacenamiento. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La captura precisa de imágenes es esencial para la posterior cuantificación del área de residuos flotantes en el servidor. El uso de la imagen original de 640×640 requiere una alta eficiencia de compresión en el nodo sensor para mitigar el riesgo de sobrecarga de la red inalámbrica de baja potencia. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RF21
+%%%%%%%%
+%   subsistema 3. Almacenamiento en base de datos
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Almacenamiento Persistente de Datos y Metadatos.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Almacenamiento en Base de Datos. \\
+\hline
+\textbf{Propósito} & Almacenar los datos y metadatos de los sensores y las imágenes de residuos en una base de datos para su posterior consulta. \\
+\hline
+\textbf{Descripción} & El servidor debe almacenar los datos procesados y organizados de los sensores y las imágenes de residuos flotantes de manera estructurada en una base de datos organizada. \\
+\hline
+\textbf{Especificación} & Los datos y metadatos deben ser almacenados de manera eficiente, garantizando la integridad y accesibilidad de la información histórica para su consulta. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & El almacenamiento adecuado de los datos es fundamental para su acceso a largo plazo y para el análisis posterior. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RF22
+%%%%%%%%
+%   subsistema 4. API/Comunicación (Enlace con página web)
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Exposición de Datos y Servicios Mediante API (RESTful).} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - API/Comunicación (Enlace con página web). \\
+\hline
+\textbf{Propósito} & Gestionar la comunicación entre el servidor y la página web, permitiendo la recuperación eficiente de los datos procesados. \\
+\hline
+\textbf{Descripción} & El servidor debe proporcionar una API para que la página web acceda a los datos de calidad del agua y las imágenes de residuos flotantes. \\
+\hline
+\textbf{Especificación} & La API RESTful debe permitir el acceso eficiente a los datos y imágenes almacenados en el servidor. La comunicación debe ser segura (utilizando HTTPS). \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La integración con la página web es esencial para que los usuarios puedan consultar los datos sobre el estado del agua y los residuos flotantes. \\
+\hline
+\end{longtable}
+
+%%%%%%%%%%      MODULO 3         %%%%%%%%%%%%%%%
+\subsubsection*{Módulo 4. Página Web}
+
+%%%%%%%%
+% RF23
+%%%%%%%%
+%       subistema 1. Conexion al servidor API backend
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Consumo de Servicios del Servidor API.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Conexión al Servidor (API/Backend). \\
+\hline
+\textbf{Propósito} & Gestionar la comunicación entre la página web y el servidor para la recuperación y visualización de datos. \\
+\hline
+\textbf{Descripción} & El subsistema debe gestionar la comunicación entre el frontend (página web) y el backend (servidor). Utilizará una API RESTful para recuperar los datos de calidad del agua y los residuos sólidos, enviando solicitudes y respondiendo con la información necesaria para la visualización en la página web. \\
+\hline
+\textbf{Especificación} & La API RESTful debe permitir que la página web solicite y reciba datos del servidor de forma eficiente y segura. La conexión debe ser segura (HTTPS), y el backend debe manejar las solicitudes de datos, procesarlas y responder con la información organizada y estructurada. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La seguridad en la comunicación entre la página web y el servidor es fundamental para proteger los datos y garantizar la privacidad. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RF24
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Visualización y Presentación Interactiva de Datos (Frontend).} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Interfaz de usuario (Frontend). \\
+\hline
+\textbf{Propósito} & Permitir la visualización clara y atractiva de los datos de calidad del agua y residuos sólidos flotantes en la página web, incluyendo la generación de gráficos interactivos. \\
+\hline
+\textbf{Descripción} & La página web debe presentar los datos de forma clara, utilizando gráficos interactivos, tablas y representaciones visuales de los datos obtenidos. El diseño debe ser responsive y accesible desde diferentes dispositivos (móviles, tabletas y computadoras). \\
+\hline
+\textbf{Especificación} & Los gráficos deben ser actualizados dinámicamente sin necesidad de recargar la página. La visualización debe ser clara y los usuarios deben poder interactuar con los gráficos para obtener información detallada de los datos (ej. mediante tooltips o filtros). \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La usabilidad es clave para garantizar que los usuarios puedan acceder a la información sin dificultades, por lo que la interactividad y la adaptabilidad de la página son esenciales. \\
+\hline
+\end{longtable}
+
+
+
+%%%%%%%%
+% RF25
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{\RF} & \textbf{Permitir la Visualización de Datos Históricos.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Interfaz de usuario (Frontend). \\
+\hline
+\textbf{Propósito} & Permitir que los usuarios visualicen los datos históricos de calidad del agua y residuos sólidos flotantes. \\
+\hline
+\textbf{Descripción} & La página web debe permitir que los usuarios visualicen los datos históricos de los parámetros de calidad del agua y los residuos sólidos flotantes a lo largo del tiempo con la capacidad de interactuar con las fechas de monitoreo. \\
+\hline
+\textbf{Especificación} & Los usuarios deben poder acceder a los datos históricos mediante una interfaz que les permita ver cómo evolucionaron los parámetros de calidad del agua y los residuos flotantes. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La visualización de los datos históricos es crucial para realizar un análisis de tendencias y evaluar la evolución de la calidad del agua y la presencia de residuos. \\
+\hline
+\end{longtable}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%       Requerimientos NO FUNCIONALES       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Requerimientos No Funcionales}
+Los requerimientos no funcionales definen los criterios de calidad y restricciones del sistema. A continuación, se presenta un resumen de sus títulos:
+
+\subsubsection*{Módulo 1. Red Inalámbrica de Sensores}
+\begin{itemize}
+    \item \textbf{RNF01}: Precisión de los Sensores.
+    \item \textbf{RNF02}: Certificación IP de la Carcasa del Nodo Sensor.
+    \item \textbf{RNF03}: Calidad de la Imagen.
+    \item \textbf{RNF04}: Bajo Consumo Energético del Microcontrolador.
+    \item \textbf{RNF05}: Compatibilidad con Comunicaciones de Largo Alcance.
+    \item \textbf{RNF06}: Gestión de Memoria para Evitar Pérdida de Datos.
+    \item \textbf{RNF07}: Fiabilidad de la Comunicación Inalámbrica.
+    \item \textbf{RNF08}: Consumo Energético del Transceptor.
+    \item \textbf{RNF09}: Eficiencia Energética de la Fuente de Alimentación.
+\end{itemize}
+
+\subsubsection*{Módulo 2. Nodo Concentrador}
+\begin{itemize}
+    \item \textbf{RNF10}: Fiabilidad de la Recepción de Datos.
+    \item \textbf{RNF11}: Eficiencia en el Almacenamiento Temporal.
+    \item \textbf{RNF12}: Organización de Datos para Transmisión.
+    \item \textbf{RNF13}: Prevención de Sobrecargas o Pérdidas por Desbordamiento de Buffer.
+    \item \textbf{RNF14}: Fiabilidad en el Reenvío de Datos al Servidor.
+\end{itemize}
+
+\subsubsection*{Módulo 3. Servidor}
+\begin{itemize}
+    \item \textbf{RNF15}: Validación Automática de Datos Recibidos.
+    \item \textbf{RNF16}: Optimización del Procesamiento y Trazabilidad del Algoritmo de Área de Basura.
+    \item \textbf{RNF17}: Acceso a Datos Históricos de al Menos un Año.
+    \item \textbf{RNF18}: Rendimiento y Seguridad de la API.
+\end{itemize}
+
+\subsubsection*{Módulo 4. Página Web}
+\begin{itemize}
+    \item \textbf{RNF19}: Accesibilidad y Responsividad de la Interfaz.
+    \item \textbf{RNF20}: Diseño Claro y Estético de la Interfaz.
+\end{itemize}
+
+
+\subsection*{Tablas de requerimientos no funcionales}
+%%%%%%%%%%      Modulo 1        %%%%%%%%%%%
+%   subsistema 1. Sensado de parametros de calidad del agua
+
+\subsubsection*{Módulo 1. Red Inalámbrica de Sensores}
+
+%%%%%%%%
+% RNF01
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF01} & \textbf{Precisión de los Sensores.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Sensado de Parámetros de Calida del Agua. \\
+\hline
+\textbf{Propósito} & Garantizar que los sensores proporcionen mediciones precisas y fiables de los parámetros de calidad del agua. \\
+\hline
+\textbf{Descripción} & Los sensores deben ser capaces de medir los parámetros de calidad del agua: pH, oxígeno disuelto, turbidez, conductividad, con un margen de error mínimo en la medición, cumpliendo con las normas de precisión establecidas (NOM). \\
+\hline
+\textbf{Especificación} & Los sensores deben cumplir con la precisión adecuada. El margen de error máximo debe ser del 2\% para turbidez y de ±0.1 unidades para el pH, y estar dentro de los límites de las Normas Oficiales Mexicanas (NOM). \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La precisión de los sensores es fundamental para asegurar que los datos obtenidos sean confiables y útiles para la toma de decisiones. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RNF02
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF02} & \textbf{Certificación IP de la Carcasa del Nodo Sensor.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Sensado de Parámetros de Calidad del Agua. \\
+\hline
+\textbf{Propósito} & Garantizar que la carcasa del nodo sensor tenga una clasificación de protección IP adecuada para soportar inmersión en cuerpos de agua. \\
+\hline
+\textbf{Descripción} & La carcasa del nodo sensor debe contar con una clasificación IP adecuada que garantice su resistencia al agua y su capacidad para operar bajo condiciones de inmersión en cuerpos de agua, como ríos, arroyos y lagos, considerando pesos y ubicación de los componentes. \\
+\hline
+\textbf{Especificación} & La carcasa debe tener al menos una clasificación IP68, lo que asegura que el nodo sensor sea completamente impermeable al agua y resistente al polvo. La boya debe ser capaz de flotar sin que la funcionalidad de los componentes se vea comprometida. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La resistencia al agua es esencial para garantizar que el nodo sensor funcione correctamente en entornos acuáticos sin riesgo de fallos debido a la exposición al agua o la humedad. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RNF03
+%%%%%%%%
+%       subsistema 2. Camara
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF03} & \textbf{Calidad de la Imagen.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Cámara. \\
+\hline
+\textbf{Propósito} & Garantizar que la cámara capture imágenes de la calidad necesaria para el cálculo preciso del área de residuos flotantes en el servidor. \\
+\hline
+\textbf{Descripción} & La cámara debe ser capaz de capturar imágenes nítidas y claras bajo diversas condiciones de iluminación y con la resolución 640×640 necesaria para el análisis de segmentación. \\
+\hline
+\textbf{Especificación} & La cámara debe ser capaz de capturar imágenes con una resolución mínima de 640×640 y una calidad de imagen que permita identificar claramente los cúmulos de residuos flotantes en el agua. La calidad de la imagen debe ser consistente incluso con variaciones de luz diurna. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La precisión en la captura de imágenes es esencial para una detección precisa de los residuos flotantes y para garantizar la calidad del análisis posterior. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RNF04
+%%%%%%%%
+%       subssitema 3. Microcontrolador
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF04} & \textbf{Bajo Consumo Energético del Microcontrolador.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema de Microcontrolador. \\
+\hline
+\textbf{Propósito} & Optimizar el consumo energético del microcontrolador para maximizar la duración de la batería. \\
+\hline
+\textbf{Descripción} & El microcontrolador debe operar con bajo consumo energético, utilizando técnicas de bajo consumo durante períodos de inactividad (como el modo reposo). \\
+\hline
+\textbf{Especificación} & El microcontrolador debe consumir no más de 100 mA en su modo activo y menos de 5 mA en el modo de reposo. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & El bajo consumo energético es crucial para asegurar la autonomía del sistema, especialmente en entornos remotos. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RNF05
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF05} & \textbf{Compatibilidad con Comunicaciones de Largo Alcance.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema de Microcontrolador. \\
+\hline
+\textbf{Propósito} & Garantizar que el microcontrolador sea compatible con tecnologías de comunicación de largo alcance. \\
+\hline
+\textbf{Descripción} & El microcontrolador debe ser compatible con tecnologías de comunicación de largo alcance, para garantizar la transmisión eficiente de datos entre nodos y el servidor central en áreas remotas. \\
+\hline
+\textbf{Especificación} & El microcontrolador debe ser compatible con LoRa o tecnologías similares como WiFI de bajo consumo y largo alcance, garantizando una transmisión de datos confiable hasta distancias de 50 m en entornos abiertos. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La compatibilidad con comunicaciones de largo alcance es clave para conectar los nodos sensores en áreas remotas sin necesidad de infraestructura de red adicional. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RNF06
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF06} & \textbf{Gestión de Memoria para Evitar Pérdida de Datos.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema de Microcontrolador. \\
+\hline
+\textbf{Propósito} & Garantizar que no se pierdan datos de los sensores ni la imagen única antes de ser transmitidos al servidor. \\
+\hline
+\textbf{Descripción} & El microcontrolador debe gestionar eficientemente la memoria para almacenar los datos temporalmente hasta su transmisión al servidor central, asegurando que no haya pérdida de información. \\
+\hline
+\textbf{Especificación} & La memoria interna o externa debe ser suficiente para almacenar los datos de los sensores y al menos una imagen de 640×640 antes de la transmisión. El sistema debe asegurar que esta capacidad sea suficiente para un ciclo de operación completo sin desbordamiento. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La gestión de memoria es crucial para asegurar que los datos no se pierdan antes de ser transmitidos, lo que podría comprometer el análisis posterior. \\
+\hline
+\end{longtable}
+
+
+%%%%%%%%
+% RNF07
+%%%%%%%%
+%       subsistema 4. Transceptor
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF07} & \textbf{Fiabilidad de la Comunicación Inalámbrica.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Transceptor. \\
+\hline
+\textbf{Propósito} & Asegurar que los datos transmitidos entre los nodos sensores y el nodo concentrador lleguen de manera confiable y sin pérdidas. \\
+\hline
+\textbf{Descripción} & La comunicación inalámbrica entre nodos debe ser estable y confiable, garantizando que los datos transmitidos no se pierdan ni corran el riesgo de ser corrompidos. \\
+\hline
+\textbf{Especificación} & El sistema debe operar con una fiabilidad de transmisión mínima del 99\%, y los datos deben ser enviados sin pérdidas a través de protocolos de comunicación confiables. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La confiabilidad de la red inalámbrica es crítica, especialmente en entornos remotos, para asegurar que los datos siempre lleguen al nodo concentrador sin interrupciones. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RNF08
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF08} & \textbf{Consumo Energético del Transceptor.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Transceptor. \\
+\hline
+\textbf{Propósito} & Minimizar el consumo energético del transceptor para garantizar un funcionamiento autónomo durante períodos largos sin necesidad de recarga. \\
+\hline
+\textbf{Descripción} & El transceptor debe operar con un bajo consumo de energía durante el proceso de transmisión de datos, utilizando protocolos de comunicación de bajo consumo energético. \\
+\hline
+\textbf{Especificación} & El transceptor debe optimizar su consumo energético, limitando la transmisión de datos solo cuando sea necesario. El consumo de energía no debe exceder los 200 mA durante la transmisión de datos. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & El bajo consumo energético es fundamental para maximizar la autonomía de los nodos en entornos remotos donde la energía es limitada. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RNF09
+%%%%%%%%
+%       subsistema 5. Fuente de Alimentacion
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF09} & \textbf{Eficiencia Energética de la Fuente de Alimentación.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Fuente de Alimentación. \\
+\hline
+\textbf{Propósito} & Asegurar que la fuente de alimentación proporcione energía de manera eficiente, con la capacidad de recargar la batería utilizando energía solar. \\
+\hline
+\textbf{Descripción} & La fuente de alimentación debe ser capaz de proporcionar suficiente energía para todos los componentes del nodo, optimizando la duración de la batería y permitiendo su recarga utilizando energía solar. \\
+\hline
+\textbf{Especificación} & El panel solar debe ser capaz de recargar completamente la batería en aproximadamente 6 horas de luz solar directa, y la batería debe soportar al menos 24 horas de funcionamiento sin recarga. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & El consumo eficiente de energía es crucial para garantizar el funcionamiento autónomo de los nodos en entornos remotos. La recarga solar optimiza la sostenibilidad del sistema. \\
+\hline
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%       Modulo 2        %%%%%%%%%%%%%%%%%%
+%       subsistema 1. Recepcion de datos de nodos sensores
+\subsubsection*{Módulo 2. Nodo concentrador}
+
+%%%%%%%%
+% RNF10
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF10} & \textbf{Fiabilidad de la Recepción de Datos.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Recepción de datos de nodos concentradores. \\
+\hline
+\textbf{Propósito} & Garantizar que los datos recibidos de los nodos sensores lleguen de manera confiable y sin pérdida de información. \\
+\hline
+\textbf{Descripción} & El subsistema debe ser capaz de recibir los datos transmitidos desde los nodos sensores de manera eficiente y sin pérdidas de información, incluso si los nodos están enviando datos de forma simultánea. \\
+\hline
+\textbf{Especificación} & La recepción de datos debe garantizar que no haya pérdida de paquetes ni interrupciones en la transmisión, y debe permitir la recepción de múltiples transmisiones de datos periódicas sin errores. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La fiabilidad es esencial para evitar la pérdida de datos, lo cual podría afectar el análisis y la toma de decisiones. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RNF11
+%%%%%%%%
+%       subsistema 2. Almacenamiento temporal y organización de datos
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF11} & \textbf{Eficiencia en el Almacenamiento Temporal.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Almacenamiento temporal y organización de datos. \\
+\hline
+\textbf{Propósito} & Asegurar que los datos sean almacenados temporalmente de forma eficiente y sin sobrecargar el buffer del nodo concentrador. \\
+\hline
+\textbf{Descripción} & El subsistema debe ser capaz de almacenar los datos temporalmente en un buffer de manera eficiente para evitar que se pierdan o se sobrecargue el sistema. Los datos deben estar disponibles para ser procesados y enviados al servidor en el momento adecuado. \\
+\hline
+\textbf{Especificación} & El buffer del nodo concentrador debe tener suficiente capacidad para almacenar los datos de al menos 24 horas de monitoreo continuo. Además, el almacenamiento temporal debe tener una latencia mínima para garantizar que los datos se transmitan rápidamente al servidor una vez procesados. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La gestión eficiente del almacenamiento temporal es crucial para asegurar que no haya pérdida de datos y que el sistema opere sin interrupciones, incluso cuando los nodos sensores envíen datos de manera periódica. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RNF12
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF12} & \textbf{Organización de Datos para Transmisión.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema de Nodo Concentrador. \\
+\hline
+\textbf{Propósito} & Organizar los datos de forma eficiente para su transmisión posterior al servidor. \\
+\hline
+\textbf{Descripción} & Los datos almacenados temporalmente deben ser organizados en una estructura que permita su transmisión rápida y eficiente al servidor. La organización de los datos debe facilitar su acceso y reducir el tiempo de procesamiento. \\
+\hline
+\textbf{Especificación} & Los datos deben ser organizados en una estructura jerárquica o por categorías que faciliten su transmisión y procesamiento posterior, con un tiempo de acceso no mayor a 5 segundos. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & Una buena organización de los datos permite reducir la latencia de transmisión y asegura que los datos se mantengan estructurados y coherentes. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RNF13
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF13} & \textbf{Prevención de Sobrecargas o Pérdidas por Desbordamiento de Buffer.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema de Gestión de Memoria. \\
+\hline
+\textbf{Propósito} & Evitar la sobrecarga o pérdida de datos debido a desbordamientos de buffer en el sistema. \\
+\hline
+\textbf{Descripción} & El sistema debe estar diseñado para prevenir sobrecargas y desbordamientos de buffer en cualquier etapa del proceso de almacenamiento temporal de datos, garantizando que no haya pérdidas de información debido a la incapacidad de la memoria para manejar grandes cantidades de datos. \\
+\hline
+\textbf{Especificación} & El sistema debe implementar mecanismos de gestión de memoria que aseguren que el buffer no se sobrecargue, como gestión dinámica de buffer o descarga automática de los datos cuando se acerca el límite de capacidad. Además, el sistema debe ser capaz de alertar cuando se detecte que el buffer está a punto de desbordarse. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La prevención de sobrecarga o pérdidas de datos es crucial para mantener la integridad de la información recopilada y para evitar fallos en el sistema de monitoreo. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RNF14
+%%%%%%%%
+%       subsistema 3. Gateway
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF14} & \textbf{Fiabilidad en el Reenvío de Datos al Servidor.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Gateway. \\
+\hline
+\textbf{Propósito} & Garantizar que los datos procesados y organizados sean transmitidos al servidor central sin pérdidas ni errores. \\
+\hline
+\textbf{Descripción} & El subsistema Gateway debe ser capaz de transmitir los datos organizados desde el nodo concentrador al servidor central a través de una red confiable. La transmisión debe ser segura y libre de errores. \\
+\hline
+\textbf{Especificación} & El Gateway debe transmitir datos sin pérdidas a través de una red confiable, garantizando que la integridad de los datos se mantenga durante todo el proceso de transmisión. El tiempo de transmisión debe ser mínimo, asegurando que los datos lleguen al servidor sin retrasos significativos. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La fiabilidad de la transmisión es crucial para asegurar que los datos sean recibidos por el servidor central y puedan ser procesados y almacenados sin errores. \\
+\hline
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%% Modulo 3. Servidor
+
+%%%%%%%%
+% RNF15
+%%%%%%%%
+%       subsistema 1. Recepcion de datos de gateway
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF15} & \textbf{Validación Automática de Datos Recibidos.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema - Recepción de datos Gateway. \\
+\hline
+\textbf{Propósito} & Asegurar que los datos recibidos estén en el formato adecuado antes de ser procesados. \\
+\hline
+\textbf{Descripción} & El sistema debe validar automáticamente que los datos entrantes cumplan con la estructura JSON, los tipos de datos esperados, y que los campos obligatorios estén presentes y completos. \\
+\hline
+\textbf{Especificación} & Los datos deben ser validados automáticamente para asegurarse de que el formato JSON es correcto, los tipos de datos coinciden con los especificados y los campos obligatorios están presentes. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La validación asegura que solo datos correctos y estructurados sean procesados, evitando errores en el análisis y almacenamiento. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RNF16
+%%%%%%%%
+%       subsistema 2. Procesamiento de imagenes 
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF16} & \textbf{Optimización del Procesamiento y Trazabilidad del Algoritmo de Área de Basura.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema de Visión Artificial. \\
+\hline
+\textbf{Propósito} & Garantizar que las imágenes procesadas sean almacenadas de manera eficiente y que el algoritmo de cuantificación de área sea trazable para auditoría y mejora continua. \\
+\hline
+\textbf{Descripción} & Las imágenes procesadas deben ser almacenadas en un formato comprimido (como JPEG o PNG) sin perder la calidad necesaria para el análisis. El sistema debe asegurar la trazabilidad del algoritmo de segmentación utilizado para calcular el área de basura. \\
+\hline
+\textbf{Especificación} & Las imágenes deben ser almacenadas en formato comprimido sin pérdida de calidad significativa para el análisis, y los resultados de la segmentación deben incluir un nivel de confianza (probabilidad$>$0.85) para filtrar resultados poco fiables. Además, el sistema debe incluir un control de versiones para el algoritmo de cuantificación de área, lo que permite la trazabilidad de mejoras. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La optimización de la imagen y la trazabilidad de la versión del algoritmo de cuantificación son esenciales para asegurar la fiabilidad de la métrica de área calculada a lo largo del tiempo. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RNF17
+%%%%%%%%
+%       subsistema 3. 
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF17} & \textbf{Acceso a Datos Históricos de al Menos un Año.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema de Base de Datos. \\
+\hline
+\textbf{Propósito} & Permitir el acceso a los datos históricos de al menos un año para su análisis y consulta. \\
+\hline
+\textbf{Descripción} & El sistema debe garantizar que los datos históricos (como pH, turbidez, temperatura, etc.) estén disponibles para su consulta en un período de al menos un año. Este acceso debe realizarse mediante consultas eficientes a la base de datos. \\
+\hline
+\textbf{Especificación} & Los datos históricos deben ser almacenados y accesibles durante al menos un año, y las consultas deben ser capaces de recuperar datos de manera eficiente (menos de 2 segundos por consulta). \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RNF18
+%%%%%%%%
+%       subsistema 4. 
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF18} & \textbf{Rendimiento y Seguridad de la API.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema de API. \\
+\hline
+\textbf{Propósito} & Garantizar el rendimiento, seguridad y capacidad de la API para manejar múltiples usuarios concurrentes. \\
+\hline
+\textbf{Descripción} & La API debe responder en menos de 1 segundo en condiciones normales. Además, debe cifrar toda la comunicación entre el servidor y la página web (por ejemplo, mediante HTTPS) y debe soportar al menos 50 usuarios concurrentes sin que el rendimiento se degrade. \\
+\hline
+\textbf{Especificación} & La API debe responder en menos de 1 segundo en condiciones normales. La comunicación entre el servidor y la página web debe estar cifrada (HTTPS) y la API debe ser capaz de soportar al menos 50 usuarios concurrentes sin que se degrade el rendimiento. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%   Modulo 4. Página Web
+
+%%%%%%%%
+% RNF19
+%%%%%%%%
+%       subsistema 2
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF19} & \textbf{Accesibilidad y Responsividad de la Interfaz.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema de Interfaz de Usuario. \\
+\hline
+\textbf{Propósito} & Asegurar que la interfaz sea accesible y responsiva en computadoras, brindando una experiencia de usuario óptima. \\
+\hline
+\textbf{Descripción} & La interfaz debe ser totalmente accesible en computadoras de escritorio y portátiles. Además, debe ajustarse automáticamente a diferentes tamaños de pantalla para asegurar que el contenido sea visible y fácil de usar en todos los dispositivos. \\
+\hline
+\textbf{Especificación} & La interfaz debe ser responsiva y adaptarse a pantallas de tamaños diversos, asegurando que el diseño se ajuste correctamente en computadoras. El contenido debe ser legible y funcional en pantallas pequeñas o grandes sin perder usabilidad. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & La responsividad es esencial para asegurar que los usuarios puedan acceder al sistema de forma eficiente desde computadoras, independientemente del tamaño de la pantalla. \\
+\hline
+\end{longtable}
+
+%%%%%%%%
+% RNF20
+%%%%%%%%
+\begin{longtable}{|l|p{12cm}|}
+\hline
+\textbf{RNF20} & \textbf{Diseño Claro y Estético de la Interfaz.} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Versión} & 1.0 - Fecha de versión: 06/06/2025 \\
+\hline
+\textbf{Autor} & Equipo de Desarrollo \\
+\hline
+\textbf{Fuente} & Documentación técnica del subsistema de Interfaz de Usuario. \\
+\hline
+\textbf{Propósito} & Garantizar que la interfaz sea visualmente clara, estética y agradable para el usuario. \\
+\hline
+\textbf{Descripción} & La interfaz debe ser diseñada con un estilo limpio, intuitivo y funcional, donde los elementos sean fáciles de encontrar y utilizar. El diseño debe adaptarse a las necesidades del usuario, proporcionando colores y tipografías que mejoren la legibilidad y la experiencia general. \\
+\hline
+\textbf{Especificación} & El sistema debe tener un diseño visual claro, con una estructura lógica de navegación y un estilo agradable que facilite el uso y la comprensión del sistema. La paleta de colores debe ser coherente y accesible, asegurando un contraste adecuado para facilitar la lectura y la interacción. \\
+\hline
+\textbf{Prioridad} & Alta \\
+\hline
+\textbf{Comentarios} & Un diseño claro y estético es clave para una experiencia de usuario exitosa, reduciendo la curva de aprendizaje y aumentando la satisfacción del usuario. \\
+\hline
+\end{longtable}

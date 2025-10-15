@@ -1,0 +1,56 @@
+\renewcommand{\arraystretch}{1.4}
+\begin{longtable}{|p{5cm}|c|c|}
+\caption{Consumo eléctrico de componentes}
+\label{tab:componentes_energia} \\
+\hline
+\textbf{Componente} & \textbf{Voltaje} & \textbf{Corriente} \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{Componente} & \textbf{Voltaje} & \textbf{Corriente} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{3}{r}{\textit{Continúa en la siguiente página}} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+\multicolumn{3}{|c|}{\textbf{Transceptor}} \\
+\hline
+\multirow{6}{*}{Quectel FGH100MHAAMD}& \multirow{6}{*}{3.3V} & \textbf{Modo Tx}\\
+     &  & 54 \unit{\mA} \\ \cline{3-3}
+     &  & \textbf{Modo RX} \\
+     &  & 43 \unit{\mA} \\ \cline{3-3}
+     &  & \textbf{Modo Sleep} \\
+     &  & $<10$ \unit{\uA} \\
+\hline
+
+\multicolumn{3}{|c|}{\textbf{Microcontrolador}} \\
+\hline
+\multirow{4}{*}{ESP32-S3R8} & \multirow{4}{*}{3.3V} & \textbf{Modo activo} \\
+   &  & 91 \unit{\mA} \\ \cline{3-3}
+   &  & \textbf{Modo Sleep} \\
+   &  & 240 \unit{\uA} \\
+\hline
+
+\multicolumn{3}{|c|}{\textbf{Sensores}} \\
+\hline
+Sensor de pH (Gravity V2)                & 5V         & 10 \unit{\mA} \\
+Sensor de oxígeno disuelto               & 5V         & 10–50 \unit{\mA} \\
+Sensor de turbidez                       & 5V         & 20–30 \unit{\mA} \\
+Sensor de conductividad eléctrica        & 5V         & 30–40 \unit{\mA} \\
+Sensor de temperatura (DS18B20)          & 3.3 - 5V   & 4 \unit{\mA} \\
+\hline
+
+\multicolumn{3}{|c|}{\textbf{Cámara}} \\
+\hline
+\multirow{4}{*}{Cámara OV2640}           & \multirow{4}{*}{3.3 - 5V} & \textbf{Active}  \\
+& & 140 \unit{\mA}\\
+                                         &                           & \textbf{Standby}  \\
+& & 20 \unit{\uA} \\                                        
+\hline
+\end{longtable}

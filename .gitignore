@@ -1,0 +1,40 @@
+# === Archivos temporales de compilación ===
+*.aux
+*.bbl
+*.blg
+*.brf
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.run.xml
+*.bcf
+
+# === Archivos PDF o generados ===
+*.pdf
+
+# === Archivos de backup o auto guardado ===
+*.bak
+*.tmp
+*.swp
+*~
+*.sav
+
+# === Archivos de configuración locales (VSCode, TeXstudio, etc.) ===
+.vscode/
+*.latexmkrc
+
+# === Archivos de cache o de sistema ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === Carpetas temporales ===
+_bu_

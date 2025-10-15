@@ -1,0 +1,159 @@
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3} % Reducido para ahorrar espacio
+    \small % Tamaño de fuente reducido
+    \begin{tabular}{
+        |p{2.4cm}  % Columna 1: Características
+        |p{1.7cm}  % Columna 2: LilyGO
+        |p{1.5cm}  % Columna 3: ESP32
+        |p{1.7cm}  % Columna 4: ESP8266
+        |p{1.5cm}  % Columna 5: RPi Pico
+        |p{1.6cm}  % Columna 6: RPi 4/Zero
+        |p{1.4cm}  % Columna 7: STM32
+        |p{1.4cm}| % Columna 8: Arduino
+    }
+    \hline
+    \rotatebox{90}{\textbf{Característica}} 
+        & \rotatebox{90}{\textbf{LilyGO T-HaLow}} 
+        & \rotatebox{90}{\textbf{ESP32}}
+        & \rotatebox{90}{\textbf{ESP8266}} 
+        & \rotatebox{90}{\textbf{Raspberry Pi Pico}} 
+        & \rotatebox{90}{\textbf{RPi 4/Zero 2 W}} 
+        & \rotatebox{90}{\textbf{STM32F103}} 
+        & \rotatebox{90}{\textbf{Arduino Uno}} \\ 
+    \hline
+    
+    Arquitectura 
+        & ESP32-H2 
+        & Xtensa dual 
+        & Xtensa single 
+        & Cortex M0+ 
+        & Cortex A72/A53 
+        & Cortex M3 
+        & AVR 8-bit \\ 
+    \hline
+    
+    WiFi 
+        & HaLow 
+        & 2.4GHz 
+        & 2.4GHz 
+        & No 
+        & Sí 
+        & No 
+        & No \\ 
+    \hline
+    
+    Bluetooth 
+        & BLE 
+        & Classic + BLE 
+        & No 
+        & No 
+        & Sí 
+        & No 
+        & No \\ 
+    \hline
+    
+    Largo alcance 
+        & Sí 
+        & No 
+        & No 
+        & No 
+        & No 
+        & No 
+        & No \\ 
+    \hline
+    
+    RAM 
+        & 320KB 
+        & 520KB
+	& 160KB 
+        & 264KB 
+        & 512MB+ 
+        & 20KB 
+        & 2KB \\ 
+    \hline
+    
+    Flash 
+        & 4MB 
+        & 4MB 
+        & 4MB 
+        & 2MB 
+        & 16GB+ 
+        & 64-128KB 
+        & 32KB \\ 
+    \hline
+    
+    OS 
+        & FreeRTOS 
+        & FreeRTOS 
+        & Bare-metal 
+        & Bare-metal 
+        & Linux 
+        & Bare-metal 
+        & Bare-metal \\ 
+    \hline
+    
+    Procesamiento 
+        & Medio-Alto 
+        & Alto 
+        & Medio 
+        & Medio 
+        & Muy alto 
+        & Medio 
+        & Muy bajo \\ 
+    \hline
+    
+    Visión AI 
+        & Básica 
+        & Básica 
+        & No 
+        & No 
+        & OpenCV 
+        & No 
+        & No \\ 
+    \hline
+    
+    Costo 
+        & \$20-30 
+        & \$8-15 
+        & \$3-6 
+        & \$4-7 
+        & \$35-80 
+        & \$3-5 
+        & \$20 \\ 
+    \hline
+    
+    Sensores 
+        & Alta 
+        & Alta 
+        & Media 
+        & Alta 
+        & Alta 
+        & Media 
+        & Media \\ 
+    \hline
+    
+    Ventajas 
+        & Bajo consumo,Largo alcance 
+        & Bajo costo, Soporte robusto 
+        & Muy barato 
+        & Muy barato 
+        & Muy potente 
+        & Bajo costo, Robusto 
+        & Fácil uso \\ 
+    \hline
+    
+    Desventajas 
+        & \shortstack{Limitado\\visión AI} 
+        & \shortstack{Consumo\\medio} 
+        & \shortstack{Poca\\RAM/CPU} 
+        & Sin WiFi 
+        & \shortstack{Alto\\consumo} 
+        & \shortstack{Limitada\\expansión} 
+        & \shortstack{Poca\\memoria} \\ 
+    \hline
+    \end{tabular}
+    
+    \caption{Comparativa de microcontroladores para el sistema de monitoreo}
+    \label{tab:comparativa_microcontroladores}
+\end{table}

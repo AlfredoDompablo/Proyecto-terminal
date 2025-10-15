@@ -1,0 +1,683 @@
+\section{Análisis de Alternativas Tecnológicas}
+
+\subsection{Comparativa de Sensores de Calidad del Agua}
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{
+        |p{4cm}       
+        |p{3cm}      
+        |p{3cm}       
+        |p{3cm}|      
+    }
+    \hline
+    \textbf{Característica} 
+        & \textbf{Gravity: Analog pH Meter V2} 
+        & \textbf{Gravity: Industrial Analog pH Meter Pro Kit V2} 
+        & \textbf{Atlas Scientific EZO-pH™} \\ 
+    \hline
+    
+    Rango de medición 
+        & 0--14 pH
+        & 0--14 pH 
+        & 0--14 pH \\ 
+    \hline
+    
+    Precisión 
+        & $\pm$0.1 pH @ 25°C 
+        & $\pm$0.1 pH @ 25°C 
+        & $\pm$0.002 pH \\ 
+    \hline
+    
+    Tipo de salida 
+        & Analógica (0--3.0 V) 
+        & Analógica (0--3.0 V) 
+        & UART, I2C, Analógica \\ 
+    \hline
+    
+    Voltaje de operación 
+        & 3.3--5.5 V 
+        & 3.3--5.5 V 
+        & 3.3--5.5 V \\ 
+    \hline
+    
+    Compatibilidad ESP32 
+        & Sí (ADC) 
+        & Sí (ADC) 
+        & Sí (UART/I2C/ADC) \\ 
+    \hline
+    
+    Tipo de sonda 
+        & Grado laboratorio 
+        & Grado industrial 
+        & Grado laboratorio/industrial \\ 
+    \hline
+    
+    Longitud del cable de sonda 
+        & 100 cm 
+        & 500 cm 
+        & 100 cm (extensible) \\ 
+    \hline
+    
+    Diseñado para monitoreo continuo 
+        & No 
+        & Sí 
+        & Sí \\ 
+    \hline
+    
+    Vida útil 
+        & $>$0.5 años (Dependiendo frecuencia de uso)
+        & $>$0.5 años (uso 24/7) 
+        & $>$2.5 años \\ 
+    \hline
+    
+    Tiempo de respuesta 
+        & $<$2 min 
+        & $<$1 min 
+        & $<$1 min \\ 
+    \hline
+    
+    Costo aproximado 
+        & \$39.50 USD 
+        & \$64.90 USD 
+        & \$159.99 USD  \\ 
+    \hline
+    
+    Ventajas 
+        & Económico, fácil de usar 
+        & Resistente, ideal para ambientes hostiles 
+        & Alta precisión, múltiples interfaces de comunicación \\ 
+    \hline
+    
+    Desventajas 
+        & No apto para uso continuo 
+        & Mayor costo que versión V2 
+        & Muy costoso y compleja integración \\ 
+    \hline
+    \end{tabular}
+    
+    \caption{Comparativa de sensores para medición de pH.}
+    \label{tab:sensores_ph}
+\end{table}
+
+
+
+Para la medición de pH, se han considerado dos alternativas principales de sensores de la línea Gravity de DFRobot: el \textit{Analog pH Meter V2} y el \textit{Industrial Analog pH Meter Pro Kit V2}. Ambos dispositivos ofrecen un rango de medición de 0 a 14 pH y una precisión de $\pm$0.1 pH a 25°C, con salidas analógicas compatibles con microcontroladores basados en ESP32.
+
+La elección definitiva entre estos sensores dependerá de la evaluación del entorno específico donde se implementará el sistema. El \textit{Analog pH Meter V2} constituye una opción económica y de fácil integración, adecuada para aplicaciones en condiciones controladas o de baja exigencia ambiental. Por su parte, el \textit{Industrial Analog pH Meter Pro Kit V2} presenta características superiores para monitoreo continuo en ambientes hostiles, como un cable de sonda de 5 metros, un diseño robusto de grado industrial y una mayor resistencia a la exposición prolongada.
+
+Considerando que el proyecto contempla la instalación de sensores en cuerpos de agua lóticos, donde se enfrentan condiciones variables de corriente y turbidez, el \textit{Industrial Analog pH Meter Pro Kit V2} se perfila como la opción más adecuada. No obstante, la selección final será confirmada tras la validación de las condiciones ambientales específicas del sitio de prueba.
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5} % Espaciado vertical entre filas
+    
+    \begin{tabular}{
+        |p{4cm}    % Columna 1: Características
+        |p{5cm}    % Columna 2: Gravity SEN0237
+        |p{5cm}|   % Columna 3: Atlas EZO-DO
+    }
+    \hline
+    % Encabezados
+    \textbf{Característica} 
+        & \textbf{Gravity: Analog Dissolved Oxygen Sensor (SEN0237)} 
+        & \textbf{Atlas Scientific EZO-DO™} \\ 
+    \hline
+    
+    % Contenido de la tabla
+    Tipo de tecnología 
+        & Galvánica 
+        & Óptica \\ 
+    \hline
+    
+    Rango de medición 
+        & 0--20 mg/L 
+        & 0--50 mg/L \\ 
+    \hline
+    
+    Precisión 
+        & $\pm$0.2 mg/L 
+        & $\pm$0.05 mg/L \\ 
+    \hline
+    
+    Tipo de salida 
+        & Analógica (0--3.0 V) 
+        & UART / I2C / Analógica \\ 
+    \hline
+    
+    Voltaje de operación 
+        & 3.3--5.5 V 
+        & 3.3--5.5 V \\ 
+    \hline
+    
+    Compatibilidad con ESP32 
+        & Sí (ADC) 
+        & Sí (UART/I2C/ADC) \\ 
+    \hline
+    
+    Diseñado para monitoreo continuo 
+        & No recomendado 
+        & Sí \\ 
+    \hline
+    
+    Vida útil de la sonda 
+        & 6--12 meses 
+        & $>$2 años \\ 
+    \hline
+    
+    Calibración necesaria 
+        & Frecuente 
+        & Muy baja frecuencia \\ 
+    \hline
+    
+    Costo aproximado 
+        & \$169 USD 
+        & \$195+ USD \\ 
+    \hline
+    
+    Ventajas 
+        & Bajo costo, fácil de usar 
+        & Alta precisión, mínima deriva, muy estable \\ 
+    \hline
+    
+    Desventajas 
+        & Afectado por temperatura y flujo, no ideal para monitoreo 24/7 
+        & Muy costoso, integración más compleja \\ 
+    \hline
+    \end{tabular}
+    
+    \caption{Comparativa de sensores para medición de oxígeno disuelto.}
+    \label{tab:sensores_od}
+\end{table}
+
+Para la medición de oxígeno disuelto (OD) en el agua, se consideran dos opciones principales: el sensor Gravity: Analog Dissolved Oxygen Sensor (SEN0237) de DFRobot y el Atlas Scientific EZO-DO™.
+
+El sensor Gravity Analog es una opción de bajo costo, basado en tecnología galvánica, que ofrece un rango de medición de 0 a 20 mg/L con una precisión de aproximadamente $\pm$0.2 mg/L. Su salida analógica facilita la integración con microcontroladores basados en ESP32. No obstante, presenta ciertas limitaciones para monitoreo continuo, ya que sufre interferencias por temperatura y flujo, y requiere calibraciones más frecuentes.
+
+Por otro lado, el sensor Atlas Scientific EZO-DO™ utiliza tecnología óptica, ofreciendo un rango extendido de 0 a 50 mg/L y una alta precisión de $\pm$0.05 mg/L. Además, es adecuado para operaciones de monitoreo continuo en ambientes variables, con una mínima necesidad de calibración y una vida útil superior a los dos años. Sin embargo, su costo significativamente más elevado y su integración más compleja deben ser considerados.
+
+Debido a que el sistema propuesto busca un equilibrio entre costos razonables y confiabilidad operativa, el sensor Gravity Analog se perfila como la opción más viable para su implementación inicial. No obstante, se mantiene abierta la posibilidad de considerar el sensor Atlas Scientific EZO-DO™ en futuras fases de ampliación o mejora del sistema, en caso de que se requiera una mayor precisión y robustez frente a condiciones ambientales extremas.
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5} % Espaciado vertical entre filas
+    
+    \begin{tabular}{
+        |p{4cm}    % Columna 1: Características
+        |p{8cm}|   % Columna 2: Especificaciones del sensor
+    }
+    \hline
+    % Encabezado
+    \textbf{Característica} 
+        & \textbf{Gravity: Analog Turbidity Sensor (SEN0189)} \\ 
+    \hline
+    
+    % Contenido de la tabla
+    Tipo de tecnología 
+        & Sensor óptico infrarrojo (dispersión de luz) \\ 
+    \hline
+    
+    Rango de medición 
+        & 0--1000 NTU \\ 
+    \hline
+    
+    Precisión 
+        & Dependiente de la calibración (aproximada) \\ 
+    \hline
+    
+    Tipo de salida 
+        & Analógica (0--4.5 V) \\ 
+    \hline
+    
+    Voltaje de operación 
+        & 5 V \\ 
+    \hline
+    
+    Compatibilidad con ESP32 
+        & Sí (entrada ADC) \\ 
+    \hline
+    
+    Diseñado para monitoreo continuo 
+        & No recomendado (sellado básico) \\ 
+    \hline
+    
+    Vida útil de la sonda 
+        & 6--12 meses (dependiendo de condiciones ambientales) \\ 
+    \hline
+    
+    Calibración necesaria 
+        & Frecuente en ambientes exteriores \\ 
+    \hline
+    
+    Costo aproximado 
+        & \$10 USD \\ 
+    \hline
+    
+    Ventajas 
+        & Bajo costo, fácil de usar, rápida integración \\ 
+    \hline
+    
+    Desventajas 
+        & Precisión limitada, sensibilidad a suciedad y humedad \\ 
+    \hline
+    \end{tabular}
+    
+    \caption{Características del sensor seleccionado para la medición de turbidez.}
+    \label{tab:sensor_turbidez}
+\end{table}
+
+Para la medición de turbidez en el sistema propuesto se ha seleccionado el sensor Gravity: Analog Turbidity Sensor (SKU: SEN0189) de DFRobot. Este sensor permite medir niveles de turbidez en un rango de 0 a 1000 NTU, entregando una señal analógica proporcional a la concentración de partículas suspendidas en el agua. Su compatibilidad con microcontroladores basados en ESP32, su facilidad de integración mediante conversión analógica lo hacen adecuado para el presente proyecto.
+
+Aunque su precisión es limitada en comparación con sensores digitales o de grado industrial, y su desempeño puede verse afectado por condiciones extremas de suciedad o humedad prolongada, su bajo costo y facilidad de implementación representan una alternativa viable para una primera fase de monitoreo distribuido en cuerpos de agua lóticos. La utilización de este sensor permitirá realizar una estimación práctica del nivel de sólidos suspendidos en el agua y, de ser necesario, futuras iteraciones del sistema podrán contemplar la adopción de tecnologías más robustas.
+
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5} % Espaciado vertical entre filas
+    
+    \begin{tabular}{
+        |p{4cm}    % Columna 1: Características
+        |p{5cm}    % Columna 2: Gravity EC Sensor V2
+        |p{5cm}|   % Columna 3: Atlas EZO-EC
+    }
+    \hline
+    % Encabezados
+    \textbf{Característica} 
+        & \textbf{Gravity: Analog EC Sensor V2 (DFR0300)} 
+        & \textbf{Atlas Scientific EZO-EC™} \\ 
+    \hline
+    
+    % Contenido técnico
+    Tipo de tecnología 
+        & Electrodos de conductividad (K=1.0) 
+        & Electrodos de conductividad \\ 
+    \hline
+    
+    Parámetro principal 
+        & Conductividad (EC) 
+        & Conductividad (EC) \\ 
+    \hline
+    
+    Rango de medición 
+        & 0--20 mS/cm (20,000 \micro S/cm) 
+        & 0--200 mS/cm \\ 
+    \hline
+    
+    Precisión 
+        & $\pm$5\% F.S. 
+        & $\pm$2\% F.S. \\ 
+    \hline
+    
+    Tipo de salida 
+        & Analógica (0--3.0 V) 
+        & UART / I2C / Analógica \\ 
+    \hline
+    
+    Voltaje de operación 
+        & 3.0--5.0 V 
+        & 3.3--5.5 V \\ 
+    \hline
+    
+    Compatibilidad con ESP32 
+        & Sí (ADC) 
+        & Sí (UART/I2C/ADC) \\ 
+    \hline
+    
+    Diseñado para monitoreo continuo 
+        & Sí (recalibración periódica requerida) 
+        & Sí (mínimo mantenimiento) \\ 
+    \hline
+    
+    Vida útil de la sonda 
+        & $>$6--12 meses 
+        & $>$2 años \\ 
+    \hline
+    
+    Calibración necesaria 
+        & Periódica (solución estándar de conductividad) 
+        & Muy baja frecuencia \\ 
+    \hline
+    
+    Costo aproximado 
+        & \$70 USD 
+        & \$200+ USD \\ 
+    \hline
+    
+    Ventajas 
+        & Buen rango, estable, económico 
+        & Alta precisión, muy robusto \\ 
+    \hline
+    
+    Desventajas 
+        & Requiere calibración manual periódica 
+        & Alto costo, integración más compleja \\ 
+    \hline
+    \end{tabular}
+    
+    \caption{Comparativa de sensores para medición de conductividad eléctrica.}
+    \label{tab:sensor_conductividad}
+\end{table}
+
+Para la medición de conductividad eléctrica (EC) en el sistema propuesto se consideraron dos opciones: el sensor Gravity: Analog Electrical Conductivity Sensor V2 (SKU: DFR0300) de DFRobot y el Atlas Scientific EZO-EC™.
+
+El sensor Gravity EC V2 ofrece un rango de medición de 0 a 20 mS/cm, con una precisión de $\pm$5\% de la escala completa. Su salida analógica facilita la integración directa con microcontroladores basados en ESP32, mediante el uso del convertidor analógico-digital (ADC) interno. Además, su costo accesible y su diseño robusto lo convierten en una opción viable para proyectos de monitoreo distribuido en cuerpos de agua lóticos. No obstante, requiere calibraciones periódicas utilizando soluciones estándar de conductividad, especialmente en aplicaciones de largo plazo.
+
+En contraste, el sensor Atlas Scientific EZO-EC™ proporciona un rango extendido de hasta 200 mS/cm, alta precisión de $\pm$2\%, y mínimas necesidades de calibración. Sin embargo, su costo elevado y su integración más compleja lo hacen menos accesible para un sistema que busca un equilibrio entre funcionalidad y viabilidad económica.
+
+Considerando los objetivos de este Proyecto y las restricciones presupuestarias, se selecciona el sensor Gravity: Analog Electrical Conductivity Sensor V2 como la opción más adecuada para la medición de conductividad, dejando abierta la posibilidad de futuras mejoras en etapas posteriores del proyecto.
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5} % Espaciado vertical entre filas
+    
+    \begin{tabular}{
+        |p{4cm}    % Columna 1: Características
+        |p{5cm}    % Columna 2: DS18B20
+        |p{5cm}|   % Columna 3: Atlas EZO-RTD
+    }
+    \hline
+    % Encabezados
+    \textbf{Característica} 
+        & \textbf{DS18B20 Sumergible} 
+        & \textbf{Atlas Scientific EZO-RTD™} \\ 
+    \hline
+    
+    % Contenido técnico
+    Tipo de tecnología 
+        & Sensor digital 1-Wire 
+        & RTD PT-1000 industrial \\ 
+    \hline
+    
+    Rango de medición 
+        & $-55\,^{\circ}\mathrm{C}$ a $+125\,^{\circ}\mathrm{C}$ 
+        & $-200\,^{\circ}\mathrm{C}$ a $+850\,^{\circ}\mathrm{C}$ \\ 
+    \hline
+    
+    Precisión típica 
+        & $\pm0.5\,^{\circ}\mathrm{C}$ ($-10\,^{\circ}\mathrm{C}$ a $+85\,^{\circ}\mathrm{C}$) 
+        & $\pm0.1\,^{\circ}\mathrm{C}$ \\ 
+    \hline
+    
+    Tipo de salida 
+        & Digital (1-Wire) 
+        & UART / I2C \\ 
+    \hline
+    
+    Voltaje de operación 
+        & 3.0--5.5 V 
+        & 3.3--5.5 V \\ 
+    \hline
+    
+    Compatibilidad con ESP32 
+        & Sí (1-Wire) 
+        & Sí (UART/I2C) \\ 
+    \hline
+    
+    Diseñado para inmersión continua 
+        & Sí 
+        & Sí \\ 
+    \hline
+    
+    Calibración necesaria 
+        & No 
+        & No \\ 
+    \hline
+    
+    Costo aproximado 
+        & \$7.5 USD 
+        & \$30 USD \\ 
+    \hline
+    
+    Ventajas 
+        & Muy económico, fácil integración, adecuado para monitoreo de calidad de agua
+          
+        & Altísima precisión, robustez industrial \\
+    \hline
+    
+    Desventajas 
+        & Menor precisión que RTD, rango limitado para aplicaciones extremas 
+        & Alto costo, integración más compleja \\ 
+    \hline
+    \end{tabular}
+    
+    \caption{Comparativa de sensores para medición de temperatura.}
+    \label{tab:sensor_temperatura}
+\end{table}
+
+Para la medición de temperatura en el sistema propuesto se consideraron dos alternativas: el sensor digital sumergible DS18B20 y el sensor industrial Atlas Scientific EZO-RTD™.
+
+El sensor DS18B20, ampliamente utilizado en aplicaciones de monitoreo ambiental, ofrece un rango de medición de -55°C a 125°C con una precisión típica de ±0.5°C en el rango de -10°C a 85°C. Su comunicación mediante el protocolo digital 1-Wire facilita su integración directa con microcontroladores basados en ESP32. Además, su bajo costo, facilidad de adquisición y resistencia a la inmersión continua en agua lo convierten en una opción práctica y adecuada para sistemas de monitoreo distribuidos en cuerpos de agua.
+
+Por su parte, el sensor Atlas Scientific EZO-RTD™ proporciona una mayor precisión (±0.1°C) y un rango de operación mucho más amplio, gracias al uso de sensores RTD de tipo PT-1000. Sin embargo, su alto costo y mayor complejidad de integración lo hacen menos adecuado para proyectos donde se busca un balance entre funcionalidad y viabilidad económica.
+
+Considerando los objetivos de este Proyecto y las condiciones operativas previstas, se selecciona el sensor DS18B20 sumergible como la opción más adecuada para la medición de temperatura en cuerpos de agua lóticos.
+
+\subsection{Comparativa de Microcontroladores}
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3} % Reducido para ahorrar espacio
+    \small % Tamaño de fuente reducido
+    \begin{tabular}{
+        |p{2.4cm}  % Columna 1: Características
+        |p{1.7cm}  % Columna 2: LilyGO
+        |p{1.5cm}  % Columna 3: ESP32
+        |p{1.7cm}  % Columna 4: ESP8266
+        |p{1.5cm}  % Columna 5: RPi Pico
+        |p{1.6cm}  % Columna 6: RPi 4/Zero
+        |p{1.4cm}  % Columna 7: STM32
+        |p{1.4cm}| % Columna 8: Arduino
+    }
+    \hline
+    \rotatebox{90}{\textbf{Característica}} 
+        & \rotatebox{90}{\textbf{LilyGO T-HaLow}} 
+        & \rotatebox{90}{\textbf{ESP32}}
+        & \rotatebox{90}{\textbf{ESP8266}} 
+        & \rotatebox{90}{\textbf{Raspberry Pi Pico}} 
+        & \rotatebox{90}{\textbf{RPi 4/Zero 2 W}} 
+        & \rotatebox{90}{\textbf{STM32F103}} 
+        & \rotatebox{90}{\textbf{Arduino Uno}} \\ 
+    \hline
+    
+    Arquitectura 
+        & ESP32-H2 
+        & Xtensa dual 
+        & Xtensa single 
+        & Cortex M0+ 
+        & Cortex A72/A53 
+        & Cortex M3 
+        & AVR 8-bit \\ 
+    \hline
+    
+    WiFi 
+        & HaLow 
+        & 2.4GHz 
+        & 2.4GHz 
+        & No 
+        & Sí 
+        & No 
+        & No \\ 
+    \hline
+    
+    Bluetooth 
+        & BLE 
+        & Classic + BLE 
+        & No 
+        & No 
+        & Sí 
+        & No 
+        & No \\ 
+    \hline
+    
+    Largo alcance 
+        & Sí 
+        & No 
+        & No 
+        & No 
+        & No 
+        & No 
+        & No \\ 
+    \hline
+    
+    RAM 
+        & 320KB 
+        & 520KB 
+        & 160KB 
+        & 264KB 
+        & 512MB+ 
+        & 20KB 
+        & 2KB \\ 
+    \hline
+    
+    Flash 
+        & 4MB 
+        & 4MB 
+        & 4MB 
+        & 2MB 
+        & 16GB+ 
+        & 64-128KB 
+        & 32KB \\ 
+    \hline
+    
+    OS 
+        & FreeRTOS 
+        & FreeRTOS 
+        & Bare-metal 
+        & Bare-metal 
+        & Linux 
+        & Bare-metal 
+        & Bare-metal \\ 
+    \hline
+    
+    Procesamiento 
+        & Medio-Alto 
+        & Alto 
+        & Medio 
+        & Medio 
+        & Muy alto 
+        & Medio 
+        & Muy bajo \\ 
+    \hline
+    
+    Visión AI 
+        & Básica 
+        & Básica 
+        & No 
+        & No 
+        & OpenCV 
+        & No 
+        & No \\ 
+    \hline
+    
+    Costo 
+        & \$20-30 
+        & \$8-15 
+        & \$3-6 
+        & \$4-7 
+        & \$35-80 
+        & \$3-5 
+        & \$20 \\ 
+    \hline
+    
+    Sensores 
+        & Alta 
+        & Alta 
+        & Media 
+        & Alta 
+        & Alta 
+        & Media 
+        & Media \\ 
+    \hline
+    
+    Ventajas 
+        & Bajo consumo,Largo alcance 
+        & Bajo costo, Soporte robusto 
+        & Muy barato 
+        & Muy barato 
+        & Muy potente 
+        & Bajo costo, Robusto 
+        & Fácil uso \\ 
+    \hline
+    
+    Desventajas 
+        & \shortstack{Limitado\\visión AI} 
+        & \shortstack{Consumo\\medio} 
+        & \shortstack{Poca\\RAM/CPU} 
+        & Sin WiFi 
+        & \shortstack{Alto\\consumo} 
+        & \shortstack{Limitada\\expansión} 
+        & \shortstack{Poca\\memoria} \\ 
+    \hline
+    \end{tabular}
+    
+    \caption{Comparativa de microcontroladores para el sistema de monitoreo}
+    \label{tab:comparativa_microcontroladores}
+\end{table}
+
+
+Para la selección del microcontrolador en el sistema de monitoreo propuesto, se consideraron diversas opciones incluyendo la LilyGO T-HaLow (ESP32-H2), ESP32 convencional, ESP8266, Raspberry Pi Pico, Raspberry Pi (modelos 4B y Zero 2 W), STM32F103 y Arduino Uno R3.
+
+El análisis técnico comparativo mostró que opciones como el ESP8266, STM32F103 y Arduino Uno presentan limitaciones significativas en cuanto a memoria, capacidad de procesamiento y conectividad nativa, lo cual las hace inadecuadas para aplicaciones que requieren el manejo simultáneo de múltiples sensores y módulos de visión artificial. Por otro lado, plataformas como el Raspberry Pi 4B o Zero 2 W ofrecen un entorno de procesamiento potente, pero implican un mayor consumo energético, complejidad de integración y costos asociados, que no se alinean con los objetivos de eficiencia y bajo consumo del proyecto.
+
+Entre las alternativas evaluadas, la LilyGO T-HaLow basada en ESP32-H2 destaca por su equilibrio entre consumo energético, capacidad de procesamiento y conectividad de largo alcance mediante el estándar WiFi HaLow (IEEE 802.11ah). Esta conectividad sub-GHz permite una comunicación más robusta y de mayor alcance entre nodos sensores, reduciendo la necesidad de infraestructura intermedia. Asimismo, su compatibilidad nativa con interfaces de comunicación como I2C, SPI y UART facilita la integración de los diferentes módulos de sensores propuestos.
+
+En consecuencia, se selecciona la LilyGO T-HaLow como microcontrolador principal para el desarrollo de este sistema de monitoreo ambiental distribuido en cuerpos de agua lóticos.
+
+\subsection{Selección Final}
+
+
+
+\section{Propuesta de Soluci\'on}
+
+Se propone desarrollar un sistema automatizado para el monitoreo peri\'odico de los par\'ametros de calidad del agua en cuerpos de agua que se mueven en una sola direcci\'on, como r\'ios, riachuelos y arroyos. Este sistema integrar\'a una red inal\'ambrica de sensores distribuidos estrat\'egicamente, junto con un m\'odulo de visi\'on artificial para la detecci\'on de residuos s\'olidos flotantes. Adem\'as, los datos ser\'an procesados y publicados en una p\'agina web accesible para autoridades y ciudadanos.
+
+\subsection{M\'odulo 1. Red Inal\'ambrica de Sensores}
+
+La red estar\'a compuesta por nodos sensores distribuidos estrat\'egicamente a lo largo del cuerpo de agua, siguiendo una topolog\'ia lineal o semi-lineal, con una distancia m\'inima de 50 metros entre nodos. Se emplear\'a como microcontrolador principal la \textbf{LilyGO T-HaLow}, basada en el ESP32-H2, por su capacidad de conectividad WiFi HaLow de largo alcance, bajo consumo y facilidad de integraci\'on de sensores mediante interfaces I2C, SPI y ADC.
+
+\subsubsection{Nodos Sensores}
+
+Cada nodo sensor estar\'a compuesto por los siguientes elementos:
+\begin{itemize}
+    \item \textbf{Sensores de calidad de agua:}
+    \begin{itemize}
+        \item \textbf{pH:} Gravity Industrial Analog pH Meter Pro V2.
+        \item \textbf{Ox\'igeno Disuelto (OD):} Gravity Analog Dissolved Oxygen Sensor (SEN0237).
+        \item \textbf{Turbidez:} Gravity Analog Turbidity Sensor (SEN0189).
+        \item \textbf{Conductividad:} Gravity Analog EC Sensor V2 (DFR0300).
+        \item \textbf{Temperatura:} Sensor digital sumergible DS18B20.
+    \end{itemize}
+    \item \textbf{Microcontrolador:} LilyGO T-HaLow.
+    \item \textbf{Sistema de comunicaci\'on:} WiFi HaLow (IEEE 802.11ah).
+\end{itemize}
+
+\subsubsection{Sistema de Visi\'on Artificial}
+
+Se incorporar\'a un sistema de visi\'on artificial para la captura peri\'odica de im\'agenes de la superficie del agua. El an\'alisis de la selecci\'on de la c\'amara y el procesamiento de im\'agenes se desarrollar\'a en etapas posteriores.
+
+\subsection{M\'odulo 2. Nodo Concentrador}
+
+El nodo concentrador recibir\'a datos de los sensores y las im\'agenes capturadas, organizando y procesando la informaci\'on para su posterior transmisi\'on al servidor.
+
+\subsection{M\'odulo 3. Servidor}
+
+El servidor central almacenar\'a y procesar\'a la informaci\'on recopilada. Se evaluar\'an alternativas de implementaci\'on local (por ejemplo, Raspberry Pi) o servicios en la nube.
+
+\subsection{M\'odulo 4. P\'agina Web}
+
+Se desarrollar\'a una p\'agina web accesible, enfocada en la visualizaci\'on sencilla de los par\'ametros de calidad del agua y de los residuos s\'olidos detectados, para facilitar la comprensi\'on por parte de autoridades y ciudadanos.
+
+\subsection{Alcances}
+Los aspectos por considerar para el funcionamiento del sistema son los siguientes:
+
+\begin{itemize}
+
+    \item La red inalámbrica contará con al menos 4 nodos sensores, los cuales serán ubicados estratégicamente según la distancia de cobertura entre sensores. Estos nodos permitirán monitorear parámetros como pH, temperatura, turbidez, oxígeno disuelto y conductividad en diferentes puntos del cuerpo de agua.
+
+    \item La comunicación entre los nodos sensores se establecerá con una distancia de al menos 50 metros, mientras que la distancia máxima dependerá de las características topográficas del área de implementación. Se propone el uso de una topología lineal o semi-lineal, adaptada al entorno, con la posibilidad de ampliar la cobertura de la red mediante configuraciones más complejas. Estos aspectos serán definidos y evaluados durante el desarrollo del Proyecto Terminal 1.
+    
+    \item El sistema de visión artificial detectará exclusivamente residuos sólidos en la superficie del agua; no se identificarán tipos de contaminantes sumergidos o invisibles al rango de la cámara.
+    
+    \item El sistema no reemplazará la toma de decisiones humanas; su objetivo será únicamente proporcionar información accesible a través de una página web, facilitando al público la comprensión del estado de los cuerpos de agua monitoreados.
+    \item El sistema se limitará únicamente al monitoreo de parámetros de calidad del agua y a la detección de residuos sólidos flotantes. No realizará ningún tipo de separación, recolección o tratamiento de los residuos identificados.
+
+\end{itemize}
