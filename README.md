@@ -92,7 +92,16 @@ Una vez que tengas todo instalado:
  - No subas archivos generados (.pdf, .aux, .log, etc.)
  - Compila antes de hacer push para asegurarte que el documento no tiene errores.
 
+---
+
 > 🪶 "La tesis no se termina, se entrega." 😅
+---
+
+### 🌱 Guía de Colaboración
+
+Para mantener un historial de cambios limpio y consistente, hemos creado una [guía de colaboración con buenas prácticas y comandos de Git](./CONTRIBUTING.md).
+
+---
 
 ## 📜 Licencia
 
