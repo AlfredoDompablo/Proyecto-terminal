@@ -645,112 +645,46 @@ Para el presente proyecto, la arquitectura del servidor se basará en una combin
 
 
 \section{Base de Datos}
+\label{sec:base_de_datos}
 
-Una base de datos o banco de datos, también conocida como DB (Database), BBDD o BD, es un conjunto estructurado de datos relacionados entre sí, que se almacenan de forma sistemática para su fácil acceso, gestión y actualización. Su función principal es permitir el almacenamiento organizado de grandes volúmenes de información para su posterior consulta, modificación o análisis. Las bases de datos son fundamentales en sistemas que requieren una interacción fluida con aplicaciones, ya que permiten almacenar información dinámica que puede actualizarse en tiempo real.
+Una base de datos (DB) es un conjunto organizado de datos estructurados, almacenados electrónicamente en un sistema informático, que permite su fácil acceso, gestión y actualización \cite{mullins2012database}. Su función principal es permitir el almacenamiento sistemático de grandes volúmenes de información para su posterior consulta, modificación o análisis. Las bases de datos son gestionadas por un Sistema de Gestión de Bases de Datos (DBMS), que actúa como una interfaz entre la base de datos y los usuarios o aplicaciones.
 
-Además de almacenar datos, las bases de datos también permiten mantener la integridad y la consistencia de los mismos mediante restricciones y reglas definidas en su diseño. Una base de datos bien diseñada no solo mejora el rendimiento de las consultas, sino que también optimiza la toma de decisiones basada en datos confiables.
+Además de almacenar datos, un DBMS robusto garantiza la \textbf{integridad} y \textbf{consistencia} de los datos mediante la aplicación de un conjunto de reglas y restricciones definidas en su diseño. Una base de datos bien diseñada no solo mejora el rendimiento de las consultas, sino que también optimiza la toma de decisiones basada en datos confiables.
 
-\subsection{Tipos de Base de Datos}
+\subsection{Modelos Lógicos de Bases de Datos}
+\label{subsec:modelos_logicos_db}
 
-Existen distintos tipos de bases de datos, cada una adecuada a diferentes necesidades según el tipo, el volumen y la velocidad de los datos que se manejan. Entre los principales tipos, destacan:
+Las bases de datos se clasifican principalmente según su modelo lógico, que define la estructura de los datos y las relaciones entre ellos. Los dos modelos predominantes en la actualidad son el relacional (SQL) y el no relacional (NoSQL).
 
+\subsubsection{Bases de Datos Relacionales (SQL)}
+El modelo relacional, propuesto por E. F. Codd en 1970, organiza los datos en tablas (o relaciones) compuestas por filas (tuplas) y columnas (atributos). Cada tabla tiene un esquema predefinido que dicta el tipo de datos para cada columna, y las relaciones entre tablas se establecen mediante claves primarias y foráneas \cite{oracle2024sql}.
+
+Estas bases de datos utilizan el Lenguaje de Consulta Estructurado (SQL) para la manipulación y definición de los datos. Su principal fortaleza es la garantía de consistencia transaccional a través de las propiedades \textbf{ACID} (Atomicidad, Consistencia, Aislamiento y Durabilidad) \cite{oracle2024acid}.
 \begin{itemize}
-    \item \textbf{MySQL:} Sistema de gestión de bases de datos relacional con licencia GPL. Es popular por su rapidez y facilidad de uso, aunque no está optimizado para el manejo de grandes volúmenes de datos empresariales.
-    
-    \item \textbf{PostgreSQL y Oracle:} Son sistemas de gestión de bases de datos robustos, altamente escalables y con soporte para operaciones complejas. Se utilizan comúnmente en aplicaciones empresariales, sistemas financieros y plataformas que requieren alta disponibilidad.
-    
-    \item \textbf{Microsoft Access:} Herramienta de base de datos de escritorio desarrollada por Microsoft. Se utiliza principalmente para aplicaciones locales o pequeñas bases de datos individuales, generando archivos .mdb.
-    
-    \item \textbf{Microsoft SQL Server:} Plataforma de base de datos relacional desarrollada por Microsoft, ideal para aplicaciones empresariales que requieren manejar grandes volúmenes de datos de forma segura y eficiente.
+    \item \textbf{Ejemplos de DBMS Relacionales:} PostgreSQL, MySQL, Microsoft SQL Server, Oracle Database.
 \end{itemize}
 
-\subsection{Modelos de Base de Datos}
+\subsubsection{Bases de Datos No Relacionales (NoSQL)}
+Las bases de datos NoSQL (a menudo interpretado como "Not Only SQL") surgieron para abordar las limitaciones de escalabilidad y flexibilidad de los modelos relacionales, especialmente para aplicaciones web a gran escala y el manejo de datos no estructurados \cite{aws2024nosql}. No utilizan un esquema fijo, lo que permite una mayor flexibilidad en el almacenamiento de datos.
 
-Las bases de datos pueden clasificarse según su modelo lógico:
+En lugar de la consistencia estricta de ACID, muchos sistemas NoSQL se adhieren al teorema CAP (Consistencia, Disponibilidad, Tolerancia a particiones) y a menudo garantizan un modelo de consistencia eventual a través de las propiedades \textbf{BASE} (Basically Available, Soft state, Eventually consistent) \cite{mongodb2024sqlvsnosql}.
 
+Existen varios tipos de bases de datos NoSQL, cada una optimizada para un caso de uso específico \cite{aws2024nosql}:
 \begin{itemize}
-    \item \textbf{Bases de datos relacionales (RDB):} Organizan los datos en tablas con filas y columnas. Son las más utilizadas tradicionalmente debido a su estructura clara y su compatibilidad con SQL (Structured Query Language). Ejemplos: MySQL, SQL Server, PostgreSQL, Oracle.
-
-    \item \textbf{Bases de datos no relacionales (NoSQL):} Utilizan modelos alternativos como documentos, pares clave-valor, grafos o columnas. Son ideales para manejar grandes volúmenes de datos no estructurados, escalar horizontalmente y mantener alta disponibilidad. Ejemplos: MongoDB, Cassandra, Redis.
-
-    \item \textbf{Bases de datos en la nube:} Ofrecen los beneficios de escalabilidad, disponibilidad global, seguridad y mantenimiento automatizado. Los proveedores como Microsoft Azure, Amazon Web Services (AWS) y Google Cloud ofrecen servicios gestionados como Azure SQL Database, Amazon RDS o Google Cloud Firestore, que permiten a las organizaciones enfocarse en el uso de datos sin preocuparse por la administración de la infraestructura subyacente  \cite{azureBD}.
+    \item \textbf{De Documentos:} Almacenan datos en documentos, comúnmente en formato JSON o BSON. Cada documento puede tener su propia estructura. Ejemplo: \textbf{MongoDB}.
+    \item \textbf{Clave-Valor:} Es el modelo más simple, donde cada dato se almacena como un par de clave y valor. Son extremadamente rápidas para lecturas y escrituras simples. Ejemplo: \textbf{Redis}, \textbf{Amazon DynamoDB}.
+    \item \textbf{Columnares:} Optimizadas para consultas rápidas sobre grandes conjuntos de datos, almacenando los datos por columnas en lugar de por filas. Ejemplo: \textbf{Apache Cassandra}.
+    \item \textbf{De Grafos:} Diseñadas para almacenar y navegar relaciones complejas entre entidades. Ejemplo: \textbf{Neo4j}.
 \end{itemize}
 
-\begin{comment}
-    %\subsection*{Importancia de las Bases de Datos}
+\subsection{Bases de Datos como Servicio (DBaaS) en la Nube}
+\label{subsec:dbaas}
 
-La base de datos es indispensable para almacenar y organizar los datos recopilados de manera estructurada. Esto permite gestionar grandes volúmenes de información, facilitando su consulta y análisis posterior. Una base de datos bien diseñada asegura la integridad, confiabilidad y accesibilidad de los datos para los usuarios, mejorando la experiencia de monitoreo y toma de decisiones.
+Independientemente del modelo lógico (SQL o NoSQL), las bases de datos pueden ser desplegadas en infraestructuras locales (\textit{on-premise}) o, más comúnmente en la actualidad, consumidas como un servicio en la nube.
 
-En aplicaciones modernas, como sistemas de monitoreo ambiental, redes de sensores o inteligencia artificial, las bases de datos no solo almacenan los datos, sino que permiten analizarlos en tiempo real y escalar según sea necesario, especialmente cuando se utilizan servicios en la nube.
-\end{comment}
+Las \textbf{Bases de Datos como Servicio (DBaaS)} son servicios gestionados ofrecidos por proveedores de nube como Amazon Web Services (AWS), Microsoft Azure y Google Cloud. En este modelo, el proveedor se encarga de todas las tareas de administración de la infraestructura, como el aprovisionamiento de hardware, la instalación de software, la aplicación de parches, la configuración y las copias de seguridad \cite{azure2024dbaas}.
 
-\begin{comment}
- 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: Boyas                       %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-
-\section{Fundamentos hidrostáticos aplicados al diseño de boyas}
-
-El diseño de boyas para aplicaciones de monitoreo ambiental debe seguir principios de flotabilidad y estabilidad hidrostática, tal como establece la Guía IALA G1099 sobre Diseño Hidrostático de Boyas \cite{IALA_2013_Hydrostatic}. Estos principios aseguran que la boya mantenga su flotación, orientación y funcionalidad aun en presencia de perturbaciones ambientales.
-
-\subsection{Principio de flotación}
-
-La flotabilidad se rige por el principio de Arquímedes: \textit{todo cuerpo sumergido en un fluido experimenta una fuerza hacia arriba igual al peso del volumen de fluido desplazado}. Así, el volumen mínimo sumergido necesario \(V_{\text{mín}}\) para mantener la flotación en equilibrio es:
-
-\begin{equation}
-V_{\text{mín}} = \frac{W}{\rho_{\text{agua}}}
-\end{equation}
-
-donde \(W\) es el peso del sistema (kg) y \(\rho_{\text{agua}}\) es la densidad del agua dulce (\(1000\ \si{kg/m^3}\)).
-
-\subsection{Estabilidad hidrostática}
-
-Una boya no solo debe flotar, sino también mantener una orientación vertical estable. Esto se logra cuando su \textbf{altura metacéntrica} \(GM\) es positiva, definida como:
-
-\begin{equation}
-GM = KM - KG
-\end{equation}
-
-donde:
+Esto permite a las organizaciones enfocarse en el desarrollo de aplicaciones y el uso de los datos, beneficiándose de la escalabilidad, la alta disponibilidad global y la seguridad que ofrece la plataforma en la nube \cite{amazon2024rds}.
 \begin{itemize}
-    \item \(KM\): altura del metacentro respecto al fondo de referencia,
-    \item \(KG\): altura del centro de gravedad del sistema.
+    \item \textbf{Ejemplos de servicios DBaaS:} Amazon RDS, Azure SQL Database, Google Cloud SQL, MongoDB Atlas.
 \end{itemize}
-
-Para lograr un \(GM > 0\), es preferible mantener el centro de gravedad bajo (colocando el lastre en la base) y contar con una forma que proporcione un metacentro alto.
-
-\subsection{Geometrías recomendadas}
-
-Según la IALA \cite{IALA_2013_Hydrostatic}, existen varias formas recomendadas para boyas en ambientes fluviales:
-
-\begin{itemize}
-    \item \textbf{Cono truncado invertido}: alta estabilidad y resistencia a corrientes rápidas, ideal para ríos.
-    \item \textbf{Cilindro achatado}: útil en aguas tranquilas, aunque menos estable en perturbaciones laterales.
-    \item \textbf{Formas híbridas}: combinación de geometrías para mejorar estabilidad y volumen útil.
-\end{itemize}
-
-\subsection{Factores adicionales}
-
-El diseño debe considerar también:
-\begin{itemize}
-    \item Margen de flotación o reserva (\(\geq 30\%\)) para garantizar seguridad adicional.
-    \item Distribución del lastre para controlar el centro de gravedad.
-    \item Materiales resistentes a bioincrustaciones y con compartimentos estancos.
-\end{itemize}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.7\textwidth]{Documento/Imagenes/Marco Teorico/boya_centro.png}
-\caption{Relación entre centro de gravedad (G), centro de flotación (B) y metacentro (M). Fuente: Guía IALA G1099 \cite{IALA_2013_Hydrostatic}.}
-\label{fig:metacentrica}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.85\textwidth]{Documento/Imagenes/Marco Teorico/tipos_boyas.png}
-\caption{Formas geométricas típicas de boyas fluviales. Fuente: Guía IALA G1099.}
-\label{fig:formas_boyas}
-\end{figure}
-
-\end{comment}
