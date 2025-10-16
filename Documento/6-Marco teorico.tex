@@ -587,7 +587,7 @@ La Visión Artificial es una disciplina dentro de la Inteligencia Artificial (IA
 
 Un sistema de visión artificial típicamente opera en cuatro fases, como se ilustra en la Figura \ref{fig:proceso_vision}: 1) \textbf{Adquisición} de la imagen, 2) \textbf{Preprocesamiento} para mejorar su calidad, 3) \textbf{Segmentación} para aislar objetos de interés, y 4) \textbf{Reconocimiento y Clasificación} para identificar dichos objetos \cite{visionporcomputador}. Para esta última fase, las técnicas modernas se basan fundamentalmente en el Aprendizaje Profundo.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Marco Teorico/Dig_blo_VA.pdf}
     \caption{Diagrama de bloques de las etapas típicas en un sistema de visión artificial \cite{visionporcomputador}.}
@@ -601,9 +601,9 @@ La \textbf{Inteligencia Artificial} es el campo general que engloba la creación
 
 El \textbf{Aprendizaje Profundo (\textit{Deep Learning}, DL)} es, a su vez, una especialización del \textit{Machine Learning} que utiliza \textbf{Redes Neuronales Artificiales (RNA)} con múltiples capas para aprender representaciones jerárquicas de los datos, como se conceptualiza en la Figura \ref{fig:MLDL} \cite{Goodfellow-et-al-2016}. En el contexto de la visión artificial, esto significa que las primeras capas de la red pueden aprender a detectar características simples como bordes o colores, mientras que las capas más profundas aprenden a reconocer patrones complejos como formas, texturas y, finalmente, objetos completos \cite{centeno2019deep}.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{Documento/Imagenes/Marco Teorico/CamposysubcamposIA.pdf}
+    \includegraphics[width=0.4\linewidth]{Documento/Imagenes/Marco Teorico/CamposysubcamposIA.pdf}
     \caption{Relación jerárquica entre Inteligencia Artificial, \textit{Machine Learning} y \textit{Deep Learning}.}
     \label{fig:MLDL}
 \end{figure}
@@ -615,12 +615,27 @@ Las \textbf{Redes Neuronales Convolucionales (\textit{Convolutional Neural Netwo
 
 La característica distintiva de una CNN es la \textbf{capa convolucional}, que aplica una serie de filtros (o kernels) a la imagen de entrada. Cada filtro está diseñado para detectar una característica específica. Al deslizar estos filtros por toda la imagen, como se muestra en la Figura \ref{fig:cnn_convolution}, la red crea "mapas de características" que indican dónde se han detectado dichos patrones \cite{cnnIBM}. Esta operación permite a la red ser invariante a la posición de los objetos en la imagen.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Marco Teorico/CNN.pdf}
+    \includegraphics[width=0.5\linewidth]{Documento/Imagenes/Marco Teorico/CNN.pdf}
     \caption{Ejemplo del proceso de convolución entre una matriz de entrada y un filtro 3×3 \cite{cnnIBM}.}
     \label{fig:cnn_convolution}
 \end{figure}
+
+\subsection{Entrenamiento de Modelos y Aprendizaje por Transferencia}
+\label{subsec:transfer_learning}
+
+El rendimiento de un modelo de aprendizaje profundo depende intrínsecamente de la calidad y cantidad de los datos con los que se entrena. Entrenar una red neuronal convolucional desde cero para una tarea de visión artificial requiere conjuntos de datos masivos (a menudo con millones de imágenes) y una enorme capacidad de cómputo, lo cual es inviable para la mayoría de los proyectos \cite{pan2009survey}. Para superar este desafío, la práctica estándar es utilizar el \textbf{aprendizaje por transferencia (\textit{Transfer Learning})}.
+
+El aprendizaje por transferencia es una técnica de \textit{Machine Learning} que consiste en tomar un modelo previamente entrenado para una tarea y reutilizarlo como punto de partida para una tarea nueva pero relacionada \cite{bengio2012deep}. La intuición es que un modelo entrenado en un conjunto de datos grande y general, como \textbf{ImageNet} o \textbf{COCO (Common Objects in Context)}, ya ha aprendido a reconocer características visuales universales (bordes, texturas, formas) en sus primeras capas.
+
+El proceso típicamente sigue estos pasos:
+\begin{enumerate}
+    \item \textbf{Modelo Pre-entrenado:} Se toma un modelo de última generación (como una arquitectura YOLO) que ya ha sido entrenado en un \textit{dataset} a gran escala como COCO, que contiene cientos de miles de imágenes con objetos de 80 clases diferentes \cite{lin2014microsoft}.
+    \item \textbf{Afinamiento (\textit{Fine-Tuning}):} En lugar de entrenar la red completa desde cero, solo se re-entrenan las últimas capas (o se entrena toda la red con una tasa de aprendizaje muy baja) utilizando un conjunto de datos mucho más pequeño y específico para el problema a resolver (en este caso, imágenes de basura flotante en ríos).
+\end{enumerate}
+
+Esta metodología permite desarrollar modelos de alta precisión con una fracción de los datos y los recursos computacionales que se necesitarían para un entrenamiento desde cero, haciendo que la aplicación de la visión artificial sea accesible y viable para problemas de nicho como el de este proyecto \cite{pan2009survey}.
 
 \subsection{Detección de Objetos con YOLO}
 \label{subsec:yolo}
