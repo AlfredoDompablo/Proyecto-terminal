@@ -852,9 +852,76 @@ Donde:
 
 Esta fórmula permite calcular la tasa de acumulación de residuos flotantes en la superficie del agua, lo cual es útil para identificar zonas críticas de contaminación o evaluar el impacto de eventos específicos (como lluvias o descargas urbanas) sobre el ingreso de residuos. Esta función será realizada por los nodos con cámara OV2640/OV5640 integrados en la red inalámbrica, que operan de forma autónoma y sincronizada con el resto del sistema de monitoreo. La estimación visual depende de variables como el campo de visión efectivo de la cámara, la reflectancia de los residuos, la turbidez del agua y las condiciones de luz ambiental. Estos factores pueden introducir incertidumbre en los parámetros $N_t$ y $A$ de la ecuación.
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: Servidores         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Análisis de Servidor}
+
+El servidor constituye el núcleo central de la arquitectura del sistema, operando bajo el modelo cliente-servidor, donde actúa como proveedor de recursos y servicios para los nodos de la red y la interfaz web \cite{supermicro2024}. La selección de una plataforma de servidor adecuada es crítica para garantizar la escalabilidad, fiabilidad y rendimiento del sistema, especialmente considerando el procesamiento de imágenes y la gestión de series temporales de datos.
+
+El análisis se centra en dos modelos de despliegue principales: servidores locales (\textit{on-premise}) y servidores en la nube (\textit{cloud computing}), evaluando su idoneidad frente a los requerimientos del proyecto.
+
+\subsection{Requerimientos Clave del Servidor}
+\label{subsec:reqs_servidor}
+
+Para cumplir con sus funciones, la plataforma servidora debe satisfacer los siguientes requerimientos técnicos:
+
+\begin{enumerate}
+    \item \textbf{Capacidad de Cómputo:} Debe disponer de recursos de CPU (y opcionalmente GPU) suficientes para ejecutar el algoritmo de visión artificial (YOLO) para la detección de residuos en las imágenes recibidas.
+    \item \textbf{Almacenamiento Escalable:} Requiere una solución de almacenamiento capaz de gestionar eficientemente tanto los datos estructurados de los sensores (series temporales) como los datos no estructurados (imágenes en formato JPEG).
+    \item \textbf{Alta Disponibilidad y Fiabilidad:} El sistema debe operar de forma continua para recibir y procesar los datos de la WSN sin interrupciones.
+    \item \textbf{Conectividad de Red:} Debe contar con una conexión a internet estable y de ancho de banda suficiente para recibir los datos del nodo concentrador y servir la interfaz web.
+    \item \textbf{Seguridad:} Es imperativo implementar medidas de seguridad para proteger la integridad y confidencialidad de los datos, así como para controlar el acceso a la API.
+    \item \textbf{Viabilidad Económica:} La solución debe ser rentable, considerando los costos iniciales y operativos a largo plazo.
+\end{enumerate}
+
+\subsection{Comparativa de Modelos de Despliegue}
+\label{subsec:modelos_despliegue}
+
+Se evaluaron dos paradigmas fundamentales para la implementación del servidor:
+
+\begin{itemize}
+    \item \textbf{Servidor Local (On-Premise):} Implica la adquisición y mantenimiento de hardware físico en una ubicación controlada. El equipo es responsable de la instalación, configuración y seguridad \cite{nordlayer2024}.
+        \begin{itemize}
+            \item \textit{Ventajas:} Control total sobre el hardware y los datos, lo cual puede ser preferible para cumplir con estrictas normativas de cumplimiento regulatorio \cite{nordlayer2024}.
+            \item \textit{Desventajas:} Alta inversión inicial en hardware y licencias, complejidad en la gestión, escalabilidad limitada y necesidad de asegurar la infraestructura de soporte (energía, red) \cite{softteco2024}.
+        \end{itemize}
+    \item \textbf{Servidor en la Nube (Cloud):} Utiliza un modelo para el acceso bajo demanda a un conjunto compartido de recursos de cómputo configurables que pueden ser rápidamente aprovisionados con un esfuerzo de gestión mínimo \cite{mell2011nist}.
+        \begin{itemize}
+            \item \textit{Ventajas:} Alta escalabilidad y elasticidad, fiabilidad garantizada por el proveedor (SLA), seguridad robusta y un modelo de costos basado en el pago por uso que elimina la inversión inicial en hardware \cite{softteco2024}.
+            \item \textit{Desventajas:} Costos operativos recurrentes y dependencia de la conectividad a internet \cite{softteco2024}.
+        \end{itemize}
+\end{itemize}
+
+\subsection{Análisis de Proveedores de Servicios en la Nube}
+\label{subsec:proveedores_nube}
+
+Dado que el proyecto requiere flexibilidad, escalabilidad y alta disponibilidad, el modelo de servidor en la nube se identifica como el más adecuado. A continuación, se comparan los tres principales proveedores de servicios en la nube, reconocidos como líderes en el sector por analistas de la industria como Gartner \cite{gartner2023magic}.
+
+\input{Documento/Tablas/servidores.tex}
+
+
+Considerando los requerimientos del proyecto, se selecciona una arquitectura basada en la nube como la solución óptima. Entre los proveedores, \textbf{Amazon Web Services (AWS)} se elige como la plataforma para el desarrollo de este prototipo. La justificación se basa en los siguientes puntos:
+
+\begin{enumerate}
+    \item \textbf{Madurez y Ecosistema:} AWS es la plataforma más madura y con la mayor cuota de mercado, ofreciendo el ecosistema de servicios más amplio y una vasta documentación \cite{coursera2024}.
+    \item \textbf{Capa Gratuita Robusta:} El \textit{Free Tier} de AWS permite desplegar los recursos necesarios para un prototipo funcional (ej. EC2, S3, RDS) sin costo durante el primer año, lo cual es ideal para un proyecto de tesis \cite{aws2024freetier}.
+    \item \textbf{Servicios IoT Integrados:} AWS IoT Core proporciona una solución robusta y bien documentada para gestionar la comunicación desde el nodo concentrador, simplificando la autenticación de dispositivos y la ingesta de datos.
+\end{enumerate}
+
+La arquitectura propuesta en AWS consistiría en:
+\begin{itemize}
+    \item Un servidor \textbf{EC2} para ejecutar el \textit{backend} y el algoritmo de visión artificial.
+    \item \textbf{Amazon S3} para el almacenamiento de las imágenes.
+    \item \textbf{Amazon RDS} con un motor PostgreSQL para la base de datos de series temporales.
+    \item \textbf{AWS IoT Core} para gestionar la conexión desde el nodo concentrador.
+\end{itemize}
+
+
+
+
+
 \section{Análisis de Algoritmos de Visión Artificial}
 
 \renewcommand{\arraystretch}{1.5}
