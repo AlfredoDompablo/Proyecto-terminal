@@ -1,0 +1,58 @@
+\renewcommand{\arraystretch}{1.5}
+\begin{longtable}{
+    |p{2.5cm}   % Columna 1: Característica
+    |p{4.2cm}   % Columna 2: AWS
+    |p{4.2cm}   % Columna 3: GCP
+    |p{4.2cm}|  % Columna 4: Azure
+}
+\caption{Comparativa de Plataformas de Servidor en la Nube}
+\label{tab:comparativa_cloud} \\
+\hline
+\textbf{Característica} 
+    & \textbf{Amazon Web Services (AWS)} 
+    & \textbf{Google Cloud Platform (GCP)} 
+    & \textbf{Microsoft Azure} \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{Característica} 
+    & \textbf{Amazon Web Services (AWS)} 
+    & \textbf{Google Cloud Platform (GCP)} 
+    & \textbf{Microsoft Azure} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{4}{r}{\textit{Continúa en la siguiente página}} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+Cómputo 
+    & \textbf{EC2} (Elastic Compute Cloud). Máquinas virtuales escalables con una amplia variedad de instancias, incluyendo las optimizadas para GPU \cite{qainsights2024}. 
+    & \textbf{Compute Engine}. Máquinas virtuales de alto rendimiento. Fuerte enfoque en cargas de trabajo de IA y Machine Learning \cite{googlecloud2024products}. 
+    & \textbf{Virtual Machines}. Servidores virtuales con una profunda integración con el ecosistema de Microsoft y Windows Server \cite{azure2024products}. \\ \hline
+
+Almacenamiento 
+    & \textbf{S3} (Simple Storage Service). Almacenamiento de objetos líder en la industria, diseñado para una durabilidad del 99.999999999\% \cite{qainsights2024}. 
+    & \textbf{Cloud Storage}. Almacenamiento de objetos seguro y escalable, con diferentes clases de almacenamiento para optimizar costos \cite{googlecloud2024products}. 
+    & \textbf{Blob Storage}. Solución de almacenamiento masivo para datos no estructurados como imágenes y videos \cite{azure2024storage}. \\ \hline
+
+Base de Datos 
+    & \textbf{RDS} (Relational Database Service) para SQL (ej. PostgreSQL) y \textbf{DynamoDB} para NoSQL de alto rendimiento \cite{qainsights2024}. 
+    & \textbf{Cloud SQL} para bases de datos relacionales gestionadas y \textbf{Firestore/Bigtable} para soluciones NoSQL \cite{googlecloud2024sql}. 
+    & \textbf{Azure SQL Database} para bases de datos SQL gestionadas y \textbf{Cosmos DB} para necesidades NoSQL multimodelo y distribuidas globalmente \cite{azure2024products}. \\ \hline
+
+Servicios IoT 
+    & \textbf{AWS IoT Core}. Plataforma completa para la conexión segura y gestión de millones de dispositivos, con enrutamiento de mensajes \cite{varonis2024}. 
+    & \textbf{Cloud IoT Core}. Servicio gestionado para la ingesta segura de datos de dispositivos IoT (actualmente en transición a servicios de partners). 
+    & \textbf{Azure IoT Hub}. Servicio escalable para la comunicación bidireccional fiable y segura entre la aplicación y los dispositivos \cite{varonis2024}. \\ \hline
+
+Costo 
+    & Modelo de pago por uso. Ofrece una capa gratuita (\textit{Free Tier}) por 12 meses, ideal para prototipos \cite{coursera2024}. 
+    & Precios competitivos con descuentos por uso sostenido. Ofrece créditos iniciales y una capa gratuita competitiva \cite{datacamp2024}. 
+    & Modelo de pago por uso con ventajas como el \textit{Hybrid Benefit} para clientes con licencias de Microsoft existentes \cite{varonis2024}. \\ \hline
+
+\end{longtable}
