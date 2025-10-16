@@ -285,6 +285,7 @@ Esta sección describe los fundamentos técnicos de protocolos inalámbricos rel
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %      SECCION: VISION ARTIFICIAL        %
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \begin{comment}
  \section{Visión Artificial}
  
  
@@ -576,7 +577,99 @@ En los modelos YOLO, las arquitecturas se describen utilizando estas tres partes
 % refpara yolo: https://uvadoc.uva.es/bitstream/handle/10324/43277/TFG-G4450.pdf?sequence=1
 %file:///C:/Users/itzel_dlz6lv9/Downloads/2304.00501v1.pdf
 %https://arxiv.org/pdf/2406.19407
+\end{comment}
+
+
+\section{Visión Artificial}
+\label{sec:vision_artificial}
+
+La Visión Artificial es una disciplina dentro de la Inteligencia Artificial (IA) que busca desarrollar sistemas capaces de interpretar y comprender información del mundo visual \cite{szeliski2010computer}. De manera análoga a la visión humana, su objetivo es deducir automáticamente la estructura y propiedades de un entorno a partir de imágenes bidimensionales, permitiendo a las máquinas "ver" e identificar objetos \cite{visionartificialunirioja}.
+
+Un sistema de visión artificial típicamente opera en cuatro fases, como se ilustra en la Figura \ref{fig:proceso_vision}: 1) \textbf{Adquisición} de la imagen, 2) \textbf{Preprocesamiento} para mejorar su calidad, 3) \textbf{Segmentación} para aislar objetos de interés, y 4) \textbf{Reconocimiento y Clasificación} para identificar dichos objetos \cite{visionporcomputador}. Para esta última fase, las técnicas modernas se basan fundamentalmente en el Aprendizaje Profundo.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Marco Teorico/Dig_blo_VA.pdf}
+    \caption{Diagrama de bloques de las etapas típicas en un sistema de visión artificial \cite{visionporcomputador}.}
+    \label{fig:proceso_vision}
+\end{figure}
+
+\subsection{Del Aprendizaje Automático al Aprendizaje Profundo}
+\label{subsec:ml_dl}
+
+La \textbf{Inteligencia Artificial} es el campo general que engloba la creación de máquinas que pueden simular la inteligencia humana \cite{iaunam}. Dentro de la IA, el \textbf{Aprendizaje Automático (\textit{Machine Learning}, ML)} es un subcampo que se enfoca en algoritmos que permiten a los sistemas aprender patrones a partir de datos sin ser programados explícitamente \cite{sanchez2020evaluacion}.
+
+El \textbf{Aprendizaje Profundo (\textit{Deep Learning}, DL)} es, a su vez, una especialización del \textit{Machine Learning} que utiliza \textbf{Redes Neuronales Artificiales (RNA)} con múltiples capas para aprender representaciones jerárquicas de los datos, como se conceptualiza en la Figura \ref{fig:MLDL} \cite{Goodfellow-et-al-2016}. En el contexto de la visión artificial, esto significa que las primeras capas de la red pueden aprender a detectar características simples como bordes o colores, mientras que las capas más profundas aprenden a reconocer patrones complejos como formas, texturas y, finalmente, objetos completos \cite{centeno2019deep}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Documento/Imagenes/Marco Teorico/CamposysubcamposIA.pdf}
+    \caption{Relación jerárquica entre Inteligencia Artificial, \textit{Machine Learning} y \textit{Deep Learning}.}
+    \label{fig:MLDL}
+\end{figure}
+
+\subsection{Redes Neuronales Convolucionales (CNN)}
+\label{subsec:cnn}
+
+Las \textbf{Redes Neuronales Convolucionales (\textit{Convolutional Neural Networks}, CNN)} son una clase de redes neuronales profundas que se han convertido en el estándar de facto para el análisis de imágenes \cite{lecun1998gradient}. Su arquitectura está inspirada en el córtex visual humano y está especialmente diseñada para procesar datos con una estructura de rejilla, como una imagen.
+
+La característica distintiva de una CNN es la \textbf{capa convolucional}, que aplica una serie de filtros (o kernels) a la imagen de entrada. Cada filtro está diseñado para detectar una característica específica. Al deslizar estos filtros por toda la imagen, como se muestra en la Figura \ref{fig:cnn_convolution}, la red crea "mapas de características" que indican dónde se han detectado dichos patrones \cite{cnnIBM}. Esta operación permite a la red ser invariante a la posición de los objetos en la imagen.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Marco Teorico/CNN.pdf}
+    \caption{Ejemplo del proceso de convolución entre una matriz de entrada y un filtro 3×3 \cite{cnnIBM}.}
+    \label{fig:cnn_convolution}
+\end{figure}
+
+\subsection{Detección de Objetos con YOLO}
+\label{subsec:yolo}
+Si bien YOLO fue concebido originalmente para la detección de objetos, las arquitecturas más recientes, como YOLOv8, han evolucionado para convertirse en un \textit{framework} unificado capaz de realizar múltiples tareas de visión artificial. Esto permite utilizar una misma base de código y una metodología de entrenamiento similar para diferentes problemas, optimizando el desarrollo \cite{ultralyticsYOLOv8}. Las tareas principales soportadas son:
+
+\begin{itemize}
+    \item \textbf{Detección de Objetos (\textit{Object Detection}):} Es la tarea fundamental y más conocida de YOLO. Consiste en identificar la presencia y la ubicación de múltiples objetos en una imagen, delimitando cada uno con un cuadro (\textit{bounding box}) y asignándole una etiqueta de clase \cite{terven2023yolo}. El resultado es un conjunto de coordenadas del cuadro, una clase y una puntuación de confianza para cada objeto detectado.
+
+    \item \textbf{Segmentación de Instancias (\textit{Instance Segmentation}):} Proporciona una localización mucho más precisa que la detección. En lugar de un cuadro delimitador, el modelo genera una máscara a nivel de píxel que perfila la forma exacta de cada instancia de objeto \cite{ultralyticsYOLOv8}. Esta tarea es computacionalmente más intensiva, pero es crucial para aplicaciones que requieren un análisis preciso de la forma y el área de los objetos, como en la imaginería médica.
+
+    \item \textbf{Clasificación de Imágenes (\textit{Image Classification}):} Es la tarea más simple. Consiste en asignar una única etiqueta a toda la imagen para describir su contenido principal, sin proporcionar información sobre la ubicación del objeto \cite{sapkota2025yolo}. Por ejemplo, determinar si una imagen contiene un "río contaminado" o un "río limpio".
+
+    \item \textbf{Estimación de Pose (\textit{Pose Estimation}):} Se enfoca en la detección de puntos clave (\textit{keypoints}) en un objeto, comúnmente en el cuerpo humano para identificar la posición de las articulaciones (codos, rodillas, etc.). El resultado no es un cuadro ni una máscara, sino un conjunto de coordenadas que definen el "esqueleto" o la postura del sujeto \cite{ultralyticsYOLOv8}. Es ampliamente utilizada en análisis de movimiento, deportes y realidad aumentada.
+\end{itemize}
+
+Esta versatilidad consolida a YOLO como una herramienta integral para una amplia gama de aplicaciones en visión por computadora, más allá de la simple detección de objetos.
+
+\subsection{Métricas para la Detección de Objetos}
+\label{subsec:metrics}
+
+Para evaluar cuantitativamente el rendimiento de un modelo de detección de objetos, se utiliza un conjunto de métricas estandarizadas que miden la precisión de las localizaciones y las clasificaciones.
+
+\begin{itemize}
+    \item \textbf{Intersección sobre Unión (\textit{Intersection over Union}, IoU):} Es la métrica fundamental para evaluar la calidad de una localización. Mide el grado de superposición entre el cuadro delimitador predicho por el modelo ($B_p$) y el cuadro real anotado en los datos (\textit{ground truth}, $B_{gt}$). Se calcula como el área de la intersección dividida por el área de la unión de ambos cuadros \cite{google2024iou}.
     
+    $$ \text{IoU} = \frac{\text{Área}(B_p \cap B_{gt})}{\text{Área}(B_p \cup B_{gt})} $$
+    
+    Una detección se considera un \textbf{Verdadero Positivo (TP)} si su IoU supera un umbral predefinido (comúnmente 0.5 o 50\%). Si no lo supera, se considera un \textbf{Falso Positivo (FP)} \cite{terven2023yolo}.
+
+    \item \textbf{Precisión y Exhaustividad (\textit{Precision \& Recall}):} Son dos métricas clave que evalúan el rendimiento de la clasificación desde diferentes perspectivas \cite{google2024pr}:
+    \begin{itemize}
+        \item La \textbf{Precisión} responde a la pregunta: de todas las detecciones que hizo el modelo, ¿cuántas fueron correctas? Un valor alto indica una baja tasa de falsos positivos.
+        $$ \text{Precisión} = \frac{\text{TP}}{\text{TP} + \text{FP}} $$
+        \item La \textbf{Exhaustividad (Recall)} responde a: de todos los objetos que realmente había, ¿cuántos encontró el modelo? Un valor alto indica una baja tasa de falsos negativos.
+        $$ \text{Exhaustividad} = \frac{\text{TP}}{\text{TP} + \text{FN}} $$
+    \end{itemize}
+    
+    \item \textbf{Precisión Media Promedio (\textit{Mean Average Precision}, mAP):} Es la métrica estándar para evaluar el rendimiento general de un detector de objetos. El mAP resume la curva de Precisión-Exhaustividad en un solo valor, representando la precisión promedio en todos los niveles de exhaustividad. Este valor se calcula para cada clase de objeto y luego se promedia entre todas las clases para obtener el mAP del modelo \cite{sapkota2025yolo}. En conjuntos de datos como COCO, el mAP se reporta a menudo promediado sobre varios umbrales de IoU (ej., de 0.5 a 0.95), lo que proporciona una evaluación aún más robusta \cite{terven2023yolo}.
+
+    \item \textbf{Supresión de No Máximos (\textit{Non-Maximum Suppression}, NMS):} Aunque no es una métrica, es un paso de post-procesamiento indispensable. Un modelo a menudo detecta el mismo objeto varias veces con cuadros delimitadores ligeramente diferentes. NMS se encarga de eliminar estas detecciones redundantes, conservando únicamente la detección con la puntuación de confianza más alta para cada objeto \cite{sapkota2025yolo}.
+\end{itemize}
+
+
+
+
+
+
+
+
 
 
 
@@ -604,6 +697,10 @@ Cada página web constituye una unidad de información independiente, identifica
 % Una aplicación web (web-based application) es un tipo especial de aplicación cliente/servidor, donde tanto el cliente (el navegador, explorador o visualizador1) como el servidor (el servidor web) y el protocolo mediante el que se comunican (HTTP) están estandarizados y no han de ser creados por el programador de aplicaciones\cite{lujan2011programacion}.
 La página web permitirá centralizar y presentar de forma clara y accesible los datos recopilados sobre calidad del agua y detección de residuos sólidos. Facilitará la consulta dinámica por parámetros, fechas o ubicaciones, fomentando la transparencia, la conciencia pública y la participación ciudadana. Además, asegurará la disponibilidad de información para un público amplio, sin requerir software especializado, y será adaptable para futuras mejoras y funcionalidades.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%       SECCION Servdores           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Servidor}
 
@@ -644,6 +741,10 @@ El NIST también define tres modelos de servicio fundamentales que describen có
 Para el presente proyecto, la arquitectura del servidor se basará en una combinación de servicios IaaS y PaaS, aprovechando la flexibilidad de la infraestructura virtual y la eficiencia de las plataformas gestionadas para bases de datos y procesamiento de datos.
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%       SECCION: Base de datos      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Base de Datos}
 \label{sec:base_de_datos}
 
