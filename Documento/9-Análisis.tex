@@ -852,8 +852,10 @@ Donde:
 
 Esta fórmula permite calcular la tasa de acumulación de residuos flotantes en la superficie del agua, lo cual es útil para identificar zonas críticas de contaminación o evaluar el impacto de eventos específicos (como lluvias o descargas urbanas) sobre el ingreso de residuos. Esta función será realizada por los nodos con cámara OV2640/OV5640 integrados en la red inalámbrica, que operan de forma autónoma y sincronizada con el resto del sistema de monitoreo. La estimación visual depende de variables como el campo de visión efectivo de la cámara, la reflectancia de los residuos, la turbidez del agua y las condiciones de luz ambiental. Estos factores pueden introducir incertidumbre en los parámetros $N_t$ y $A$ de la ecuación.
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: Servidores         %
+%             SECCIÓN: Servidores                  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Análisis de Servidor}
@@ -910,13 +912,96 @@ Considerando los requerimientos del proyecto, se selecciona una arquitectura bas
     \item \textbf{Servicios IoT Integrados:} AWS IoT Core proporciona una solución robusta y bien documentada para gestionar la comunicación desde el nodo concentrador, simplificando la autenticación de dispositivos y la ingesta de datos.
 \end{enumerate}
 
-La arquitectura propuesta en AWS consistiría en:
+La arquitectura de servicios propuesta en AWS consistiría en:
 \begin{itemize}
-    \item Un servidor \textbf{EC2} para ejecutar el \textit{backend} y el algoritmo de visión artificial.
-    \item \textbf{Amazon S3} para el almacenamiento de las imágenes.
-    \item \textbf{Amazon RDS} con un motor PostgreSQL para la base de datos de series temporales.
-    \item \textbf{AWS IoT Core} para gestionar la conexión desde el nodo concentrador.
+    \item Un servidor de cómputo virtual (\textbf{Amazon EC2}) para ejecutar el \textit{backend} de la aplicación y el algoritmo de visión artificial.
+    \item Un servicio de almacenamiento de objetos (\textbf{Amazon S3}) para el almacenamiento durable de las imágenes capturadas.
+    % --- INICIO DE LA CORRECCIÓN ---
+    % Se generaliza la base de datos para no anticipar la conclusión de la siguiente sección.
+    \item Un \textbf{servicio de base de datos gestionada} para la persistencia, integridad y consulta de los datos de los sensores y los metadatos de las imágenes.
+    % --- FIN DE LA CORRECCIÓN ---
+    \item Un servicio de conexión de dispositivos (\textbf{AWS IoT Core}) para gestionar la comunicación segura desde el nodo concentrador.
 \end{itemize}
+
+La selección específica del motor y el tipo de servicio de base de datos se justifica en detalle en la siguiente sección, basándose en un análisis de los modelos de datos del proyecto.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: Bases de datos              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Análisis de Base de Datos}
+\label{sec:analisis_db}
+
+La base de datos es un componente crítico del servidor, responsable de la persistencia, integridad y disponibilidad de los datos generados por la WSN. La elección de una tecnología de base de datos adecuada impacta directamente en el rendimiento de las consultas, la escalabilidad del sistema y la facilidad con la que se pueden realizar análisis históricos.
+
+\subsection{Requerimientos de la Base de Datos}
+\label{subsec:reqs_db}
+
+Con base en la arquitectura del sistema, la base de datos debe cumplir con los siguientes requerimientos específicos:
+
+\begin{enumerate}
+    \item \textbf{Manejo de Series Temporales:} El sistema debe almacenar eficientemente las mediciones de los sensores (pH, turbidez, etc.), que son datos de series temporales, caracterizados por tener una marca de tiempo (\textit{timestamp}) y un valor \cite{influxdata2024timeseries}. Esto requiere optimización para inserciones rápidas y consultas complejas basadas en rangos de tiempo.
+    \item \textbf{Almacenamiento de Metadatos de Imágenes:} Debe gestionar los metadatos asociados a cada imagen capturada, incluyendo la URL de almacenamiento, la marca de tiempo, la identificación del nodo sensor y los resultados del análisis de visión artificial.
+    \item \textbf{Escalabilidad:} La base de datos debe ser capaz de escalar horizontalmente para manejar el volumen creciente de datos a medida que la red de sensores opera a lo largo del tiempo o se expande con nuevos nodos \cite{mongodb2024scalability}.
+    \item \textbf{Integridad y Consistencia:} Debe garantizar la integridad de los datos, asegurando que las mediciones se almacenen de forma fiable y consistente, siguiendo principios como los definidos por el modelo ACID en sistemas transaccionales \cite{oracle2024acid}.
+    \item \textbf{Rendimiento de Consultas:} El sistema debe permitir consultas de baja latencia para alimentar la interfaz web con datos históricos y en tiempo real.
+\end{enumerate}
+
+\subsection{Análisis de Modelos de Base de Datos: SQL vs. NoSQL}
+\label{subsec:modelos_db}
+
+Para satisfacer estos requerimientos, se analizaron los dos modelos de bases de datos predominantes: relacional (SQL) y no relacional (NoSQL).
+
+\begin{itemize}
+    \item \textbf{Bases de Datos Relacionales (SQL):} Organizan los datos en tablas estructuradas con un esquema predefinido y son conocidas por su robustez y consistencia (propiedades ACID) \cite{oracle2024sql}. Son muy adecuadas para almacenar los metadatos de las imágenes y las relaciones entre nodos y mediciones \cite{mongodb2024sqlvsnosql}.
+    \item \textbf{Bases de Datos No Relacionales (NoSQL):} Utilizan modelos de datos flexibles y priorizan la escalabilidad y la disponibilidad, a menudo siguiendo el modelo BASE (Basically Available, Soft state, Eventually consistent) \cite{mongodb2024sqlvsnosql}. Son ideales para el almacenamiento de datos de series temporales, donde el volumen de inserciones es alto \cite{aws2024sqlvsnosql}.
+\end{itemize}
+
+\subsection{Comparativa de Servicios de Base de Datos en AWS}
+\label{subsec:comparativa_db_aws}
+
+Dada la selección de AWS como proveedor de nube, se comparan sus servicios de bases de datos gestionadas más relevantes, incluyendo opciones relacionales y una opción especializada en series temporales.
+
+\begin{table}[h!]
+\centering
+\caption{Comparativa de Servicios de Base de Datos Gestionadas en AWS}
+\label{tab:comparativa_db}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|p{3.2cm}|p{3.2cm}|p{3.2cm}|p{3.2cm}|}
+\hline
+\textbf{Característica} & \textbf{Amazon RDS para PostgreSQL} & \textbf{Amazon RDS para MySQL} & \textbf{Amazon Aurora} & \textbf{Amazon Timestream} \\
+\hline
+\textbf{Modelo} & Relacional (SQL) & Relacional (SQL) & Relacional (SQL), compatible con PostgreSQL y MySQL & NoSQL (Series Temporales) \\
+\hline
+\textbf{Caso de Uso Principal} & Aplicaciones que requieren consultas complejas, manejo de datos geoespaciales y extensibilidad \cite{aws2024rds}. & Aplicaciones web de propósito general, CMS y comercio electrónico. Muy popular en el ecosistema LAMP \cite{aws2024rds}. & Cargas de trabajo de alto rendimiento y alta disponibilidad a escala de nube. Aplicaciones empresariales críticas \cite{aws2024aurora}. & Monitoreo de IoT, análisis de datos de telemetría y series temporales a gran escala \cite{aws2024timestream}. \\
+\hline
+\textbf{Fortalezas Clave} & Soporte avanzado de tipos de datos y extensiones (ej. PostGIS). Cumplimiento estricto del estándar SQL. & Simplicidad, facilidad de uso y un ecosistema muy maduro. Buen rendimiento para lecturas. & Rendimiento hasta 3 veces superior a PostgreSQL estándar. Almacenamiento auto-reparable y distribuido. & Optimizado para ingesta masiva de datos temporales. Arquitectura de almacenamiento de dos niveles (memoria y magnético). \\
+\hline
+\textbf{Escalabilidad} & Escala verticalmente y horizontalmente mediante réplicas de lectura. & Escala verticalmente y horizontalmente mediante réplicas de lectura. & Escalabilidad superior con hasta 15 réplicas de lectura. Almacenamiento que escala automáticamente. & Escala horizontalmente de forma automática y sin servidor (\textit{serverless}). \\
+\hline
+\textbf{Costo} & Basado en horas de instancia y almacenamiento. Parte del \textit{Free Tier} \cite{aws2024rdsprice}. & Basado en horas de instancia y almacenamiento. Parte del \textit{Free Tier} \cite{aws2024rdsprice}. & Modelo de precios basado en el consumo, más costoso que RDS estándar. No forma parte del \textit{Free Tier} \cite{aws2024auroraprice}. & Basado en volumen de datos escritos, almacenados y consultados. Muy rentable para grandes volúmenes \cite{aws2024timestreamprice}. \\
+\hline
+\end{tabular}%
+}
+\end{table}
+
+Tras analizar los requerimientos y las plataformas disponibles, se ha decidido optar por una \textbf{arquitectura de base de datos unificada} para simplificar el diseño del sistema, reducir la complejidad operativa y centralizar la gestión de los datos.
+
+La elección se inclina hacia un sistema de gestión de bases de datos relacional (RDBMS), ya que ofrece la versatilidad necesaria para manejar tanto los datos estructurados de los metadatos como las series temporales de los sensores, garantizando al mismo tiempo la máxima integridad de los datos.
+
+Entre las opciones relacionales evaluadas, se selecciona \textbf{Amazon RDS para PostgreSQL} como la plataforma de base de datos única para el proyecto. Esta decisión se fundamenta en los siguientes puntos clave:
+
+\begin{enumerate}
+    \item \textbf{Versatilidad y Potencia:} PostgreSQL es conocido por su robustez y su estricto cumplimiento del estándar SQL. Es capaz de gestionar eficientemente los datos relacionales (configuración de nodos, metadatos de imágenes) y, al mismo tiempo, puede ser optimizado para manejar cargas de trabajo de series temporales mediante técnicas avanzadas como la partición de tablas por rangos de fecha y el uso de índices especializados, asegurando un buen rendimiento en las consultas temporales.
+    
+    \item \textbf{Superioridad para Datos Complejos:} En comparación con MySQL, PostgreSQL ofrece un manejo más avanzado de tipos de datos complejos y un ecosistema de extensiones más rico, como \textbf{PostGIS}, que podría ser crucial en futuras fases del proyecto para realizar análisis geoespaciales sobre la ubicación de los nodos \cite{postgresql2024about}. Esta capacidad de extensión lo convierte en una opción más sólida y preparada para el futuro en aplicaciones científicas y de monitoreo.
+
+    \item \textbf{Viabilidad para el Prototipo:} Amazon Aurora, aunque técnicamente superior en rendimiento, se descarta para esta fase debido a su mayor costo y a que sus capacidades exceden los requerimientos del prototipo. Por su parte, Amazon Timestream se descarta como solución única, ya que su modelo NoSQL no es el adecuado para gestionar las relaciones y la integridad de los metadatos del sistema.
+\end{enumerate}
+
+Por lo tanto, Amazon RDS para PostgreSQL representa el balance óptimo entre rendimiento, costo, integridad de los datos y flexibilidad, proporcionando una base sólida y unificada para todas las necesidades de almacenamiento del proyecto.
+
 
 
 
