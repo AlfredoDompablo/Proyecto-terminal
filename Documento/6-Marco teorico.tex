@@ -693,25 +693,42 @@ Para evaluar cuantitativamente el rendimiento de un modelo de detección de obje
 
 
 \subsection{Cámaras}
+\label{subsec:camaras}
 
-Su función es capturar la imagen proyectada en el sensor, vía las ópticas, para poder transferirla a un sistema electrónico. Las cámaras utilizadas en visión artificial requieren de una serie de características que permitan el control del disparo de la cámara para capturar piezas que pasan por delante de ella  en la posición requerida.
+En el contexto de la visión artificial, la cámara es el dispositivo de adquisición de imagen, actuando como el ``ojo" del sistema. Su función principal es capturar la radiación electromagnética (luz) reflejada por los objetos en la escena y convertirla en una señal electrónica que puede ser procesada por un sistema digital \cite{szeliski2010computer}.
 
+Un módulo de cámara, especialmente en sistemas embebidos, se compone de varios elementos clave:
 
-La visión artificial permite identificar y clasificar residuos sólidos en cuerpos de agua de forma automatizada, superando las limitaciones de los métodos manuales. Mediante algoritmos avanzados, como redes neuronales, se procesan imágenes para detectar patrones asociados a contaminantes. Esto complementa los datos de los sensores, proporcionando una visión integral del estado del agua y el impacto de los residuos en los ecosistemas.
+\begin{itemize}
+    \item \textbf{La Óptica (Lente):} Es el conjunto de lentes que enfoca la luz de la escena sobre el sensor. Sus propiedades, como la \textbf{distancia focal} y la \textbf{apertura}, determinan el campo de visión (\textit{Field of View}, FoV) y la cantidad de luz que se captura, afectando directamente el área del río que el sistema puede monitorear \cite{szeliski2010computer}.
+
+    \item \textbf{El Sensor de Imagen:} Es el componente semiconductor que convierte los fotones en una señal eléctrica. Los dos tipos de sensores más comunes son \textbf{CCD} (\textit{Charge-Coupled Device}) y \textbf{CMOS} (\textit{Complementary Metal-Oxide-Semiconductor}). En aplicaciones de IoT y sistemas embebidos como este proyecto, los sensores CMOS son los más utilizados debido a su menor consumo de energía, mayor integración de circuitos en el chip y menor costo \cite{fossum1997cmos}.
+
+    \item \textbf{La Interfaz de Datos:} Es el protocolo mediante el cual el sensor transmite el flujo de datos de imagen al microcontrolador o procesador. Las interfaces comunes en sistemas embebidos incluyen \textbf{MIPI CSI-2} (Mobile Industry Processor Interface Camera Serial Interface), DVP (Digital Video Port) o, en algunos casos, USB \cite{mipi2019csi}.
+\end{itemize}
+
+La selección de una cámara adecuada, por lo tanto, depende de un balance entre la resolución del sensor, las características de la óptica y la compatibilidad de su interfaz con la unidad de procesamiento del nodo sensor.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %       SECCION PAGINA WEB          %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Página Web}
-%referencia: https://www.redalyc.org/pdf/421/42118510.pdf
-Una página web es un archivo creado en el lenguaje HTML (HyperText Markup Language), diseñado para ser accesible a través de un servidor de Internet mediante un navegador. Su propósito es proporcionar información o servicios a una comunidad específica o al público en general \cite{redalyc2006}.
+\section{Página Web y Aplicación Web}
+\label{sec:pagina_web}
 
-Cada página web constituye una unidad de información independiente, identificada por una dirección única (URL) dentro de un sitio web. Puede contener elementos como texto, imágenes, gráficos, videos y enlaces a otros documentos o páginas. Aunque el término "página web" a menudo se confunde con "sitio web", este último se refiere al conjunto completo de páginas relacionadas bajo un dominio principal.
+Una \textbf{página web} es un documento digital, comúnmente escrito en Lenguaje de Marcado de Hipertexto (HTML), diseñado para ser accesible a través de un servidor de Internet mediante un navegador \cite{redalyc2006}. Una colección de páginas web interrelacionadas bajo un mismo dominio constituye un \textbf{sitio web}, cuyo propósito principal es la diseminación de información.
 
-% Una aplicación web (web-based application) es un tipo especial de aplicación cliente/servidor, donde tanto el cliente (el navegador, explorador o visualizador1) como el servidor (el servidor web) y el protocolo mediante el que se comunican (HTTP) están estandarizados y no han de ser creados por el programador de aplicaciones\cite{lujan2011programacion}.
-La página web permitirá centralizar y presentar de forma clara y accesible los datos recopilados sobre calidad del agua y detección de residuos sólidos. Facilitará la consulta dinámica por parámetros, fechas o ubicaciones, fomentando la transparencia, la conciencia pública y la participación ciudadana. Además, asegurará la disponibilidad de información para un público amplio, sin requerir software especializado, y será adaptable para futuras mejoras y funcionalidades.
+Sin embargo, para un sistema de monitoreo interactivo como el que se propone, es más preciso hablar de una \textbf{Aplicación Web} (\textit{Web Application}). A diferencia de un sitio web estático, una aplicación web es un sistema cliente-servidor diseñado para ser interactivo. El navegador (el cliente) obtiene la interfaz inicial del servidor, pero luego puede modificar su contenido y comunicarse con el servidor de forma dinámica sin necesidad de recargar la página por completo \cite{lujan2011programacion, mdn2024web}.
 
+Las aplicaciones web modernas se construyen sobre tres tecnologías fundamentales:
+
+\begin{itemize}
+    \item \textbf{HTML (\textit{HyperText Markup Language}):} Proporciona la estructura semántica y el contenido base de la aplicación (títulos, párrafos, botones, contenedores de gráficos) \cite{mdn2024html}.
+    \item \textbf{CSS (\textit{Cascading Style Sheets}):} Se encarga de la presentación, el diseño y el estilo visual (colores, tipografías, posicionamiento) para hacer que la interfaz sea responsiva y clara \cite{mdn2024css}.
+    \item \textbf{JavaScript:} Es el lenguaje de programación del lado del cliente que dota a la aplicación de interactividad y comportamiento. En este proyecto, JavaScript será responsable de tareas clave como: solicitar datos al servidor (vía API), actualizar dinámicamente los valores de los sensores y renderizar las gráficas de series temporales \cite{mdn2024javascript}.
+\end{itemize}
+
+En el contexto de este proyecto, la aplicación web permitirá centralizar y presentar de forma clara y accesible los datos recopilados sobre calidad del agua y detección de residuos. Facilitará la consulta dinámica por parámetros, fechas o ubicaciones, fomentando la transparencia, la conciencia pública y la participación ciudadana.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %       SECCION Servdores           %
