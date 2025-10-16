@@ -606,27 +606,43 @@ La página web permitirá centralizar y presentar de forma clara y accesible los
 
 
 \section{Servidor}
-En el ámbito de la informática, un servidor se define como un sistema (hardware, software o ambos) que provee recursos, datos o servicios a otros dispositivos, denominados clientes, bajo el modelo de arquitectura cliente-servidor \cite{Espana2003, Britannica2024}. Sus características esenciales incluyen:
+
+En el ámbito de la informática, un servidor es un sistema de cómputo —compuesto por hardware y software— que provee recursos, datos, servicios o programas a otros dispositivos, denominados clientes, a través de una red \cite{Espana2003}. Esta interacción se rige por el \textbf{modelo cliente-servidor}, una arquitectura de software distribuida que centraliza la gestión de recursos y la lógica de negocio en el servidor, mientras que los clientes se encargan de la interfaz de usuario y la solicitud de servicios \cite{Britannica2024}.
+
+Las características esenciales que definen la robustez y fiabilidad de un servidor incluyen:
 
 \begin{itemize}
-    \item \textbf{Alta disponibilidad}: Operación continua para garantizar acceso ininterrumpido \cite{Stanek2014}.
-    \item \textbf{Escalabilidad}: Capacidad de manejar múltiples solicitudes simultáneas gracias a hardware especializado (ej. CPUs multinúcleo, almacenamiento RAID) \cite{Mancera2015}.
-    \item \textbf{Seguridad}: Implementación de firewalls, encriptación y control de acceso \cite{Espana2003}.
+    \item \textbf{Alta disponibilidad}: Se refiere a la capacidad del servidor para operar de forma continua y sin interrupciones durante largos periodos. Esto se logra mediante hardware redundante (ej. fuentes de alimentación, discos) y software de conmutación por error (\textit{failover}) \cite{Stanek2014}.
+    \item \textbf{Escalabilidad}: Es la capacidad del sistema para incrementar su rendimiento y capacidad para manejar una mayor carga de trabajo, ya sea de forma vertical (añadiendo más recursos a un solo servidor, como CPU o RAM) o horizontal (distribuyendo la carga entre múltiples servidores) \cite{Mancera2015}.
+    \item \textbf{Seguridad}: Implica la implementación de múltiples capas de protección, incluyendo firewalls de red, sistemas de detección de intrusiones, cifrado de datos en tránsito y en reposo, y políticas de control de acceso para proteger la integridad y confidencialidad de la información \cite{Espana2003}.
 \end{itemize}
 
-Los servidores se clasifican según su función, destacando:
+\subsection{Modelos de Despliegue de Servidores}
+\label{subsec:modelos_despliegue}
+
+La implementación de una arquitectura cliente-servidor se puede realizar mediante dos modelos de despliegue principales, cuya diferencia radica en la propiedad y gestión de la infraestructura física.
+
 \begin{itemize}
-    \item \textbf{Servidores web}: Distribuyen contenido mediante protocolos como HTTP (Apache, Nginx).
-    \item \textbf{Servidores de bases de datos}: Gestionan información estructurada (SQL Server, Oracle).
-    \item \textbf{Servidores virtuales}: Simulan servidores físicos para optimizar recursos \cite{Stanek2014}.
+    \item \textbf{Servidores locales (On-Premise)}: En este modelo, la organización adquiere, instala y mantiene su propia infraestructura de hardware en sus instalaciones físicas. Esto implica una inversión inicial significativa en capital (\textbf{CapEx}) y la responsabilidad total sobre la administración, el mantenimiento y la seguridad de los servidores \cite{Mullins2012}. Ofrece un control granular máximo sobre los datos y el entorno operativo.
+
+    \item \textbf{Servidores en la nube (Cloud)}: Este modelo se basa en el acceso a una infraestructura de cómputo virtualizada, proporcionada y gestionada por un tercero a través de internet. Se caracteriza por un modelo de costos basado en el pago por uso, lo que transforma la inversión en un gasto operativo (\textbf{OpEx}) \cite{softteco2024}. La principal referencia para definir este modelo es la publicación especial del NIST (National Institute of Standards and Technology), que lo describe como un modelo para el acceso bajo demanda a un conjunto compartido de recursos de cómputo configurables \cite{mell2011nist}.
 \end{itemize}
 
-La arquitectura cliente-servidor puede implementarse mediante dos modelos de despliegue principales:
+\subsection{Modelos de Servicio en la Nube}
+\label{subsec:modelos_servicio_nube}
+
+El NIST también define tres modelos de servicio fundamentales que describen cómo se ofrecen los recursos de la nube a los usuarios \cite{mell2011nist}:
+
 \begin{itemize}
-    \item \textbf{Servidores locales (on-premise)}: Infraestructura física instalada y mantenida dentro de la organización, con control total sobre hardware y datos \cite{Mullins2012}.
-    
-    \item \textbf{Servidores en la nube}: Infraestructura virtualizada proporcionada por terceros, accesible mediante internet, con escalabilidad bajo demanda \cite{Mell2011}.
+    \item \textbf{Infraestructura como Servicio (IaaS - Infrastructure as a Service)}: El proveedor ofrece los recursos de cómputo fundamentales, como servidores virtuales, almacenamiento y redes. El usuario no gestiona la infraestructura física subyacente, pero tiene control sobre los sistemas operativos, el almacenamiento y las aplicaciones desplegadas. Ejemplos: Amazon EC2, Google Compute Engine.
+
+    \item \textbf{Plataforma como Servicio (PaaS - Platform as a Service)}: El proveedor ofrece una plataforma que permite a los clientes desarrollar, ejecutar y gestionar aplicaciones sin la complejidad de construir y mantener la infraestructura asociada. El usuario controla las aplicaciones desplegadas, pero no la infraestructura de red, servidores o sistemas operativos. Ejemplos: AWS Lambda, Google App Engine, Microsoft Azure App Service.
+
+    \item \textbf{Software como Servicio (SaaS - Software as a Service)}: El proveedor ofrece una aplicación completa que es consumida directamente por el usuario final a través de un navegador web o una interfaz de programa. El usuario no gestiona ni controla la infraestructura subyacente de la nube. Ejemplos: Gmail, Microsoft 365.
 \end{itemize}
+
+Para el presente proyecto, la arquitectura del servidor se basará en una combinación de servicios IaaS y PaaS, aprovechando la flexibilidad de la infraestructura virtual y la eficiencia de las plataformas gestionadas para bases de datos y procesamiento de datos.
+
 
 \section{Base de Datos}
 
