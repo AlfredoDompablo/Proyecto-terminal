@@ -1036,94 +1036,124 @@ No obstante, se reconoce que una arquitectura de cómputo en el borde es una opt
 
 
 
-\section{Análisis de Algoritmos de Visión Artificial}
+\section{Análisis de Modelos para Detección y Segmentación de Objetos}
+\label{sec:analisis_vision}
 
-\renewcommand{\arraystretch}{1.5}
-\begin{longtable}{|p{1.8cm}|p{2cm}|p{2cm}|p{1.8cm}|p{3cm}|p{2cm}|p{2.3cm}|}
-\caption{Comparativa de Versiones YOLO} \label{tab:comparativa_yolo} \\
+La selección de un algoritmo adecuado para identificar y cuantificar los residuos sólidos flotantes es un componente central de la funcionalidad de visión artificial del sistema. Dada la necesidad de estimar la densidad de basura (posiblemente a través del área cubierta en píxeles), se requiere un modelo capaz no solo de detectar objetos (\textit{object detection}) sino también de delinear sus contornos precisos (\textit{instance segmentation}). La familia de modelos \textbf{YOLO (\textit{You Only Look Once})} ofrece arquitecturas que cubren ambas tareas con un buen balance entre velocidad y precisión \cite{sapkota2025yolo}. Se realizó un análisis comparativo para identificar la versión más apropiada.
 
+\subsection{Criterios de Selección}
+\label{subsec:criterios_vision}
+
+La elección del modelo se basa en los siguientes criterios prioritarios:
+
+\begin{enumerate}
+    \item \textbf{Precisión (mAP / Mask mAP):} El modelo debe ofrecer alta precisión tanto en la detección (localización con cuadros delimitadores) como, preferiblemente, en la segmentación (delimitación a nivel de píxel). Se toma como referencia el rendimiento en el dataset COCO.
+    \item \textbf{Capacidad de Segmentación Integrada:} Se valora positivamente que el modelo soporte la segmentación de instancias de forma nativa dentro de su framework, simplificando el entrenamiento y la inferencia.
+    \item \textbf{Tamaño del Modelo y Requerimientos de Hardware:} Aunque el procesamiento se realizará en la nube, se prefiere un modelo con un tamaño razonable para facilitar su despliegue y gestión.
+    \item \textbf{Facilidad de Uso y Ecosistema:} Disponibilidad de implementaciones robustas, buena documentación y una comunidad activa.
+    \item \textbf{Flexibilidad para Re-entrenamiento:} Capacidad del modelo para ser afinado (\textit{fine-tuning}) con un dataset específico de residuos flotantes.
+\end{enumerate}
+
+\subsection{Comparativa de Modelos YOLO Relevantes}
+\label{subsec:comparativa_yolo}
+
+La Tabla \ref{tab:comparativa_yolo_condensada} presenta una comparativa de las versiones de YOLO consideradas, destacando su capacidad para la segmentación. Los valores de mAP corresponden al dataset COCO y dependen del hardware \cite{terven2023yolo, sapkota2025yolo}.
+
+\renewcommand{\arraystretch}{1.3}
+\begin{longtable}{
+    |p{1.6cm}  % Modelo
+    |p{1.7cm}         % Precisión
+    |p{2.4cm}         % Segmentación
+    |p{2.9cm}  % Requerimientos
+    |p{2.1cm}         % Facilidad de uso
+    |p{3.5cm}| % Ideal para
+}
+\caption{Comparativa de Modelos YOLO Relevantes (Dataset COCO)} \label{tab:comparativa_yolo_condensada} \\
 \hline
-\textbf{YOLO} & \textbf{Precisión (mAP)} & \textbf{Velocidad (FPS)} & \textbf{Latencia} & \textbf{Requerimientos de Hardware} & \textbf{Tamaño del Modelo (Peso)} & \textbf{Flexibilidad} \\
+\textbf{Modelo} & 
+\textbf{Precisión (mAP Det.)} & 
+\textbf{Soporte Segmentación Nativo?} & 
+\textbf{Requerimientos Hardware (GPU)} & 
+\textbf{Facilidad de Uso} & 
+\textbf{Ideal Para} \\ 
 \hline
 \endfirsthead
 
 \hline
-\textbf{YOLO} & \textbf{Precisión (mAP)} & \textbf{Velocidad (FPS)} & \textbf{Latencia} & \textbf{Requerimientos de Hardware} & \textbf{Tamaño del Modelo (Peso)} & \textbf{Flexibilidad} \\
+\textbf{Modelo} & 
+\textbf{Precisión (mAP Det.)} & 
+\textbf{Soporte Segmentación Nativo?} & 
+\textbf{Requerimientos Hardware (GPU)} & 
+\textbf{Facilidad de Uso} & 
+\textbf{Ideal Para} \\ 
 \hline
 \endhead
 
 \hline
-\multicolumn{7}{r}{\textit{Continúa en la siguiente página}} \\
+\multicolumn{6}{r}{\textit{Continúa en la siguiente página}} \\
 \endfoot
 
 \hline
 \endlastfoot
 
-YOLOv1 & $\sim$ 63.4\% & $\sim$ 30 FPS & 50 ms & Baja (GPU básica o CPU) & Ligero ($\sim$200MB) & Baja \\ \hline
-YOLOv2 & $\sim$ 72.9\% & $\sim$ 40 FPS & 45 ms & Moderado (GPU básica) & Moderado ($\sim$200MB) & Media \\ \hline
-YOLOv3 & $\sim$ 57.9\% & $\sim$ 30 FPS & 70 ms & Alta (GPU de gama media) & Alto ($\sim$300MB) & Media \\ \hline
-YOLOv4 & $\sim$ 43.5\% & $\sim$ 60 FPS & 60 ms & Alta (GPU de gama alta) & Alto ($\sim$400MB) & Alta \\ \hline
-YOLOv5 & $\sim$ 44.5\% & $\sim$ 80 FPS & 30 ms & Baja/Moderada (GPU básica a media) & Moderado ($\sim$250MB) & Muy Alta \\ \hline
-YOLOv6 & $\sim$ 48.2\% & $\sim$ 75 FPS & 35 ms & Baja/Moderada (GPU media) & Moderado ($\sim$300MB) & Alta \\ \hline
-YOLOv7 & $\sim$ 48.6\% & $\sim$ 55 FPS & 50 ms & Alta (GPU de gama alta) & Alto ($\sim$500MB) & Alta \\ \hline
-YOLOv8 & $\sim$ 53.9\% & $\sim$ 75 FPS & 40 ms & Alta (GPU de gama alta) & Alto ($\sim$400MB) & Muy Alta \\ \hline
-YOLOv9 & $\sim$ 54.3\% & $\sim$ 50 FPS & 60 ms & Alta (GPU de gama alta) & Alto ($\sim$550MB) & Alta \\ \hline
-YOLOv10 & $\sim$ 55.2\% & $\sim$ 70 FPS & 40 ms & Moderada (GPU de gama media) & Moderado ($\sim$450MB) & Alta \\ \hline
-YOLOv11 & $\sim$ 55.4\% & $\sim$ 50 FPS & 55 ms & Alta (GPU de gama alta) & Alto ($\sim$600MB) & Muy Alta \\ \hline
-YOLOv12 & $\sim$ 56.5\% & $\sim$ 45 FPS & 50 ms & Alta (GPU de gama alta) & Muy alto ($\sim$650MB) & Muy Alta \\ \hline
+YOLOv5 
+& $\sim$ 55.8\% (v5x)
+& No (Requiere forks/mods)
+& Baja/Moderada (Básica a Media)
+& Muy Alta (PyTorch Nativo)
+& Detección rápida, buen balance, hardware moderado \\ \hline
+
+YOLOv7 
+& $\sim$ 56.8\% (v7x)
+& No (Principalmente detección)
+& Alta (Gama Alta)
+& Moderada
+& Detección de alta precisión y velocidad \\ \hline
+
+YOLOv8 
+& $\sim$ 53.9\% (v8x)
+& \textbf{Sí} (Framework Unificado)
+& Alta (Gama Alta)
+& Muy Alta (Framework Ultralytics)
+& \textbf{Detección y Segmentación}, versatilidad, estado del arte \\ \hline
+
+YOLOv11 
+& $\sim$ 55.4\% (Est.)
+& \textbf{Sí} (Framework Unificado)
+& Alta (Gama Alta)
+& Alta (Reciente)
+& Detección/Segmentación, mejoras arquitectónicas recientes \\ \hline
+
+\multicolumn{6}{p{16cm}}{\footnotesize \textit{Nota: Los tamaños de modelo varían según la versión específica (n, s, m, l, x). El mAP corresponde a COCO val2017 para detección. La facilidad de uso de YOLOv11 puede variar por ser más reciente.}} \\
 
 \end{longtable}
 
 
+\subsection{Justificación y Selección del Modelo}
+\label{subsec:justificacion_yolo}
 
-Para seleccionar una versión de YOLO para la detección de basura flotante en cuerpos de agua se consideran las principales características:
+La necesidad explícita de realizar segmentación de instancias para estimar la densidad de residuos mediante el área cubierta en píxeles inclina la balanza hacia modelos que ofrezcan esta funcionalidad de manera integrada y eficiente.
 
 \begin{itemize}
-    \item Precisión (mAP): Alta precisión para detectar objetos pequeños en imágenes de 1200x720 píxeles.
-    \item Velocidad/Latencia: No es crítico en tiempo real, pero la latencia debe ser razonable para el procesamiento.
-    \item Requerimientos de Hardware: El modelo debe ser ligero y funcionar para dispositivos con recursos limitados.
-    \item Tamaño del Modelo: Modelo no tan robusto, para ajustarse a las limitaciones de memoria.
-    \item Flexibilidad: Capacidad para ajustarse a diferentes tamaños de objetos y condiciones variables (iluminación, ángulos).
+    \item \textbf{YOLOv5:} Aunque es un modelo excelente y fácil de usar para la detección de objetos \cite{jocher2020yolov5}, no incluye la segmentación de instancias en su rama principal. Lograr segmentación requiere utilizar variantes o modificaciones específicas, lo que añade complejidad al desarrollo y mantenimiento.
+
+    \item \textbf{YOLOv7:} Similar a YOLOv5, su enfoque principal ha sido optimizar la detección en términos de velocidad y precisión, sin integrar la segmentación como una tarea central.
+
+    \item \textbf{YOLOv8:} Desarrollado por Ultralytics, se presenta como un framework unificado que maneja de forma nativa y eficiente tanto la detección como la segmentación de instancias, clasificación y estimación de pose \cite{ultralyticsYOLOv8}. Ofrece un rendimiento de vanguardia, es fácil de usar y cuenta con un excelente soporte y documentación.
+
+    \item \textbf{YOLOv11:} Representa una de las evoluciones más recientes, prometiendo mejoras arquitectónicas \cite{sapkota2025yolo}. Aunque también soporta segmentación, al ser más nuevo, podría tener menos documentación comunitaria o requerir ajustes en las herramientas de entrenamiento en comparación con YOLOv8.
 \end{itemize}
 
-\begin{table}[H]
-\centering
-\renewcommand{\arraystretch}{1.5}
-\caption{Comparativa entre las versiones de YOLO}
-\label{tab:yolo_comparison1}
-\begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|p{3cm}|p{3cm}|}
-\hline
-\textbf{Versión YOLO} & \textbf{Precisión (mAP)} & \textbf{Tamaño del Modelo} & \textbf{Requerimientos de Hardware} & \textbf{Flexibilidad} \\ \hline
-YOLOv5       & 44.5\%                  & Moderado ($\sim$ 250MB)          & Baja/Moderada (GPU básica)         & Flexibilidad alta, fácil de usar, ideal para dispositivos limitados. \\ \hline
-YOLOv6       & 48.2\%                  & Moderado ($\sim$ 300MB)          & Baja/Moderada (GPU media)          & Buena precisión, optimización para hardware limitado. \\ \hline
-YOLOv7       & 48.6\%                  & Alto ($\sim$ 500MB)              & Alta (GPU de gama alta)            & Excelente precisión, pero más pesado y requiere una GPU potente. \\ \hline
-YOLOv8       & 53.9\%                  & Alto ($\sim$400MB)              & Alta (GPU de gama alta)            & Excelente precisión y segmentación, pero demasiado pesado para hardware limitado. \\ \hline
-\end{tabular}
-\end{table}
+Considerando la necesidad de segmentación, la madurez relativa dentro de las arquitecturas modernas y la robustez del framework, se selecciona \textbf{YOLOv8-YOLOv11} como el modelo para este proyecto. Específicamente, se optará por una de sus variantes pre-entrenadas (ej. `yolov8s-seg.pt`) que ya incluye la capacidad de segmentación.
 
-Dado que el sistema no requiere procesamiento avanzado ni detección en tiempo real, el objetivo principal es seleccionar un algoritmo de procesamiento de imágenes que sea fácil de implementar, eficiente en términos de recursos y con un tamaño reducido, para asegurar un rendimiento adecuado en dispositivos con limitaciones de hardware. A pesar de las restricciones de recursos, se debe garantizar que el algoritmo ofrezca una buena precisión en la detección de objetos, basura flotante en cuerpos de agua. Por sus buenos valores en precisión, se consideran las versiones YOLOv5 y YOLOv6.
+Esta elección ofrece el mejor compromiso entre:
+\begin{itemize}
+    \item \textbf{Funcionalidad Requerida:} Soporte nativo y eficiente para segmentación de instancias.
+    \item \textbf{Precisión:} Rendimiento de vanguardia demostrado en benchmarks estándar.
+    \item \textbf{Facilidad de Implementación:} Un framework unificado y bien documentado que simplifica el entrenamiento (fine-tuning) y la inferencia.
+\end{itemize}
 
-\begin{table}[H]
-\centering
-\renewcommand{\arraystretch}{1.5}
-\caption{Comparativa entre YOLOv5 y YOLOv6}
-\label{tab:yolo_comparison2}
-\begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{3cm}|p{4cm}|}
-\hline
-\textbf{Característica}         & \textbf{YOLOv5}                             & \textbf{YOLOv6}                             \\ \hline
-\textbf{Precisión (mAP)}        & 44.5\% en COCO                              & 48.2\% en COCO                              \\ \hline
-\textbf{Tamaño del Modelo}      & Moderado (~250MB)                          & Moderado (~300MB)                          \\ \hline
-\textbf{Velocidad (FPS)}        & 80 FPS                   & 75 FPS                                      \\ \hline
-\textbf{Latencia}               & 30 ms                                      & 35 ms                                       \\ \hline
-\textbf{Requerimientos de Hardware} & Baja/Moderada (GPU básica a media)        & Baja/Moderada (GPU media)                  \\ \hline
-\textbf{Optimización}           & Muy buena para dispositivos limitados      & Excelente optimización para eficiencia     \\ \hline
-\textbf{Flexibilidad}           & Alta                                       & Alta                                       \\ \hline
-\textbf{Escalabilidad}          & Alta                                       & Alta                                       \\ \hline
-\textbf{Facilidad de Uso}       & Muy fácil de usar, amplia documentación    & Fácil de usar, pero con más opciones avanzadas \\ \hline
-\textbf{Ideal para}             & Proyectos rápidos y optimizados, buena para hardware con recursos limitados & Mejor precisión sin sacrificar demasiado la eficiencia, optimizado para hardware moderado \\ \hline
-\end{tabular}
-\end{table}
-
+Si bien YOLOv5 sigue siendo una excelente opción si la detección simple fuese suficiente, la necesidad de cuantificar el área cubierta por los residuos hace que YOLOv8 sea la opción técnicamente superior para los objetivos planteados.
 
 
 
