@@ -156,8 +156,8 @@ La página web permite consultar los datos recopilados por los nodos sensores y 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Selección de Sensores}
-
-La selección de los sensores más adecuados para el sistema se rige por los requerimientos funcionales y no funcionales previamente definidos. Como base para la evaluación, cada transductor debe cumplir con las siguientes especificaciones mínimas, derivadas de la Tabla~\ref{tab:parametros_calidad_agua} y el requerimiento RNF01:
+\label{sec:analisis_sensores}
+La selección de los transductores más adecuados para el sistema se rige por los requerimientos funcionales y no funcionales previamente definidos. Como base para la evaluación, cada sensor debe cumplir con las especificaciones mínimas derivadas de la Tabla~\ref{tab:parametros_calidad_agua} (Parámetros Normativos) y el requerimiento RNF01 (Precisión), las cuales se resumen a continuación:
 
 \begin{itemize}
     \item Sensor de pH: Rango de medición mínimo de 5.0 a 8.0 unidades de pH, con una precisión de $\pm0.1$ unidades.
@@ -249,42 +249,53 @@ Considerando los objetivos de este Proyecto y las condiciones operativas previst
 
 \section{Análisis de la topología de red}
 
-El diseño de la red inalámbrica de sensores (WSN) implementa una topología lineal, compuesta por cuatro nodos sensores distribuidos a lo largo de un cuerpo de agua lótico (río) y un nodo concentrador o sink, ubicado en una de las puntas de la red. Cada nodo sensor se encarga de la captura de parámetros físico-químicos y de imágenes, transmitiendo sus datos hacia el nodo sink a través de los nodos intermedios, que actúan como repetidores. 
 
-El nodo sink cumple la función de backbone de la red, ya que recibe toda la información proveniente de los sensores y la envía al servidor central en la nube mediante una conexión Wi-Fi. Esta configuración aprovecha la geometría natural del cauce del río y el flujo unidireccional del agua, al tiempo que mantiene un balance entre eficiencia energética, simplicidad en el enrutamiento y posibilidad de escalar la red para cubrir mayores extensiones.
+El diseño de la Red Inalámbrica de Sensores (WSN) es fundamental para garantizar la conectividad fiable y eficiente entre los nodos distribuidos y el sistema central de procesamiento. Para este proyecto, se ha seleccionado una \textbf{topología lineal multisalto} (\textit{multi-hop linear topology}).
 
-\subsection*{Justificación de la topología lineal}
+\subsection{Descripción de la Topología Seleccionada}
+\label{subsec:descripcion_topologia}
 
-En entornos fluviales, una topología lineal permite alinear la ubicación de los sensores con la dirección del flujo, facilitando el seguimiento longitudinal de parámetros ambientales. Esta estructura favorece la recolección secuencial de datos, siendo ideal para medir la evolución espacial de variables como turbidez, pH o acumulación de residuos sólidos flotantes.
+La red se compone de cuatro nodos sensores (N=4) desplegados secuencialmente a lo largo del cuerpo de agua lótico y un nodo final denominado nodo concentrador o \textit{gateway} (\textit{sink node}), ubicado al final de la cadena. Cada nodo sensor ($n=1, ..., 4$) captura datos fisicoquímicos e imágenes. La comunicación hacia el \textit{gateway} se realiza mediante un esquema de retransmisión secuencial (\textit{store-and-forward}), donde cada nodo $n$ recibe los datos acumulados de los nodos $1$ a $n-1$ y los retransmite junto con sus propios datos hacia el nodo $n+1$ (o hacia el \textit{gateway} si $n=N$). La Figura \ref{fig:topologia_lineal_fluvial} ilustra esta configuración.
 
-Las principales razones para emplear esta topología son:
+\begin{figure}[H]
+   \centering
+   \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Análisis/Topologia/Topologia_Lineal.pdf}
+   \caption{Topología lineal multisalto para el monitoreo fluvial. Los nodos sensores se comunican mediante enlaces inalámbricos (líneas discontinuas), y el Nodo Sink/Gateway se conecta a la nube mediante Wi-Fi estándar (línea sólida).}
+   \label{fig:topologia_lineal_fluvial}
+\end{figure}
 
-\begin{itemize}
-    \item \textbf{Adaptación al entorno}: se alinea naturalmente con la morfología y dinámica de cuerpos de agua lóticos.
-    \item \textbf{Cobertura eficiente}: permite cubrir tramos extensos del cauce con un número reducido de nodos.
-    \item \textbf{Simplicidad de encaminamiento}: los datos fluyen de manera determinista hacia el nodo concentrador final.
-\end{itemize}
+El \textit{gateway} actúa como punto de agregación final. Recibe toda la información de la WSN a través del enlace inalámbrico proveniente del último nodo sensor (Nodo 4). Posteriormente, utiliza una interfaz de comunicación distinta, Wi-Fi estándar (IEEE 802.11n/g), para transmitir los datos consolidados al servidor central alojado en la nube. Esta elección para el enlace final (\textit{backhaul}) facilita la integración con infraestructuras de red comunes (routers Wi-Fi) para el acceso a Internet.
 
-\subsection*{Esquema de retransmisión y comunicación con servidor}
 
-Cada nodo sensor transmite sus mediciones hacia el nodo concentrador mediante un esquema de retransmisión secuencial (\textit{store-and-forward}), donde los nodos intermedios actúan como repetidores. La comunicación entre nodos se realiza mediante transceptores Wi-Fi HaLow (IEEE 802.11ah), que operan en modo \textbf{half-duplex}, alternando entre recepción y transmisión.
+\subsection{Justificación de la Topología Lineal}
+\label{subsec:justificacion_topologia}
 
-El \textbf{nodo sink}, ubicado en una de las puntas de la red, cumple la función de concentrador: recibe los datos de todos los nodos sensores, los consolida y los envía al servidor central en la nube a través de una conexión Wi-Fi convencional (IEEE 802.11n/b/g). De esta manera, se centraliza la salida de la red en un único punto con conectividad de largo alcance.
-
-\begin{itemize}
-    \item \textbf{Nodos 1 a 4}: sensores + retransmisión hacia el siguiente nodo.
-    \item \textbf{Nodo sink}: recepción total + enlace Wi-Fi al servidor.
-\end{itemize}
-
-\subsection*{Implicaciones técnicas}
+La topología lineal se considera la más adecuada para el monitoreo de entornos fluviales por las siguientes razones:
 
 \begin{itemize}
-    \item \textbf{Carga energética acumulada}: el nodo sink es el más exigente energéticamente, ya que gestiona tanto su propia operación como la consolidación y envío de toda la información hacia la nube.
-    \item \textbf{Retardo acumulado}: los datos del nodo más alejado atraviesan cuatro saltos antes de llegar al servidor, lo cual introduce retardo; sin embargo, es tolerable dada la baja frecuencia de muestreo requerida en el monitoreo ambiental.
-    \item \textbf{Tolerancia a fallos limitada}: la pérdida de un nodo intermedio interrumpe la cadena de transmisión, por lo que es recomendable implementar mecanismos de detección de fallos o estrategias de redundancia si la aplicación lo demanda.
+    \item \textbf{Adaptación al Entorno Geográfico:} Se alinea de forma natural con la morfología alargada de ríos y arroyos.
+    \item \textbf{Monitoreo Longitudinal:} Facilita el estudio de la evolución espacial de parámetros a medida que el agua fluye.
+    \item \textbf{Simplicidad de Enrutamiento:} El flujo de datos es determinista (de $n$ a $n+1$), simplificando la lógica en los nodos y ahorrando energía al evitar protocolos de enrutamiento complejos. 
+\end{itemize}
+Alternativas como topologías en estrella o malla presentarían desventajas en términos de alcance o complejidad para esta aplicación específica.
+
+\subsection{Esquema de Comunicación Inter-Nodo}
+\label{subsec:esquema_comunicacion_inter_nodo} 
+
+La comunicación \textit{entre} los nodos sensores y hacia el \textit{gateway} utilizará una tecnología inalámbrica de medio alcance y bajo consumo (cuya selección se detalla en la Sección \ref{sec:analisis_tecnologias}). Esta tecnología deberá operar en modo \textit{half-duplex}, lo cual impacta el tiempo total de comunicación, como se analizó en la Sección \ref{ssubsec:tiempo_general_comm}. El esquema de retransmisión es \textit{store-and-forward}, requiriendo mecanismos básicos de fiabilidad como confirmaciones de recepción (ACK) para asegurar la entrega entre saltos.
+
+\subsection{Implicaciones Técnicas y Limitaciones}
+\label{subsec:implicaciones_topologia}
+
+La topología lineal seleccionada presenta ciertas implicaciones:
+
+\begin{itemize}
+    \item \textbf{Carga Energética Desbalanceada:} Los nodos más cercanos al \textit{gateway} (Nodo 4) soportan mayor tráfico de retransmisión (Ecuación \eqref{eq:tiempo_comm_nodo_n}), requiriendo un dimensionamiento energético cuidadoso.
+    \item \textbf{Retardo Acumulado:} Tolerable dada la baja frecuencia de muestreo semanal.
+    \item \textbf{Tolerancia a Fallos Limitada:} La falla de un nodo intermedio interrumpe la cadena. Se considerarán mecanismos de detección de fallos o redundancia para futuras fases.
 \end{itemize}
 
-La topología lineal con nodo concentrador en un extremo resulta adecuada para el monitoreo ambiental en cuerpos de agua lóticos, al equilibrar simplicidad, eficiencia energética y compatibilidad con la estructura geográfica. Además, la incorporación de Wi-Fi tradicional en el nodo sink facilita la integración con el servidor en la nube y con la página web desarrollada para la visualización remota de los datos adquiridos, sin necesidad de gateways adicionales.
+A pesar de la limitación en la tolerancia a fallos, la simplicidad, eficiencia y adecuación geográfica de la topología lineal la validan como la opción más pragmática para la fase actual del proyecto. La conexión final del \textit{gateway} mediante Wi-Fi estándar simplifica la integración con la infraestructura de nube.
 
 
 
@@ -423,7 +434,8 @@ Para la selección de la cámara que formará parte del sistema de visión artif
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\section{Análisis de microcontroladores}    
+\section{Análisis de microcontroladores} 
+\label{sec:analisis_microcontroladores}   
 La selección del microcontrolador constituye una decisión crítica en el diseño del sistema, determinando directamente las capacidades de integración sensorial, gestión energética, conectividad inalámbrica y procesamiento local de datos. Considerando los requerimientos específicos del proyecto, se llevó a cabo un análisis comparativo entre diversas placas de desarrollo ampliamente adoptadas en sistemas embebidos. Este estudio evaluó parámetros clave como arquitectura, capacidad de memoria, interfaces de comunicación, opciones de conectividad inalámbrica y costo. El objetivo fundamental es identificar la solución que optimice el equilibrio entre rendimiento computacional, eficiencia energética y viabilidad de implementación. A continuación, se presenta la comparativa técnica de las alternativas evaluadas.  
 
 \input{Documento/Tablas/Microcontroladores2} 
@@ -468,7 +480,9 @@ Con estos criterios, se evaluaron tres microcontroladores PIC de arquitectura de
 \renewcommand{\arraystretch}{1.4}
 \begin{tabular}{@{}|l|c|c|c|@{}}
 \hline
-\textbf{Característica} & \textbf{PIC12LF1822} & \textbf{PIC16LF1823} & \textbf{PIC16LF1847} \\
+\textbf{Característica} & \textbf{PIC12LF1822} \cite{microchip2020_PIC12LF1822_16LF1823}
+                        & \textbf{PIC16LF1823} \cite{microchip2020_PIC12LF1822_16LF1823}
+                        & \textbf{PIC16LF1847} \cite{microchip2013_PIC16LF1847}\\
 \hline
 Arquitectura         & 8-bit & 8-bit & 8-bit \\ \hline
 GPIO disponibles     & 6     & 12    & 16 \\ \hline
@@ -506,182 +520,256 @@ En contraste, el PIC12LF1822 resulta limitado en pines y entradas ADC, mientras 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\section{Análisis de la alimentación}
+\section{Análisis de la Alimentación}
+\label{sec:analisis_alimentacion}
 
-El sistema de monitoreo propuesto está diseñado para operar de forma autónoma en entornos naturales, donde no se dispone de infraestructura eléctrica. Por ello, la alimentación eléctrica representa un componente crítico para garantizar la continuidad operativa del sistema. La solución adoptada se basa en el uso de baterías recargables de ion-litio, complementadas con paneles solares que aseguran la autosuficiencia energética de los nodos sensores distribuidos.
+El sistema de monitoreo propuesto está diseñado para operar de forma autónoma en entornos naturales remotos, donde no se dispone de infraestructura eléctrica. Por ello, el subsistema de alimentación eléctrica representa un componente crítico para garantizar la continuidad operativa. La solución adoptada se basa en el uso de baterías recargables de ion-litio, complementadas con paneles solares y un módulo de gestión de carga, asegurando la autosuficiencia energética de los nodos sensores distribuidos.
 
-\subsection*{Requerimientos de alimentación de los componentes}
+\subsection{Requerimientos de Alimentación de los Componentes}
+\label{subsec:reqs_alimentacion}
 
-La Tabla~\ref{tab:componentes_energia} presenta los principales componentes del nodo sensor, junto con sus requerimientos estimados de voltaje y corriente bajo condiciones típicas de operación.
+La Tabla~\ref{tab:componentes_energia} presenta los principales componentes seleccionados para el nodo sensor (ver secciones \ref{sec:analisis_microcontroladores} y \ref{sec:analisis_sensores}), junto con sus requerimientos estimados de voltaje y corriente de operación, extraídos de sus respectivas hojas de datos. Estos valores son fundamentales para dimensionar el sistema de alimentación.
 
-\input{Documento/Tablas/ConsumosElectricos}
+%\input{Documento/Tablas/ConsumosElectricos}
 
 
-\subsection{Análisis del tiempo de transmisión y recepción por nodo}
-
-Para estimar de forma realista el consumo energético del sistema, es indispensable cuantificar la duración efectiva de la etapa de transmisión, considerando tanto el volumen de datos como la velocidad efectiva de comunicación del transceptor Wi-Fi HaLow (FGH100M).
-
-\subsubsection*{Tamaño de datos a transmitir por nodo}
-Cada nodo sensor genera dos tipos de información:
-
-\begin{enumerate}
-    \item \textbf{Una muestra sensorial única}, compuesta por:
-    \begin{itemize}
-        \item 4 sensores analógicos (12 bits): $4 \times 12 = 48$ bits = 6 bytes
-        \item Sensor digital (DS18B20): 2 bytes
-        \item Timestamp + cabecera (ID, tipo de trama): 6 bytes
-    \end{itemize}
-    \[
-    \text{Tamaño}_{\text{sensores}} = 6 + 2 + 6 = \textbf{14 bytes}
-    \]
-
-    \item \textbf{120 imágenes} capturadas por la cámara OV5640 en un intervalo de 2 minutos:
-    \[
-    \text{Tamaño}_{\text{imagen}} = 150\,\text{kB} = 153600\,\text{bytes}
-    \]
-    \[
-    \text{Total}_{\text{imágenes}} = 120 \times 153600 = \textbf{18.43\,MB}
-    \]
-\end{enumerate}
-
-\subsubsection*{Tiempo de transmisión por nodo}
-La tasa efectiva de transmisión del enlace Wi-Fi HaLow, operando con modulación MCS 7 a 8\,MHz, es de aproximadamente 4.4\,Mbps. Bajo esta condición:
-
-\begin{itemize}
-    \item \textbf{Tiempo para transmitir una muestra sensorial}:
-    \[
-    T_{\text{sensores}} = \frac{14 \times 8}{4.4 \times 10^6} \approx 25.45\,\mu s
-    \]
-    \item \textbf{Tiempo para transmitir una imagen de 150\,kB}:
-    \[
-    T_{\text{imagen}} = \frac{153600 \times 8}{4.4 \times 10^6} = 279.27\,\text{ms}
-    \]
-    \item \textbf{Tiempo total para 120 imágenes}:
-    \[
-    T_{\text{total-imágenes}} = 120 \times 279.27\,\text{ms} = 33512.4\,\text{ms}
-    \]
-    \item \textbf{Tiempo total de transmisión por nodo}:
-    \[
-    T_{\text{transmisión-nodo}} = T_{\text{sensores}} + T_{\text{total-imágenes}} \approx \textbf{33.54 segundos}
-    \]
-\end{itemize}
-
-\subsubsection*{Consideración de half-duplex en 802.11ah}
-
-El protocolo IEEE 802.11ah (Wi-Fi HaLow), como derivado de 802.11, opera en modo half-duplex, lo que significa que los nodos no pueden transmitir y recibir simultáneamente. En una red lineal, esto implica que un nodo que debe retransmitir datos de nodos anteriores primero debe recibirlos completamente antes de iniciar su propia transmisión.
-
-Así, el nodo más lejano (Nodo 4) no solo transmite un volumen de datos equivalente a cuatro nodos, sino que también debe escuchar ese mismo volumen, duplicando efectivamente su tiempo de operación activa.
-
-\[
-T_{\text{nodo 4}} = T_{\text{rx}} + T_{\text{tx}} = 134.16 + 134.16 = \boxed{268.32~\text{s}} \approx \boxed{4.47~\text{min}} = 0.075~\text{h}
-\]
-
-\subsection{Escenario operativo}
-
-El sistema emplea un ciclo \textbf{semanal} (168 horas) que optimiza consumo energético mientras cumple con los requisitos de calidad del agua establecidos por la \textit{NOM-001-SEMARNAT-2021}. Dentro de cada ciclo, distribuye aproximadamente 6.8 minutos de actividad entre modos operativos, considerando el nodo más crítico (Nodo 4):
-
-\begin{itemize}
-    \item \textbf{Captura de imágenes}: 2.0 min
-    \item \textbf{Lectura sensores (5 x 5 s)}: 0.416 min
-    \item \textbf{Recepción}: 2.235 min
-    \item \textbf{Transmisión}: 2.235 min
-    \item \textbf{Sleep}: 167.886 h (99.93\% del ciclo)
-\end{itemize}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.5\linewidth]{Documento/Imagenes/Análisis/ciclo modos op.pdf}
-    \caption{Ciclo de modos operativos}
-    \label{fig:ciclo_mod_op}
-\end{figure}
-
-\subsection*{Consumo por modo operativo}
-Tomando en cuenta los valores de corriente de cada componente detallados previamente en la Tabla~\ref{tab:componentes_energia}, a continuación se presenta el desglose del consumo energético semanal estimado por modo de operación para el nodo más exigente (Nodo 4), considerando su papel en la retransmisión de datos dentro de una topología lineal.
-
-\begin{longtable}{l c l c c}
-\caption{Detalle de consumo energético por modo operativo (Nodo 4)} \label{tab:consumo_operativo} \\
-\toprule
-\textbf{Modo} & \textbf{Duración} & \textbf{Componente} & \textbf{Corriente} & \textbf{Total} \\
-\midrule
-\endfirsthead
-
-\toprule
-\textbf{Modo} & \textbf{Duración} & \textbf{Componente} & \textbf{Corriente} & \textbf{Total} \\
-\midrule
-\endhead
-
-\hline
-\multicolumn{5}{r}{\textit{Continúa en la siguiente página}} \\
-\endfoot
-
-\hline
-\endlastfoot
-
-\multirow{2}{*}{\textbf{Recepción}} & \multirow{2}{*}{2.235 min} & Microcontrolador & 91\,mA & \multirow{2}{*}{134\,mA} \\
-& & Transceptor RX & 43\,mA & \\
-\cmidrule(lr){1-5}
-
-\multirow{2}{*}{\textbf{Transmisión}} & \multirow{2}{*}{2.235 min} & Microcontrolador & 91\,mA & \multirow{2}{*}{145\,mA} \\
-& & Transceptor TX & 54\,mA & \\
-\cmidrule(lr){1-5}
-
-\multirow{2}{*}{\textbf{Lectura sensores}} & \multirow{2}{*}{25 s} & Microcontrolador & 91\,mA & \multirow{2}{*}{141\,mA} \\
-& & Sensor activo (1 a la vez) & 50\,mA & \\
-\cmidrule(lr){1-5}
-
-\multirow{2}{*}{\textbf{Captura imágenes}} & \multirow{2}{*}{2 min} & Microcontrolador & 91\,mA & \multirow{2}{*}{231\,mA} \\
-& & Cámara OV2640 & 140\,mA & \\
-\cmidrule(lr){1-5}
-
-\multirow{3}{*}{\textbf{Modo Sleep}} & \multirow{3}{*}{167.886 h} & Microcontrolador & 0.240\,mA & \multirow{3}{*}{0.270\,mA} \\
-& & Transceptor & 0.010\,mA & \\
-& & Cámara & 0.020\,mA & \\
-
-\end{longtable}
-
-\subsection{Cálculo de consumo energético}
-A partir de los tiempos de operación definidos en la Tabla~\ref{tab:consumo_operativo}, se estima el consumo energético semanal del nodo más exigente mediante la siguiente expresión:
-
-\begin{equation}
-E_{\text{sem}} = \sum_{i=1}^{n} (I_i \times t_i)
-\end{equation}
-    
 
 
 \begin{table}[H]
 \centering
-\renewcommand{\arraystretch}{1.5}
-\caption{Cálculo detallado del consumo energético semanal}
-\begin{tabular}{|l|c|c|c|}
-\hline
-\textbf{Modo operativo} & \textbf{Corriente} & \textbf{Tiempo} & \textbf{Energía} \\
-\hline
-Recepción               & 134\,mA & $2.235/60$ h & 4.99\,mAh \\
-Transmisión             & 145\,mA & $2.235/60$ h & 5.40\,mAh \\
-Lectura sensores        & 141\,mA & $25/3600$ h  & 0.98\,mAh \\
-Captura imágenes        & 231\,mA & $2/60$ h     & 7.70\,mAh \\
-Modo Sleep              & 0.270\,mA & 167.886 h   & 45.33\,mAh \\
-\hline
-\textbf{Total}          & — & — & \textbf{64.4\,mAh} \\
-\hline
+\caption{Consumo eléctrico estimado de componentes del nodo sensor.}
+\label{tab:componentes_energia}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{l l S[table-format=1.1] S[table-format=3.3] l}
+\toprule
+\textbf{Componente} & \textbf{Modo} & {\textbf{Voltaje}} & {\textbf{Corriente}} & \textbf{Ref.} \\
+ & & {(\unit{\volt})} & {(\unit{\milli\ampere})} & \\
+\midrule
+\multirow{3}{*}{Transceptor FGH100M} & Tx & 3.3 & 54 & \cite{QuectelFGH100M} \\ 
+ & Rx & 3.3 & 43 & \cite{QuectelFGH100M} \\
+ & Sleep & 3.3 & <0.010 & \cite{QuectelFGH100M} \\
+\midrule
+\multirow{2}{*}{MCU Xiao ESP32-S3} & Activo & 3.3 & 91 & \cite{espressif2023_ESP32-S3} \\ 
+ & Sleep & 3.3 & 0.240 & \cite{espressif2023_ESP32-S3} \\
+\midrule
+MCU PIC16LF1823 & Activo (@ \SI{1}{\mega\hertz}) & 3.3 & 0.050 & \cite{microchip2020_PIC12LF1822_16LF1823} \\ 
+ & Sleep & 3.3 & <0.001 & \cite{microchip2020_PIC12LF1822_16LF1823} \\
+\midrule
+Sensor pH (Industrial V2) & Activo & 5.0 & 10 & \cite{DFRobot_pH_Sensor} \\ 
+Sensor OD (SEN0237) & Activo & 5.0 & 40 & \cite{DFRobot_DO_Sensor} \\
+Sensor Turbidez (SEN0189) & Activo & 5.0 & 30 & \cite{DFRobot_Turbidity_Sensor} \\ 
+Sensor EC (DFR0300) & Activo & 5.0 & 40 & \cite{DFRobot_EC_Sensor} \\
+Sensor Temp (DS18B20) & Activo & 3.3 & 4 & \cite{DFRobot_DS18B20} \\ 
+\midrule
+\multirow{2}{*}{Cámara OV5640} & Activo & 3.3 & 140 & \cite{omnivision2011_OV5640} \\ 
+ & Standby & 3.3 & 0.020 & \cite{omnivision2011_OV5640} \\
+\bottomrule
 \end{tabular}
-\label{tab:consumo_actualizado}
 \end{table}
+ 
 
-\subsection{Análisis de baterías}
-La elección de la batería es crucial para asegurar el funcionamiento continuo del sistema en condiciones autónomas. En esta subsección se comparan distintas opciones de baterías recargables disponibles comercialmente, considerando criterios como capacidad, voltaje, corriente de descarga y dimensiones físicas.
 
+Para estimar de forma realista el consumo energético del sistema, es indispensable cuantificar la duración efectiva de las fases de transmisión y recepción de datos, considerando el volumen de información y la velocidad de comunicación del transceptor Wi-Fi HaLow (FGH100M).
+
+
+\subsubsection{Volumen de Datos a Transmitir por Ciclo}
+\label{ssubsec:volumen_datos}
+Cada nodo sensor genera dos tipos de información por ciclo operativo semanal:
+
+\begin{enumerate}
+    \item \textbf{Una muestra sensorial única}, compuesta por:
+    \begin{itemize}
+        \item 4 sensores analógicos (asumiendo ADC de 12 bits): 
+        $4 \times \SI{12}{\bit} = \SI{48}{\bit} = \SI{6}{\byte}$
+        \item 1 sensor digital (DS18B20, resolución \SI{12}{\bit}): \SI{2}{\byte}
+        \item Metadatos (Timestamp + ID de nodo + tipo de trama, estimado): \SI{8}{\byte}
+    \end{itemize}
+    \[
+    \text{Volumen}_{\text{sensores}} = 6 + 2 + 8 = \boxed{\SI{16}{\byte}}
+    \]
+
+    \item \textbf{Una única imagen} capturada por la cámara (ej. OV5640). 
+    Se asume una resolución de \(640 \times 480\) píxeles y una compresión JPEG que resulta en un tamaño de archivo típico de \SI{150}{\kilo\byte} \cite{jpegCompression}. 
+    Esta compresión es crucial para reducir el volumen de datos a transmitir.
+    \[
+    \text{Volumen}_{\text{imagen}} = \SI{150}{\kilo\byte} = \num{153600}\,\text{bytes}
+    \]
+\end{enumerate}
+
+El volumen total de datos generado por un nodo en cada ciclo es la suma de ambos:
+\[
+\text{Volumen}_{\text{nodo}} = \text{Volumen}_{\text{sensores}} + \text{Volumen}_{\text{imagen}} \approx \SI{153616}{bytes} \approx \SI{150.02}{\kilo\byte}
+\]
+
+\subsubsection{Tiempo Estimado de Transmisión}
+\label{ssubsec:tiempo_tx}
+Se asume una tasa de transmisión efectiva (\textit{throughput}) para el enlace Wi-Fi HaLow (FGH100M) de \SI{1}{\mega\bit\per\second}. Esta es una estimación conservadora, considerablemente menor que la tasa teórica máxima (ej. \SI{4.4}{\mega\bit\per\second} con MCS 7 @ \SI{8}{\mega\hertz}), para tener en cuenta el overhead del protocolo (cabeceras, ACK), posibles retransmisiones y las condiciones del canal en un entorno real \cite{ieee80211ah}.
+
+Bajo esta condición:
+\[
+T_{\text{transmisión-nodo}} = \frac{\text{Volumen}_{\text{nodo}} \times 8\,\text{bits/byte}}{\text{Tasa de transmisión}} = \frac{\num{153616} \times 8}{\SI{1e6}{\bit\per\second}} \approx \num{1.229}\,\unit{\second}
+\]
+Por lo tanto, el tiempo activo estimado para transmitir los datos de un nodo es de aproximadamente \textbf{\SI{1.23}{\second}}.
+
+
+\subsubsection{Tiempo Total de Comunicación por Nodo en Topología Lineal}
+\label{ssubsec:tiempo_general_comm}
+
+El protocolo IEEE 802.11ah opera en modo \textit{half-duplex}, impidiendo la transmisión y recepción simultáneas \cite{ieee80211ah}. En la topología lineal adoptada, esto tiene un impacto acumulativo en el tiempo de actividad de cada nodo.
+
+Consideremos una red lineal con $N$ nodos sensores (numerados del 1 al $N$), donde el Nodo 1 es el más alejado del concentrador y el Nodo $N$ es el más cercano. El concentrador se considera como el destino final después del Nodo $N$.
+
+El tiempo base ($T_{base}$) para transmitir el volumen de datos ($V_n$) generado por un solo nodo en cada ciclo se calcula como:
+\begin{equation} \label{eq:tiempo_base}
+T_{base} = \frac{V_n \times 8}{R}
+\end{equation}
+Donde:
+\begin{itemize}
+    \item $T_{base}$ es el tiempo base de transmisión por nodo (en segundos).
+    \item $V_n$ es el volumen de datos generado por un nodo por ciclo (en bytes).
+    \item $R$ es la tasa de transmisión efectiva del enlace (en bits por segundo).
+    \item 8 es el factor de conversión de bytes a bits.
+\end{itemize}
+
+Un nodo genérico $n$ (donde $1 \le n \le N$) debe recibir los datos de los $n-1$ nodos anteriores y transmitir los $n$ paquetes acumulados (los $n-1$ recibidos más el suyo). Los tiempos de recepción ($T_{rx}$) y transmisión ($T_{tx}$) para el nodo $n$ son:
+\begin{equation} \label{eq:tiempo_rx_n}
+T_{rx}(n) = (n-1) \times T_{base}
+\end{equation}
+\begin{equation} \label{eq:tiempo_tx_n}
+T_{tx}(n) = n \times T_{base}
+\end{equation}
+Donde:
+\begin{itemize}
+    \item $T_{rx}(n)$ es el tiempo total de recepción para el nodo $n$ (en segundos).
+    \item $T_{tx}(n)$ es el tiempo total de transmisión para el nodo $n$ (en segundos).
+    \item $n$ es el índice del nodo en la cadena lineal (1 a N).
+    \item $T_{base}$ es el tiempo base de transmisión por nodo (calculado en \eqref{eq:tiempo_base}).
+\end{itemize}
+
+Por lo tanto, la fórmula general para el tiempo total de comunicación activa ($T_{comm}$) para un nodo $n$ en la cadena lineal es la suma de sus tiempos de recepción y transmisión:
+\begin{equation} \label{eq:tiempo_comm_nodo_n}
+T_{comm}(n) = T_{rx}(n) + T_{tx}(n) = ((n-1) + n) \times T_{base} = (2n - 1) \times T_{base}
+\end{equation}
+Donde:
+\begin{itemize}
+    \item $T_{comm}(n)$ es el tiempo total de comunicación activa para el nodo $n$ (en segundos).
+    \item $n$ es el índice del nodo en la cadena lineal (1 a N).
+    \item $T_{base}$ es el tiempo base de transmisión por nodo (calculado en \eqref{eq:tiempo_base}).
+\end{itemize}
+
+\paragraph{Ejemplo de Cálculo para el Nodo 4 (N=4):}
+En este proyecto, se tienen $N=4$ nodos sensores. El nodo más cargado es el Nodo 4. Aplicando la Ecuación \eqref{eq:tiempo_comm_nodo_n} con $n=4$ y utilizando $T_{base} \approx \SI{1.23}{\second}$ (calculado en la subsección \ref{ssubsec:tiempo_tx} usando la Ecuación \eqref{eq:tiempo_base}):
+
+\[
+T_{comm}(4) = (2 \times 4 - 1) \times \SI{1.23}{\second} = 7 \times \SI{1.23}{\second} = \boxed{\SI{8.61}{\second}}
+\]
+
+Este valor representa el tiempo total que el Nodo 4 pasa en modos activos de comunicación por ciclo y será utilizado para el cálculo del consumo energético.
+
+
+\subsection{Escenario Operativo}
+\label{subsec:escenario_operativo}
+
+Para optimizar el consumo energético y garantizar una larga autonomía, el sistema opera en un ciclo de bajo ciclo de trabajo (\textit{low duty cycle}). Se establece un **ciclo operativo semanal** (\SI{168}{\hour}) como referencia. Esta frecuencia se considera adecuada para el monitoreo ambiental de cuerpos de agua lóticos, permitiendo detectar tendencias a mediano plazo sin incurrir en un consumo excesivo \cite{nom001}.
+
+Dentro de cada ciclo semanal, el nodo alterna entre modos de bajo consumo (\textit{sleep}) y modos activos para la adquisición y transmisión de datos. Considerando el nodo con mayor carga (Nodo 4), el tiempo estimado en cada modo por ciclo es el siguiente (ver Figura \ref{fig:ciclo_mod_op}):
+
+\begin{itemize}
+    \item \textbf{Adquisición de Datos}:
+        \begin{itemize}
+            \item Lectura de Sensores: Se asume un tiempo de estabilización y lectura de \SI{5}{\second} por cada uno de los 5 sensores, activados secuencialmente. Tiempo total = $5 \times \SI{5}{\second} = \SI{25}{\second}$.
+            \item Captura de Imagen: Se estima un tiempo de \SI{10}{\second} para activar la cámara, capturar una imagen y almacenarla en el búfer. % Justificación: Tiempo típico estimado
+        \end{itemize}
+        Tiempo total de adquisición $\approx \SI{35}{\second}$.
+    \item \textbf{Comunicación (Nodo 4)}: Tiempo total de Tx y Rx calculado previamente (ver \ref{ssubsec:tiempo_general_comm}) $\approx \SI{8.61}{\second}$.
+    \item \textbf{Procesamiento Local (Estimado)}: Tiempo adicional para que el microcontrolador organice datos, comprima imagen (si aplica), etc. Se estima un tiempo conservador de \SI{5}{\second}. % Justificación: Estimación conservadora
+    \item \textbf{Tiempo Activo Total por Ciclo}: $35 + 8.61 + 5 = \SI{48.61}{\second} \approx \SI{0.81}{\minute}$.
+    \item \textbf{Tiempo en Modo Sleep}: $\SI{168}{\hour} - \SI{48.61}{\second} \approx \SI{167.987}{\hour}$ (aproximadamente el \SI{99.99}{\percent} del ciclo).
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Documento/Imagenes/Análisis/ciclo modos op.pdf} % Revisa el nombre del archivo si es necesario
+    \caption{Ciclo simplificado de modos operativos del nodo sensor.}
+    \label{fig:ciclo_mod_op}
+\end{figure}
+
+
+
+
+\subsection{Cálculo del Consumo Energético Semanal}
+\label{subsec:calculo_consumo}
+
+Utilizando los tiempos de operación estimados para cada modo y las corrientes de consumo de la Tabla \ref{tab:componentes_energia}, se calcula el consumo energético total por ciclo semanal ($E_{\text{sem}}$) para el nodo más demandante (Nodo 4). La fórmula general es:
+
+\begin{equation} \label{eq:energia_semanal}
+E_{\text{sem}} = \sum_{\text{modo}} (I_{\text{modo}} \times t_{\text{modo}})
+\end{equation}
+
+Para la fase de comunicación del Nodo 4, se separan los tiempos y corrientes de recepción (Rx) y transmisión (Tx) calculados en la subsección \ref{ssubsec:tiempo_general_comm}:
+\begin{itemize}
+    \item Tiempo de Recepción ($T_{rx}(4)$) = \SI{3.69}{\second}
+    \item Tiempo de Transmisión ($T_{tx}(4)$) = \SI{4.92}{\second}
+\end{itemize}
+Las corrientes totales durante estas fases son:
+\begin{itemize}
+    \item Corriente en Rx ($I_{Rx}$) = $I_{\text{ESP32\_activo}} + I_{\text{FGH100M\_Rx}} = \SI{91}{\milli\ampere} + \SI{43}{\milli\ampere} = \SI{134}{\milli\ampere}$
+    \item Corriente en Tx ($I_{Tx}$) = $I_{\text{ESP32\_activo}} + I_{\text{FGH100M\_Tx}} = \SI{91}{\milli\ampere} + \SI{54}{\milli\ampere} = \SI{145}{\milli\ampere}$
+\end{itemize}
+
+La Tabla \ref{tab:consumo_detallado_semanal} detalla el cálculo completo.
+
+\begin{table}[H] 
+\centering
+\caption{Cálculo detallado del consumo energético semanal estimado (Nodo 4) con Tx/Rx separados.}
+\label{tab:consumo_detallado_semanal}
+\renewcommand{\arraystretch}{1.3}
+\sisetup{round-mode=places, round-precision=2} % Redondeo a 2 decimales para la energía
+\begin{tabular}{l S[table-format=3.3] S[table-format=6.3] S[table-format=3.2]}
+\toprule
+\textbf{Modo Operativo} & {\textbf{Corriente Total}} & {\textbf{Tiempo}} & {\textbf{Energía}} \\
+ & {(\unit{\milli\ampere})} & {(\unit{\hour})} & {(\unit{\milli\ampere\hour})} \\
+\midrule
+Lectura Sensores (PIC + ESP32 + 1 Sensor) & 141.05 & {$25/3600$} & {$\approx \num{0.98}$} \\
+Captura Imagen (ESP32 + Cam) & 231.24 & {$10/3600$} & {$\approx \num{0.64}$} \\
+Recepción (Rx) (ESP32 + FGH Rx) & 134.00 & {$3.69/3600$} & {$\approx \num{0.14}$} \\ % Separado Rx
+Transmisión (Tx) (ESP32 + FGH Tx) & 145.00 & {$4.92/3600$} & {$\approx \num{0.20}$} \\ % Separado Tx
+Procesamiento Local (ESP32 + PIC) & 91.05 & {$5/3600$} & {$\approx \num{0.13}$} \\
+Modo Sleep (Todo en sleep/standby) & 0.271 & 167.987 & {$\approx \num{45.52}$} \\
+\midrule
+\textbf{Total Estimado} & & & {$\approx \num{47.61}$} \\ % Nueva suma redondeada
+\bottomrule
+\end{tabular}
+\end{table}
+%\sisetup{round-mode=off} % Desactivar redondeo global si no se necesita más
+
+El consumo energético total estimado por nodo por semana es de aproximadamente \textbf{\SI{47.6}{\milli\ampere\hour}}. Este valor se utilizará para dimensionar los componentes del subsistema de alimentación.
+
+\subsection{Análisis y Selección de Componentes de Alimentación}
+\label{subsec:seleccion_hardware_alimentacion}
+
+Basándose en el consumo energético semanal estimado de \SI{47.6}{\milli\ampere\hour}, se procede a seleccionar los componentes del subsistema de alimentación: batería, panel solar y módulo de carga, buscando un balance entre capacidad, eficiencia, costo y seguridad.
+
+
+\subsubsection{Análisis y Selección de la Batería}
+La elección de la batería recargable es crucial para la autonomía del nodo. Se compararon opciones Li-ion y LiPo disponibles comercialmente (Tabla \ref{tab:baterias}), considerando capacidad, ciclos de vida, seguridad (presencia de BMS) y dimensiones.
+
+% --- Tabla Comparativa Baterías ---
 \renewcommand{\arraystretch}{1.5}
 \begin{longtable}{|p{4.2cm}|c|c|c|}
 \caption{Comparativa de baterías recargables para el nodo sensor}
 \label{tab:baterias} \\
 \hline
-\textbf{Característica} & \textbf{104050} & \textbf{18650 2200mAh} & \textbf{18650 3000mAh} \\
+\textbf{Característica} & \textbf{104050} \cite{batteryLipo104050}
+                        & \textbf{18650 2200mAh} \cite{batteryLiIon18650}
+                        & \textbf{18650 3000mAh} \cite{batteryLiIon18650} \\
 \hline
 \endfirsthead
 
 \hline
-\textbf{Característica} & \textbf{104050} & \textbf{18650 2200mAh} & \textbf{18650 3000mAh}  \\
+\textbf{Característica} & \textbf{104050} \cite{batteryLipo104050}
+                        & \textbf{18650 2200mAh} \cite{batteryLiIon18650}
+                        & \textbf{18650 3000mAh} \cite{batteryLiIon18650} \\
 \hline
 \endhead
 
@@ -708,7 +796,7 @@ Número de ciclos de carga & $>800$ & $>1000$ & $>1000$ \\
 \hline
 Protección integrada (BMS) & Sí & No & No \\
 \hline
-Precio aproximado (MXN) & \$8 & \$4 & \$5 \\
+Precio aproximado (MXN) & \$150 & \$80 & \$100 \\
 \hline
 Imagen 
 & \shortstack{\\ \includegraphics[scale=0.1]{Documento/Imagenes/Análisis/Bat-Pan/Bateria-104050.jpg}}
@@ -716,8 +804,22 @@ Imagen
 & \shortstack{\\ \includegraphics[scale=0.1]{Documento/Imagenes/Análisis/Bat-Pan/Bateria-18650-3000mAh.jpg}} \\
 \end{longtable}
 
-\subsection{Análisis de paneles solares}
-Con el fin de mantener la autonomía del sistema, es necesario evaluar paneles solares que aseguren una recarga eficiente de la batería. Esta subsección compara distintas opciones considerando su potencia, corriente de salida y compatibilidad con el sistema.
+
+ Se selecciona la batería \textbf{LiPo modelo 104050} con una capacidad nominal de \SI{2500}{\milli\ampere\hour}. Aunque las celdas Li-ion 18650 ofrecen un mayor número de ciclos de vida teóricos, la LiPo seleccionada presenta dos ventajas clave para este proyecto:
+\begin{enumerate}
+    \item \textbf{Seguridad Integrada:} Incluye un circuito de protección (BMS - Battery Management System) incorporado, que previene sobrecargas, sobredescargas y cortocircuitos, crucial para un dispositivo autónomo desatendido \cite{batteryLipo104050}.
+    \item \textbf{Capacidad Suficiente:} Sus \SI{2500}{\milli\ampere\hour} exceden ampliamente la demanda energética calculada, proporcionando un gran margen de seguridad.
+\end{enumerate}
+La opción Li-ion 18650 requeriría un BMS externo, añadiendo complejidad al diseño.
+
+\paragraph{Cálculo de Autonomía Teórica:} Con la batería seleccionada, la autonomía estimada sin recarga solar es:
+\begin{equation} \label{eq:autonomia}
+\text{Autonomía} = \frac{\text{Capacidad Batería}}{\text{Consumo Semanal}} = \frac{\SI{2500}{\milli\ampere\hour}}{\SI{47.6}{\milli\ampere\hour / \text{sem}}} \approx \boxed{\num{52.5}~\text{semanas}} \approx \num{367}~\text{días}
+\end{equation}
+Este cálculo sugiere una autonomía teórica de casi un año, ofreciendo una excelente resiliencia ante periodos prolongados sin sol.
+
+\subsubsection{Análisis y Selección del Panel Solar}
+Para garantizar la operación continua, se necesita un panel solar que reponga el consumo energético. Se evaluaron paneles compactos (Tabla \ref{tab:paneles_solares}) en función de su potencia, voltaje/corriente de salida y dimensiones.
 
 \begin{table}[H]
 \centering
@@ -726,7 +828,9 @@ Con el fin de mantener la autonomía del sistema, es necesario evaluar paneles s
 \label{tab:paneles_solares}
 \begin{tabular}{|p{4cm}|c|c|c|}
 \hline
-\textbf{Característica} & \textbf{Panel 5V} & \textbf{Panel 6V} & \textbf{Panel 12V} \\
+\textbf{Característica} & \textbf{Panel 5V} \cite{panelSolar5V}
+                        & \textbf{Panel 6V} \cite{panelSolar6V}
+                        & \textbf{Panel 12V} \cite{panelSolar12V} \\
 \hline
 Potencia nominal (W) & 1.9 & 1.92 & 3 \\\hline
 Corriente de salida (mA) & 320 & 320 & 250 \\
@@ -749,21 +853,37 @@ Imagen
 \end{tabular}
 \end{table}
 
+Se selecciona el \textbf{Panel Solar de \SI{6}{\volt} / \SI{1.92}{\watt}}. Aunque el panel de \SI{5}{\volt} ofrece características similares, el voltaje ligeramente superior del panel de \SI{6}{\volt} proporciona un mayor margen para la caída de tensión y es óptimo para módulos de carga como el CN3065, que requieren un voltaje de entrada superior al de la batería \cite{chipCN3065}. Además, este modelo es el más compacto y económico de las opciones evaluadas \cite{panelSolar6V}. El panel de \SI{12}{\volt} está sobredimensionado y es menos eficiente para cargar una batería de \SI{3.7}{\volt} con un cargador simple.
+
+\paragraph{Análisis de Generación vs. Consumo:}
+\begin{itemize}
+    \item Consumo Diario Promedio: $\SI{47.6}{\milli\ampere\hour / \text{semana}} / 7\,\text{días} \approx \SI{6.8}{\milli\ampere\hour / \text{día}}$.
+    \item Generación Diaria Estimada: Asumiendo un promedio conservador de \textbf{3 horas} de sol directo equivalente por día (HSP - Horas Solares Pico) para la Ciudad de México \cite{solarGIS}, la energía generada es:
+    \begin{equation} \label{eq:generacion_diaria}
+    \text{Generación}_{\text{diaria}} = I_{\text{mp}} \times \text{HSP} = \SI{320}{\milli\ampere} \times \SI{3}{\hour} = \SI{960}{\milli\ampere\hour}
+    \end{equation}
+\end{itemize}
+El excedente energético diario ($\text{Generación}_{\text{diaria}} - \text{Consumo}_{\text{diario}} \approx \SI{953}{\milli\ampere\hour}$) es extremadamente amplio (más de 140 veces el consumo diario), lo que garantiza la recarga completa de la batería incluso bajo condiciones de irradiación solar subóptimas (días nublados, sombra parcial). El tiempo teórico necesario para reponer el consumo de una semana completa con sol directo sería mínimo: $\SI{47.6}{\milli\ampere\hour} / \SI{320}{\milli\ampere} \approx \SI{0.15}{\hour} \approx \SI{9}{\minute}$.
+
 \subsection{Análisis de módulos de carga}
 
-El módulo de carga es el componente encargado de gestionar la recarga segura de la batería desde el panel solar. Su función principal es proteger la batería contra sobrecargas, sobredescargas y controlar el flujo de corriente, lo cual es esencial para extender su vida útil. Esta subsección presenta una comparativa entre distintos módulos de carga compatibles con baterías Li-ion o LiPo, considerando su capacidad de carga, compatibilidad con paneles solares, protección integrada y facilidad de integración con el sistema.
+El módulo de carga es el componente encargado de gestionar la recarga segura de la batería desde el panel solar. Su función principal es proteger la batería contra sobrecargas, sobredescargas y controlar el flujo de corriente, lo cual es esencial para extender su vida útil. Esta subsección presenta una comparativa entre distintos módulos de carga compatibles con baterías Li-ion o LiPo, considerando su capacidad de carga, compatibilidad con paneles solares, protección integrada y facilidad de integración con el sistema(Tabla \ref{tab:modulos_carga}).
 
 \renewcommand{\arraystretch}{1.5}
 \begin{longtable}{|p{4.5cm}|c|c|c|}
 \caption{Comparativa de módulos de carga para baterías recargables}
 \label{tab:modulos_carga} \\
 \hline
-\textbf{Característica} & \textbf{CN3065} & \textbf{SD05CRMA} & \textbf{CN3791} \\
+\textbf{Característica} & \textbf{CN3065} \cite{chipCN3065}
+                        & \textbf{SD05CRMA} \cite{SD05CRMA}
+                        & \textbf{CN3791} \cite{chipCN3791} \\
 \hline
 \endfirsthead
 
 \hline
-\textbf{Característica} & \textbf{CN3065} & \textbf{SD05CRMA} & \textbf{CN3791} \\
+\textbf{Característica} & \textbf{CN3065} \cite{chipCN3065}
+                        & \textbf{SD05CRMA} \cite{SD05CRMA}
+                        & \textbf{CN3791} \cite{chipCN3791} \\
 \hline
 \endhead
 
@@ -794,25 +914,9 @@ Imagen
 & \includegraphics[scale=0.1]{Documento/Imagenes/Análisis/Bat-Pan/Cargador-CN3791.jpg} \\
 \end{longtable}
 
+Se selecciona el módulo basado en el chip \textbf{CN3065}. Este circuito integrado está específicamente diseñado para la carga de baterías de litio de una celda directamente desde paneles solares de bajo voltaje (\SIrange{4.4}{6}{\volt}), coincidiendo perfectamente con el panel seleccionado \cite{chipCN3065}. Incluye las protecciones esenciales (sobrecarga, sobredescarga a través de pines dedicados si se usa un IC externo) y regula la corriente de carga (hasta \SI{500}{\milli\ampere}), lo cual es adecuado para la corriente generada por el panel (\SI{320}{\milli\ampere}).
 
-
-\subsubsection*{Autonomía con batería de 2200 mAh}
-
-\[
-\text{Autonomía} = \frac{2200 \unit{mAh}}{64.4 \unit{mAh/sem}} \approx 34.16 \text{ semanas} \approx 239 \text{ días}
-\]
-
-\subsection{Sistema de carga solar}
-
-\begin{itemize}
-    \item Panel solar: 1.9 W @ 380 mA
-    \item Generación diaria (4 h de sol): $380 \times 4 = 1520$\,mAh
-    \item Consumo diario: $\frac{64.4}{7} \approx 9.2$\,mAh
-    \item Excedente diario: $1520 - 9.2 = 1510.8$\,mAh
-    \item Tiempo de recarga semanal: $\frac{64.4}{380} \approx 0.169$ h $\approx 10.1$ minutos
-\end{itemize}
-
- El sistema cuenta con una autonomía superior a 240 días sin recarga externa. El panel solar genera diariamente un excedente energético más de 160 veces superior al consumo promedio, lo cual permite garantizar funcionamiento sostenido incluso ante condiciones de baja irradiación solar.
+Los módulos basados en el popular chip TP4056, aunque económicos, están optimizados para carga a través de USB (\SI{5}{\volt}) y no manejan de forma nativa la variabilidad de voltaje de un panel solar \cite{chipTP4056}. El módulo CN3791, si bien incluye MPPT (Maximum Power Point Tracking) para maximizar la extracción de energía del panel, representa una complejidad y costo innecesarios dado el enorme excedente energético ya calculado; el MPPT es más beneficioso en sistemas con paneles más grandes o consumos mucho más ajustados \cite{chipCN3791}. Por lo tanto, el CN3065 ofrece la solución más simple, económica y adecuada para este sistema.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -946,7 +1050,7 @@ Con base en la arquitectura del sistema, la base de datos debe cumplir con los s
 \end{enumerate}
 
 \subsection{Análisis de Modelos de Base de Datos: SQL vs. NoSQL}
-\label{subsec:modelos_db}
+%\label{subsec:modelos_db}
 
 Para satisfacer estos requerimientos, se analizaron los dos modelos de bases de datos predominantes: relacional (SQL) y no relacional (NoSQL).
 
@@ -960,7 +1064,7 @@ Para satisfacer estos requerimientos, se analizaron los dos modelos de bases de 
 
 Dada la selección de AWS como proveedor de nube, se comparan sus servicios de bases de datos gestionadas más relevantes, incluyendo opciones relacionales y una opción especializada en series temporales.
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \caption{Comparativa de Servicios de Base de Datos Gestionadas en AWS}
 \label{tab:comparativa_db}
