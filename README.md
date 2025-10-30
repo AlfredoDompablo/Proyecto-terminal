@@ -27,7 +27,7 @@ Los datos recolectados se envían a una **central de procesamiento**, donde se a
 
 ### 🧑‍🏫 Asesores
 - **Dra. Iclia Villordo Jiménez**  
-- **M. en C. Luz Noé Oliva Moreno**
+- **Dr. Luz Noé Oliva Moreno**
 
 ---
 
