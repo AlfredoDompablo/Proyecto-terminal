@@ -1116,16 +1116,17 @@ Una decisión de diseño fundamental en cualquier sistema de IoT que integra IA 
 
 \begin{itemize}
     \item \textbf{Cómputo en la Nube (\textit{Cloud Computing}):} En esta arquitectura, el dispositivo en el campo (el nodo sensor) actúa como un simple capturador de datos. Captura la imagen en bruto y la transmite a través de la red a un servidor centralizado y potente en la nube (ej. AWS EC2). Todo el procesamiento intensivo, como la ejecución del modelo YOLO, se realiza en el servidor.
-        \begin{itemize}
-            \item \textbf{Ventajas:} Permite el uso de modelos de IA muy grandes y precisos, ya que no hay restricciones de hardware. El nodo sensor puede ser más simple, económico y de menor consumo (excepto en la transmisión). La actualización y el mantenimiento del modelo de IA se centralizan en un solo lugar.
-            \item \textbf{Desventajas:} Requiere un ancho de banda de red significativo y confiable para transmitir datos pesados (imágenes). La transmisión de grandes volúmenes de datos consume una cantidad considerable de energía, impactando la autonomía de la batería del nodo \cite{li2018learning}.
-        \end{itemize}
+    \begin{itemize}
+        \item \textbf{Ventajas:} Permite el uso de modelos de IA muy grandes y precisos, ya que no hay restricciones de hardware. El nodo sensor puede ser más simple, económico y de menor consumo (excepto en la transmisión). La actualización y el mantenimiento del modelo de IA se centralizan en un solo lugar.
+        
+        \item \textbf{Desventajas:} Requiere un ancho de banda de red significativo y confiable para transmitir datos pesados (imágenes). La transmisión inalámbrica de grandes volúmenes de datos es la operación de mayor consumo energético en un nodo sensor, impactando severamente la autonomía de la batería \cite{Saradha2025comprehensive}.
+    \end{itemize}
 
-    \item \textbf{Cómputo en el Borde (\textit{Edge Computing}):} En este enfoque, el procesamiento de los datos se realiza localmente, en o cerca del dispositivo que los captura. El nodo sensor estaría equipado con un microprocesador o microcontrolador más potente (ej. un acelerador de IA como un Coral Edge TPU) capaz de ejecutar una versión optimizada y ligera del modelo YOLO (\textit{e.g.}, YOLOv5n o un modelo cuantizado) \cite{chen2019deep}.
-        \begin{itemize}
-            \item \textbf{Ventajas:} Reduce drásticamente el tráfico de red. En lugar de enviar una imagen de 150 KB, el nodo solo transmite el resultado del análisis (unos pocos bytes de texto, ej. `{``objeto'': ``botella'', ``confianza'': 0.92}'). Esto se traduce en un ahorro masivo de energía en la comunicación inalámbrica y una mayor vida útil de la batería. También reduce la latencia y permite que el sistema funcione de forma autónoma si se pierde la conexión con el servidor central.
-            \item \textbf{Desventajas:} Requiere hardware más potente y costoso en el nodo sensor. Limita el tamaño y la complejidad del modelo de IA que se puede ejecutar, lo que podría reducir la precisión en comparación con un modelo en la nube.
-        \end{itemize}
+    \item \textbf{Cómputo en el Borde (\textit{Edge Computing}):} En este enfoque, el procesamiento de los datos se realiza localmente, en o cerca del dispositivo que los captura. El nodo sensor estaría equipado con un microprocesador o un acelerador de IA (ej. un Coral Edge TPU) capaz de ejecutar una versión optimizada y ligera del modelo YOLO (ej. un modelo "cuantizado"), una técnica conocida como \textit{on-device learning} \cite{khouas2024training}.
+    \begin{itemize}
+        \item \textbf{Ventajas:} Reduce drásticamente el tráfico de red. En lugar de enviar una imagen de \SI{150}{\kilo\byte}, el nodo solo transmite el resultado del análisis (unos pocos bytes de texto, ej. `{"objeto": "botella", "confianza": 0.92}`). Esto se traduce en un ahorro masivo de energía en la comunicación inalámbrica y una mayor vida útil de la batería. También reduce la latencia y permite que el sistema funcione de forma autónoma si se pierde la conexión con el servidor central.
+        \item \textbf{Desventajas:} Requiere hardware más potente y costoso en el nodo sensor. Limita el tamaño y la complejidad del modelo de IA que se puede ejecutar, lo que podría reducir la precisión en comparación con un modelo en la nube, ya que el entrenamiento y la inferencia en el borde enfrentan desafíos significativos de recursos.
+    \end{itemize}
 \end{itemize}
 
 Para la presente fase del proyecto, \textbf{se ha seleccionado la arquitectura de cómputo en la nube}. La justificación se basa en los siguientes criterios:
