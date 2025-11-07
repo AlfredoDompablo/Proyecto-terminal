@@ -317,72 +317,16 @@ Para seleccionar la tecnología más adecuada para la transmisión de datos en e
 
 La Tabla~\ref{tab:redes_corto_alcance} presenta un resumen comparativo de soluciones de red de corto alcance comúnmente utilizadas en aplicaciones de monitoreo ambiental con WSN. Se incluyen tecnologías basadas en los estándares IEEE 802.15.4 y 802.15.1, como ZigBee, 6LoWPAN, Bluetooth y BLE, analizando sus tasas de transmisión, topologías soportadas, rango típico de cobertura, frecuencia de operación y consumo energético. Estas soluciones priorizan eficiencia energética y bajo costo de despliegue, aunque con limitaciones en velocidad o alcance.
 
-\begin{table}[H]
-\centering
-\caption{Resumen de soluciones de red de corto alcance \cite{lopez2023}}
-\label{tab:redes_corto_alcance}
-\renewcommand{\arraystretch}{1.3}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{p{2.5cm}p{2.5cm}p{2cm}p{2.5cm}p{2cm}p{1.5cm}p{2.3cm}}
-\toprule
-\textbf{Solution} & \textbf{Standard} & \textbf{Data rate} & \textbf{Coverage} & \textbf{Topology} & \textbf{Carrier freq} & \textbf{Energy cost} \\
-\midrule
-IEEE 802.15.4      & IEEE 802.15.4     & 250 kbps           & $<$100 m          & Star, tree, cluster tree, mesh & 868/915 MHz, 2.4 GHz & Low \\
-ZigBee             & IEEE 802.15.4     & 250, 40, 20 kbps    & $>$100 m          & Mesh, star, tree               & 868/915 MHz, 2.4 GHz & Low \\
-6LoWPAN            & IEEE 802.15.4     & 250 kbps           & $<$100 m          & Mesh, star                     & 868/915 MHz, 2.4 GHz & Low \\
-Bluetooth          & IEEE 802.15.1     & 1 Mbps             & Up to 100 m       & Star, P2P                      & 2.4 GHz              & Low \\
-BLE                & IEEE 802.15.1     & 1 Mbps             & Up to 200 m       & Star, P2P                      & 2.4 GHz              & Very low \\
-\bottomrule
-\end{tabular}
-}
-\end{table}
+\input{Documento/Tablas/ResumenTecnologiasWL}
+
 
 La Tabla~\ref{tab:redes_alcance_medio} complementa el análisis anterior al enfocarse en redes de alcance medio. Se comparan dos variantes del estándar IEEE 802.11: Wi-Fi tradicional y Wi-Fi HaLow (802.11ah). Aunque Wi-Fi convencional ofrece altas tasas de transferencia, su consumo energético es elevado y su cobertura limitada. En cambio, Wi-Fi HaLow opera en bandas sub-GHz, permitiendo mayor alcance, menor consumo y adecuada velocidad, lo que lo hace más apropiado para entornos remotos como cuerpos de agua lóticos.
 
-\begin{table}[H]
-\centering
-\caption{Resumen de soluciones de red de alcance medio \cite{lopez2023}}
-\label{tab:redes_alcance_medio}
-\renewcommand{\arraystretch}{1.3}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{p{2.5cm}p{2.5cm}p{2cm}p{2.5cm}p{2.5cm}p{1.5cm}p{2.3cm}}
-\toprule
-\textbf{Solution} & \textbf{Standard} & \textbf{Data rate} & \textbf{Coverage} & \textbf{Topology} & \textbf{Carrier freq} & \textbf{Energy cost} \\
-\midrule
-Wi-Fi & IEEE 802.11 & Up to 54 Mbps & 200 m & Infrastructure, mesh & 2.4 GHz, 5 GHz & High \\
-Wi-Fi HaLow & IEEE 802.11ah   & 0.15 to 4 Mbps @ 1 MHz bandwidth, an 0.65 to 7.8 Mbps @ 2 MHz bandwidth & 1000m & star, mesh & ISM Sub-GHz & Low \\ 
-\bottomrule
-\end{tabular}
-}
-\end{table}
+\input{Documento/Tablas/ResumenTecnologiasWM}
 
 Dadas las posibles soluciones, en la Tabla~\ref{tab:comparativa_transceptores} se comparan módulos transceptores comerciales representativos de cada tecnología evaluada. Se contrastan parámetros clave como tasa máxima de transmisión, potencia de transmisión y sensibilidad de recepción, alcance en línea de vista (LOS), y consumo de corriente en modos activo y en reposo. 
-\begin{table}[H]
-\renewcommand{\arraystretch}{1.5}
-\centering
-\caption{Comparativa de transceptores comerciales para WSN}
-\label{tab:comparativa_transceptores}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{|p{3.2cm}|C{3cm}|C{3cm}|C{3cm}|C{3cm}|C{3cm}|}
-\hline
-\textbf{Parámetro} 
-& \shortstack{\\ \textbf{Wi-Fi HaLow}\\ \textbf{(802.11ah)}} 
-& \shortstack{\\ \textbf{Wi-Fi}\\ \textbf{(802.11n)}} 
-& \shortstack{\\ \textbf{Zigbee}\\ \textbf{(802.15.4)}} 
-& \shortstack{\\ \textbf{Bluetooth} \\ \textbf{(802.15.1)}}
-& \shortstack{\\ \textbf{LoRaWAN}\\ \textbf{(P1451.5.5)}} \\ \hline
 
-\textbf{Módulo} & FGH100M \cite{QuectelFGH100M} & ESP32-S3 \cite{EspressifESP32S3} & XBee S2C \cite{DigiXBeeS2C} & HC-05 \cite{HC05Datasheet} & Wio E5 LE \cite{SeeedWioE5LE} \\ \hline
-\textbf{Tasa Máx. (Mbps)} & 32.5 & 150 & 0.25 & 2.1 & 0.05 \\ \hline
-\textbf{Potencia Tx / Sensibilidad Rx (dBm)} & 20 / -98 & 19 / -75 & 5 / -100 & 4 / -84 & 13.461 / -137 \\ \hline
-\textbf{Alcance LOS\footnote{Line Of Sight} (m)} & 1000 & 120 & 1200 & 40 & 10000 \\ \hline
-\textbf{Consumo Tx (mA)} & 54 & 286 & 33 & 30 & 26 \\ \hline
-\textbf{Consumo Rx (mA)} & 43 & 95 & 28 & 30 & 13 \\ \hline
-\textbf{Consumo en Sleep (µA)} & TBD & 240 & 1 & TBD & 1.3 \\ \hline
-
-\end{tabular}
-}
-\end{table}
+\input{Documento/Tablas/ComparativaTransceptores}
 
 Esta comparativa refuerza la selección de Wi-Fi HaLow mediante el módulo FGH100M, al ofrecer un equilibrio favorable entre alcance, velocidad, consumo y viabilidad de integración en nodos autónomos. En la tabla \ref{tab:imagenes_transceptore} se presentan imágenes representativas de cada transceptor evaluado para facilitar su identificación visual.
 
