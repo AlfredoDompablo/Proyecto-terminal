@@ -1,56 +1,46 @@
-\renewcommand{\arraystretch}{1.4}
-\begin{longtable}{|p{5cm}|c|c|}
-\caption{Consumo eléctrico de componentes}
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{l l S[table-format=1.1] S[table-format=3.3] l}
+\caption{Consumo eléctrico estimado de componentes del nodo sensor.}
 \label{tab:componentes_energia} \\
-\hline
-\textbf{Componente} & \textbf{Voltaje} & \textbf{Corriente} \\
-\hline
+
+\toprule
+\textbf{Componente} & \textbf{Modo} & {\textbf{Voltaje}} & {\textbf{Corriente}} & \textbf{Ref.} \\
+ & & {(\unit{\volt})} & {(\unit{\milli\ampere})} & \\
+\midrule
 \endfirsthead
 
-\hline
-\textbf{Componente} & \textbf{Voltaje} & \textbf{Corriente} \\
-\hline
+\caption[]{Consumo eléctrico estimado de componentes del nodo sensor (continuación).} \\
+\toprule
+\textbf{Componente} & \textbf{Modo} & {\textbf{Voltaje}} & {\textbf{Corriente}} & \textbf{Ref.} \\
+ & & {(\unit{\volt})} & {(\unit{\milli\ampere})} & \\
+\midrule
 \endhead
 
-\hline
-\multicolumn{3}{r}{\textit{Continúa en la siguiente página}} \\
+\midrule
+\multicolumn{5}{r}{\textit{Continúa en la siguiente página}} \\
+\midrule
 \endfoot
 
-\hline
+\bottomrule
 \endlastfoot
 
-\multicolumn{3}{|c|}{\textbf{Transceptor}} \\
-\hline
-\multirow{6}{*}{Quectel FGH100MHAAMD}& \multirow{6}{*}{3.3V} & \textbf{Modo Tx}\\
-     &  & 54 \unit{\mA} \\ \cline{3-3}
-     &  & \textbf{Modo RX} \\
-     &  & 43 \unit{\mA} \\ \cline{3-3}
-     &  & \textbf{Modo Sleep} \\
-     &  & $<10$ \unit{\uA} \\
-\hline
+\multirow{3}{*}{Transceptor FGH100M} & Tx & 3.3 & 54 & \cite{QuectelFGH100M} \\ 
+ & Rx & 3.3 & 43 & \cite{QuectelFGH100M} \\ 
+ & Sleep & 3.3 & <0.010 & \cite{QuectelFGH100M} \\
+\midrule
+\multirow{2}{*}{MCU Xiao ESP32-S3} & Activo & 3.3 & 91 & \cite{espressif2023_ESP32-S3} \\ 
+ & Sleep & 3.3 & 0.240 & \cite{espressif2023_ESP32-S3} \\
+\midrule
+\multirow{2}{*}{MCU PIC16LF1823} & Activo (@ \SI{1}{\mega\hertz}) & 3.3 & 0.050 & \cite{microchip2020_PIC12LF1822_16LF1823} \\ 
+ & Sleep & 3.3 & <0.001 & \cite{microchip2020_PIC12LF1822_16LF1823} \\
+\midrule
+Sensor pH (Industrial V2) & Activo & 5.0 & 10 & \cite{DFRobot_pH_Sensor} \\ 
+Sensor OD (SEN0237) & Activo & 5.0 & 40 & \cite{DFRobot_DO_Sensor} \\
+Sensor Turbidez (SEN0189) & Activo & 5.0 & 30 & \cite{DFRobot_Turbidity_Sensor} \\ 
+Sensor EC (DFR0300) & Activo & 5.0 & 40 & \cite{DFRobot_EC_Sensor} \\ 
+Sensor Temp (DS18B20) & Activo & 3.3 & 4 & \cite{DFRobot_DS18B20} \\
+\midrule
+\multirow{2}{*}{Cámara OV5640} & Activo & 3.3 & 140 & \cite{omnivision2011_OV5640} \\ 
+ & Standby & 3.3 & 0.020 & \cite{omnivision2011_OV5640} \\
 
-\multicolumn{3}{|c|}{\textbf{Microcontrolador}} \\
-\hline
-\multirow{4}{*}{ESP32-S3R8} & \multirow{4}{*}{3.3V} & \textbf{Modo activo} \\
-   &  & 91 \unit{\mA} \\ \cline{3-3}
-   &  & \textbf{Modo Sleep} \\
-   &  & 240 \unit{\uA} \\
-\hline
-
-\multicolumn{3}{|c|}{\textbf{Sensores}} \\
-\hline
-Sensor de pH (Gravity V2)                & 5V         & 10 \unit{\mA} \\
-Sensor de oxígeno disuelto               & 5V         & 10–50 \unit{\mA} \\
-Sensor de turbidez                       & 5V         & 20–30 \unit{\mA} \\
-Sensor de conductividad eléctrica        & 5V         & 30–40 \unit{\mA} \\
-Sensor de temperatura (DS18B20)          & 3.3 - 5V   & 4 \unit{\mA} \\
-\hline
-
-\multicolumn{3}{|c|}{\textbf{Cámara}} \\
-\hline
-\multirow{4}{*}{Cámara OV2640}           & \multirow{4}{*}{3.3 - 5V} & \textbf{Active}  \\
-& & 140 \unit{\mA}\\
-                                         &                           & \textbf{Standby}  \\
-& & 20 \unit{\uA} \\                                        
-\hline
 \end{longtable}
