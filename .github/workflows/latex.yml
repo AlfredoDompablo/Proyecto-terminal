@@ -5,7 +5,9 @@ name: Compilar Tesis LaTeX a PDF
 on:
   push:
     branches:
-      - main # O la rama que uses como principal
+      - main          # Se ejecuta en 'push' a la rama 'main'
+      - 'feature/**'  # Se ejecuta en 'push' a cualquier rama que empiece con 'feature/'
+      - 'fix/**'      # Se ejecuta en 'push' a cualquier rama que empiece con 'fix/'
 
 # Define los trabajos (jobs) que se ejecutarán
 jobs:
@@ -13,7 +15,7 @@ jobs:
     # El tipo de máquina virtual
     runs-on: ubuntu-latest
 
-    # IMPORTANTE: Da permiso al workflow para crear un Release
+    # Da permisos de escritura para crear el Release
     permissions:
       contents: write
 
@@ -30,21 +32,41 @@ jobs:
           root_file: main.tex
           compiler: latexmk
 
-      # Paso 3: Crea o actualiza un Release con el PDF adjunto
-      - name: Crear Release y adjuntar PDF
+      # Paso 3: Renombra el PDF de salida y guarda el nuevo nombre
+      - name: Renombrar PDF de salida
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            # Si es la rama main, usa el número de versión
+            NEW_NAME="Tesis-v${{ github.run_number }}.pdf"
+          else
+            # Si es otra rama, usa el nombre de la rama (reemplazando '/' por '-')
+            BRANCH_NAME=$(echo ${{ github.ref_name }} | tr '/' '-')
+            NEW_NAME="Tesis-Rama-${BRANCH_NAME}.pdf"
+          fi
+          mv main.pdf $NEW_NAME
+          # Guarda el nuevo nombre en una variable de entorno para usarlo después
+          echo "PDF_NAME=$NEW_NAME" >> $GITHUB_ENV
+
+      # Paso 4: Este paso solo se ejecuta si la rama es 'main'
+      - name: Crear Release y adjuntar PDF (Solo en Main)
+        if: github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
-          # El nombre del tag que se creará o actualizará.
-          # Al usar un nombre fijo, siempre se actualiza el mismo release.
-          tag_name: tesis-pdf-automatico
-          
-          # El título que tendrá el Release en GitHub
-          name: Tesis PDF (Compilación Automática ${{ github.run_number }})
-          
-          # El texto que aparecerá en la descripción del Release
+          tag_name: v${{ github.run_number }}
+          name: Tesis PDF (Versión ${{ github.run_number }})
           body: |
-            PDF generado automáticamente a partir del último commit.
+            PDF generado a partir del último commit en main.
             Commit: `${{ github.sha }}`
-          
-          # Los archivos que quieres adjuntar. ¡Aquí está la magia!
-          files: main.pdf
+          # Usa la variable con el nuevo nombre
+          files: ${{ env.PDF_NAME }}
+          prerelease: true
+
+      # Paso 5: Este paso solo se ejecuta si la rama NO es 'main'
+      - name: Subir PDF como artefacto (Solo en Ramas de Desarrollo)
+        if: github.ref != 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          # Usa la variable para el nombre del artefacto
+          name: ${{ env.PDF_NAME }}
+          # Usa la variable para la ruta del archivo
+          path: ${{ env.PDF_NAME }}
