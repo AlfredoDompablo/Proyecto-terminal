@@ -478,39 +478,7 @@ La Tabla~\ref{tab:componentes_energia} presenta los principales componentes sele
 %\input{Documento/Tablas/ConsumosElectricos}
 
 
-
-
-\begin{table}[H]
-\centering
-\caption{Consumo eléctrico estimado de componentes del nodo sensor.}
-\label{tab:componentes_energia}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{l l S[table-format=1.1] S[table-format=3.3] l}
-\toprule
-\textbf{Componente} & \textbf{Modo} & {\textbf{Voltaje}} & {\textbf{Corriente}} & \textbf{Ref.} \\
- & & {(\unit{\volt})} & {(\unit{\milli\ampere})} & \\
-\midrule
-\multirow{3}{*}{Transceptor FGH100M} & Tx & 3.3 & 54 & \cite{QuectelFGH100M} \\ 
- & Rx & 3.3 & 43 & \cite{QuectelFGH100M} \\
- & Sleep & 3.3 & <0.010 & \cite{QuectelFGH100M} \\
-\midrule
-\multirow{2}{*}{MCU Xiao ESP32-S3} & Activo & 3.3 & 91 & \cite{espressif2023_ESP32-S3} \\ 
- & Sleep & 3.3 & 0.240 & \cite{espressif2023_ESP32-S3} \\
-\midrule
-MCU PIC16LF1823 & Activo (@ \SI{1}{\mega\hertz}) & 3.3 & 0.050 & \cite{microchip2020_PIC12LF1822_16LF1823} \\ 
- & Sleep & 3.3 & <0.001 & \cite{microchip2020_PIC12LF1822_16LF1823} \\
-\midrule
-Sensor pH (Industrial V2) & Activo & 5.0 & 10 & \cite{DFRobot_pH_Sensor} \\ 
-Sensor OD (SEN0237) & Activo & 5.0 & 40 & \cite{DFRobot_DO_Sensor} \\
-Sensor Turbidez (SEN0189) & Activo & 5.0 & 30 & \cite{DFRobot_Turbidity_Sensor} \\ 
-Sensor EC (DFR0300) & Activo & 5.0 & 40 & \cite{DFRobot_EC_Sensor} \\
-Sensor Temp (DS18B20) & Activo & 3.3 & 4 & \cite{DFRobot_DS18B20} \\ 
-\midrule
-\multirow{2}{*}{Cámara OV5640} & Activo & 3.3 & 140 & \cite{omnivision2011_OV5640} \\ 
- & Standby & 3.3 & 0.020 & \cite{omnivision2011_OV5640} \\
-\bottomrule
-\end{tabular}
-\end{table}
+\input{Documento/Tablas/ConsumosElectricos.tex}
  
 
 
@@ -1009,28 +977,7 @@ Para satisfacer estos requerimientos, se analizaron los dos modelos de bases de 
 
 Dada la selección de AWS como proveedor de nube, se comparan sus servicios de bases de datos gestionadas más relevantes, incluyendo opciones relacionales y una opción especializada en series temporales.
 
-\begin{table}[H]
-\centering
-\caption{Comparativa de Servicios de Base de Datos Gestionadas en AWS}
-\label{tab:comparativa_db}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|p{3.2cm}|p{3.2cm}|p{3.2cm}|p{3.2cm}|}
-\hline
-\textbf{Característica} & \textbf{Amazon RDS para PostgreSQL} & \textbf{Amazon RDS para MySQL} & \textbf{Amazon Aurora} & \textbf{Amazon Timestream} \\
-\hline
-\textbf{Modelo} & Relacional (SQL) & Relacional (SQL) & Relacional (SQL), compatible con PostgreSQL y MySQL & NoSQL (Series Temporales) \\
-\hline
-\textbf{Caso de Uso Principal} & Aplicaciones que requieren consultas complejas, manejo de datos geoespaciales y extensibilidad \cite{aws2024rds}. & Aplicaciones web de propósito general, CMS y comercio electrónico. Muy popular en el ecosistema LAMP \cite{aws2024rds}. & Cargas de trabajo de alto rendimiento y alta disponibilidad a escala de nube. Aplicaciones empresariales críticas \cite{aws2024aurora}. & Monitoreo de IoT, análisis de datos de telemetría y series temporales a gran escala \cite{aws2024timestream}. \\
-\hline
-\textbf{Fortalezas Clave} & Soporte avanzado de tipos de datos y extensiones (ej. PostGIS). Cumplimiento estricto del estándar SQL. & Simplicidad, facilidad de uso y un ecosistema muy maduro. Buen rendimiento para lecturas. & Rendimiento hasta 3 veces superior a PostgreSQL estándar. Almacenamiento auto-reparable y distribuido. & Optimizado para ingesta masiva de datos temporales. Arquitectura de almacenamiento de dos niveles (memoria y magnético). \\
-\hline
-\textbf{Escalabilidad} & Escala verticalmente y horizontalmente mediante réplicas de lectura. & Escala verticalmente y horizontalmente mediante réplicas de lectura. & Escalabilidad superior con hasta 15 réplicas de lectura. Almacenamiento que escala automáticamente. & Escala horizontalmente de forma automática y sin servidor (\textit{serverless}). \\
-\hline
-\textbf{Costo} & Basado en horas de instancia y almacenamiento. Parte del \textit{Free Tier} \cite{aws2024rdsprice}. & Basado en horas de instancia y almacenamiento. Parte del \textit{Free Tier} \cite{aws2024rdsprice}. & Modelo de precios basado en el consumo, más costoso que RDS estándar. No forma parte del \textit{Free Tier} \cite{aws2024auroraprice}. & Basado en volumen de datos escritos, almacenados y consultados. Muy rentable para grandes volúmenes \cite{aws2024timestreamprice}. \\
-\hline
-\end{tabular}%
-}
-\end{table}
+\input{Documento/Tablas/ComparativaBD.tex}
 
 Tras analizar los requerimientos y las plataformas disponibles, se ha decidido optar por una \textbf{arquitectura de base de datos unificada} para simplificar el diseño del sistema, reducir la complejidad operativa y centralizar la gestión de los datos.
 
