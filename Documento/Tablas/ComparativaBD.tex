@@ -1,0 +1,39 @@
+\renewcommand{\arraystretch}{1.3}
+\begin{center}
+\begin{longtable}{|p{3cm}|p{3cm}|p{3cm}|p{3cm}|p{3cm}|}
+\caption{Comparativa de Servicios de Base de Datos Gestionadas en AWS}
+\label{tab:comparativa_db} \\
+
+\hline
+\textbf{Característica} & \textbf{Amazon RDS para PostgreSQL} & \textbf{Amazon RDS para MySQL} & \textbf{Amazon Aurora} & \textbf{Amazon Timestream} \\
+\hline
+\endfirsthead
+
+\multicolumn{5}{c}%
+{{\bfseries \tablename\ \thetable{} -- continuación}} \\
+\hline
+\textbf{Característica} & \textbf{Amazon RDS para PostgreSQL} & \textbf{Amazon RDS para MySQL} & \textbf{Amazon Aurora} & \textbf{Amazon Timestream} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{5}{r}{{\textit{Continúa en la siguiente página}}} \\
+\hline
+\endfoot
+
+\hline
+\endlastfoot
+
+\textbf{Modelo} & Relacional (SQL) & Relacional (SQL) & Relacional (SQL), compatible con PostgreSQL y MySQL & NoSQL (Series Temporales) \\
+\hline
+\textbf{Caso de Uso Principal} & Aplicaciones que requieren consultas complejas, manejo de datos geoespaciales y extensibilidad \cite{aws2024rds}. & Aplicaciones web de propósito general, CMS y comercio electrónico. Muy popular en el ecosistema LAMP \cite{aws2024rds}. & Cargas de trabajo de alto rendimiento y alta disponibilidad a escala de nube. Aplicaciones empresariales críticas \cite{aws2024aurora}. & Monitoreo de IoT, análisis de datos de telemetría y series temporales a gran escala \cite{aws2024timestream}. \\
+\hline
+\textbf{Fortalezas Clave} & Soporte avanzado de tipos de datos y extensiones (ej. PostGIS). Cumplimiento estricto del estándar SQL. & Simplicidad, facilidad de uso y un ecosistema muy maduro. Buen rendimiento para lecturas. & Rendimiento hasta 3 veces superior a PostgreSQL estándar. Almacenamiento auto-reparable y distribuido. & Optimizado para ingesta masiva de datos temporales. Arquitectura de almacenamiento de dos niveles (memoria y magnético). \\
+\hline
+\textbf{Escalabilidad} & Escala verticalmente y horizontalmente mediante réplicas de lectura. & Escala verticalmente y horizontalmente mediante réplicas de lectura. & Escalabilidad superior con hasta 15 réplicas de lectura. Almacenamiento que escala automáticamente. & Escala horizontalmente de forma automática y sin servidor (\textit{serverless}). \\
+\hline
+\textbf{Costo} & Basado en horas de instancia y almacenamiento. Parte del \textit{Free Tier} \cite{aws2024rdsprice}. & Basado en horas de instancia y almacenamiento. Parte del \textit{Free Tier} \cite{aws2024rdsprice}. & Modelo de precios basado en el consumo, más costoso que RDS estándar. No forma parte del \textit{Free Tier} \cite{aws2024auroraprice}. & Basado en volumen de datos escritos, almacenados y consultados. Muy rentable para grandes volúmenes \cite{aws2024timestreamprice}. \\
+\hline
+
+\end{longtable}
+\end{center}
