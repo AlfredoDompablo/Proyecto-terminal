@@ -304,6 +304,164 @@ A pesar de la limitación en la tolerancia a fallos, la simplicidad, eficiencia 
 %             SECCIÓN: Transceptores               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+\section{Análisis de Transceptores Inalámbricos}
+\label{sec:analisis_tecnologias}
+
+Para seleccionar la tecnología más adecuada para la transmisión de datos en el sistema de monitoreo, se evaluaron distintos estándares inalámbricos considerando tres criterios fundamentales:
+
+\begin{enumerate}
+    \item \textbf{Consumo energético}: Factor determinante para asegurar una operación prolongada mediante baterías, minimizando la necesidad de mantenimiento en zonas de difícil acceso.
+    \item \textbf{Alcance efectivo}: Capacidad del protocolo para cubrir grandes distancias en una topología lineal a lo largo del río, considerando la presencia de obstáculos naturales como vegetación densa y la falta de línea de vista directa (NLOS).
+    \item \textbf{Sensibilidad y Robustez}: Capacidad del receptor para decodificar señales débiles, lo cual es crítico en entornos húmedos y con vegetación que atenúan las señales de radiofrecuencia.
+\end{enumerate}
+
+La Tabla~\ref{tab:redes_corto_alcance} presenta un resumen comparativo de soluciones de red de corto alcance comúnmente utilizadas en WSN. Se incluyen tecnologías basadas en los estándares IEEE 802.15.4 y 802.15.1. Estas soluciones, aunque eficientes energéticamente, presentan limitaciones críticas de alcance ($<100$ m) para un despliegue fluvial extenso, lo que requeriría una cantidad excesiva de nodos repetidores.
+
+\begin{table}[H]
+\centering
+\caption{Resumen de soluciones de red de corto alcance \cite{lopez2023}}
+\label{tab:redes_corto_alcance}
+\renewcommand{\arraystretch}{1.3}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{p{2.5cm}p{2.5cm}p{2cm}p{2.5cm}p{2cm}p{1.5cm}p{2.3cm}}
+\toprule
+\textbf{Solution} & \textbf{Standard} & \textbf{Data rate} & \textbf{Coverage} & \textbf{Topology} & \textbf{Carrier freq} & \textbf{Energy cost} \\
+\midrule
+IEEE 802.15.4      & IEEE 802.15.4     & 250 kbps           & $<$100 m          & Star, tree, cluster tree, mesh & 868/915 MHz, 2.4 GHz & Low \\
+ZigBee             & IEEE 802.15.4     & 250, 40, 20 kbps    & $>$100 m          & Mesh, star, tree               & 868/915 MHz, 2.4 GHz & Low \\
+6LoWPAN            & IEEE 802.15.4     & 250 kbps           & $<$100 m          & Mesh, star                     & 868/915 MHz, 2.4 GHz & Low \\
+Bluetooth          & IEEE 802.15.1     & 1 Mbps             & Up to 100 m       & Star, P2P                      & 2.4 GHz              & Low \\
+BLE                & IEEE 802.15.1     & 1 Mbps             & Up to 200 m       & Star, P2P                      & 2.4 GHz              & Very low \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+La Tabla~\ref{tab:redes_largo_alcance} complementa el análisis enfocándose en redes de medio y largo alcance (LPWAN). Se compara el estándar Wi-Fi (alto ancho de banda pero corto alcance/alto consumo) contra la tecnología LoRa. A diferencia del Wi-Fi, LoRa utiliza una técnica de modulación de espectro ensanchado (Chirp Spread Spectrum) que permite alcances de varios kilómetros y una alta inmunidad a interferencias, a costa de una tasa de transmisión reducida. Esta característica es vital para superar la atenuación por vegetación en las riberas del río.
+
+\begin{table}[H]
+\centering
+\caption{Comparativa de tecnologías de medio y largo alcance\cite{lopez2023}}
+\label{tab:redes_largo_alcance}
+\renewcommand{\arraystretch}{1.3}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{p{2.5cm}p{3cm}p{3cm}p{2cm}p{2.5cm}p{2cm}p{2.3cm}}
+\toprule
+\textbf{Tecnología} & \textbf{Estándar/Modulación} & \textbf{Tasa de Datos} & \textbf{Cobertura} & \textbf{Topología} & \textbf{Frecuencia} & \textbf{Costo Energético} \\
+\midrule
+Wi-Fi & IEEE 802.11 & Up to 54 Mbps & 200 m & Infrastructure, mesh & 2.4 GHz, 5 GHz & High \\
+Wi-Fi HaLow & IEEE 802.11ah   & 0.15 to 4 Mbps @ 1 MHz bandwidth, an 0.65 to 7.8 Mbps @ 2 MHz bandwidth & 1000m & star, mesh & ISM Sub-GHz & Low \\ 
+LoRa & CSS (Chirp Spread Spectrum) & 0.3 kbps a 50 kbps (Adaptativo) & $>$ 10 km (Rural) & Star, Mesh, P2P & Sub-GHz (915 MHz) & Muy Bajo \\ 
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+Considerando las restricciones geográficas, en la Tabla~\ref{tab:comparativa_transceptores} se comparan módulos comerciales específicos. Se destaca el transceptor \textbf{SX1262} (integrado en la placa Heltec Wireless Tracker), que representa la generación más reciente de radios LoRa, ofreciendo mayor potencia de transmisión (+22 dBm) y menor consumo en recepción comparado con generaciones anteriores (como el SX1276) o tecnologías como Wi-Fi HaLow.
+
+\begin{table}[H]
+\renewcommand{\arraystretch}{1.5}
+\centering
+\caption{Comparativa de transceptores comerciales para WSN}
+\label{tab:comparativa_transceptores}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|p{3.2cm}|C{3cm}|C{3cm}|C{3cm}|C{3cm}|C{3cm}|}
+\hline
+\textbf{Parámetro} 
+& \shortstack{\\ \textbf{LoRa (SX1262)}\\ \textbf{(Propuesto)}} 
+& \shortstack{\\ \textbf{Wi-Fi HaLow}\\ \textbf{(802.11ah)}} 
+& \shortstack{\\ \textbf{Wi-Fi}\\ \textbf{(802.11n)}} 
+& \shortstack{\\ \textbf{Zigbee}\\ \textbf{(802.15.4)}}
+& \shortstack{\\ \textbf{Bluetooth} \\ \textbf{(802.15.1)}} \\ \hline
+
+\textbf{Módulo/Chip} & Heltec (SX1262) \cite{semtech_sx1261_2017} & Quectel FGH100M & ESP32-S3 \cite{EspressifESP32S3} & XBee S2C \cite{DigiXBeeS2C} & HC-05 \cite{HC05Datasheet} \\ \hline
+\textbf{Tasa Máx.} & $\sim$ 22 kbps (SF7) & 32.5 Mbps & 150 Mbps & 0.25 Mbps & 2.1 Mbps \\ \hline
+\textbf{Potencia Tx} & +22 dBm & +20 dBm & +19 dBm & +5 dBm & +4 dBm \\ \hline
+\textbf{Sensibilidad Rx} & -148 dBm & -98 dBm & -98 dBm & -100 dBm & -84 dBm \\ \hline
+\textbf{Alcance LOS\footnote{Line Of Sight}} & $>$ 10 km & $\sim$ 1 km & 120 m & 1200 m & 40 m \\ \hline
+\textbf{Consumo Tx} & 118 mA (@22dBm) & 286 mA & 286 mA & 33 mA & 30 mA \\ \hline
+\textbf{Consumo Rx} & 4.2 mA & 43 mA & 95 mA & 28 mA & 30 mA \\ \hline
+\textbf{Consumo Sleep} & 0.6 µA & TBD & 240 µA & 1 µA & TBD \\ \hline
+
+\end{tabular}
+}
+\end{table}
+
+
+En la Tabla \ref{tab:imagenes_transceptore} se presentan imágenes representativas de los módulos evaluados.
+
+\begin{table}[H]
+\renewcommand{\arraystretch}{1.5}
+\centering
+\caption{Ilustraciones de transceptores evaluados}
+\label{tab:imagenes_transceptore}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|C{3.5cm}|C{3.5cm}|C{3.5cm}|C{3.5cm}|C{3.5cm}|}
+\hline
+ \textbf{Heltec (SX1262)} & \textbf{FGH100M} & \textbf{ESP32-S3} & \textbf{XBee S2C} & \textbf{HC-05} \\ \hline
+
+\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/heltec_lora.png}} 
+&
+\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/Xiao Halow.jpg}}
+&
+\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/Esp32.jpg}}
+&
+\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/zigbee.jpg}}
+&
+\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/HC-05.jpg}}
+\\ \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+\subsection{Justificación y Estrategia de Implementación}
+\label{subsec:justificacion_estrategia}
+
+Con base en la comparativa anterior, se selecciona el transceptor \textbf{Semtech SX1262} como el elemento de comunicación central del sistema. Esta decisión se fundamenta en dos ventajas técnicas decisivas para el entorno fluvial: su \textbf{presupuesto de enlace superior} y su \textbf{eficiencia energética}.
+
+Con una potencia de salida de \SI{+22}{dBm} y una sensibilidad de \SI{-148}{dBm}, el SX1262 proporciona un margen de enlace de \SI{170}{dB}, indispensable para superar la atenuación severa causada por la vegetación ribereña y la falta de línea de vista directa, condiciones donde tecnologías como Wi-Fi o Zigbee fallarían. Además, su consumo en recepción de solo \SI{4.2}{\milli\ampere} extiende significativamente la vida útil de la batería en los nodos de la red lineal, que deben permanecer en modo de escucha para retransmitir datos.
+
+No obstante, la limitación crítica de LoRa es su ancho de banda, lo que dificulta la transmisión de archivos grandes como imágenes (\SI{\sim 150}{\kilo\byte}). El cálculo del Tiempo en el Aire (ToA) para una imagen fragmentada, asumiendo una configuración optimista (SF7, BW \SI{500}{\kilo\hertz}), ilustra este desafío:
+
+\[
+\text{ToA} \approx \frac{\text{Tamaño Imagen (\SI{1.23}{Mbits})}}{\text{Tasa de Datos (\SI{21.9}{kbps})}} \approx \textbf{\SI{56}{segundos}}
+\]
+
+Aunque un tiempo de transmisión de \SI{56}{\second} es inviable para video en tiempo real, estudios experimentales como el realizado por Jebril et al. \cite{jebril2018overcoming} han demostrado la viabilidad de transmitir imágenes JPEG sobre la capa física (PHY) de LoRa en entornos de vegetación densa (manglares), superando las limitaciones de la zona de Fresnel.
+
+Por lo tanto, para equilibrar la robustez del enlace con la eficiencia operativa, se adopta la siguiente estrategia:
+\begin{enumerate}
+    \item \textbf{Transmisión de Datos de Sensores:} La transmisión periódica de los parámetros físico-químicos (pH, oxígeno disuelto, temperatura, etc.) constituye la operación base del sistema. Dado el reducido tamaño de estos datos, su transmisión se realiza con máxima eficiencia energética y mínima ocupación del canal.
+    \item \textbf{Transmisión de Imágenes (Fragmentación):} Para el envío de la evidencia visual, se utiliza el protocolo de fragmentación hexadecimal validado por Jebril et al. \cite{jebril2018overcoming} para transmitir la imagen completa a través de la capa física LoRa. Se acepta el mayor costo energético temporal (\SI{\sim 118}{\milli\ampere} durante la transmisión) a cambio de garantizar que la información llegue al destino a pesar de los obstáculos del entorno.
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{comment}
 \section{Análisis de Transceptores Inalámbricos}
 \label{sec:analisis_tecnologias}
 
@@ -413,7 +571,7 @@ Esta comparativa refuerza la selección de Wi-Fi HaLow mediante el módulo FGH10
 
 
 Como solución óptima para la transmisión bidireccional de los datos, en este caso, datos de los sensores e imagenes captadas en entornos fluviales, se propone el módulo FGH100M (Wi-Fi HaLow) como transceptor preliminar. Esta selección se fundamenta por su  exelente equilibrio entre alcance efectivo (1 km en condiciones ideales) y consumo energético moderado (54 mA en TX/43 mA en RX), características críticas para la operación prolongada en topologías lineales con nodos distribuidos. Su operación en banda sub-1 GHz (902-928 MHz) proporciona mayor penetración en vegetación ribereña comparado con soluciones en 2.4 GHz, manteniendo compatibilidad con el estándar IEEE 802.11ah para gestión adaptativa de energía mediante mecanismos TIM/RAW. Adicionalmente, soporta tasas de transferencia suficientes (32.5 Mbps) para la transmisión eficiente de datos sensoriales e imágenes comprimidas, cumpliendo con los requisitos de bidireccionalidad para recepción de comandos desde el servidor central.
-
+\end{comment}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %             SECCIÓN: Cámaras                    %
