@@ -100,7 +100,9 @@ Imagen
 
 \end{longtable}
 
-
+%=====================================================================
+%=====================================================================
+%=====================================================================
 
 
 \begin{longtable}{|p{3cm}|p{4cm}|p{4cm}|p{4cm}|}
@@ -201,14 +203,21 @@ Imagen
 
 \end{longtable}
 
-\begin{longtable}{|p{3cm}|p{4cm}|p{4cm}|}
+%=====================================================================
+%=====================================================================
+%=====================================================================
+
+
+\renewcommand{\arraystretch}{1.5}
+\begin{longtable}{|p{3cm}|p{4cm}|p{4cm}|p{4cm}|}
 \hline
-\multicolumn{3}{|c|}{Parte 3 Microcontroladores}\\
+\multicolumn{4}{|c|}{Parte 3: Microcontroladores y Computadoras de Placa Reducida}\\
 \hline
 \textbf{Característica} 
 & \textbf{Raspberry Pi Zero} \cite{raspberrypi_computers2025}
 & \textbf{Raspberry Pi Zero 2 W} \cite{raspberrypi_computers2025}
- \\
+& \textbf{Heltec Wireless Tracker V1.1} \cite{heltec_wireless_tracker_2023}
+\\
 \hline
 \endfirsthead
 
@@ -216,12 +225,13 @@ Imagen
 \textbf{Característica} 
 & \textbf{Raspberry Pi Zero} \cite{raspberrypi_computers2025}
 & \textbf{Raspberry Pi Zero 2 W} \cite{raspberrypi_computers2025}
- \\
+& \textbf{Heltec Wireless Tracker V1.1} \cite{heltec_wireless_tracker_2023}
+\\
 \hline
 \endhead
 
 \hline
-\multicolumn{3}{r}{\textit{Continúa en la siguiente página}} \\
+\multicolumn{4}{r}{\textit{Continúa en la siguiente página}} \\
 \endfoot
 
 \hline
@@ -230,72 +240,86 @@ Imagen
 Arquitectura 
 & ARM1176JZF-S 
 & ARM Cortex-A53 (quad-core) 
- \\ \hline
+& Xtensa 32-bit LX7 (Dual Core)
+\\ \hline
 
 Procesamiento 
 & 1.0 GHz (single-core) 
 & 1.0 GHz (quad-core) 
- \\ \hline
+& 240 MHz
+\\ \hline
 
 RAM 
 & 512MB LPDDR2 
 & 512MB LPDDR2 
- \\ \hline
+& 512KB SRAM
+\\ \hline
 
 Flash 
 & microSD externa 
 & microSD externa 
- \\ \hline
+& 8MB (Integrada)
+\\ \hline
 
 Consumo Activo 
-&  2.5A
-&  2.5A
- \\ \hline
+& $\sim$ 150 mA
+& $\sim$ 250 mA
+& $\sim$ 120 mA (Promedio)
+\\ \hline
 
-Voltaje & 5V (microUSB) & 5V (microUSB)  \\ \hline
+Voltaje & 5V (microUSB) & 5V (microUSB) & 3.3V / 3.7V (LiPo) / 5V (USB-C) \\ \hline
 
-Broadcom chip & BCM2835 Single-core & RP3A0 Quad-core  \\ \hline
+Chipset Principal & BCM2835 & RP3A0 & ESP32-S3 + SX1262 + UC6580 \\ \hline
 
 WiFi 
 & Solo en modelo W: 2.4GHz (802.11n) 
 & 2.4GHz (802.11n) 
- \\ \hline
+& 2.4GHz (802.11b/g/n)
+\\ \hline
 
 Bluetooth 
 & BLE 4.0 
 & BLE 4.2 
- \\ \hline
+& BLE 5.0 + Mesh
+\\ \hline
 
-Sistema operativo (OS) 
+Sistema Operativo 
 & Raspberry Pi OS (Linux) 
 & Raspberry Pi OS (Linux) 
- \\ \hline
+& FreeRTOS (Arduino)
+\\ \hline
 
 Costo (USD) 
 & \$10 
 & \$15 
- \\ \hline
+& $\sim$ \$23
+\\ \hline
 
 Periféricos 
 & \shortstack[l]{\\• 40 GPIOs\\• UART\\• SPI\\• I2C}
 & \shortstack[l]{\\• 40 GPIOs\\• UART\\• SPI\\• I2C}
- \\ \hline
+& \shortstack[l]{\\• ADC, UART, SPI, I2C\\• LoRa (SX1262)\\• GNSS (UC6580)\\• Pantalla TFT}
+\\ \hline
 
 Ventajas 
-& \shortstack[l]{\\• Bajo costo\\• Compatible con \\ecosistema Linux\\• Buena conectividad\\• Compacto}
-& \shortstack[l]{\\• Multiprocesamiento \\(4 cores)\\• Más rápido que Zero\\• Ideal para visión\\ artificial}
- \\ \hline
+& \shortstack[l]{\\• Bajo costo\\• Ecosistema Linux\\• Compacto}
+& \shortstack[l]{\\• Multiprocesamiento\\• Ideal para visión\\ artificial compleja}
+& \shortstack[l]{\\• \textbf{Alta Integración}\\(LoRa + GPS)\\• Bajo consumo Sleep\\• Ideal para IoT\\ Outdoor}
+\\ \hline
 
 Desventajas 
-& \shortstack[l]{\\• Procesador antiguo\\• Capacidad de \\procesamiento limitada\\• Mayor consumo que \\MCUs}
-& \shortstack[l]{\\• Sin GPIO analógicos\\• Requiere más energía \\que microcontroladores \\comunes}
- \\ \hline
+& \shortstack[l]{\\• Procesador antiguo\\• Alto consumo vs MCU}
+& \shortstack[l]{\\• Alto consumo energé- \\tico\\• Sin ADC nativo}
+& \shortstack[l]{\\• Menos GPIO libres\\• Menor RAM que RPi}
+\\ \hline
 
 Imagen 
 & 
-    \shortstack{\\ \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Análisis/Microcontroladores/zerow.jpg}}
+  \shortstack{\\ \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Análisis/Microcontroladores/zerow.jpg}}
 &
-    \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Análisis/Microcontroladores/zero2w.jpg}
+  \shortstack{\\ \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Análisis/Microcontroladores/zero2w.jpg}}
+&
+  \shortstack{\\ \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Análisis/Microcontroladores/micro-heltec.png}}
 
 \\ \hline
 
