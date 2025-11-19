@@ -375,7 +375,7 @@ Considerando las restricciones geográficas, en la Tabla~\ref{tab:comparativa_tr
 & \shortstack{\\ \textbf{Zigbee}\\ \textbf{(802.15.4)}}
 & \shortstack{\\ \textbf{Bluetooth} \\ \textbf{(802.15.1)}} \\ \hline
 
-\textbf{Módulo/Chip} & Heltec (SX1262) \cite{semtech_sx1261_2017} & Quectel FGH100M & ESP32-S3 \cite{EspressifESP32S3} & XBee S2C \cite{DigiXBeeS2C} & HC-05 \cite{HC05Datasheet} \\ \hline
+\textbf{Módulo/Chip} & Heltec (SX1262) \cite{semtech_sx1261_2017} & Quectel FGH100M \cite{QuectelFGH100M} & ESP32-S3 \cite{EspressifESP32S3} & XBee S2C \cite{DigiXBeeS2C} & HC-05 \cite{HC05Datasheet} \\ \hline
 \textbf{Tasa Máx.} & $\sim$ 22 kbps (SF7) & 32.5 Mbps & 150 Mbps & 0.25 Mbps & 2.1 Mbps \\ \hline
 \textbf{Potencia Tx} & +22 dBm & +20 dBm & +19 dBm & +5 dBm & +4 dBm \\ \hline
 \textbf{Sensibilidad Rx} & -148 dBm & -98 dBm & -98 dBm & -100 dBm & -84 dBm \\ \hline
@@ -606,6 +606,7 @@ La selección del microcontrolador constituye una decisión crítica en el dise�
 \begin{tabular}{|l|c|c|c|c|c|}
 \hline
 \textbf{MCU} & \textbf{Periféricos} & \textbf{Memoria} & \textbf{Consumo Activo} & \textbf{Consumo Sleep} & \textbf{Conectividad} \\ \hline
+\shortstack[l]{\textbf{Heltec Wireless}\\\textbf{Tracker}} & \textbf{ADC, SPI, I2C, UART} & \textbf{8MB Flash} & \textbf{\SI{\sim 110}{\milli\ampere}} & \textbf{\SI{\sim 20}{\micro\ampere}} & \shortstack[c]{\\ \textbf{LoRa + GNSS +}  \\\textbf{Wi-Fi + BLE}} \\ \hline
 Xiao ESP32-S3 & 11 GPIOs, 8 ADC & 8MB Flash & 91 mA & 240 µA & WiFi 2.4GHz + BLE \\ \hline
 LilyGO T-HaLow & 36 GPIOs, 20 ADC & 16MB Flash & 91 mA & 240 µA & WiFi HaLow (900MHz) \\ \hline
 RPi Pico W & 23 GPIOs, 3 ADC & 2MB Flash & 50 mA & 390 µA & WiFi 2.4GHz \\ \hline
@@ -616,7 +617,9 @@ RPi Zero 2 W & 40 GPIOs (sin ADC) & Micro SD & 2.5 A & - & WiFi 2.4GHz + BLE 4.2
 }
 \end{table}
 
-Para el nodo sensor y concentrador, encargado de capturar datos de sensores (pH, turbidez, oxígeno disuelto) y transmitir imágenes sin procesamiento, se considera preliminarmente la tarjeta Xiao ESP32-S3 debido a su interfaz completa con 8 canales ADC y puertos UART/SPI/I2C para conectar sensores y módulo HaLow, memoria suficiente de 8MB Flash para almacenamiento temporal de imágenes JPEG antes de transmisión, bajo consumo de 91mA en active mode y 10 µA en sleep mode ideal para operación con baterías, y costo competitivo de ~\$12 por unidad, cumpliendo con los requisitos de conectividad, eficiencia energética y manejo simultáneo de datos sensoriales e imágenes, aunque requiere validación experimental de estabilidad en transmisiones continuas y posibles limitaciones de GPIOs.
+Para el nodo sensor, encargado de capturar datos de sensores (pH, turbidez, oxígeno disuelto), adquirir imágenes y gestionar la comunicación de largo alcance, se selecciona la placa de desarrollo \textbf{Heltec Wireless Tracker V1.1}. Debido a la superioridad en la integración de hardware que ofrece.
+
+Al integrar en un solo PCB el microcontrolador \textbf{ESP32-S3}, el transceptor \textbf{LoRa SX1262} y el módulo \textbf{GNSS UC6580}, se simplifica drásticamente el diseño físico del nodo y se eliminan puntos de falla asociados al cableado de módulos externos, lo cual es crítico para la robustez de un dispositivo flotante. Además, su consumo en modo de reposo es extremadamente bajo (\SI{\sim 20}{\micro\ampere}), optimizando la autonomía de la batería. Su capacidad de procesamiento es suficiente para gestionar la lectura de sensores y la compresión de imágenes, mientras que su radio LoRa integrada garantiza la conectividad en el entorno fluvial.
 
 \subsection{Comparativa de microcontroladores PIC para control de sensores}
 \label{subsec:comparativa_pic}
