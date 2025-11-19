@@ -415,20 +415,26 @@ En la Tabla \ref{tab:imagenes_transceptore} se presentan imágenes representativ
 }
 \end{table}
 
-
-
 \subsection{Justificación y Estrategia de Implementación}
-\label{subsec:justificacion_estrategia}
+\label{subsec:justificacion_lora}
 
 Con base en la comparativa anterior, se selecciona el transceptor \textbf{Semtech SX1262} como el elemento de comunicación central del sistema. Esta decisión se fundamenta en dos ventajas técnicas decisivas para el entorno fluvial: su \textbf{presupuesto de enlace superior} y su \textbf{eficiencia energética}.
 
 Con una potencia de salida de \SI{+22}{dBm} y una sensibilidad de \SI{-148}{dBm}, el SX1262 proporciona un margen de enlace de \SI{170}{dB}, indispensable para superar la atenuación severa causada por la vegetación ribereña y la falta de línea de vista directa, condiciones donde tecnologías como Wi-Fi o Zigbee fallarían. Además, su consumo en recepción de solo \SI{4.2}{\milli\ampere} extiende significativamente la vida útil de la batería en los nodos de la red lineal, que deben permanecer en modo de escucha para retransmitir datos.
 
-No obstante, la limitación crítica de LoRa es su ancho de banda, lo que dificulta la transmisión de archivos grandes como imágenes (\SI{\sim 150}{\kilo\byte}). El cálculo del Tiempo en el Aire (ToA) para una imagen fragmentada, asumiendo una configuración optimista (SF7, BW \SI{500}{\kilo\hertz}), ilustra este desafío:
+No obstante, la limitación crítica de LoRa es su ancho de banda, lo que dificulta la transmisión de archivos grandes como imágenes. Para ilustrar este desafío, se calcula el Tiempo en el Aire (ToA) requerido para transmitir una imagen de \SI{150}{\kilo\byte} (equivalente a \SI{1.23}{Mbits}) asumiendo el escenario más optimista permitido por el transceptor SX1262 ($SF=7$, $BW=\SI{500}{\kilo\hertz}$, $CR=4/5$), el cual ofrece una tasa máxima teórica de \SI{21.9}{kbps}:
 
-\[
-\text{ToA} \approx \frac{\text{Tamaño Imagen (\SI{1.23}{Mbits})}}{\text{Tasa de Datos (\SI{21.9}{kbps})}} \approx \textbf{\SI{56}{segundos}}
-\]
+\begin{equation} \label{eq:calculo_toa_imagen}
+T_{ToA} \approx \frac{S_{img}}{R_{b}} = \frac{\SI{1.23}{Mbit}}{\SI{21.9}{kbit/s}} \approx \SI{56}{\second}
+\end{equation}
+
+Donde:
+
+\begin{itemize}
+    \item $T_{\mathrm{ToA}}$: Tiempo en el Aire (\textit{Time on Air}).
+    \item $S_{\mathrm{img}}$: Tamaño de la imagen comprimida ($\approx \SI{150}{kB}$).
+    \item $R_{b}$: Tasa de transmisión de datos efectiva (Bitrate).
+\end{itemize}
 
 Aunque un tiempo de transmisión de \SI{56}{\second} es inviable para video en tiempo real, estudios experimentales como el realizado por Jebril et al. \cite{jebril2018overcoming} han demostrado la viabilidad de transmitir imágenes JPEG sobre la capa física (PHY) de LoRa en entornos de vegetación densa (manglares), superando las limitaciones de la zona de Fresnel.
 
@@ -621,6 +627,7 @@ Para el nodo sensor, encargado de capturar datos de sensores (pH, turbidez, oxí
 
 Al integrar en un solo PCB el microcontrolador \textbf{ESP32-S3}, el transceptor \textbf{LoRa SX1262} y el módulo \textbf{GNSS UC6580}, se simplifica drásticamente el diseño físico del nodo y se eliminan puntos de falla asociados al cableado de módulos externos, lo cual es crítico para la robustez de un dispositivo flotante. Además, su consumo en modo de reposo es extremadamente bajo (\SI{\sim 20}{\micro\ampere}), optimizando la autonomía de la batería. Su capacidad de procesamiento es suficiente para gestionar la lectura de sensores y la compresión de imágenes, mientras que su radio LoRa integrada garantiza la conectividad en el entorno fluvial.
 
+\begin{comment}
 \subsection{Comparativa de microcontroladores PIC para control de sensores}
 \label{subsec:comparativa_pic}
 
@@ -675,6 +682,7 @@ El modelo seleccionado para el diseño del nodo es el \textbf{PIC16LF1823}, ya q
 
 En contraste, el PIC12LF1822 resulta limitado en pines y entradas ADC, mientras que el PIC16LF1847 ofrece mayores recursos a costa de un tamaño físico mayor, mayor consumo y un costo menos competitivo, innecesario para esta aplicación específica.
 
+\end{comment}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
