@@ -702,9 +702,41 @@ La Tabla~\ref{tab:componentes_energia} presenta los principales componentes sele
 
 %\input{Documento/Tablas/ConsumosElectricos}
 
+\begin{table}[H]
+\centering
+\caption{Consumo eléctrico estimado de componentes del nodo sensor (Plataforma Heltec).}
+\label{tab:componentes_energia}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{l l S[table-format=1.1] S[table-format=3.3] l}
+\toprule
+\textbf{Componente} & \textbf{Modo} & {\textbf{Voltaje}} & {\textbf{Corriente}} & \textbf{Ref.} \\
+ & & {(\unit{\volt})} & {(\unit{\milli\ampere})} & \\
+\midrule
+\multirow{3}{*}{Transceptor LoRa (SX1262)} & Tx (@ \SI{+22}{dBm}) & 3.3 & 118.0 & \cite{semtech_sx1261_2017} \\ 
+ & Rx (Boosted) & 3.3 & 4.6 & \cite{semtech_sx1261_2017} \\
+ & Sleep & 3.3 & <0.001 & \cite{semtech_sx1261_2017} \\
+\midrule
+\multirow{3}{*}{MCU ESP32-S3 (Heltec)} & Activo (IA) & 3.3 & 240.0 & \cite{heltec_wireless_tracker_2023} \\ 
+ & Activo (Gestión) & 3.3 & 80.0 & \cite{heltec_wireless_tracker_2023} \\
+ & Deep Sleep & 3.3 & 0.020 & \cite{heltec_wireless_tracker_2023} \\
+\midrule
+\multirow{3}{*}{GNSS (UC6580)} & Activo (Acq.) & 3.3 & 40.0 & \cite{unicore_uc6580_2023} \\ 
+ & Activo (Track) & 3.3 & 40.0 & \cite{unicore_uc6580_2023} \\
+ & Backup & 3.3 & 0.005 & \cite{unicore_uc6580_2023} \\
+\midrule
+Sensor pH (Industrial V2) & Activo & 5.0 & 10.0 & \cite{DFRobot_pH_Sensor} \\ 
+Sensor OD (SEN0237) & Activo & 5.0 & 40.0 & \cite{DFRobot_DO_Sensor} \\
+Sensor Turbidez (SEN0189) & Activo & 5.0 & 30.0 & \cite{DFRobot_Turbidity_Sensor} \\ 
+Sensor EC (DFR0300) & Activo & 5.0 & 40.0 & \cite{DFRobot_EC_Sensor} \\
+Sensor Temp (DS18B20) & Activo & 3.3 & 4.0 & \cite{DFRobot_DS18B20} \\ 
+\midrule
+\multirow{2}{*}{Cámara OV5640} & Activo & 3.3 & 140.0 & \cite{omnivision2011_OV5640} \\ 
+ & Standby & 3.3 & 0.020 & \cite{omnivision2011_OV5640} \\
+\bottomrule
+\end{tabular}%
+\end{table}
 
-
-
+\begin{comment}
 \begin{table}[H]
 \centering
 \caption{Consumo eléctrico estimado de componentes del nodo sensor.}
@@ -736,69 +768,54 @@ Sensor Temp (DS18B20) & Activo & 3.3 & 4 & \cite{DFRobot_DS18B20} \\
 \bottomrule
 \end{tabular}
 \end{table}
- 
+\end{comment}
 
 
-Para estimar de forma realista el consumo energético del sistema, es indispensable cuantificar la duración efectiva de las fases de transmisión y recepción de datos, considerando el volumen de información y la velocidad de comunicación del transceptor Wi-Fi HaLow (FGH100M).
 
+Para estimar de forma realista el consumo energético del sistema, es indispensable cuantificar la duración efectiva de las fases de transmisión. Este análisis utiliza los parámetros de rendimiento del transceptor seleccionados en la Sección \ref{sec:analisis_tecnologias}, diferenciando entre el envío rutinario de datos de sensores y la transmisión eventual de imágenes.
+\subsection{Análisis de Tiempos de Transmisión y Carga de Red}
+\label{subsec:analisis_tiempos}
+El diseño de la red lineal P2P con modulación LoRa impone restricciones de tiempo que deben ser calculadas paso a paso para dimensionar la batería. A continuación, se detallan los cálculos realizados para determinar el volumen de datos a transmitir y el tiempo total de comunicación por nodo.
 
-\subsubsection{Volumen de Datos a Transmitir por Ciclo}
+\subsubsection*{Volumen de Datos a Transmitir}
 \label{ssubsec:volumen_datos}
-Cada nodo sensor genera dos tipos de información por ciclo operativo semanal:
+Cada nodo sensor genera dos tipos de información con volúmenes drásticamente diferentes:
 
 \begin{enumerate}
-    \item \textbf{Una muestra sensorial única}, compuesta por:
+    \item \textbf{Muestra sensorial y Geolocalización (Paquete de Datos):} Compuesto por las lecturas de los sensores, la ubicación y metadatos básicos.
     \begin{itemize}
-        \item 4 sensores analógicos (asumiendo ADC de 12 bits): 
-        $4 \times \SI{12}{\bit} = \SI{48}{\bit} = \SI{6}{\byte}$
-        \item 1 sensor digital (DS18B20, resolución \SI{12}{\bit}): \SI{2}{\byte}
-        \item Metadatos (Timestamp + ID de nodo + tipo de trama, estimado): \SI{8}{\byte}
+        \item 4 sensores analógicos (12 bits): $4 \times \SI{12}{\bit} = \SI{48}{\bit} = \SI{6}{\byte}$
+        \item 1 sensor digital (DS18B20, 12 bits): \SI{2}{\byte}
+        \item Datos GNSS (Latitud, Longitud): $2 \times \SI{32}{\bit} = \SI{8}{\byte}$
+        \item Metadatos (ID, Timestamp, Batería): \SI{8}{\byte}
     \end{itemize}
     \[
-    \text{Volumen}_{\text{sensores}} = 6 + 2 + 8 = \boxed{\SI{16}{\byte}}
+    \text{Volumen}_{\text{sensores}} = 6 + 2 + 8 + 8 = \boxed{\SI{24}{\byte}}
     \]
 
-    \item \textbf{Una única imagen} capturada por la cámara (ej. OV5640). 
-    Se asume una resolución de \(640 \times 480\) píxeles y una compresión JPEG que resulta en un tamaño de archivo típico de \SI{150}{\kilo\byte} \cite{jpegCompression}. 
-    Esta compresión es crucial para reducir el volumen de datos a transmitir.
+    \item \textbf{Imagen Comprimida:} Capturada por la cámara OV5640. Se asume una resolución SVGA ($800 \times 600$) con compresión JPEG estándar, resultando en un tamaño típico de archivo de \SI{\approx 150}{\kilo\byte}.
     \[
-    \text{Volumen}_{\text{imagen}} = \SI{150}{\kilo\byte} = \num{153600}\,\text{bytes}
+    \text{Volumen}_{\text{imagen}} \approx \boxed{\SI{150}{\kilo\byte}}
     \]
 \end{enumerate}
 
-El volumen total de datos generado por un nodo en cada ciclo es la suma de ambos:
-\[
-\text{Volumen}_{\text{nodo}} = \text{Volumen}_{\text{sensores}} + \text{Volumen}_{\text{imagen}} \approx \SI{153616}{bytes} \approx \SI{150.02}{\kilo\byte}
-\]
 
-\subsubsection{Tiempo Estimado de Transmisión}
-\label{ssubsec:tiempo_tx}
-Se asume una tasa de transmisión efectiva (\textit{throughput}) para el enlace Wi-Fi HaLow (FGH100M) de \SI{1}{\mega\bit\per\second}. Esta es una estimación conservadora, considerablemente menor que la tasa teórica máxima (ej. \SI{4.4}{\mega\bit\per\second} con MCS 7 @ \SI{8}{\mega\hertz}), para tener en cuenta el overhead del protocolo (cabeceras, ACK), posibles retransmisiones y las condiciones del canal en un entorno real \cite{ieee80211ah}.
-
-Bajo esta condición:
-\[
-T_{\text{transmisión-nodo}} = \frac{\text{Volumen}_{\text{nodo}} \times 8\,\text{bits/byte}}{\text{Tasa de transmisión}} = \frac{\num{153616} \times 8}{\SI{1e6}{\bit\per\second}} \approx \num{1.229}\,\unit{\second}
-\]
-Por lo tanto, el tiempo activo estimado para transmitir los datos de un nodo es de aproximadamente \textbf{\SI{1.23}{\second}}.
-
-
-\subsubsection{Tiempo Total de Comunicación por Nodo en Topología Lineal}
+\subsubsection*{Tiempo Total de Comunicación por Nodo en Topología Lineal}
 \label{ssubsec:tiempo_general_comm}
 
-El protocolo IEEE 802.11ah opera en modo \textit{half-duplex}, impidiendo la transmisión y recepción simultáneas \cite{ieee80211ah}. En la topología lineal adoptada, esto tiene un impacto acumulativo en el tiempo de actividad de cada nodo.
+El protocolo de comunicación implementado utiliza la modulación LoRa en una topología de red lineal P2P (multisalto). Al operar en modo \textit{half-duplex} (el transceptor no puede transmitir y recibir simultáneamente), esto tiene un impacto acumulativo en el tiempo de actividad de los nodos que actúan como repetidores.
 
 Consideremos una red lineal con $N$ nodos sensores (numerados del 1 al $N$), donde el Nodo 1 es el más alejado del concentrador y el Nodo $N$ es el más cercano. El concentrador se considera como el destino final después del Nodo $N$.
 
 El tiempo base ($T_{base}$) para transmitir el volumen de datos ($V_n$) generado por un solo nodo en cada ciclo se calcula como:
 \begin{equation} \label{eq:tiempo_base}
-T_{base} = \frac{V_n \times 8}{R}
+T_{base} = \frac{V_n \times \SI[per-mode = symbol]{8}{\bit\per\byte}}{R}
 \end{equation}
 Donde:
 \begin{itemize}
     \item $T_{base}$ es el tiempo base de transmisión por nodo (en segundos).
     \item $V_n$ es el volumen de datos generado por un nodo por ciclo (en bytes).
     \item $R$ es la tasa de transmisión efectiva del enlace (en bits por segundo).
-    \item 8 es el factor de conversión de bytes a bits.
 \end{itemize}
 
 Un nodo genérico $n$ (donde $1 \le n \le N$) debe recibir los datos de los $n-1$ nodos anteriores y transmitir los $n$ paquetes acumulados (los $n-1$ recibidos más el suyo). Los tiempos de recepción ($T_{rx}$) y transmisión ($T_{tx}$) para el nodo $n$ son:
@@ -813,28 +830,70 @@ Donde:
     \item $T_{rx}(n)$ es el tiempo total de recepción para el nodo $n$ (en segundos).
     \item $T_{tx}(n)$ es el tiempo total de transmisión para el nodo $n$ (en segundos).
     \item $n$ es el índice del nodo en la cadena lineal (1 a N).
-    \item $T_{base}$ es el tiempo base de transmisión por nodo (calculado en \eqref{eq:tiempo_base}).
+    \item $T_{base}$ es el tiempo base de transmisión por nodo, ecuación \eqref{eq:tiempo_base}.
 \end{itemize}
 
-Por lo tanto, la fórmula general para el tiempo total de comunicación activa ($T_{comm}$) para un nodo $n$ en la cadena lineal es la suma de sus tiempos de recepción y transmisión:
+Por lo tanto, la fórmula general para el tiempo total de comunicación activa ($T_{comm}$) para un nodo $n$ en la cadena lineal es la suma de sus tiempos de recepción y transmisión, ecuaciones \eqref{eq:tiempo_rx_n} y \eqref{eq:tiempo_tx_n}:
 \begin{equation} \label{eq:tiempo_comm_nodo_n}
-T_{comm}(n) = T_{rx}(n) + T_{tx}(n) = ((n-1) + n) \times T_{base} = (2n - 1) \times T_{base}
+T_{comm}(n) = T_{rx}(n) + T_{tx}(n) = ((n-1) + n) \times T_{base} = \boxed{(2n - 1) \times T_{base}}
 \end{equation}
 Donde:
 \begin{itemize}
     \item $T_{comm}(n)$ es el tiempo total de comunicación activa para el nodo $n$ (en segundos).
     \item $n$ es el índice del nodo en la cadena lineal (1 a N).
-    \item $T_{base}$ es el tiempo base de transmisión por nodo (calculado en \eqref{eq:tiempo_base}).
+    \item $T_{base}$ es el tiempo base de transmisión por nodo, ecuación \eqref{eq:tiempo_base}.
 \end{itemize}
 
-\paragraph{Ejemplo de Cálculo para el Nodo 4 (N=4):}
-En este proyecto, se tienen $N=4$ nodos sensores. El nodo más cargado es el Nodo 4. Aplicando la Ecuación \eqref{eq:tiempo_comm_nodo_n} con $n=4$ y utilizando $T_{base} \approx \SI{1.23}{\second}$ (calculado en la subsección \ref{ssubsec:tiempo_tx} usando la Ecuación \eqref{eq:tiempo_base}):
+
+\subsubsection*{Tiempo Estimado de Transmisión (Time on Air)}
+\label{ssubsec:tiempo_tx}
+
+El tiempo de transmisión se calcula con base en la tasa de datos efectiva ($R_b$) del transceptor \textbf{SX1262}. Conforme al análisis realizado en la \textbf{Sección \ref{subsec:justificacion_lora}}, se utiliza la configuración de alta velocidad (SF7, BW \SI{500}{\kilo\hertz}, CR 4/5) para minimizar el tiempo de ocupación del canal, lo que proporciona una tasa de \SI[per-mode = symbol]{21.9}{\kilo\bit\per\second}.
+
+Bajo estas condiciones, los tiempos de actividad del radio son:
+
+\begin{itemize}
+    \item \textbf{Tiempo para Datos de Sensores y GNSS:}
+    \[
+    T_{\text{base\_sen}} = \frac{\SI{24}{\byte}\times \SI[per-mode = symbol]{8}{\bit\per\byte}}{\SI[per-mode = symbol]{21900}{\bit\per\second}} \approx \textbf{\SI{8.76}{\milli\second}}
+    \]
+    \textit{Observación:} El impacto energético de enviar el paquete de datos estándar sigue siendo despreciable, ocupando el canal por menos de \SI{10}{\milli\second}.
+
+    \item \textbf{Tiempo para una Imagen:}
+    \[
+    T_{\text{base\_img}} = \frac{ 150 \times \SI[per-mode = symbol]{1024}{\byte} \times \SI[per-mode = symbol]{8}{\bit\per\byte}}{\SI[per-mode = symbol]{21900}{\bit\per\second}} \approx \textbf{\SI{56.1}{\second}}
+    \]
+    \textit{Observación:} La transmisión de una sola imagen requiere mantener el transceptor activo durante casi un minuto (debido a la fragmentación y envío secuencial), lo cual representa el consumo energético dominante en los ciclos donde se requiera evidencia visual.
+\end{itemize}
+
+El tiempo base total de datos generado por un nodo en cada ciclo es la suma de ambos:
+\begin{equation} \label{eq:tiempo_base_calculado}
+\text{T}_{\text{base}} = \text{T}_{\text{base\_sen}} + \text{T}_{\text{base\_img}} \approx \SI{8.76}{\milli\second} + \SI{56.1}{\second} \approx \boxed{\SI{56.2}{\second}}
+\end{equation}
+
+\subsubsection*{Ejemplo de Cálculo para el Nodo 4 (N=4) - Ciclo Nominal:}
+En este proyecto, se tienen $N=4$ nodos sensores. El nodo más cargado es el Nodo 4, ya que debe recibir y retransmitir los datos de los 3 nodos anteriores más los propios. Aplicando la Ecuación \eqref{eq:tiempo_comm_nodo_n} con $n=4$ y utilizando el tiempo base de transmisión calculado, ecuación \eqref{eq:tiempo_base_calculado}:
+
+\begin{equation}\label{eq:tiempo_comm_nodo4}
+    T_{comm}(4) = (2 \times 4 - 1) \times \SI{56.2}{\second} = 7 \times \SI{56.2}{\second} = \SI{393.4}{\second} = \boxed{\SI{6.5}{\minute}}
+\end{equation}
+
+
+Este valor representa el tiempo total que el Nodo 4 pasa activo comunicándose en cada ciclo de monitoreo. A diferencia de la transmisión de solo datos sensoriales, la inclusión de imágenes incrementa significativamente el tiempo de actividad del transceptor, lo cual representa una carga energética considerable que ha sido contemplada en el dimensionamiento del sistema de alimentación.
+
+
+\begin{comment}
+\paragraph{Ejemplo de Cálculo para el Nodo 4 (N=4) - Ciclo Nominal:}
+En este proyecto, se tienen $N=4$ nodos sensores. El nodo más cargado es el Nodo 4. Aplicando la Ecuación \eqref{eq:tiempo_comm_nodo_n} con $n=4$ y utilizando el tiempo base de transmisión de sensores $T_{base} \approx \SI{8.8}{\milli\second}$ (calculado en la subsección \ref{ssubsec:tiempo_tx}):
 
 \[
-T_{comm}(4) = (2 \times 4 - 1) \times \SI{1.23}{\second} = 7 \times \SI{1.23}{\second} = \boxed{\SI{8.61}{\second}}
+T_{comm}(4) = (2 \times 4 - 1) \times \SI{8.8}{\milli\second} = 7 \times \SI{8.8}{\milli\second} = \boxed{\SI{61.6}{\milli\second}}
 \]
 
-Este valor representa el tiempo total que el Nodo 4 pasa en modos activos de comunicación por ciclo y será utilizado para el cálculo del consumo energético.
+Este valor representa el tiempo total que el Nodo 4 pasa activo comunicándose en cada ciclo de monitoreo estándar. Es extremadamente bajo (\SI{< 0.1}{\second}), lo cual valida la eficiencia de la topología lineal para el tráfico de sensores.
+
+\textit{Nota: En el caso eventual de transmitir una imagen ($T_{base} \approx \SI{56}{\second}$), el tiempo acumulado para el Nodo 4 sería de $7 \times 56 \approx \SI{392}{\second}$ (\SI{\sim 6.5}{\minute}), lo que confirma la necesidad de restringir el envío de imágenes a eventos bajo demanda.}
+\end{comment}
 
 
 \subsection{Escenario Operativo}
