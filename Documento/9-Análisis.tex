@@ -899,31 +899,39 @@ Este valor representa el tiempo total que el Nodo 4 pasa activo comunicándose e
 \subsection{Escenario Operativo}
 \label{subsec:escenario_operativo}
 
-Para optimizar el consumo energético y garantizar una larga autonomía, el sistema opera en un ciclo de bajo ciclo de trabajo (\textit{low duty cycle}). Se establece un **ciclo operativo semanal** (\SI{168}{\hour}) como referencia. Esta frecuencia se considera adecuada para el monitoreo ambiental de cuerpos de agua lóticos, permitiendo detectar tendencias a mediano plazo sin incurrir en un consumo excesivo \cite{nom001}.
+Para optimizar el consumo energético y garantizar una larga autonomía, el sistema opera en un ciclo de bajo ciclo de trabajo (\textit{low duty cycle}). Se establece un \textbf{ciclo operativo semanal} (\SI{168}{\hour}) como referencia para el cálculo de autonomía base, aunque la frecuencia de muestreo puede ajustarse según la disponibilidad de energía.
 
-Dentro de cada ciclo semanal, el nodo alterna entre modos de bajo consumo (\textit{sleep}) y modos activos para la adquisición y transmisión de datos. Considerando el nodo con mayor carga (Nodo 4), el tiempo estimado en cada modo por ciclo es el siguiente (ver Figura \ref{fig:ciclo_mod_op}):
+Dentro de cada ciclo, el nodo alterna entre modos de bajo consumo (\textit{sleep}) y modos activos. Considerando el escenario más exigente (Nodo 4 retransmitiendo datos e imágenes de toda la red), el tiempo estimado en cada modo es el siguiente (ver Figura \ref{fig:ciclo_mod_op}):
 
 \begin{itemize}
     \item \textbf{Adquisición de Datos}:
         \begin{itemize}
-            \item Lectura de Sensores: Se asume un tiempo de estabilización y lectura de \SI{5}{\second} por cada uno de los 5 sensores, activados secuencialmente. Tiempo total = $5 \times \SI{5}{\second} = \SI{25}{\second}$.
-            \item Captura de Imagen: Se estima un tiempo de \SI{10}{\second} para activar la cámara, capturar una imagen y almacenarla en el búfer. % Justificación: Tiempo típico estimado
+            \item Lectura de Sensores: Se asume un tiempo de estabilización y lectura de \SI{5}{\second} por cada uno de los 5 sensores. Tiempo $= 5 \times \SI{5}{\second} = \SI{25}{\second}$.
+            \item Captura de Imagen: Se estima un tiempo de \SI{10}{\second} para activar la cámara, capturar y comprimir la imagen.
+            \item Obtención GNSS: Se estima un tiempo promedio de \SI{10}{\second} para actualizar las coordenadas de geolocalización.
         \end{itemize}
-        Tiempo total de adquisición $\approx \SI{35}{\second}$.
-    \item \textbf{Comunicación (Nodo 4)}: Tiempo total de Tx y Rx calculado previamente (ver \ref{ssubsec:tiempo_general_comm}) $\approx \SI{8.61}{\second}$.
-    \item \textbf{Procesamiento Local (Estimado)}: Tiempo adicional para que el microcontrolador organice datos, comprima imagen (si aplica), etc. Se estima un tiempo conservador de \SI{5}{\second}. % Justificación: Estimación conservadora
-    \item \textbf{Tiempo Activo Total por Ciclo}: $35 + 8.61 + 5 = \SI{48.61}{\second} \approx \SI{0.81}{\minute}$.
-    \item \textbf{Tiempo en Modo Sleep}: $\SI{168}{\hour} - \SI{48.61}{\second} \approx \SI{167.987}{\hour}$ (aproximadamente el \SI{99.99}{\percent} del ciclo).
+        Tiempo total de adquisición $\approx 25 + 10 + 10 = \textbf{\SI{45}{\second}}$.
+
+    \item \textbf{Comunicación (Nodo 4)}: Tiempo total de Tx y Rx calculado previamente, considerando la transmisión de imágenes de los 4 nodos (ver Ecuación \ref{eq:tiempo_comm_nodo4}):
+    \[ T_{comm}(4) \approx \SI{393.4}{\second} \approx \textbf{\SI{6.5}{\minute}} \]
+
+    \item \textbf{Procesamiento Local}: Tiempo adicional para gestión del buffer, fragmentación de paquetes y lógica de control. Se estima conservadoramente en \SI{5}{\second}.
+
+    \item \textbf{Tiempo Activo Total por Ciclo}: 
+    \[ \SI{45}{\second} + \SI{393.4}{\second} + \SI{5}{\second} = \SI{443.4}{\second} \approx \textbf{\SI{7.4}{\minute}} \]
+
+    \item \textbf{Tiempo en Modo Sleep}: 
+    Considerando un ciclo base de \SI{1}{\hour} (para garantizar el balance energético con el panel solar):
+    \[ \SI{60}{\minute} - \SI{7.4}{\minute} \approx \textbf{\SI{52.6}{\minute}} \]
+    Esto representa aproximadamente el \SI{87.6}{\percent} del tiempo en reposo, lo cual sigue siendo sostenible con la generación solar proyectada.
 \end{itemize}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{Documento/Imagenes/Análisis/ciclo modos op.pdf} % Revisa el nombre del archivo si es necesario
+    \includegraphics[width=0.5\linewidth]{Documento/Imagenes/Análisis/ciclo_modos_op.pdf}
     \caption{Ciclo simplificado de modos operativos del nodo sensor.}
     \label{fig:ciclo_mod_op}
 \end{figure}
-
-
 
 
 \subsection{Cálculo del Consumo Energético Semanal}
@@ -966,7 +974,7 @@ Transmisión (Tx) (ESP32 + FGH Tx) & 145.00 & {$4.92/3600$} & {$\approx \num{0.2
 Procesamiento Local (ESP32 + PIC) & 91.05 & {$5/3600$} & {$\approx \num{0.13}$} \\
 Modo Sleep (Todo en sleep/standby) & 0.271 & 167.987 & {$\approx \num{45.52}$} \\
 \midrule
-\textbf{Total Estimado} & & & {$\approx \num{47.61}$} \\ % Nueva suma redondeada
+\textbf{Total Estimado} & & & {$\approx \num{47.61}$} \\ 
 \bottomrule
 \end{tabular}
 \end{table}
