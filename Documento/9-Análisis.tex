@@ -716,8 +716,7 @@ La Tabla~\ref{tab:componentes_energia} presenta los principales componentes sele
  & Rx (Boosted) & 3.3 & 4.6 & \cite{semtech_sx1261_2017} \\
  & Sleep & 3.3 & <0.001 & \cite{semtech_sx1261_2017} \\
 \midrule
-\multirow{3}{*}{MCU ESP32-S3 (Heltec)} & Activo (IA) & 3.3 & 240.0 & \cite{heltec_wireless_tracker_2023} \\ 
- & Activo (Gestión) & 3.3 & 80.0 & \cite{heltec_wireless_tracker_2023} \\
+\multirow{2}{*}{MCU ESP32-S3 (Heltec)} & Activo (Gestión) & 3.3 & 80.0 & \cite{heltec_wireless_tracker_2023} \\
  & Deep Sleep & 3.3 & 0.020 & \cite{heltec_wireless_tracker_2023} \\
 \midrule
 \multirow{3}{*}{GNSS (UC6580)} & Activo (Acq.) & 3.3 & 40.0 & \cite{unicore_uc6580_2023} \\ 
@@ -901,7 +900,7 @@ Este valor representa el tiempo total que el Nodo 4 pasa activo comunicándose e
 
 Para optimizar el consumo energético y garantizar una larga autonomía, el sistema opera en un ciclo de bajo ciclo de trabajo (\textit{low duty cycle}). Se establece un \textbf{ciclo operativo semanal} (\SI{168}{\hour}) como referencia para el cálculo de autonomía base, aunque la frecuencia de muestreo puede ajustarse según la disponibilidad de energía.
 
-Dentro de cada ciclo, el nodo alterna entre modos de bajo consumo (\textit{sleep}) y modos activos. Considerando el escenario más exigente (Nodo 4 retransmitiendo datos e imágenes de toda la red), el tiempo estimado en cada modo es el siguiente (ver Figura \ref{fig:ciclo_mod_op}):
+Dentro de cada semana (\SI{168}{\hour}), el nodo permanece en modo de ultra bajo consumo (\textit{Deep Sleep}) la gran mayor parte del tiempo, activándose una sola vez para ejecutar la secuencia de monitoreo. Considerando el escenario más exigente (Nodo 4 retransmitiendo datos e imágenes de toda la red), los tiempos estimados son (ver Figura \ref{fig:ciclo_mod_op}):
 
 \begin{itemize}
     \item \textbf{Adquisición de Datos}:
@@ -920,10 +919,9 @@ Dentro de cada ciclo, el nodo alterna entre modos de bajo consumo (\textit{sleep
     \item \textbf{Tiempo Activo Total por Ciclo}: 
     \[ \SI{45}{\second} + \SI{393.4}{\second} + \SI{5}{\second} = \SI{443.4}{\second} \approx \textbf{\SI{7.4}{\minute}} \]
 
-    \item \textbf{Tiempo en Modo Sleep}: 
-    Considerando un ciclo base de \SI{1}{\hour} (para garantizar el balance energético con el panel solar):
-    \[ \SI{60}{\minute} - \SI{7.4}{\minute} \approx \textbf{\SI{52.6}{\minute}} \]
-    Esto representa aproximadamente el \SI{87.6}{\percent} del tiempo en reposo, lo cual sigue siendo sostenible con la generación solar proyectada.
+    \item \textbf{Tiempo en Modo Sleep por Semana}:
+    \[ \SI{168}{\hour} - \SI{7.4}{\minute} \approx \textbf{\SI{167.88}{\hour}} \]
+    Esto representa que el sistema permanece en reposo el \textbf{99.93\%} del tiempo, lo cual garantiza una eficiencia energética considerable.
 \end{itemize}
 
 \begin{figure}[H]
@@ -934,53 +932,60 @@ Dentro de cada ciclo, el nodo alterna entre modos de bajo consumo (\textit{sleep
 \end{figure}
 
 
-\subsection{Cálculo del Consumo Energético Semanal}
+\subsection*{Cálculo del Consumo Energético Semanal}
 \label{subsec:calculo_consumo}
 
 Utilizando los tiempos de operación estimados para cada modo y las corrientes de consumo de la Tabla \ref{tab:componentes_energia}, se calcula el consumo energético total por ciclo semanal ($E_{\text{sem}}$) para el nodo más demandante (Nodo 4). La fórmula general es:
+
+Dado que el ciclo ocurre una sola vez por semana, el cálculo se simplifica a la energía de un evento activo más la energía de reposo de toda la semana.
 
 \begin{equation} \label{eq:energia_semanal}
 E_{\text{sem}} = \sum_{\text{modo}} (I_{\text{modo}} \times t_{\text{modo}})
 \end{equation}
 
-Para la fase de comunicación del Nodo 4, se separan los tiempos y corrientes de recepción (Rx) y transmisión (Tx) calculados en la subsección \ref{ssubsec:tiempo_general_comm}:
+Para la fase de comunicación del Nodo 4, se separan los tiempos y corrientes de recepción (Rx) y transmisión (Tx) calculados con la ecuación \eqref{eq:tiempo_rx_n} y \eqref{eq:tiempo_tx_n}:
 \begin{itemize}
-    \item Tiempo de Recepción ($T_{rx}(4)$) = \SI{3.69}{\second}
-    \item Tiempo de Transmisión ($T_{tx}(4)$) = \SI{4.92}{\second}
+    \item Tiempo de Recepción ($T_{rx}(4)$) = \SI{168.6}{\second}
+    \item Tiempo de Transmisión ($T_{tx}(4)$) = \SI{224.8}{\second}
 \end{itemize}
 Las corrientes totales durante estas fases son:
 \begin{itemize}
-    \item Corriente en Rx ($I_{Rx}$) = $I_{\text{ESP32\_activo}} + I_{\text{FGH100M\_Rx}} = \SI{91}{\milli\ampere} + \SI{43}{\milli\ampere} = \SI{134}{\milli\ampere}$
-    \item Corriente en Tx ($I_{Tx}$) = $I_{\text{ESP32\_activo}} + I_{\text{FGH100M\_Tx}} = \SI{91}{\milli\ampere} + \SI{54}{\milli\ampere} = \SI{145}{\milli\ampere}$
+    \item Corriente en Rx ($I_{Rx}$) = $I_{\text{ESP32\_activo}} + I_{\text{SX1262\_Rx}} = \SI{80}{\milli\ampere} + \SI{4.6}{\milli\ampere} = \SI{84.6}{\milli\ampere}$
+    \item Corriente en Tx ($I_{Tx}$) = $I_{\text{ESP32\_activo}} + I_{\text{SX1262\_Tx}} = \SI{80}{\milli\ampere} + \SI{118}{\milli\ampere} = \SI{198}{\milli\ampere}$
 \end{itemize}
 
 La Tabla \ref{tab:consumo_detallado_semanal} detalla el cálculo completo.
-
-\begin{table}[H] 
+\sisetup{exponent-mode=engineering}
+\begin{table}[H]
 \centering
-\caption{Cálculo detallado del consumo energético semanal estimado (Nodo 4) con Tx/Rx separados.}
+\caption{Cálculo detallado del consumo energético semanal (Nodo 4, 1 ciclo/semana).}
 \label{tab:consumo_detallado_semanal}
 \renewcommand{\arraystretch}{1.3}
-\sisetup{round-mode=places, round-precision=2} % Redondeo a 2 decimales para la energía
-\begin{tabular}{l S[table-format=3.3] S[table-format=6.3] S[table-format=3.2]}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{l C{2cm} C{2.1cm} c c c}
 \toprule
-\textbf{Modo Operativo} & {\textbf{Corriente Total}} & {\textbf{Tiempo}} & {\textbf{Energía}} \\
- & {(\unit{\milli\ampere})} & {(\unit{\hour})} & {(\unit{\milli\ampere\hour})} \\
+\textbf{Modo Operativo}&\multicolumn{2}{c}{\shortstack[c]{\textbf{Componentes}\\\textbf{activos}}}& \textbf{Corriente Total} & \textbf{Tiempo Semanal} & \textbf{Energía Semanal} \\
+ &\multicolumn{2}{c}{(mA)}& {(\unit{\milli\ampere})} & {(\unit{\hour})} & {(\unit{\milli\ampere\hour})} \\
 \midrule
-Lectura Sensores (PIC + ESP32 + 1 Sensor) & 141.05 & {$25/3600$} & {$\approx \num{0.98}$} \\
-Captura Imagen (ESP32 + Cam) & 231.24 & {$10/3600$} & {$\approx \num{0.64}$} \\
-Recepción (Rx) (ESP32 + FGH Rx) & 134.00 & {$3.69/3600$} & {$\approx \num{0.14}$} \\ % Separado Rx
-Transmisión (Tx) (ESP32 + FGH Tx) & 145.00 & {$4.92/3600$} & {$\approx \num{0.20}$} \\ % Separado Tx
-Procesamiento Local (ESP32 + PIC) & 91.05 & {$5/3600$} & {$\approx \num{0.13}$} \\
-Modo Sleep (Todo en sleep/standby) & 0.271 & 167.987 & {$\approx \num{45.52}$} \\
+Lectura Sensores& \makecell[c]{ESP32 \\ 80 mA}& \makecell[c]{Sensor \\ 40 mA} & 120.0 & $25/3600 \approx \num{0.00694}$ & $\approx \num{0.8328}$ \\
+Posición GNSS &\makecell[c]{ESP32 \\ 80 mA} & \makecell[c]{UC6580 \\ 40 mA} & 120.0 & $10/3600 \approx \num{0.00277}$ & $\approx \num{0.3324}$ \\
 \midrule
-\textbf{Total Estimado} & & & {$\approx \num{47.61}$} \\ 
+Captura de Imagen &\makecell[c]{ESP32 \\ 80 mA} & \makecell[c]{Cam \\ 140 mA} & 220.0 & $10/3600 \approx \num{0.00277}$ & $\approx \num{0.6094}$ \\
+Procesamiento Local&\makecell[c]{ESP32 \\ 80 mA}& -& 80.0 & $5/3600 \approx \num{0.00138}$ & $\approx \num{0.1104}$ \\
+\midrule
+Recepción &\makecell[c]{ESP32 \\ 80 mA} & \makecell[c]{SX1262\_Rx \\ 4.6 mA} & 84.6 & $168.6/3600 \approx \num{0.0468}$ & $\approx \num{3.959}$ \\
+\midrule
+Transmisión &\makecell[c]{ESP32 \\ 80 mA} & \makecell[c]{SX1262\_Tx \\ 118 mA} & 198.0 & $224.8/3600 \approx \num{0.0624}$ & $\approx \num{12.355}$ \\
+\midrule
+Modo Sleep &\multicolumn{2}{c}{Todo en sleep/standby}& 0.046 & $167.88$ & $\approx 7.722$ \\
+\midrule
+\textbf{Total Semanal}&& & & \textbf{168.0 h} & \textbf{$\approx \textbf{\SI{25.921}{\milli\ampere\hour}}$ }\\
 \bottomrule
 \end{tabular}
+}
 \end{table}
-%\sisetup{round-mode=off} % Desactivar redondeo global si no se necesita más
 
-El consumo energético total estimado por nodo por semana es de aproximadamente \textbf{\SI{47.6}{\milli\ampere\hour}}. Este valor se utilizará para dimensionar los componentes del subsistema de alimentación.
+El consumo energético total estimado para el nodo más exigente es de aproximadamente \SI{25.921}{\milli\ampere\hour} por semana. Este valor extremadamente bajo confirma que la estrategia de baja frecuencia de muestreo es altamente efectiva para la conservación de energía. 
 
 \subsection{Análisis y Selección de Componentes de Alimentación}
 \label{subsec:seleccion_hardware_alimentacion}
