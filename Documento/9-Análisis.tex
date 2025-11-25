@@ -965,7 +965,7 @@ La Tabla \ref{tab:consumo_detallado_semanal} detalla el cálculo completo.
 \begin{tabular}{l C{2cm} C{2.1cm} c c c}
 \toprule
 \textbf{Modo Operativo}&\multicolumn{2}{c}{\shortstack[c]{\textbf{Componentes}\\\textbf{activos}}}& \textbf{Corriente Total} & \textbf{Tiempo Semanal} & \textbf{Energía Semanal} \\
- &\multicolumn{2}{c}{(mA)}& {(\unit{\milli\ampere})} & {(\unit{\hour})} & {(\unit{\milli\ampere\hour})} \\
+ &&& {(\unit{\milli\ampere})} & {(\unit{\hour})} & {(\unit{\milli\ampere\hour})} \\
 \midrule
 Lectura Sensores& \makecell[c]{ESP32 \\ 80 mA}& \makecell[c]{Sensor \\ 40 mA} & 120.0 & $25/3600 \approx \num{0.00694}$ & $\approx \num{0.8328}$ \\
 Posición GNSS &\makecell[c]{ESP32 \\ 80 mA} & \makecell[c]{UC6580 \\ 40 mA} & 120.0 & $10/3600 \approx \num{0.00277}$ & $\approx \num{0.3324}$ \\
@@ -1167,38 +1167,36 @@ Los módulos basados en el popular chip TP4056, aunque económicos, están optim
 %             SECCIÓN: Cálculo de residuos         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Análisis de la medición de residuos sólidos flotantes en cuerpos de agua lóticos}
+\section{Análisis de la medición de residuos sólidos flotantes}
+\label{sec:analisis_medicion_residuos}
 
-La acumulación de residuos sólidos flotantes representa un problema creciente en cuerpos de agua lóticos como ríos y arroyos, debido a su capacidad para transportar contaminantes desde zonas urbanas, agrícolas o industriales hacia cuerpos receptores mayores. Estos residuos, compuestos principalmente por plásticos, envases, metales y material no biodegradable, afectan no solo la estética del entorno natural, sino también la salud ambiental y humana.
+La acumulación de residuos sólidos flotantes representa un problema crítico en cuerpos de agua lóticos, actuando como vectores de transporte de contaminantes. Para su evaluación, se toma como referencia la metodología de ``observación visual'' establecida en las guías operacionales de la UNEP/IOC para la basura marina \cite{cheshire2009directrices}, adaptándola al contexto fluvial y a las restricciones del sistema IoT.
 
-Según las guías operacionales de la UNEP/IOC, las evaluaciones de basura flotante en ambientes marinos deben considerar tanto la recolección mediante redes superficiales ("trawl surveys") como observaciones visuales sistemáticas desde plataformas móviles \cite{cheshire2009directrices}. Al adaptar estas estrategias a cuerpos de agua interiores, se propone una metodología de monitoreo basada en:
-
+La estrategia de monitoreo se fundamenta en tres pilares:
 \begin{itemize}
-    \item \textbf{Captura de imágenes periódicas:} mediante cámaras fijas instaladas en puntos estratégicos del río. Estas imágenes permitirán realizar una estimación visual de la cantidad de residuos sólidos flotantes.
-    \item \textbf{Frecuencia de muestreo adaptada:} al comportamiento hidrodinámico del cuerpo de agua y a los patrones locales de generación de basura. Por ejemplo, se sugiere capturar imágenes diariamente o durante eventos climáticos relevantes (lluvias, crecidas).
-    \item \textbf{Plataforma de análisis automatizado:} que en fases posteriores permitirá integrar algoritmos de visión por computadora para la clasificación y cuantificación automática de los residuos identificados.
+    \item \textbf{Captura Programada:} Utilización de cámaras fijas para obtener una "instantánea" semanal del estado de la superficie del agua, permitiendo el seguimiento de tendencias a largo plazo sin saturar el ancho de banda de la red.
+    \item \textbf{Área de Muestreo Definida:} Definición de un Campo de Visión (FoV) constante sobre la superficie del río, estableciendo un área de referencia ($A_{obs}$) para los cálculos.
+    \item \textbf{Procesamiento Automatizado:} Aplicación de algoritmos de segmentación de instancias para cuantificar la superficie ocupada por los residuos.
 \end{itemize}
 
-La implementación de este módulo de monitoreo visual no busca sustituir técnicas de muestreo físico, sino complementarlas al proporcionar una evaluación continua y no invasiva de la contaminación superficial. Esta información puede utilizarse para calcular indicadores como densidad de residuos (elementos por metro cuadrado de superficie visible) o tasa de acumulación, adaptando los métodos sugeridos por la \textit{UNEP/IOC} al contexto fluvial.
+\subsection{Cálculo de la Densidad de Cobertura}
+\label{subsec:calculo_densidad}
 
-\subsection{Cálculo de densidad temporal de residuos flotantes}
+Aprovechando la capacidad del modelo de IA seleccionado para delimitar el contorno preciso de los objetos (segmentación), se define como métrica principal la \textbf{Densidad de Cobertura de Residuos} ($D_{cob}$).
 
-Para cuantificar la cantidad de residuos sólidos flotantes observados en un tramo de río durante un intervalo de tiempo determinado, se utiliza la siguiente expresión para calcular la densidad temporal:
+Este indicador cuantifica la proporción de la superficie del cuerpo de agua que se encuentra obstruida por materiales sólidos, proporcionando una medida directa del impacto visual y ambiental. Se calcula mediante la siguiente expresión:
 
-\begin{equation}
-D_t = \frac{N_t}{A \cdot \Delta t}
-\label{eq:densidad_basura_tiempo}
+\begin{equation} \label{eq:densidad_cobertura}
+D_{cob} = \left( \frac{A_{residuos}}{A_{obs}} \right) \times 100
 \end{equation}
 
 Donde:
 \begin{itemize}
-    \item $D_t$ es la densidad temporal de residuos (elementos/m²/unidad de tiempo),
-    \item $N_t$ es el número total de residuos observados durante el intervalo $\Delta t$,
-    \item $A$ es el área superficial observada (en metros cuadrados),
-    \item $\Delta t$ es el intervalo de tiempo de observación (en horas, días, etc.).
+    \item $D_{cob}$: Densidad de cobertura (expresada en porcentaje $\%$).
+    \item $A_{residuos}$: Sumatoria del área de todos los píxeles clasificados como ``residuo'' por la máscara de segmentación. Representa la superficie física real ocupada por la basura.
+    \item $A_{obs}$: Área superficial total del río observada por la cámara (constante determinada por la calibración geométrica).
 \end{itemize}
-
-Esta fórmula permite calcular la tasa de acumulación de residuos flotantes en la superficie del agua, lo cual es útil para identificar zonas críticas de contaminación o evaluar el impacto de eventos específicos (como lluvias o descargas urbanas) sobre el ingreso de residuos. Esta función será realizada por los nodos con cámara OV2640/OV5640 integrados en la red inalámbrica, que operan de forma autónoma y sincronizada con el resto del sistema de monitoreo. La estimación visual depende de variables como el campo de visión efectivo de la cámara, la reflectancia de los residuos, la turbidez del agua y las condiciones de luz ambiental. Estos factores pueden introducir incertidumbre en los parámetros $N_t$ y $A$ de la ecuación.
+El uso de esta métrica basada en segmentación ofrece una ventaja significativa sobre el simple conteo de objetos, ya que permite diferenciar, por ejemplo, entre un río con 50 botellas dispersas y uno con una gran isla de basura compacta. Esta distinción facilita una evaluación más precisa de la magnitud real de la contaminación y ayuda a identificar zonas críticas de acumulación de manera más efectiva que los métodos de conteo tradicionales. No obstante, es necesario considerar que factores externos, como la iluminación ambiental o la reflectancia de los materiales, pueden introducir incertidumbre en la estimación del parámetro $A_{residuos}$.
 
 
 
