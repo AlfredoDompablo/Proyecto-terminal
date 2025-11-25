@@ -985,13 +985,12 @@ Modo Sleep &\multicolumn{2}{c}{Todo en sleep/standby}& 0.046 & $167.88$ & $\appr
 }
 \end{table}
 
-El consumo energético total estimado para el nodo más exigente es de aproximadamente \SI{25.921}{\milli\ampere\hour} por semana. Este valor extremadamente bajo confirma que la estrategia de baja frecuencia de muestreo es altamente efectiva para la conservación de energía. 
+El análisis arroja un consumo energético semanal de \SI{25.921}{\milli\ampere\hour} para el nodo crítico. Este resultado demuestra que la adopción de un ciclo de trabajo de baja frecuencia es una medida eficaz para asegurar la sostenibilidad energética del sistema.
 
 \subsection{Análisis y Selección de Componentes de Alimentación}
 \label{subsec:seleccion_hardware_alimentacion}
 
-Basándose en el consumo energético semanal estimado de \SI{47.6}{\milli\ampere\hour}, se procede a seleccionar los componentes del subsistema de alimentación: batería, panel solar y módulo de carga, buscando un balance entre capacidad, eficiencia, costo y seguridad.
-
+Basándose en el consumo energético semanal estimado de \SI{25.921}{\milli\ampere\hour}, se procede a seleccionar los componentes del subsistema de alimentación: batería, panel solar y módulo de carga, buscando un balance entre capacidad, eficiencia, costo y seguridad.
 
 \subsubsection{Análisis y Selección de la Batería}
 La elección de la batería recargable es crucial para la autonomía del nodo. Se compararon opciones Li-ion y LiPo disponibles comercialmente (Tabla \ref{tab:baterias}), considerando capacidad, ciclos de vida, seguridad (presencia de BMS) y dimensiones.
@@ -1054,11 +1053,13 @@ Imagen
 \end{enumerate}
 La opción Li-ion 18650 requeriría un BMS externo, añadiendo complejidad al diseño.
 
-\paragraph{Cálculo de Autonomía Teórica:} Con la batería seleccionada, la autonomía estimada sin recarga solar es:
+\paragraph*{Cálculo de Autonomía Teórica:} 
+
+Con la batería seleccionada, la autonomía estimada sin recarga solar es:
 \begin{equation} \label{eq:autonomia}
-\text{Autonomía} = \frac{\text{Capacidad Batería}}{\text{Consumo Semanal}} = \frac{\SI{2500}{\milli\ampere\hour}}{\SI{47.6}{\milli\ampere\hour / \text{sem}}} \approx \boxed{\num{52.5}~\text{semanas}} \approx \num{367}~\text{días}
+\text{Autonomía} = \frac{\text{Capacidad Batería}}{\text{Consumo Semanal}} = \frac{\SI{2500}{\milli\ampere\hour}}{\SI{25.921}{\milli\ampere\hour / \text{sem}}} \approx \boxed{\num{96.4}~\text{semanas}} \approx \num{675}~\text{días}
 \end{equation}
-Este cálculo sugiere una autonomía teórica de casi un año, ofreciendo una excelente resiliencia ante periodos prolongados sin sol.
+Este cálculo sugiere una autonomía teórica de \textbf{casi dos años} (aprox. 1.8 años), ofreciendo una excelente resiliencia ante periodos prolongados sin sol.
 
 \subsubsection{Análisis y Selección del Panel Solar}
 Para garantizar la operación continua, se necesita un panel solar que reponga el consumo energético. Se evaluaron paneles compactos (Tabla \ref{tab:paneles_solares}) en función de su potencia, voltaje/corriente de salida y dimensiones.
@@ -1097,17 +1098,18 @@ Imagen
 
 Se selecciona el \textbf{Panel Solar de \SI{6}{\volt} / \SI{1.92}{\watt}}. Aunque el panel de \SI{5}{\volt} ofrece características similares, el voltaje ligeramente superior del panel de \SI{6}{\volt} proporciona un mayor margen para la caída de tensión y es óptimo para módulos de carga como el CN3065, que requieren un voltaje de entrada superior al de la batería \cite{chipCN3065}. Además, este modelo es el más compacto y económico de las opciones evaluadas \cite{panelSolar6V}. El panel de \SI{12}{\volt} está sobredimensionado y es menos eficiente para cargar una batería de \SI{3.7}{\volt} con un cargador simple.
 
-\paragraph{Análisis de Generación vs. Consumo:}
+\paragraph*{Análisis de Generación vs. Consumo:}
 \begin{itemize}
-    \item Consumo Diario Promedio: $\SI{47.6}{\milli\ampere\hour / \text{semana}} / 7\,\text{días} \approx \SI{6.8}{\milli\ampere\hour / \text{día}}$.
+    \item Consumo Diario Promedio: $\SI{25.921}{\milli\ampere\hour} / 7\,\text{días} \approx \SI{3.7}{\milli\ampere\hour / \text{día}}$.
     \item Generación Diaria Estimada: Asumiendo un promedio conservador de \textbf{3 horas} de sol directo equivalente por día (HSP - Horas Solares Pico) para la Ciudad de México \cite{solarGIS}, la energía generada es:
     \begin{equation} \label{eq:generacion_diaria}
     \text{Generación}_{\text{diaria}} = I_{\text{mp}} \times \text{HSP} = \SI{320}{\milli\ampere} \times \SI{3}{\hour} = \SI{960}{\milli\ampere\hour}
     \end{equation}
 \end{itemize}
-El excedente energético diario ($\text{Generación}_{\text{diaria}} - \text{Consumo}_{\text{diario}} \approx \SI{953}{\milli\ampere\hour}$) es extremadamente amplio (más de 140 veces el consumo diario), lo que garantiza la recarga completa de la batería incluso bajo condiciones de irradiación solar subóptimas (días nublados, sombra parcial). El tiempo teórico necesario para reponer el consumo de una semana completa con sol directo sería mínimo: $\SI{47.6}{\milli\ampere\hour} / \SI{320}{\milli\ampere} \approx \SI{0.15}{\hour} \approx \SI{9}{\minute}$.
+El excedente energético diario ($\text{Generación}_{\text{diaria}} - \text{Consumo}_{\text{diario}} \approx \SI{956.3}{\milli\ampere\hour}$) es extremadamente amplio (más de 250 veces el consumo diario), lo que garantiza la recarga completa de la batería incluso bajo condiciones de irradiación solar subóptimas (días nublados, sombra parcial). El tiempo teórico necesario para reponer el consumo de una semana completa con sol directo sería mínimo: $\SI{25.92}{\milli\ampere\hour} / \SI{320}{\milli\ampere} \approx \SI{0.08}{\hour} \approx \SI{5}{\minute}$.
 
-\subsection{Análisis de módulos de carga}
+
+\subsubsection{Análisis de módulos de carga}
 
 El módulo de carga es el componente encargado de gestionar la recarga segura de la batería desde el panel solar. Su función principal es proteger la batería contra sobrecargas, sobredescargas y controlar el flujo de corriente, lo cual es esencial para extender su vida útil. Esta subsección presenta una comparativa entre distintos módulos de carga compatibles con baterías Li-ion o LiPo, considerando su capacidad de carga, compatibilidad con paneles solares, protección integrada y facilidad de integración con el sistema(Tabla \ref{tab:modulos_carga}).
 
