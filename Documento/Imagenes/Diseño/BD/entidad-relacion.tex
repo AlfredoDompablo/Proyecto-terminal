@@ -1,0 +1,93 @@
+\begin{tikzpicture}[
+    node distance=2cm and 2cm,
+    % Estilo para las tablas
+    entity/.style={
+        rectangle split,
+        rectangle split parts=2,
+        draw=black,
+        very thick,
+        rounded corners,
+        fill=white,
+        drop shadow,
+        text width=5.5cm,
+        align=left,
+        font=\scriptsize
+    },
+    relation/.style={
+        draw=black,
+        thick,
+        -{Circle[open] Crow's Foot},
+    }
+]
+
+    % --- TABLA: NODES (Centro) ---
+    \node[entity] (nodes) {
+        \nodepart{text} \textbf{NODES}
+        \nodepart{second}
+        \underline{VARCHAR(20)} \textbf{node\_id} (PK)\\
+        VARCHAR(100) description\\
+        DECIMAL(10,8) latitude\\
+        DECIMAL(11,8) longitude\\
+        TIMESTAMP last\_seen
+    };
+
+    % --- TABLA: USERS (Izquierda) ---
+    \node[entity, left=2cm of nodes] (users) {
+        \nodepart{text} \textbf{USERS}
+        \nodepart{second}
+        \underline{BIGSERIAL} \textbf{user\_id} (PK)\\
+        VARCHAR(100) full\_name\\
+        VARCHAR(100) email (UK)\\
+        VARCHAR(255) password\_hash\\
+        VARCHAR(20) role\\
+        BOOLEAN is\_active
+    };
+
+    % --- TABLA: SENSOR_READINGS (Abajo Izquierda) ---
+    \node[entity, below left=1.5cm and -2cm of nodes] (readings) {
+        \nodepart{text} \textbf{SENSOR\_READINGS}
+        \nodepart{second}
+        \underline{BIGSERIAL} \textbf{reading\_id} (PK)\\
+        \dashuline{VARCHAR(20)} \textbf{node\_id} (FK)\\
+        TIMESTAMP timestamp\\
+        DECIMAL(4,2) ph\\
+        DECIMAL(5,2) dissolved\_oxygen\\
+        DECIMAL(6,2) turbidity\\
+        DECIMAL(8,2) conductivity\\
+        DECIMAL(5,2) temperature\\
+        DECIMAL(4,2) battery\_level
+    };
+
+    % --- TABLA: WASTE_DETECTIONS (Abajo Derecha) ---
+    \node[entity, below right=1.5cm and -2cm of nodes] (detections) {
+        \nodepart{text} \textbf{WASTE\_DETECTIONS}
+        \nodepart{second}
+        \underline{BIGSERIAL} \textbf{detection\_id} (PK)\\
+        \dashuline{VARCHAR(20)} \textbf{node\_id} (FK)\\
+        TIMESTAMP timestamp\\
+        DECIMAL(5,2) coverage\_percent\\
+        BYTEA image\_data\\
+        VARCHAR(50) model\_version\\
+        DECIMAL(3,2) confidence
+    };
+
+    % --- RELACIONES ---
+    
+    % 1. Users -> Nodes (1 a N: Un usuario gestiona N nodos, o N usuarios gestionan N nodos)
+    % Para simplificar visualmente, mostramos que Users tienen acceso a Nodes
+    \draw[thick] ([xshift=-0.5cm]nodes.west) |- (users.east);
+    \draw[thick] (nodes.west) |- (users.east);
+    \draw[thick, {Classical TikZ Rightarrow[length=2.5mm] }-{Classical TikZ Rightarrow[length=2.5mm] }] ([xshift=0.25cm]users.east)-- ++(-0.1,0) -- ([xshift=-0.15cm]nodes.west)-- ++(-0.1,0);
+    \node[anchor=south] at (barycentric cs:users=0.5,nodes=0.5) {\tiny Gestiona};
+
+    % 2. Nodes -> Readings
+    \draw[thick] ([xshift=-0.5cm]nodes.south) |- (readings.east);
+    \draw[thick, {Circle[open,length=3mm]}-] ([xshift=-0.5cm]nodes.south) -- ++(0,-0.5);
+    \draw[thick, -{Classical TikZ Rightarrow[length=2.5mm]}] ([xshift=0.15cm]readings.east) -- ++(0.1,0);
+
+    % 3. Nodes -> Detections
+    \draw[thick] ([xshift=0.5cm]nodes.south) |- (detections.west);
+    \draw[thick, {Circle[open,length=3mm]}-] ([xshift=0.5cm]nodes.south) -- ++(0,-0.5);
+    \draw[thick, -{Classical TikZ Rightarrow[length=2.5mm]}] ([xshift=-0.15cm]detections.west) -- ++(-0.1,0);
+
+\end{tikzpicture}
