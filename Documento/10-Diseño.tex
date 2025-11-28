@@ -80,6 +80,10 @@ Durante cada ciclo de adquisición:
     \item Al finalizar, el sistema entra en modo \textit{sleep} hasta el próximo ciclo.
 \end{enumerate}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: base de datos         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \section{Diseño de la Base de Datos}
 \label{sec:diseno_bd}
@@ -222,14 +226,57 @@ Almacena las credenciales de acceso para los administradores y el dueño del sis
 \end{table}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: casos de uso         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Diagramas de Casos de Uso}
+\label{sec:diagramas_casos_uso}
+
+Para modelar el comportamiento funcional del sistema y las interacciones entre los actores (usuarios, hardware y entorno) con los distintos módulos, se han elaborado diagramas de casos de uso basados en los requerimientos definidos en la Sección \ref{sec:analisis_requerimientos}. Debido a la naturaleza distribuida del sistema, se presentan tres vistas correspondientes a los subsistemas principales.
+
+\subsection{Casos de Uso del Subsistema de Adquisición (WSN)}
+La Figura \ref{fig:uc_wsn} ilustra las operaciones autónomas realizadas por los nodos sensores y el nodo concentrador (Gateway). Se destaca el rol del \textbf{Entorno Fluvial} como un actor externo que provee los estímulos físicos (parámetros y luz para la imagen) que activan el proceso de monitoreo. El diagrama muestra el flujo de datos en la topología lineal multisalto, donde cada nodo intermedio no solo genera su información, sino que también recibe y retransmite datos de sus vecinos (\textit{store-and-forward}).
+
+\begin{figure}[H]
+    \centering
+    % Asegúrate de guardar el diagrama de la red WSN como 'uc_wsn.pdf' o '.png'
+    \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Diseño/UML/UMLNodos.pdf}
+    \caption{Diagrama de casos de uso para la Red Inalámbrica de Sensores y el Gateway, mostrando la interacción con el entorno y el relevo de datos.}
+    \label{fig:uc_wsn}
+\end{figure}
+
+\subsection{Casos de Uso del Servidor y Procesamiento}
+La Figura \ref{fig:uc_backend} detalla el flujo de información en el servidor (Backend). Este subsistema actúa como el núcleo de procesamiento, iniciando su operación con la recepción de datos desde el Gateway. Se ilustra la secuencia de procesamiento que incluye el reensamblaje de imágenes fragmentadas, la ejecución de los algoritmos de Inteligencia Artificial (segmentación de residuos) y el almacenamiento persistente de los resultados para su posterior consulta vía API.
+
+\begin{figure}[H]
+    \centering
+    % Asegúrate de guardar el diagrama del servidor como 'uc_backend.pdf' o '.png'
+    \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Diseño/UML/servidor.pdf}
+    \caption{Diagrama de casos de uso para el Backend, abarcando la ingesta, procesamiento de IA y almacenamiento de datos.}
+    \label{fig:uc_backend}
+\end{figure}
+
+\subsection{Casos de Uso de la Interfaz Web}
+La Figura \ref{fig:uc_webapp} muestra las interacciones disponibles para los usuarios humanos a través de la plataforma web. Se modelan tres niveles de actores:
+\begin{itemize}
+    \item \textbf{Usuario Público:} Con acceso libre a la visualización de datos actuales, históricos y evidencia visual.
+    \item \textbf{Administrador:} Hereda los permisos de visualización y añade capacidades de gestión sobre los nodos sensores (altas, bajas, configuración) previo inicio de sesión.
+    \item \textbf{Dueño (Owner):} Actor con el máximo nivel de privilegios, capaz de gestionar las cuentas de los administradores del sistema.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    % Asegúrate de guardar el diagrama web como 'uc_webapp.pdf' o '.png'
+    \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Diseño/UML/aplicacionWeb.pdf}
+    \caption{Diagrama de casos de uso para la Aplicación Web, detallando los roles de usuario y sus privilegios.}
+    \label{fig:uc_webapp}
+\end{figure}
 
 
 
 
 
-
-
-
+\begin{comment}
 \section{Diseño de Software}
 \begin{table}[H]
 \centering
@@ -259,25 +306,25 @@ El nodo concentrador cumple una función crítica dentro de la arquitectura, ya 
 Para establecer la comunicación entre el nodo concentrador y el servidor, se asume que el concentrador cuenta con dicha interfaz de red externa, permitiendo el envío de datos a través del protocolo HTTP. Esta suposición garantiza la interoperabilidad con servicios web modernos y facilita la integración con plataformas de almacenamiento, análisis o visualización de datos.
 
 Una vez recibidos, los datos son procesados por el servidor y almacenados en una base de datos estructurada, permitiendo su consulta posterior, análisis automatizado o incluso la generación de comandos que puedan enviarse de regreso a los nodos sensores, habilitando así una comunicación bidireccional dentro del sistema.
+\end{comment}
 
+%\subsection{Base de datos}
+%\subsubsection{Diseño de base de datos}
+%\subsubsection{Modelo Relacional}
+%\subsubsection{Diccionario de datos}
 
-\subsection{Base de datos}
-\subsubsection{Diseño de base de datos}
-\subsubsection{Modelo Relacional}
-\subsubsection{Diccionario de datos}
+%\section{Diseño de Comunicación}
+%\subsection{Diagrama de comunicación del nodo concentrador con el servidor}
 
-\section{Diseño de Comunicación}
-\subsection{Diagrama de comunicación del nodo concentrador con el servidor}
+%\section{Diseño de Interfaces de Usuario}
+%\subsection{Diseño de Mock-up para la página web}
+%\subsection{Página principal}
 
-\section{Diseño de Interfaces de Usuario}
-\subsection{Diseño de Mock-up para la página web}
-\subsection{Página principal}
+%\section{Modelado del Sistema}
+%\subsection{Diagramas UML}
+%\subsubsection{Diagramas de caso de uso}
+%\subsubsection{Diagramas de secuencia}
 
-\section{Modelado del Sistema}
-\subsection{Diagramas UML}
-\subsubsection{Diagramas de caso de uso}
-\subsubsection{Diagramas de secuencia}
-
-\section{Integración y Pruebas}
-\subsection{Integración final del sistema}
-\subsection{Escenario de pruebas}
+%\section{Integración y Pruebas}
+%\subsection{Integración final del sistema}
+%\subsection{Escenario de pruebas}
