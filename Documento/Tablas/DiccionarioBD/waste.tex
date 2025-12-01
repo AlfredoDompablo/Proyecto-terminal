@@ -1,0 +1,31 @@
+\renewcommand{\arraystretch}{1.2}
+
+\begin{longtable}{l l l p{6cm}}
+\caption{Diccionario de datos: Tabla \texttt{waste\_detections}.}
+\label{tab:dd_detections} \\
+
+\toprule
+\textbf{Columna} & \textbf{Tipo de Dato} & \textbf{Restricción} & \textbf{Descripción} \\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Columna} & \textbf{Tipo de Dato} & \textbf{Restricción} & \textbf{Descripción} \\
+\midrule
+\endhead
+
+\bottomrule
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+\texttt{detection\_id} & BIGSERIAL & PK & Identificador único del evento de detección. \\
+\texttt{node\_id} & VARCHAR(20) & FK & Referencia al nodo (cámara origen). \\
+\texttt{timestamp} & TIMESTAMP & NOT NULL & Fecha y hora de captura de la imagen. \\
+\texttt{coverage\_percent} & DECIMAL(5,2) & NOT NULL & \% del área de agua cubierta por residuos ($D_{cob}$). \\
+\texttt{image\_data} & BYTEA & NOT NULL & Binario de la imagen JPEG (aprox. 90 kB). \\
+\texttt{model\_version} & VARCHAR(50) & NOT NULL & Versión del modelo YOLO utilizado. \\
+\texttt{confidence} & DECIMAL(3,2) & NULL & Nivel de confianza promedio de la detección. \\
+
+\end{longtable}
