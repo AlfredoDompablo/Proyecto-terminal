@@ -1,0 +1,104 @@
+\renewcommand{\arraystretch}{1.3}
+\sisetup{exponent-mode=engineering}
+\begin{longtable}{p{3cm} C{2cm} C{2.1cm} C{2cm} C{2.5cm} C{2.5cm}}
+\caption{Cálculo detallado del consumo energético semanal (Nodo 4, 1 ciclo/semana).}
+\label{tab:consumo_detallado_semanal} \\
+\toprule
+\textbf{Modo Operativo} &
+\multicolumn{2}{c}{\shortstack[c]{\textbf{Componentes}\\\textbf{activos}}} &
+\textbf{Corriente Total} &
+\textbf{Tiempo Semanal} &
+\textbf{Energía Semanal} \\
+ & & &
+{(\unit{\milli\ampere})} &
+{(\unit{\hour})} &
+{(\unit{\milli\ampere\hour})} \\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Modo Operativo} &
+\multicolumn{2}{c}{\shortstack[c]{\textbf{Componentes}\\\textbf{activos}}} &
+\textbf{Corriente Total} &
+\textbf{Tiempo Semanal} &
+\textbf{Energía Semanal} \\
+ & & &
+{(\unit{\milli\ampere})} &
+{(\unit{\hour})} &
+{(\unit{\milli\ampere\hour})} \\
+\midrule
+\endhead
+
+\midrule
+\multicolumn{6}{r}{\textit{Continúa en la siguiente página}} \\
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+Lectura Sensores
+    & \makecell[c]{ESP32 \\ 80 mA}
+    & \makecell[c]{Sensor \\ 40 mA}
+    & 120.0
+    & $25/3600 \approx \num{0.00694}$
+    & $\approx \num{0.8328}$ \\
+    
+Posición GNSS
+    & \makecell[c]{ESP32 \\ 80 mA}
+    & \makecell[c]{UC6580 \\ 40 mA}
+    & 120.0
+    & $10/3600 \approx \num{0.00277}$
+    & $\approx \num{0.3324}$ \\
+    
+\midrule
+
+Captura de Imagen
+    & \makecell[c]{ESP32 \\ 80 mA}
+    & \makecell[c]{Cam \\ 140 mA}
+    & 220.0
+    & $10/3600 \approx \num{0.00277}$
+    & $\approx \num{0.6094}$ \\
+
+Procesamiento Local
+    & \makecell[c]{ESP32 \\ 80 mA}
+    & -
+    & 80.0
+    & $5/3600 \approx \num{0.00138}$
+    & $\approx \num{0.1104}$ \\
+
+\midrule
+
+Recepción
+    & \makecell[c]{ESP32 \\ 80 mA}
+    & \makecell[c]{SX1262\_Rx \\ 4.6 mA}
+    & 84.6
+    & $168.6/3600 \approx \num{0.0468}$
+    & $\approx \num{3.959}$ \\
+
+\midrule
+
+Transmisión
+    & \makecell[c]{ESP32 \\ 80 mA}
+    & \makecell[c]{SX1262\_Tx \\ 118 mA}
+    & 198.0
+    & $224.8/3600 \approx \num{0.0624}$
+    & $\approx \num{12.355}$ \\
+
+\midrule
+
+Modo Sleep
+    & \multicolumn{2}{c}{Todo en sleep/standby}
+    & 0.046
+    & 167.88
+    & $\approx 7.722$ \\
+
+\midrule
+
+\textbf{Total Semanal}
+    & &
+    &
+    &
+    \textbf{168.0 h}
+    & \textbf{$\approx \SI{25.921}{\milli\ampere\hour}$} \\
+
+\end{longtable}

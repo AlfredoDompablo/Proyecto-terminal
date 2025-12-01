@@ -1,46 +1,61 @@
-\renewcommand{\arraystretch}{1.2}
-\begin{longtable}{l l S[table-format=1.1] S[table-format=3.3] l}
-\caption{Consumo eléctrico estimado de componentes del nodo sensor.}
-\label{tab:componentes_energia} \\
+\renewcommand{\arraystretch}{1.25}
 
+\begin{longtable}{
+    l
+    l
+    S[table-format=1.1]
+    S[table-format=3.3]
+    l
+}
+\caption{Consumo eléctrico estimado de componentes del nodo sensor (Plataforma Heltec).}
+\label{tab:componentes_energia} \\
 \toprule
-\textbf{Componente} & \textbf{Modo} & {\textbf{Voltaje}} & {\textbf{Corriente}} & \textbf{Ref.} \\
+\textbf{Componente} & \textbf{Modo} & 
+\textbf{Voltaje} & \textbf{Corriente} & \textbf{Ref.} \\
  & & {(\unit{\volt})} & {(\unit{\milli\ampere})} & \\
 \midrule
 \endfirsthead
 
-\caption[]{Consumo eléctrico estimado de componentes del nodo sensor (continuación).} \\
 \toprule
-\textbf{Componente} & \textbf{Modo} & {\textbf{Voltaje}} & {\textbf{Corriente}} & \textbf{Ref.} \\
+\textbf{Componente} & \textbf{Modo} & 
+\textbf{Voltaje} & \textbf{Corriente} & \textbf{Ref.} \\
  & & {(\unit{\volt})} & {(\unit{\milli\ampere})} & \\
 \midrule
 \endhead
 
 \midrule
 \multicolumn{5}{r}{\textit{Continúa en la siguiente página}} \\
-\midrule
 \endfoot
 
 \bottomrule
 \endlastfoot
 
-\multirow{3}{*}{Transceptor FGH100M} & Tx & 3.3 & 54 & \cite{QuectelFGH100M} \\ 
- & Rx & 3.3 & 43 & \cite{QuectelFGH100M} \\ 
- & Sleep & 3.3 & <0.010 & \cite{QuectelFGH100M} \\
+\multirow{3}{*}{Transceptor LoRa (SX1262)} 
+    & Tx (@ \SI{+22}{dBm}) & 3.3 & 118.0 & \cite{semtech_sx1261_2017} \\
+    & Rx (Boosted)        & 3.3 & 4.6   & \cite{semtech_sx1261_2017} \\
+    & Sleep               & 3.3 & <0.001 & \cite{semtech_sx1261_2017} \\
+
 \midrule
-\multirow{2}{*}{MCU Xiao ESP32-S3} & Activo & 3.3 & 91 & \cite{espressif2023_ESP32-S3} \\ 
- & Sleep & 3.3 & 0.240 & \cite{espressif2023_ESP32-S3} \\
+\multirow{2}{*}{MCU ESP32-S3 (Heltec)} 
+    & Activo (Gestión) & 3.3 & 80.0  & \cite{heltec_wireless_tracker_2023} \\
+    & Deep Sleep       & 3.3 & 0.020 & \cite{heltec_wireless_tracker_2023} \\
+
 \midrule
-\multirow{2}{*}{MCU PIC16LF1823} & Activo (@ \SI{1}{\mega\hertz}) & 3.3 & 0.050 & \cite{microchip2020_PIC12LF1822_16LF1823} \\ 
- & Sleep & 3.3 & <0.001 & \cite{microchip2020_PIC12LF1822_16LF1823} \\
+\multirow{3}{*}{GNSS (UC6580)}
+    & Activo (Acq.)   & 3.3 & 40.0  & \cite{unicore_uc6580_2023} \\
+    & Activo (Track)  & 3.3 & 40.0  & \cite{unicore_uc6580_2023} \\
+    & Backup          & 3.3 & 0.005 & \cite{unicore_uc6580_2023} \\
+
 \midrule
-Sensor pH (Industrial V2) & Activo & 5.0 & 10 & \cite{DFRobot_pH_Sensor} \\ 
-Sensor OD (SEN0237) & Activo & 5.0 & 40 & \cite{DFRobot_DO_Sensor} \\
-Sensor Turbidez (SEN0189) & Activo & 5.0 & 30 & \cite{DFRobot_Turbidity_Sensor} \\ 
-Sensor EC (DFR0300) & Activo & 5.0 & 40 & \cite{DFRobot_EC_Sensor} \\ 
-Sensor Temp (DS18B20) & Activo & 3.3 & 4 & \cite{DFRobot_DS18B20} \\
+Sensor pH (Industrial V2)     & Activo & 5.0 & 10.0 & \cite{DFRobot_pH_Sensor} \\
+Sensor OD (SEN0237)           & Activo & 5.0 & 40.0 & \cite{DFRobot_DO_Sensor} \\
+Sensor Turbidez (SEN0189)     & Activo & 5.0 & 30.0 & \cite{DFRobot_Turbidity_Sensor} \\ 
+Sensor EC (DFR0300)           & Activo & 5.0 & 40.0 & \cite{DFRobot_EC_Sensor} \\
+Sensor Temp (DS18B20)         & Activo & 3.3 & 4.0  & \cite{DFRobot_DS18B20} \\
+
 \midrule
-\multirow{2}{*}{Cámara OV5640} & Activo & 3.3 & 140 & \cite{omnivision2011_OV5640} \\ 
- & Standby & 3.3 & 0.020 & \cite{omnivision2011_OV5640} \\
+\multirow{2}{*}{Cámara OV5640}
+    & Activo  & 3.3 & 140.0 & \cite{omnivision2011_OV5640} \\ 
+    & Standby & 3.3 & 0.020 & \cite{omnivision2011_OV5640} \\
 
 \end{longtable}

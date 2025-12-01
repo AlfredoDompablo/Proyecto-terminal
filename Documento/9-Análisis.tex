@@ -644,40 +644,9 @@ El sistema de monitoreo propuesto está diseñado para operar de forma autónoma
 
 La Tabla~\ref{tab:componentes_energia} presenta los principales componentes seleccionados para el nodo sensor (ver secciones \ref{sec:analisis_microcontroladores} y \ref{sec:analisis_sensores}), junto con sus requerimientos estimados de voltaje y corriente de operación, extraídos de sus respectivas hojas de datos. Estos valores son fundamentales para dimensionar el sistema de alimentación.
 
-%\input{Documento/Tablas/ConsumosElectricos}
+\input{Documento/Tablas/ConsumosElectricos}
 
-\begin{table}[H]
-\centering
-\caption{Consumo eléctrico estimado de componentes del nodo sensor (Plataforma Heltec).}
-\label{tab:componentes_energia}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{l l S[table-format=1.1] S[table-format=3.3] l}
-\toprule
-\textbf{Componente} & \textbf{Modo} & {\textbf{Voltaje}} & {\textbf{Corriente}} & \textbf{Ref.} \\
- & & {(\unit{\volt})} & {(\unit{\milli\ampere})} & \\
-\midrule
-\multirow{3}{*}{Transceptor LoRa (SX1262)} & Tx (@ \SI{+22}{dBm}) & 3.3 & 118.0 & \cite{semtech_sx1261_2017} \\ 
- & Rx (Boosted) & 3.3 & 4.6 & \cite{semtech_sx1261_2017} \\
- & Sleep & 3.3 & <0.001 & \cite{semtech_sx1261_2017} \\
-\midrule
-\multirow{2}{*}{MCU ESP32-S3 (Heltec)} & Activo (Gestión) & 3.3 & 80.0 & \cite{heltec_wireless_tracker_2023} \\
- & Deep Sleep & 3.3 & 0.020 & \cite{heltec_wireless_tracker_2023} \\
-\midrule
-\multirow{3}{*}{GNSS (UC6580)} & Activo (Acq.) & 3.3 & 40.0 & \cite{unicore_uc6580_2023} \\ 
- & Activo (Track) & 3.3 & 40.0 & \cite{unicore_uc6580_2023} \\
- & Backup & 3.3 & 0.005 & \cite{unicore_uc6580_2023} \\
-\midrule
-Sensor pH (Industrial V2) & Activo & 5.0 & 10.0 & \cite{DFRobot_pH_Sensor} \\ 
-Sensor OD (SEN0237) & Activo & 5.0 & 40.0 & \cite{DFRobot_DO_Sensor} \\
-Sensor Turbidez (SEN0189) & Activo & 5.0 & 30.0 & \cite{DFRobot_Turbidity_Sensor} \\ 
-Sensor EC (DFR0300) & Activo & 5.0 & 40.0 & \cite{DFRobot_EC_Sensor} \\
-Sensor Temp (DS18B20) & Activo & 3.3 & 4.0 & \cite{DFRobot_DS18B20} \\ 
-\midrule
-\multirow{2}{*}{Cámara OV5640} & Activo & 3.3 & 140.0 & \cite{omnivision2011_OV5640} \\ 
- & Standby & 3.3 & 0.020 & \cite{omnivision2011_OV5640} \\
-\bottomrule
-\end{tabular}%
-\end{table}
+
 
 \begin{comment}
 \begin{table}[H]
@@ -899,35 +868,9 @@ Las corrientes totales durante estas fases son:
 \end{itemize}
 
 La Tabla \ref{tab:consumo_detallado_semanal} detalla el cálculo completo.
-\sisetup{exponent-mode=engineering}
-\begin{table}[H]
-\centering
-\caption{Cálculo detallado del consumo energético semanal (Nodo 4, 1 ciclo/semana).}
-\label{tab:consumo_detallado_semanal}
-\renewcommand{\arraystretch}{1.3}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{l C{2cm} C{2.1cm} c c c}
-\toprule
-\textbf{Modo Operativo}&\multicolumn{2}{c}{\shortstack[c]{\textbf{Componentes}\\\textbf{activos}}}& \textbf{Corriente Total} & \textbf{Tiempo Semanal} & \textbf{Energía Semanal} \\
- &&& {(\unit{\milli\ampere})} & {(\unit{\hour})} & {(\unit{\milli\ampere\hour})} \\
-\midrule
-Lectura Sensores& \makecell[c]{ESP32 \\ 80 mA}& \makecell[c]{Sensor \\ 40 mA} & 120.0 & $25/3600 \approx \num{0.00694}$ & $\approx \num{0.8328}$ \\
-Posición GNSS &\makecell[c]{ESP32 \\ 80 mA} & \makecell[c]{UC6580 \\ 40 mA} & 120.0 & $10/3600 \approx \num{0.00277}$ & $\approx \num{0.3324}$ \\
-\midrule
-Captura de Imagen &\makecell[c]{ESP32 \\ 80 mA} & \makecell[c]{Cam \\ 140 mA} & 220.0 & $10/3600 \approx \num{0.00277}$ & $\approx \num{0.6094}$ \\
-Procesamiento Local&\makecell[c]{ESP32 \\ 80 mA}& -& 80.0 & $5/3600 \approx \num{0.00138}$ & $\approx \num{0.1104}$ \\
-\midrule
-Recepción &\makecell[c]{ESP32 \\ 80 mA} & \makecell[c]{SX1262\_Rx \\ 4.6 mA} & 84.6 & $168.6/3600 \approx \num{0.0468}$ & $\approx \num{3.959}$ \\
-\midrule
-Transmisión &\makecell[c]{ESP32 \\ 80 mA} & \makecell[c]{SX1262\_Tx \\ 118 mA} & 198.0 & $224.8/3600 \approx \num{0.0624}$ & $\approx \num{12.355}$ \\
-\midrule
-Modo Sleep &\multicolumn{2}{c}{Todo en sleep/standby}& 0.046 & $167.88$ & $\approx 7.722$ \\
-\midrule
-\textbf{Total Semanal}&& & & \textbf{168.0 h} & \textbf{$\approx \textbf{\SI{25.921}{\milli\ampere\hour}}$ }\\
-\bottomrule
-\end{tabular}
-}
-\end{table}
+
+\input{Documento/Tablas/consumo-sem}
+
 
 El análisis arroja un consumo energético semanal de \SI{25.921}{\milli\ampere\hour} para el nodo crítico. Este resultado demuestra que la adopción de un ciclo de trabajo de baja frecuencia es una medida eficaz para asegurar la sostenibilidad energética del sistema.
 
