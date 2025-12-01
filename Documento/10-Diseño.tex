@@ -23,7 +23,7 @@
 %opcion 2
 
 \chapter{Diseño}
-
+\begin{comment}
 \section{Diseño del Sistema}
 \subsection{Arquitectura del Sistema}
 
@@ -79,7 +79,7 @@ Durante cada ciclo de adquisición:
     \item Finalmente, activa el módulo HaLow para transmitir toda la información al nodo siguiente o al nodo concentrador.
     \item Al finalizar, el sistema entra en modo \textit{sleep} hasta el próximo ciclo.
 \end{enumerate}
-
+\end{comment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %             SECCIÓN: base de datos         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -125,105 +125,23 @@ A continuación, se detalla la estructura física de las tablas diseñadas, espe
 
 \subsubsection*{Tabla: Nodes (Nodos)}
 Esta tabla actúa como catálogo maestro de los dispositivos autorizados en la red.
-
-\begin{table}[H]
-\centering
-\caption{Diccionario de datos: Tabla \texttt{nodes}.}
-\label{tab:dd_nodes}
-\renewcommand{\arraystretch}{1.2}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{l l l p{6cm}}
-\toprule
-\textbf{Columna} & \textbf{Tipo de Dato} & \textbf{Restricción} & \textbf{Descripción} \\
-\midrule
-\texttt{node\_id} & VARCHAR(20) & PK & Identificador único del nodo (ej. "NODO\_01"). \\
-\texttt{description} & VARCHAR(100) & NULL & Descripción o ubicación descriptiva (ej. "Puente Norte"). \\
-\texttt{latitude} & DECIMAL(10,8) & NOT NULL & Coordenada de latitud fija del nodo. \\
-\texttt{longitude} & DECIMAL(11,8) & NOT NULL & Coordenada de longitud fija del nodo. \\
-\texttt{status} & VARCHAR(20) & DEFAULT 'ACTIVE' & Estado operativo (ACTIVE, INACTIVE, MAINT). \\
-\texttt{last\_seen} & TIMESTAMP & NULL & Fecha/hora de la última comunicación recibida. \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
+\input{Documento/Tablas/DiccionarioBD/Nodos}
 
 \subsubsection*{Tabla: Sensor\_Readings (Lecturas de Sensores)}
 Almacena el histórico de mediciones. Se crean índices en \texttt{timestamp} y \texttt{node\_id} para optimizar las consultas de series de tiempo (RF25).
 
-\begin{table}[H]
-\centering
-\caption{Diccionario de datos: Tabla \texttt{sensor\_readings}.}
-\label{tab:dd_readings}
-\renewcommand{\arraystretch}{1.2}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{l l l p{6cm}}
-\toprule
-\textbf{Columna} & \textbf{Tipo de Dato} & \textbf{Restricción} & \textbf{Descripción} \\
-\midrule
-\texttt{reading\_id} & BIGSERIAL & PK & Identificador autoincremental único de la lectura. \\
-\texttt{node\_id} & VARCHAR(20) & FK & Referencia al nodo que generó el dato. \\
-\texttt{timestamp} & TIMESTAMP & NOT NULL & Fecha y hora exacta de la toma de muestra. \\
-\texttt{battery\_level} & DECIMAL(4,2) & NOT NULL & Nivel de voltaje de la batería (V). \\
-\texttt{ph} & DECIMAL(4,2) & NULL & Valor de pH (0.00 - 14.00). \\
-\texttt{temperature} & DECIMAL(5,2) & NULL & Temperatura del agua (\si{\celsius}). \\
-\texttt{turbidity} & DECIMAL(6,2) & NULL & Turbidez (NTU). \\
-\texttt{dissolved\_oxygen} & DECIMAL(5,2) & NULL & Oxígeno disuelto (mg/L). \\
-\texttt{conductivity} & DECIMAL(8,2) & NULL & Conductividad eléctrica (\si{\micro\siemens\per\centi\meter}). \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
+\input{Documento/Tablas/DiccionarioBD/sensor}
 
 \subsubsection*{Tabla: Waste\_Detections (Detecciones de Residuos)}
 Almacena los resultados del análisis y la evidencia visual. Se opta por almacenar la imagen directamente en la base de datos (BLOB) para garantizar la integridad referencial y simplificar la arquitectura del prototipo.
 
-\begin{table}[H]
-\centering
-\caption{Diccionario de datos: Tabla \texttt{waste\_detections}.}
-\label{tab:dd_detections}
-\renewcommand{\arraystretch}{1.2}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{l l l p{6cm}}
-\toprule
-\textbf{Columna} & \textbf{Tipo de Dato} & \textbf{Restricción} & \textbf{Descripción} \\
-\midrule
-\texttt{detection\_id} & BIGSERIAL & PK & Identificador único del evento de detección. \\
-\texttt{node\_id} & VARCHAR(20) & FK & Referencia al nodo (cámara origen). \\
-\texttt{timestamp} & TIMESTAMP & NOT NULL & Fecha y hora de captura de la imagen. \\
-\texttt{coverage\_percent} & DECIMAL(5,2) & NOT NULL & \% del área de agua cubierta por residuos ($D_{cob}$). \\
-\texttt{image\_data} & BYTEA & NOT NULL & Binario de la imagen JPEG (aprox. 90 kB). \\
-\texttt{model\_version} & VARCHAR(50) & NOT NULL & Versión del modelo YOLO utilizado. \\
-\texttt{confidence} & DECIMAL(3,2) & NULL & Nivel de confianza promedio de la detección. \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
+\input{Documento/Tablas/DiccionarioBD/waste}
 
 
 \subsubsection*{Tabla: Users (Usuarios del Sistema)}
 Almacena las credenciales de acceso para los administradores y el dueño del sistema. El control de privilegios se gestiona mediante el campo de rol.
 
-\begin{table}[h!]
-\centering
-\caption{Diccionario de datos: Tabla \texttt{users}.}
-\label{tab:dd_users}
-\renewcommand{\arraystretch}{1.2}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{l l l p{6cm}}
-\toprule
-\textbf{Columna} & \textbf{Tipo de Dato} & \textbf{Restricción} & \textbf{Descripción} \\
-\midrule
-\texttt{user\_id} & BIGSERIAL & PK & Identificador único del usuario. \\
-\texttt{full\_name} & VARCHAR(100) & NOT NULL & Nombre completo del personal. \\
-\texttt{email} & VARCHAR(100) & UNIQUE & Correo electrónico (usado para Login). \\
-\texttt{password\_hash} & VARCHAR(255) & NOT NULL & Contraseña cifrada (Hash). \\
-\texttt{role} & VARCHAR(20) & NOT NULL & Nivel de acceso: 'OWNER' o 'ADMIN'. \\
-\texttt{created\_at} & TIMESTAMP & DEFAULT NOW() & Fecha de creación de la cuenta. \\
-\texttt{is\_active} & BOOLEAN & DEFAULT TRUE & Indica si el usuario tiene permiso de acceso. \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
+\input{Documento/Tablas/DiccionarioBD/user}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -239,7 +157,6 @@ La Figura \ref{fig:uc_wsn} ilustra las operaciones autónomas realizadas por los
 
 \begin{figure}[H]
     \centering
-    % Asegúrate de guardar el diagrama de la red WSN como 'uc_wsn.pdf' o '.png'
     \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Diseño/UML/UMLNodos.pdf}
     \caption{Diagrama de casos de uso para la Red Inalámbrica de Sensores y el Gateway, mostrando la interacción con el entorno y el relevo de datos.}
     \label{fig:uc_wsn}
@@ -250,7 +167,6 @@ La Figura \ref{fig:uc_backend} detalla el flujo de información en el servidor (
 
 \begin{figure}[H]
     \centering
-    % Asegúrate de guardar el diagrama del servidor como 'uc_backend.pdf' o '.png'
     \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Diseño/UML/servidor.pdf}
     \caption{Diagrama de casos de uso para el Backend, abarcando la ingesta, procesamiento de IA y almacenamiento de datos.}
     \label{fig:uc_backend}
@@ -266,8 +182,7 @@ La Figura \ref{fig:uc_webapp} muestra las interacciones disponibles para los usu
 
 \begin{figure}[H]
     \centering
-    % Asegúrate de guardar el diagrama web como 'uc_webapp.pdf' o '.png'
-    \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Diseño/UML/aplicacionWeb.pdf}
+    \includegraphics[width=0.6\linewidth]{Documento/Imagenes/Diseño/UML/aplicacionWeb.pdf}
     \caption{Diagrama de casos de uso para la Aplicación Web, detallando los roles de usuario y sus privilegios.}
     \label{fig:uc_webapp}
 \end{figure}
