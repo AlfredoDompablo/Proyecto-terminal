@@ -304,6 +304,170 @@ A pesar de la limitación en la tolerancia a fallos, la simplicidad, eficiencia 
 %             SECCIÓN: Transceptores               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+\section{Análisis de Transceptores Inalámbricos}
+\label{sec:analisis_tecnologias}
+
+Para seleccionar la tecnología más adecuada para la transmisión de datos en el sistema de monitoreo, se evaluaron distintos estándares inalámbricos considerando tres criterios fundamentales:
+
+\begin{enumerate}
+    \item \textbf{Consumo energético}: Factor determinante para asegurar una operación prolongada mediante baterías, minimizando la necesidad de mantenimiento en zonas de difícil acceso.
+    \item \textbf{Alcance efectivo}: Capacidad del protocolo para cubrir grandes distancias en una topología lineal a lo largo del río, considerando la presencia de obstáculos naturales como vegetación densa y la falta de línea de vista directa (NLOS).
+    \item \textbf{Sensibilidad y Robustez}: Capacidad del receptor para decodificar señales débiles, lo cual es crítico en entornos húmedos y con vegetación que atenúan las señales de radiofrecuencia.
+\end{enumerate}
+
+La Tabla~\ref{tab:redes_corto_alcance} presenta un resumen comparativo de soluciones de red de corto alcance comúnmente utilizadas en WSN. Se incluyen tecnologías basadas en los estándares IEEE 802.15.4 y 802.15.1. Estas soluciones, aunque eficientes energéticamente, presentan limitaciones críticas de alcance ($<100$ m) para un despliegue fluvial extenso, lo que requeriría una cantidad excesiva de nodos repetidores.
+
+\begin{table}[H]
+\centering
+\caption{Resumen de soluciones de red de corto alcance \cite{lopez2023}}
+\label{tab:redes_corto_alcance}
+\renewcommand{\arraystretch}{1.3}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{p{2.5cm}p{2.5cm}p{2cm}p{2.5cm}p{2cm}p{1.5cm}p{2.3cm}}
+\toprule
+\textbf{Solution} & \textbf{Standard} & \textbf{Data rate} & \textbf{Coverage} & \textbf{Topology} & \textbf{Carrier freq} & \textbf{Energy cost} \\
+\midrule
+IEEE 802.15.4      & IEEE 802.15.4     & 250 kbps           & $<$100 m          & Star, tree, cluster tree, mesh & 868/915 MHz, 2.4 GHz & Low \\
+ZigBee             & IEEE 802.15.4     & 250, 40, 20 kbps    & $>$100 m          & Mesh, star, tree               & 868/915 MHz, 2.4 GHz & Low \\
+6LoWPAN            & IEEE 802.15.4     & 250 kbps           & $<$100 m          & Mesh, star                     & 868/915 MHz, 2.4 GHz & Low \\
+Bluetooth          & IEEE 802.15.1     & 1 Mbps             & Up to 100 m       & Star, P2P                      & 2.4 GHz              & Low \\
+BLE                & IEEE 802.15.1     & 1 Mbps             & Up to 200 m       & Star, P2P                      & 2.4 GHz              & Very low \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+La Tabla~\ref{tab:redes_largo_alcance} complementa el análisis enfocándose en redes de medio y largo alcance (LPWAN). Se compara el estándar Wi-Fi (alto ancho de banda pero corto alcance/alto consumo) contra la tecnología LoRa. A diferencia del Wi-Fi, LoRa utiliza una técnica de modulación de espectro ensanchado (Chirp Spread Spectrum) que permite alcances de varios kilómetros y una alta inmunidad a interferencias, a costa de una tasa de transmisión reducida. Esta característica es vital para superar la atenuación por vegetación en las riberas del río.
+
+\begin{table}[H]
+\centering
+\caption{Comparativa de tecnologías de medio y largo alcance\cite{lopez2023}}
+\label{tab:redes_largo_alcance}
+\renewcommand{\arraystretch}{1.3}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{p{2.5cm}p{3cm}p{3cm}p{2cm}p{2.5cm}p{2cm}p{2.3cm}}
+\toprule
+\textbf{Tecnología} & \textbf{Estándar/Modulación} & \textbf{Tasa de Datos} & \textbf{Cobertura} & \textbf{Topología} & \textbf{Frecuencia} & \textbf{Costo Energético} \\
+\midrule
+Wi-Fi & IEEE 802.11 & Up to 54 Mbps & 200 m & Infrastructure, mesh & 2.4 GHz, 5 GHz & High \\
+Wi-Fi HaLow & IEEE 802.11ah   & 0.15 to 4 Mbps @ 1 MHz bandwidth, an 0.65 to 7.8 Mbps @ 2 MHz bandwidth & 1000m & star, mesh & ISM Sub-GHz & Low \\ 
+LoRa & CSS (Chirp Spread Spectrum) & 0.3 kbps a 50 kbps (Adaptativo) & $>$ 10 km (Rural) & Star, Mesh, P2P & Sub-GHz (915 MHz) & Muy Bajo \\ 
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+Considerando las restricciones geográficas, en la Tabla~\ref{tab:comparativa_transceptores} se comparan módulos comerciales específicos. Se destaca el transceptor \textbf{SX1262} (integrado en la placa Heltec Wireless Tracker), que representa la generación más reciente de radios LoRa, ofreciendo mayor potencia de transmisión (+22 dBm) y menor consumo en recepción comparado con generaciones anteriores (como el SX1276) o tecnologías como Wi-Fi HaLow.
+
+\begin{table}[H]
+\renewcommand{\arraystretch}{1.5}
+\centering
+\caption{Comparativa de transceptores comerciales para WSN}
+\label{tab:comparativa_transceptores}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|p{3.2cm}|C{3cm}|C{3cm}|C{3cm}|C{3cm}|C{3cm}|}
+\hline
+\textbf{Parámetro} 
+& \shortstack{\\ \textbf{LoRa (SX1262)}\\ \textbf{(Propuesto)}} 
+& \shortstack{\\ \textbf{Wi-Fi HaLow}\\ \textbf{(802.11ah)}} 
+& \shortstack{\\ \textbf{Wi-Fi}\\ \textbf{(802.11n)}} 
+& \shortstack{\\ \textbf{Zigbee}\\ \textbf{(802.15.4)}}
+& \shortstack{\\ \textbf{Bluetooth} \\ \textbf{(802.15.1)}} \\ \hline
+
+\textbf{Módulo/Chip} & Heltec (SX1262) \cite{semtech_sx1261_2017} & Quectel FGH100M \cite{QuectelFGH100M} & ESP32-S3 \cite{EspressifESP32S3} & XBee S2C \cite{DigiXBeeS2C} & HC-05 \cite{HC05Datasheet} \\ \hline
+\textbf{Tasa Máx.} & $\sim$ 22 kbps (SF7) & 32.5 Mbps & 150 Mbps & 0.25 Mbps & 2.1 Mbps \\ \hline
+\textbf{Potencia Tx} & +22 dBm & +20 dBm & +19 dBm & +5 dBm & +4 dBm \\ \hline
+\textbf{Sensibilidad Rx} & -148 dBm & -98 dBm & -98 dBm & -100 dBm & -84 dBm \\ \hline
+\textbf{Alcance LOS\footnote{Line Of Sight}} & $>$ 10 km & $\sim$ 1 km & 120 m & 1200 m & 40 m \\ \hline
+\textbf{Consumo Tx} & 118 mA (@22dBm) & 286 mA & 286 mA & 33 mA & 30 mA \\ \hline
+\textbf{Consumo Rx} & 4.2 mA & 43 mA & 95 mA & 28 mA & 30 mA \\ \hline
+\textbf{Consumo Sleep} & 0.6 µA & TBD & 240 µA & 1 µA & TBD \\ \hline
+
+\end{tabular}
+}
+\end{table}
+
+
+En la Tabla \ref{tab:imagenes_transceptore} se presentan imágenes representativas de los módulos evaluados.
+
+\begin{table}[H]
+\renewcommand{\arraystretch}{1.5}
+\centering
+\caption{Ilustraciones de transceptores evaluados}
+\label{tab:imagenes_transceptore}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|C{3.5cm}|C{3.5cm}|C{3.5cm}|C{3.5cm}|C{3.5cm}|}
+\hline
+ \textbf{Heltec (SX1262)} & \textbf{FGH100M} & \textbf{ESP32-S3} & \textbf{XBee S2C} & \textbf{HC-05} \\ \hline
+
+\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/heltec_lora.png}} 
+&
+\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/Xiao Halow.jpg}}
+&
+\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/Esp32.jpg}}
+&
+\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/zigbee.jpg}}
+&
+\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/HC-05.jpg}}
+\\ \hline
+\end{tabular}
+}
+\end{table}
+
+\subsection{Justificación y Estrategia de Implementación}
+\label{subsec:justificacion_lora}
+
+Con base en la comparativa anterior, se selecciona el transceptor \textbf{Semtech SX1262} como el elemento de comunicación central del sistema. Esta decisión se fundamenta en dos ventajas técnicas decisivas para el entorno fluvial: su \textbf{presupuesto de enlace superior} y su \textbf{eficiencia energética}.
+
+Con una potencia de salida de \SI{+22}{dBm} y una sensibilidad de \SI{-148}{dBm}, el SX1262 proporciona un margen de enlace de \SI{170}{dB}, indispensable para superar la atenuación severa causada por la vegetación ribereña y la falta de línea de vista directa, condiciones donde tecnologías como Wi-Fi o Zigbee fallarían. Además, su consumo en recepción de solo \SI{4.2}{\milli\ampere} extiende significativamente la vida útil de la batería en los nodos de la red lineal, que deben permanecer en modo de escucha para retransmitir datos.
+
+No obstante, la limitación crítica de LoRa es su ancho de banda, lo que dificulta la transmisión de archivos grandes como imágenes. Para ilustrar este desafío, se calcula el Tiempo en el Aire (ToA) requerido para transmitir una imagen de \SI{150}{\kilo\byte} (equivalente a \SI{1.23}{Mbits}) asumiendo el escenario más optimista permitido por el transceptor SX1262 ($SF=7$, $BW=\SI{500}{\kilo\hertz}$, $CR=4/5$), el cual ofrece una tasa máxima teórica de \SI{21.9}{kbps}:
+
+\begin{equation} \label{eq:calculo_toa_imagen}
+T_{ToA} \approx \frac{S_{img}}{R_{b}} = \frac{\SI{1.23}{Mbit}}{\SI{21.9}{kbit/s}} \approx \SI{56}{\second}
+\end{equation}
+
+Donde:
+
+\begin{itemize}
+    \item $T_{\mathrm{ToA}}$: Tiempo en el Aire (\textit{Time on Air}).
+    \item $S_{\mathrm{img}}$: Tamaño de la imagen comprimida ($\approx \SI{150}{kB}$).
+    \item $R_{b}$: Tasa de transmisión de datos efectiva (Bitrate).
+\end{itemize}
+
+Aunque un tiempo de transmisión de \SI{56}{\second} es inviable para video en tiempo real, estudios experimentales como el realizado por Jebril et al. \cite{jebril2018overcoming} han demostrado la viabilidad de transmitir imágenes JPEG sobre la capa física (PHY) de LoRa en entornos de vegetación densa (manglares), superando las limitaciones de la zona de Fresnel.
+
+Por lo tanto, para equilibrar la robustez del enlace con la eficiencia operativa, se adopta la siguiente estrategia:
+\begin{enumerate}
+    \item \textbf{Transmisión de Datos de Sensores:} La transmisión periódica de los parámetros físico-químicos (pH, oxígeno disuelto, temperatura, etc.) constituye la operación base del sistema. Dado el reducido tamaño de estos datos, su transmisión se realiza con máxima eficiencia energética y mínima ocupación del canal.
+    \item \textbf{Transmisión de Imágenes (Fragmentación):} Para el envío de la evidencia visual, se utiliza el protocolo de fragmentación hexadecimal validado por Jebril et al. \cite{jebril2018overcoming} para transmitir la imagen completa a través de la capa física LoRa. Se acepta el mayor costo energético temporal (\SI{\sim 118}{\milli\ampere} durante la transmisión) a cambio de garantizar que la información llegue al destino a pesar de los obstáculos del entorno.
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{comment}
 \section{Análisis de Transceptores Inalámbricos}
 \label{sec:analisis_tecnologias}
 
@@ -357,7 +521,7 @@ Esta comparativa refuerza la selección de Wi-Fi HaLow mediante el módulo FGH10
 
 
 Como solución óptima para la transmisión bidireccional de los datos, en este caso, datos de los sensores e imagenes captadas en entornos fluviales, se propone el módulo FGH100M (Wi-Fi HaLow) como transceptor preliminar. Esta selección se fundamenta por su  exelente equilibrio entre alcance efectivo (1 km en condiciones ideales) y consumo energético moderado (54 mA en TX/43 mA en RX), características críticas para la operación prolongada en topologías lineales con nodos distribuidos. Su operación en banda sub-1 GHz (902-928 MHz) proporciona mayor penetración en vegetación ribereña comparado con soluciones en 2.4 GHz, manteniendo compatibilidad con el estándar IEEE 802.11ah para gestión adaptativa de energía mediante mecanismos TIM/RAW. Adicionalmente, soporta tasas de transferencia suficientes (32.5 Mbps) para la transmisión eficiente de datos sensoriales e imágenes comprimidas, cumpliendo con los requisitos de bidireccionalidad para recepción de comandos desde el servidor central.
-
+\end{comment}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %             SECCIÓN: Cámaras                    %
@@ -392,6 +556,7 @@ La selección del microcontrolador constituye una decisión crítica en el dise�
 \begin{tabular}{|l|c|c|c|c|c|}
 \hline
 \textbf{MCU} & \textbf{Periféricos} & \textbf{Memoria} & \textbf{Consumo Activo} & \textbf{Consumo Sleep} & \textbf{Conectividad} \\ \hline
+\shortstack[l]{\textbf{Heltec Wireless}\\\textbf{Tracker}} & \textbf{ADC, SPI, I2C, UART} & \textbf{8MB Flash} & \textbf{\SI{\sim 110}{\milli\ampere}} & \textbf{\SI{\sim 20}{\micro\ampere}} & \shortstack[c]{\\ \textbf{LoRa + GNSS +}  \\\textbf{Wi-Fi + BLE}} \\ \hline
 Xiao ESP32-S3 & 11 GPIOs, 8 ADC & 8MB Flash & 91 mA & 240 µA & WiFi 2.4GHz + BLE \\ \hline
 LilyGO T-HaLow & 36 GPIOs, 20 ADC & 16MB Flash & 91 mA & 240 µA & WiFi HaLow (900MHz) \\ \hline
 RPi Pico W & 23 GPIOs, 3 ADC & 2MB Flash & 50 mA & 390 µA & WiFi 2.4GHz \\ \hline
@@ -402,8 +567,11 @@ RPi Zero 2 W & 40 GPIOs (sin ADC) & Micro SD & 2.5 A & - & WiFi 2.4GHz + BLE 4.2
 }
 \end{table}
 
-Para el nodo sensor y concentrador, encargado de capturar datos de sensores (pH, turbidez, oxígeno disuelto) y transmitir imágenes sin procesamiento, se considera preliminarmente la tarjeta Xiao ESP32-S3 debido a su interfaz completa con 8 canales ADC y puertos UART/SPI/I2C para conectar sensores y módulo HaLow, memoria suficiente de 8MB Flash para almacenamiento temporal de imágenes JPEG antes de transmisión, bajo consumo de 91mA en active mode y 10 µA en sleep mode ideal para operación con baterías, y costo competitivo de ~\$12 por unidad, cumpliendo con los requisitos de conectividad, eficiencia energética y manejo simultáneo de datos sensoriales e imágenes, aunque requiere validación experimental de estabilidad en transmisiones continuas y posibles limitaciones de GPIOs.
+Para el nodo sensor, encargado de capturar datos de sensores (pH, turbidez, oxígeno disuelto), adquirir imágenes y gestionar la comunicación de largo alcance, se selecciona la placa de desarrollo \textbf{Heltec Wireless Tracker V1.1}. Debido a la superioridad en la integración de hardware que ofrece.
 
+Al integrar en un solo PCB el microcontrolador \textbf{ESP32-S3}, el transceptor \textbf{LoRa SX1262} y el módulo \textbf{GNSS UC6580}, se simplifica drásticamente el diseño físico del nodo y se eliminan puntos de falla asociados al cableado de módulos externos, lo cual es crítico para la robustez de un dispositivo flotante. Además, su consumo en modo de reposo es extremadamente bajo (\SI{\sim 20}{\micro\ampere}), optimizando la autonomía de la batería. Su capacidad de procesamiento es suficiente para gestionar la lectura de sensores y la compresión de imágenes, mientras que su radio LoRa integrada garantiza la conectividad en el entorno fluvial.
+
+\begin{comment}
 \subsection{Comparativa de microcontroladores PIC para control de sensores}
 \label{subsec:comparativa_pic}
 
@@ -458,6 +626,7 @@ El modelo seleccionado para el diseño del nodo es el \textbf{PIC16LF1823}, ya q
 
 En contraste, el PIC12LF1822 resulta limitado en pines y entradas ADC, mientras que el PIC16LF1847 ofrece mayores recursos a costa de un tamaño físico mayor, mayor consumo y un costo menos competitivo, innecesario para esta aplicación específica.
 
+\end{comment}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -475,68 +644,121 @@ El sistema de monitoreo propuesto está diseñado para operar de forma autónoma
 
 La Tabla~\ref{tab:componentes_energia} presenta los principales componentes seleccionados para el nodo sensor (ver secciones \ref{sec:analisis_microcontroladores} y \ref{sec:analisis_sensores}), junto con sus requerimientos estimados de voltaje y corriente de operación, extraídos de sus respectivas hojas de datos. Estos valores son fundamentales para dimensionar el sistema de alimentación.
 
-\input{Documento/Tablas/ConsumosElectricos.tex}
- 
-Para estimar de forma realista el consumo energético del sistema, es indispensable cuantificar la duración efectiva de las fases de transmisión y recepción de datos, considerando el volumen de información y la velocidad de comunicación del transceptor Wi-Fi HaLow (FGH100M).
+%\input{Documento/Tablas/ConsumosElectricos}
+
+\begin{table}[H]
+\centering
+\caption{Consumo eléctrico estimado de componentes del nodo sensor (Plataforma Heltec).}
+\label{tab:componentes_energia}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{l l S[table-format=1.1] S[table-format=3.3] l}
+\toprule
+\textbf{Componente} & \textbf{Modo} & {\textbf{Voltaje}} & {\textbf{Corriente}} & \textbf{Ref.} \\
+ & & {(\unit{\volt})} & {(\unit{\milli\ampere})} & \\
+\midrule
+\multirow{3}{*}{Transceptor LoRa (SX1262)} & Tx (@ \SI{+22}{dBm}) & 3.3 & 118.0 & \cite{semtech_sx1261_2017} \\ 
+ & Rx (Boosted) & 3.3 & 4.6 & \cite{semtech_sx1261_2017} \\
+ & Sleep & 3.3 & <0.001 & \cite{semtech_sx1261_2017} \\
+\midrule
+\multirow{2}{*}{MCU ESP32-S3 (Heltec)} & Activo (Gestión) & 3.3 & 80.0 & \cite{heltec_wireless_tracker_2023} \\
+ & Deep Sleep & 3.3 & 0.020 & \cite{heltec_wireless_tracker_2023} \\
+\midrule
+\multirow{3}{*}{GNSS (UC6580)} & Activo (Acq.) & 3.3 & 40.0 & \cite{unicore_uc6580_2023} \\ 
+ & Activo (Track) & 3.3 & 40.0 & \cite{unicore_uc6580_2023} \\
+ & Backup & 3.3 & 0.005 & \cite{unicore_uc6580_2023} \\
+\midrule
+Sensor pH (Industrial V2) & Activo & 5.0 & 10.0 & \cite{DFRobot_pH_Sensor} \\ 
+Sensor OD (SEN0237) & Activo & 5.0 & 40.0 & \cite{DFRobot_DO_Sensor} \\
+Sensor Turbidez (SEN0189) & Activo & 5.0 & 30.0 & \cite{DFRobot_Turbidity_Sensor} \\ 
+Sensor EC (DFR0300) & Activo & 5.0 & 40.0 & \cite{DFRobot_EC_Sensor} \\
+Sensor Temp (DS18B20) & Activo & 3.3 & 4.0 & \cite{DFRobot_DS18B20} \\ 
+\midrule
+\multirow{2}{*}{Cámara OV5640} & Activo & 3.3 & 140.0 & \cite{omnivision2011_OV5640} \\ 
+ & Standby & 3.3 & 0.020 & \cite{omnivision2011_OV5640} \\
+\bottomrule
+\end{tabular}%
+\end{table}
+
+\begin{comment}
+\begin{table}[H]
+\centering
+\caption{Consumo eléctrico estimado de componentes del nodo sensor.}
+\label{tab:componentes_energia}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{l l S[table-format=1.1] S[table-format=3.3] l}
+\toprule
+\textbf{Componente} & \textbf{Modo} & {\textbf{Voltaje}} & {\textbf{Corriente}} & \textbf{Ref.} \\
+ & & {(\unit{\volt})} & {(\unit{\milli\ampere})} & \\
+\midrule
+\multirow{3}{*}{Transceptor FGH100M} & Tx & 3.3 & 54 & \cite{QuectelFGH100M} \\ 
+ & Rx & 3.3 & 43 & \cite{QuectelFGH100M} \\
+ & Sleep & 3.3 & <0.010 & \cite{QuectelFGH100M} \\
+\midrule
+\multirow{2}{*}{MCU Xiao ESP32-S3} & Activo & 3.3 & 91 & \cite{espressif2023_ESP32-S3} \\ 
+ & Sleep & 3.3 & 0.240 & \cite{espressif2023_ESP32-S3} \\
+\midrule
+MCU PIC16LF1823 & Activo (@ \SI{1}{\mega\hertz}) & 3.3 & 0.050 & \cite{microchip2020_PIC12LF1822_16LF1823} \\ 
+ & Sleep & 3.3 & <0.001 & \cite{microchip2020_PIC12LF1822_16LF1823} \\
+\midrule
+Sensor pH (Industrial V2) & Activo & 5.0 & 10 & \cite{DFRobot_pH_Sensor} \\ 
+Sensor OD (SEN0237) & Activo & 5.0 & 40 & \cite{DFRobot_DO_Sensor} \\
+Sensor Turbidez (SEN0189) & Activo & 5.0 & 30 & \cite{DFRobot_Turbidity_Sensor} \\ 
+Sensor EC (DFR0300) & Activo & 5.0 & 40 & \cite{DFRobot_EC_Sensor} \\
+Sensor Temp (DS18B20) & Activo & 3.3 & 4 & \cite{DFRobot_DS18B20} \\ 
+\midrule
+\multirow{2}{*}{Cámara OV5640} & Activo & 3.3 & 140 & \cite{omnivision2011_OV5640} \\ 
+ & Standby & 3.3 & 0.020 & \cite{omnivision2011_OV5640} \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{comment}
 
 
-\subsubsection{Volumen de Datos a Transmitir por Ciclo}
+
+Para estimar de forma realista el consumo energético del sistema, es indispensable cuantificar la duración efectiva de las fases de transmisión. Este análisis utiliza los parámetros de rendimiento del transceptor seleccionados en la Sección \ref{sec:analisis_tecnologias}, diferenciando entre el envío rutinario de datos de sensores y la transmisión eventual de imágenes.
+\subsection{Análisis de Tiempos de Transmisión y Carga de Red}
+\label{subsec:analisis_tiempos}
+El diseño de la red lineal P2P con modulación LoRa impone restricciones de tiempo que deben ser calculadas paso a paso para dimensionar la batería. A continuación, se detallan los cálculos realizados para determinar el volumen de datos a transmitir y el tiempo total de comunicación por nodo.
+
+\subsubsection*{Volumen de Datos a Transmitir}
 \label{ssubsec:volumen_datos}
-Cada nodo sensor genera dos tipos de información por ciclo operativo semanal:
+Cada nodo sensor genera dos tipos de información con volúmenes drásticamente diferentes:
 
 \begin{enumerate}
-    \item \textbf{Una muestra sensorial única}, compuesta por:
+    \item \textbf{Muestra sensorial y Geolocalización (Paquete de Datos):} Compuesto por las lecturas de los sensores, la ubicación y metadatos básicos.
     \begin{itemize}
-        \item 4 sensores analógicos (asumiendo ADC de 12 bits): 
-        $4 \times \SI{12}{\bit} = \SI{48}{\bit} = \SI{6}{\byte}$
-        \item 1 sensor digital (DS18B20, resolución \SI{12}{\bit}): \SI{2}{\byte}
-        \item Metadatos (Timestamp + ID de nodo + tipo de trama, estimado): \SI{8}{\byte}
+        \item 4 sensores analógicos (12 bits): $4 \times \SI{12}{\bit} = \SI{48}{\bit} = \SI{6}{\byte}$
+        \item 1 sensor digital (DS18B20, 12 bits): \SI{2}{\byte}
+        \item Datos GNSS (Latitud, Longitud): $2 \times \SI{32}{\bit} = \SI{8}{\byte}$
+        \item Metadatos (ID, Timestamp, Batería): \SI{8}{\byte}
     \end{itemize}
     \[
-    \text{Volumen}_{\text{sensores}} = 6 + 2 + 8 = \boxed{\SI{16}{\byte}}
+    \text{Volumen}_{\text{sensores}} = 6 + 2 + 8 + 8 = \boxed{\SI{24}{\byte}}
     \]
 
-    \item \textbf{Una única imagen} capturada por la cámara (ej. OV5640). 
-    Se asume una resolución de \(640 \times 480\) píxeles y una compresión JPEG que resulta en un tamaño de archivo típico de \SI{150}{\kilo\byte} \cite{jpegCompression}. 
-    Esta compresión es crucial para reducir el volumen de datos a transmitir.
+    \item \textbf{Imagen Comprimida:} Capturada por la cámara OV5640. Se asume una resolución SVGA ($800 \times 600$) con compresión JPEG estándar, resultando en un tamaño típico de archivo de \SI{\approx 150}{\kilo\byte}.
     \[
-    \text{Volumen}_{\text{imagen}} = \SI{150}{\kilo\byte} = \num{153600}\,\text{bytes}
+    \text{Volumen}_{\text{imagen}} \approx \boxed{\SI{150}{\kilo\byte}}
     \]
 \end{enumerate}
 
-El volumen total de datos generado por un nodo en cada ciclo es la suma de ambos:
-\[
-\text{Volumen}_{\text{nodo}} = \text{Volumen}_{\text{sensores}} + \text{Volumen}_{\text{imagen}} \approx \SI{153616}{bytes} \approx \SI{150.02}{\kilo\byte}
-\]
 
-\subsubsection{Tiempo Estimado de Transmisión}
-\label{ssubsec:tiempo_tx}
-Se asume una tasa de transmisión efectiva (\textit{throughput}) para el enlace Wi-Fi HaLow (FGH100M) de \SI{1}{\mega\bit\per\second}. Esta es una estimación conservadora, considerablemente menor que la tasa teórica máxima (ej. \SI{4.4}{\mega\bit\per\second} con MCS 7 @ \SI{8}{\mega\hertz}), para tener en cuenta el overhead del protocolo (cabeceras, ACK), posibles retransmisiones y las condiciones del canal en un entorno real \cite{ieee80211ah}.
-
-Bajo esta condición:
-\[
-T_{\text{transmisión-nodo}} = \frac{\text{Volumen}_{\text{nodo}} \times 8\,\text{bits/byte}}{\text{Tasa de transmisión}} = \frac{\num{153616} \times 8}{\SI{1e6}{\bit\per\second}} \approx \num{1.229}\,\unit{\second}
-\]
-Por lo tanto, el tiempo activo estimado para transmitir los datos de un nodo es de aproximadamente \textbf{\SI{1.23}{\second}}.
-
-
-\subsubsection{Tiempo Total de Comunicación por Nodo en Topología Lineal}
+\subsubsection*{Tiempo Total de Comunicación por Nodo en Topología Lineal}
 \label{ssubsec:tiempo_general_comm}
 
-El protocolo IEEE 802.11ah opera en modo \textit{half-duplex}, impidiendo la transmisión y recepción simultáneas \cite{ieee80211ah}. En la topología lineal adoptada, esto tiene un impacto acumulativo en el tiempo de actividad de cada nodo.
+El protocolo de comunicación implementado utiliza la modulación LoRa en una topología de red lineal P2P (multisalto). Al operar en modo \textit{half-duplex} (el transceptor no puede transmitir y recibir simultáneamente), esto tiene un impacto acumulativo en el tiempo de actividad de los nodos que actúan como repetidores.
 
 Consideremos una red lineal con $N$ nodos sensores (numerados del 1 al $N$), donde el Nodo 1 es el más alejado del concentrador y el Nodo $N$ es el más cercano. El concentrador se considera como el destino final después del Nodo $N$.
 
 El tiempo base ($T_{base}$) para transmitir el volumen de datos ($V_n$) generado por un solo nodo en cada ciclo se calcula como:
 \begin{equation} \label{eq:tiempo_base}
-T_{base} = \frac{V_n \times 8}{R}
+T_{base} = \frac{V_n \times \SI[per-mode = symbol]{8}{\bit\per\byte}}{R}
 \end{equation}
 Donde:
 \begin{itemize}
     \item $T_{base}$ es el tiempo base de transmisión por nodo (en segundos).
     \item $V_n$ es el volumen de datos generado por un nodo por ciclo (en bytes).
     \item $R$ es la tasa de transmisión efectiva del enlace (en bits por segundo).
-    \item 8 es el factor de conversión de bytes a bits.
 \end{itemize}
 
 Un nodo genérico $n$ (donde $1 \le n \le N$) debe recibir los datos de los $n-1$ nodos anteriores y transmitir los $n$ paquetes acumulados (los $n-1$ recibidos más el suyo). Los tiempos de recepción ($T_{rx}$) y transmisión ($T_{tx}$) para el nodo $n$ son:
@@ -551,113 +773,168 @@ Donde:
     \item $T_{rx}(n)$ es el tiempo total de recepción para el nodo $n$ (en segundos).
     \item $T_{tx}(n)$ es el tiempo total de transmisión para el nodo $n$ (en segundos).
     \item $n$ es el índice del nodo en la cadena lineal (1 a N).
-    \item $T_{base}$ es el tiempo base de transmisión por nodo (calculado en \eqref{eq:tiempo_base}).
+    \item $T_{base}$ es el tiempo base de transmisión por nodo, ecuación \eqref{eq:tiempo_base}.
 \end{itemize}
 
-Por lo tanto, la fórmula general para el tiempo total de comunicación activa ($T_{comm}$) para un nodo $n$ en la cadena lineal es la suma de sus tiempos de recepción y transmisión:
+Por lo tanto, la fórmula general para el tiempo total de comunicación activa ($T_{comm}$) para un nodo $n$ en la cadena lineal es la suma de sus tiempos de recepción y transmisión, ecuaciones \eqref{eq:tiempo_rx_n} y \eqref{eq:tiempo_tx_n}:
 \begin{equation} \label{eq:tiempo_comm_nodo_n}
-T_{comm}(n) = T_{rx}(n) + T_{tx}(n) = ((n-1) + n) \times T_{base} = (2n - 1) \times T_{base}
+T_{comm}(n) = T_{rx}(n) + T_{tx}(n) = ((n-1) + n) \times T_{base} = \boxed{(2n - 1) \times T_{base}}
 \end{equation}
 Donde:
 \begin{itemize}
     \item $T_{comm}(n)$ es el tiempo total de comunicación activa para el nodo $n$ (en segundos).
     \item $n$ es el índice del nodo en la cadena lineal (1 a N).
-    \item $T_{base}$ es el tiempo base de transmisión por nodo (calculado en \eqref{eq:tiempo_base}).
+    \item $T_{base}$ es el tiempo base de transmisión por nodo, ecuación \eqref{eq:tiempo_base}.
 \end{itemize}
 
-\paragraph{Ejemplo de Cálculo para el Nodo 4 (N=4):}
-En este proyecto, se tienen $N=4$ nodos sensores. El nodo más cargado es el Nodo 4. Aplicando la Ecuación \eqref{eq:tiempo_comm_nodo_n} con $n=4$ y utilizando $T_{base} \approx \SI{1.23}{\second}$ (calculado en la subsección \ref{ssubsec:tiempo_tx} usando la Ecuación \eqref{eq:tiempo_base}):
+
+\subsubsection*{Tiempo Estimado de Transmisión (Time on Air)}
+\label{ssubsec:tiempo_tx}
+
+El tiempo de transmisión se calcula con base en la tasa de datos efectiva ($R_b$) del transceptor \textbf{SX1262}. Conforme al análisis realizado en la \textbf{Sección \ref{subsec:justificacion_lora}}, se utiliza la configuración de alta velocidad (SF7, BW \SI{500}{\kilo\hertz}, CR 4/5) para minimizar el tiempo de ocupación del canal, lo que proporciona una tasa de \SI[per-mode = symbol]{21.9}{\kilo\bit\per\second}.
+
+Bajo estas condiciones, los tiempos de actividad del radio son:
+
+\begin{itemize}
+    \item \textbf{Tiempo para Datos de Sensores y GNSS:}
+    \[
+    T_{\text{base\_sen}} = \frac{\SI{24}{\byte}\times \SI[per-mode = symbol]{8}{\bit\per\byte}}{\SI[per-mode = symbol]{21900}{\bit\per\second}} \approx \textbf{\SI{8.76}{\milli\second}}
+    \]
+    \textit{Observación:} El impacto energético de enviar el paquete de datos estándar sigue siendo despreciable, ocupando el canal por menos de \SI{10}{\milli\second}.
+
+    \item \textbf{Tiempo para una Imagen:}
+    \[
+    T_{\text{base\_img}} = \frac{ 150 \times \SI[per-mode = symbol]{1024}{\byte} \times \SI[per-mode = symbol]{8}{\bit\per\byte}}{\SI[per-mode = symbol]{21900}{\bit\per\second}} \approx \textbf{\SI{56.1}{\second}}
+    \]
+    \textit{Observación:} La transmisión de una sola imagen requiere mantener el transceptor activo durante casi un minuto (debido a la fragmentación y envío secuencial), lo cual representa el consumo energético dominante en los ciclos donde se requiera evidencia visual.
+\end{itemize}
+
+El tiempo base total de datos generado por un nodo en cada ciclo es la suma de ambos:
+\begin{equation} \label{eq:tiempo_base_calculado}
+\text{T}_{\text{base}} = \text{T}_{\text{base\_sen}} + \text{T}_{\text{base\_img}} \approx \SI{8.76}{\milli\second} + \SI{56.1}{\second} \approx \boxed{\SI{56.2}{\second}}
+\end{equation}
+
+\subsubsection*{Ejemplo de Cálculo para el Nodo 4 (N=4) - Ciclo Nominal:}
+En este proyecto, se tienen $N=4$ nodos sensores. El nodo más cargado es el Nodo 4, ya que debe recibir y retransmitir los datos de los 3 nodos anteriores más los propios. Aplicando la Ecuación \eqref{eq:tiempo_comm_nodo_n} con $n=4$ y utilizando el tiempo base de transmisión calculado, ecuación \eqref{eq:tiempo_base_calculado}:
+
+\begin{equation}\label{eq:tiempo_comm_nodo4}
+    T_{comm}(4) = (2 \times 4 - 1) \times \SI{56.2}{\second} = 7 \times \SI{56.2}{\second} = \SI{393.4}{\second} = \boxed{\SI{6.5}{\minute}}
+\end{equation}
+
+
+Este valor representa el tiempo total que el Nodo 4 pasa activo comunicándose en cada ciclo de monitoreo. A diferencia de la transmisión de solo datos sensoriales, la inclusión de imágenes incrementa significativamente el tiempo de actividad del transceptor, lo cual representa una carga energética considerable que ha sido contemplada en el dimensionamiento del sistema de alimentación.
+
+
+\begin{comment}
+\paragraph{Ejemplo de Cálculo para el Nodo 4 (N=4) - Ciclo Nominal:}
+En este proyecto, se tienen $N=4$ nodos sensores. El nodo más cargado es el Nodo 4. Aplicando la Ecuación \eqref{eq:tiempo_comm_nodo_n} con $n=4$ y utilizando el tiempo base de transmisión de sensores $T_{base} \approx \SI{8.8}{\milli\second}$ (calculado en la subsección \ref{ssubsec:tiempo_tx}):
 
 \[
-T_{comm}(4) = (2 \times 4 - 1) \times \SI{1.23}{\second} = 7 \times \SI{1.23}{\second} = \boxed{\SI{8.61}{\second}}
+T_{comm}(4) = (2 \times 4 - 1) \times \SI{8.8}{\milli\second} = 7 \times \SI{8.8}{\milli\second} = \boxed{\SI{61.6}{\milli\second}}
 \]
 
-Este valor representa el tiempo total que el Nodo 4 pasa en modos activos de comunicación por ciclo y será utilizado para el cálculo del consumo energético.
+Este valor representa el tiempo total que el Nodo 4 pasa activo comunicándose en cada ciclo de monitoreo estándar. Es extremadamente bajo (\SI{< 0.1}{\second}), lo cual valida la eficiencia de la topología lineal para el tráfico de sensores.
+
+\textit{Nota: En el caso eventual de transmitir una imagen ($T_{base} \approx \SI{56}{\second}$), el tiempo acumulado para el Nodo 4 sería de $7 \times 56 \approx \SI{392}{\second}$ (\SI{\sim 6.5}{\minute}), lo que confirma la necesidad de restringir el envío de imágenes a eventos bajo demanda.}
+\end{comment}
 
 
 \subsection{Escenario Operativo}
 \label{subsec:escenario_operativo}
 
-Para optimizar el consumo energético y garantizar una larga autonomía, el sistema opera en un ciclo de bajo ciclo de trabajo (\textit{low duty cycle}). Se establece un **ciclo operativo semanal** (\SI{168}{\hour}) como referencia. Esta frecuencia se considera adecuada para el monitoreo ambiental de cuerpos de agua lóticos, permitiendo detectar tendencias a mediano plazo sin incurrir en un consumo excesivo \cite{nom001}.
+Para optimizar el consumo energético y garantizar una larga autonomía, el sistema opera en un ciclo de bajo ciclo de trabajo (\textit{low duty cycle}). Se establece un \textbf{ciclo operativo semanal} (\SI{168}{\hour}) como referencia para el cálculo de autonomía base, aunque la frecuencia de muestreo puede ajustarse según la disponibilidad de energía.
 
-Dentro de cada ciclo semanal, el nodo alterna entre modos de bajo consumo (\textit{sleep}) y modos activos para la adquisición y transmisión de datos. Considerando el nodo con mayor carga (Nodo 4), el tiempo estimado en cada modo por ciclo es el siguiente (ver Figura \ref{fig:ciclo_mod_op}):
+Dentro de cada semana (\SI{168}{\hour}), el nodo permanece en modo de ultra bajo consumo (\textit{Deep Sleep}) la gran mayor parte del tiempo, activándose una sola vez para ejecutar la secuencia de monitoreo. Considerando el escenario más exigente (Nodo 4 retransmitiendo datos e imágenes de toda la red), los tiempos estimados son (ver Figura \ref{fig:ciclo_mod_op}):
 
 \begin{itemize}
     \item \textbf{Adquisición de Datos}:
         \begin{itemize}
-            \item Lectura de Sensores: Se asume un tiempo de estabilización y lectura de \SI{5}{\second} por cada uno de los 5 sensores, activados secuencialmente. Tiempo total = $5 \times \SI{5}{\second} = \SI{25}{\second}$.
-            \item Captura de Imagen: Se estima un tiempo de \SI{10}{\second} para activar la cámara, capturar una imagen y almacenarla en el búfer. % Justificación: Tiempo típico estimado
+            \item Lectura de Sensores: Se asume un tiempo de estabilización y lectura de \SI{5}{\second} por cada uno de los 5 sensores. Tiempo $= 5 \times \SI{5}{\second} = \SI{25}{\second}$.
+            \item Captura de Imagen: Se estima un tiempo de \SI{10}{\second} para activar la cámara, capturar y comprimir la imagen.
+            \item Obtención GNSS: Se estima un tiempo promedio de \SI{10}{\second} para actualizar las coordenadas de geolocalización.
         \end{itemize}
-        Tiempo total de adquisición $\approx \SI{35}{\second}$.
-    \item \textbf{Comunicación (Nodo 4)}: Tiempo total de Tx y Rx calculado previamente (ver \ref{ssubsec:tiempo_general_comm}) $\approx \SI{8.61}{\second}$.
-    \item \textbf{Procesamiento Local (Estimado)}: Tiempo adicional para que el microcontrolador organice datos, comprima imagen (si aplica), etc. Se estima un tiempo conservador de \SI{5}{\second}. % Justificación: Estimación conservadora
-    \item \textbf{Tiempo Activo Total por Ciclo}: $35 + 8.61 + 5 = \SI{48.61}{\second} \approx \SI{0.81}{\minute}$.
-    \item \textbf{Tiempo en Modo Sleep}: $\SI{168}{\hour} - \SI{48.61}{\second} \approx \SI{167.987}{\hour}$ (aproximadamente el \SI{99.99}{\percent} del ciclo).
+        Tiempo total de adquisición $\approx 25 + 10 + 10 = \textbf{\SI{45}{\second}}$.
+
+    \item \textbf{Comunicación (Nodo 4)}: Tiempo total de Tx y Rx calculado previamente, considerando la transmisión de imágenes de los 4 nodos (ver Ecuación \ref{eq:tiempo_comm_nodo4}):
+    \[ T_{comm}(4) \approx \SI{393.4}{\second} \approx \textbf{\SI{6.5}{\minute}} \]
+
+    \item \textbf{Procesamiento Local}: Tiempo adicional para gestión del buffer, fragmentación de paquetes y lógica de control. Se estima conservadoramente en \SI{5}{\second}.
+
+    \item \textbf{Tiempo Activo Total por Ciclo}: 
+    \[ \SI{45}{\second} + \SI{393.4}{\second} + \SI{5}{\second} = \SI{443.4}{\second} \approx \textbf{\SI{7.4}{\minute}} \]
+
+    \item \textbf{Tiempo en Modo Sleep por Semana}:
+    \[ \SI{168}{\hour} - \SI{7.4}{\minute} \approx \textbf{\SI{167.88}{\hour}} \]
+    Esto representa que el sistema permanece en reposo el \textbf{99.93\%} del tiempo, lo cual garantiza una eficiencia energética considerable.
 \end{itemize}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{Documento/Imagenes/Análisis/ciclo modos op.pdf} % Revisa el nombre del archivo si es necesario
+    \includegraphics[width=0.5\linewidth]{Documento/Imagenes/Análisis/ciclo_modos_op.pdf}
     \caption{Ciclo simplificado de modos operativos del nodo sensor.}
     \label{fig:ciclo_mod_op}
 \end{figure}
 
 
-
-
-\subsection{Cálculo del Consumo Energético Semanal}
+\subsection*{Cálculo del Consumo Energético Semanal}
 \label{subsec:calculo_consumo}
 
 Utilizando los tiempos de operación estimados para cada modo y las corrientes de consumo de la Tabla \ref{tab:componentes_energia}, se calcula el consumo energético total por ciclo semanal ($E_{\text{sem}}$) para el nodo más demandante (Nodo 4). La fórmula general es:
+
+Dado que el ciclo ocurre una sola vez por semana, el cálculo se simplifica a la energía de un evento activo más la energía de reposo de toda la semana.
 
 \begin{equation} \label{eq:energia_semanal}
 E_{\text{sem}} = \sum_{\text{modo}} (I_{\text{modo}} \times t_{\text{modo}})
 \end{equation}
 
-Para la fase de comunicación del Nodo 4, se separan los tiempos y corrientes de recepción (Rx) y transmisión (Tx) calculados en la subsección \ref{ssubsec:tiempo_general_comm}:
+Para la fase de comunicación del Nodo 4, se separan los tiempos y corrientes de recepción (Rx) y transmisión (Tx) calculados con la ecuación \eqref{eq:tiempo_rx_n} y \eqref{eq:tiempo_tx_n}:
 \begin{itemize}
-    \item Tiempo de Recepción ($T_{rx}(4)$) = \SI{3.69}{\second}
-    \item Tiempo de Transmisión ($T_{tx}(4)$) = \SI{4.92}{\second}
+    \item Tiempo de Recepción ($T_{rx}(4)$) = \SI{168.6}{\second}
+    \item Tiempo de Transmisión ($T_{tx}(4)$) = \SI{224.8}{\second}
 \end{itemize}
 Las corrientes totales durante estas fases son:
 \begin{itemize}
-    \item Corriente en Rx ($I_{Rx}$) = $I_{\text{ESP32\_activo}} + I_{\text{FGH100M\_Rx}} = \SI{91}{\milli\ampere} + \SI{43}{\milli\ampere} = \SI{134}{\milli\ampere}$
-    \item Corriente en Tx ($I_{Tx}$) = $I_{\text{ESP32\_activo}} + I_{\text{FGH100M\_Tx}} = \SI{91}{\milli\ampere} + \SI{54}{\milli\ampere} = \SI{145}{\milli\ampere}$
+    \item Corriente en Rx ($I_{Rx}$) = $I_{\text{ESP32\_activo}} + I_{\text{SX1262\_Rx}} = \SI{80}{\milli\ampere} + \SI{4.6}{\milli\ampere} = \SI{84.6}{\milli\ampere}$
+    \item Corriente en Tx ($I_{Tx}$) = $I_{\text{ESP32\_activo}} + I_{\text{SX1262\_Tx}} = \SI{80}{\milli\ampere} + \SI{118}{\milli\ampere} = \SI{198}{\milli\ampere}$
 \end{itemize}
 
 La Tabla \ref{tab:consumo_detallado_semanal} detalla el cálculo completo.
-
-\begin{table}[H] 
+\sisetup{exponent-mode=engineering}
+\begin{table}[H]
 \centering
-\caption{Cálculo detallado del consumo energético semanal estimado (Nodo 4) con Tx/Rx separados.}
+\caption{Cálculo detallado del consumo energético semanal (Nodo 4, 1 ciclo/semana).}
 \label{tab:consumo_detallado_semanal}
 \renewcommand{\arraystretch}{1.3}
-\sisetup{round-mode=places, round-precision=2} % Redondeo a 2 decimales para la energía
-\begin{tabular}{l S[table-format=3.3] S[table-format=6.3] S[table-format=3.2]}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{l C{2cm} C{2.1cm} c c c}
 \toprule
-\textbf{Modo Operativo} & {\textbf{Corriente Total}} & {\textbf{Tiempo}} & {\textbf{Energía}} \\
- & {(\unit{\milli\ampere})} & {(\unit{\hour})} & {(\unit{\milli\ampere\hour})} \\
+\textbf{Modo Operativo}&\multicolumn{2}{c}{\shortstack[c]{\textbf{Componentes}\\\textbf{activos}}}& \textbf{Corriente Total} & \textbf{Tiempo Semanal} & \textbf{Energía Semanal} \\
+ &&& {(\unit{\milli\ampere})} & {(\unit{\hour})} & {(\unit{\milli\ampere\hour})} \\
 \midrule
-Lectura Sensores (PIC + ESP32 + 1 Sensor) & 141.05 & {$25/3600$} & {$\approx \num{0.98}$} \\
-Captura Imagen (ESP32 + Cam) & 231.24 & {$10/3600$} & {$\approx \num{0.64}$} \\
-Recepción (Rx) (ESP32 + FGH Rx) & 134.00 & {$3.69/3600$} & {$\approx \num{0.14}$} \\ % Separado Rx
-Transmisión (Tx) (ESP32 + FGH Tx) & 145.00 & {$4.92/3600$} & {$\approx \num{0.20}$} \\ % Separado Tx
-Procesamiento Local (ESP32 + PIC) & 91.05 & {$5/3600$} & {$\approx \num{0.13}$} \\
-Modo Sleep (Todo en sleep/standby) & 0.271 & 167.987 & {$\approx \num{45.52}$} \\
+Lectura Sensores& \makecell[c]{ESP32 \\ 80 mA}& \makecell[c]{Sensor \\ 40 mA} & 120.0 & $25/3600 \approx \num{0.00694}$ & $\approx \num{0.8328}$ \\
+Posición GNSS &\makecell[c]{ESP32 \\ 80 mA} & \makecell[c]{UC6580 \\ 40 mA} & 120.0 & $10/3600 \approx \num{0.00277}$ & $\approx \num{0.3324}$ \\
 \midrule
-\textbf{Total Estimado} & & & {$\approx \num{47.61}$} \\ % Nueva suma redondeada
+Captura de Imagen &\makecell[c]{ESP32 \\ 80 mA} & \makecell[c]{Cam \\ 140 mA} & 220.0 & $10/3600 \approx \num{0.00277}$ & $\approx \num{0.6094}$ \\
+Procesamiento Local&\makecell[c]{ESP32 \\ 80 mA}& -& 80.0 & $5/3600 \approx \num{0.00138}$ & $\approx \num{0.1104}$ \\
+\midrule
+Recepción &\makecell[c]{ESP32 \\ 80 mA} & \makecell[c]{SX1262\_Rx \\ 4.6 mA} & 84.6 & $168.6/3600 \approx \num{0.0468}$ & $\approx \num{3.959}$ \\
+\midrule
+Transmisión &\makecell[c]{ESP32 \\ 80 mA} & \makecell[c]{SX1262\_Tx \\ 118 mA} & 198.0 & $224.8/3600 \approx \num{0.0624}$ & $\approx \num{12.355}$ \\
+\midrule
+Modo Sleep &\multicolumn{2}{c}{Todo en sleep/standby}& 0.046 & $167.88$ & $\approx 7.722$ \\
+\midrule
+\textbf{Total Semanal}&& & & \textbf{168.0 h} & \textbf{$\approx \textbf{\SI{25.921}{\milli\ampere\hour}}$ }\\
 \bottomrule
 \end{tabular}
+}
 \end{table}
-%\sisetup{round-mode=off} % Desactivar redondeo global si no se necesita más
 
-El consumo energético total estimado por nodo por semana es de aproximadamente \textbf{\SI{47.6}{\milli\ampere\hour}}. Este valor se utilizará para dimensionar los componentes del subsistema de alimentación.
+El análisis arroja un consumo energético semanal de \SI{25.921}{\milli\ampere\hour} para el nodo crítico. Este resultado demuestra que la adopción de un ciclo de trabajo de baja frecuencia es una medida eficaz para asegurar la sostenibilidad energética del sistema.
 
 \subsection{Análisis y Selección de Componentes de Alimentación}
 \label{subsec:seleccion_hardware_alimentacion}
 
-Basándose en el consumo energético semanal estimado de \SI{47.6}{\milli\ampere\hour}, se procede a seleccionar los componentes del subsistema de alimentación: batería, panel solar y módulo de carga, buscando un balance entre capacidad, eficiencia, costo y seguridad.
-
+Basándose en el consumo energético semanal estimado de \SI{25.921}{\milli\ampere\hour}, se procede a seleccionar los componentes del subsistema de alimentación: batería, panel solar y módulo de carga, buscando un balance entre capacidad, eficiencia, costo y seguridad.
 
 \subsubsection{Análisis y Selección de la Batería}
 La elección de la batería recargable es crucial para la autonomía del nodo. Se compararon opciones Li-ion y LiPo disponibles comercialmente (Tabla \ref{tab:baterias}), considerando capacidad, ciclos de vida, seguridad (presencia de BMS) y dimensiones.
@@ -720,11 +997,13 @@ Imagen
 \end{enumerate}
 La opción Li-ion 18650 requeriría un BMS externo, añadiendo complejidad al diseño.
 
-\paragraph{Cálculo de Autonomía Teórica:} Con la batería seleccionada, la autonomía estimada sin recarga solar es:
+\paragraph*{Cálculo de Autonomía Teórica:} 
+
+Con la batería seleccionada, la autonomía estimada sin recarga solar es:
 \begin{equation} \label{eq:autonomia}
-\text{Autonomía} = \frac{\text{Capacidad Batería}}{\text{Consumo Semanal}} = \frac{\SI{2500}{\milli\ampere\hour}}{\SI{47.6}{\milli\ampere\hour / \text{sem}}} \approx \boxed{\num{52.5}~\text{semanas}} \approx \num{367}~\text{días}
+\text{Autonomía} = \frac{\text{Capacidad Batería}}{\text{Consumo Semanal}} = \frac{\SI{2500}{\milli\ampere\hour}}{\SI{25.921}{\milli\ampere\hour / \text{sem}}} \approx \boxed{\num{96.4}~\text{semanas}} \approx \num{675}~\text{días}
 \end{equation}
-Este cálculo sugiere una autonomía teórica de casi un año, ofreciendo una excelente resiliencia ante periodos prolongados sin sol.
+Este cálculo sugiere una autonomía teórica de \textbf{casi dos años} (aprox. 1.8 años), ofreciendo una excelente resiliencia ante periodos prolongados sin sol.
 
 \subsubsection{Análisis y Selección del Panel Solar}
 Para garantizar la operación continua, se necesita un panel solar que reponga el consumo energético. Se evaluaron paneles compactos (Tabla \ref{tab:paneles_solares}) en función de su potencia, voltaje/corriente de salida y dimensiones.
@@ -763,17 +1042,18 @@ Imagen
 
 Se selecciona el \textbf{Panel Solar de \SI{6}{\volt} / \SI{1.92}{\watt}}. Aunque el panel de \SI{5}{\volt} ofrece características similares, el voltaje ligeramente superior del panel de \SI{6}{\volt} proporciona un mayor margen para la caída de tensión y es óptimo para módulos de carga como el CN3065, que requieren un voltaje de entrada superior al de la batería \cite{chipCN3065}. Además, este modelo es el más compacto y económico de las opciones evaluadas \cite{panelSolar6V}. El panel de \SI{12}{\volt} está sobredimensionado y es menos eficiente para cargar una batería de \SI{3.7}{\volt} con un cargador simple.
 
-\paragraph{Análisis de Generación vs. Consumo:}
+\paragraph*{Análisis de Generación vs. Consumo:}
 \begin{itemize}
-    \item Consumo Diario Promedio: $\SI{47.6}{\milli\ampere\hour / \text{semana}} / 7\,\text{días} \approx \SI{6.8}{\milli\ampere\hour / \text{día}}$.
+    \item Consumo Diario Promedio: $\SI{25.921}{\milli\ampere\hour} / 7\,\text{días} \approx \SI{3.7}{\milli\ampere\hour / \text{día}}$.
     \item Generación Diaria Estimada: Asumiendo un promedio conservador de \textbf{3 horas} de sol directo equivalente por día (HSP - Horas Solares Pico) para la Ciudad de México \cite{solarGIS}, la energía generada es:
     \begin{equation} \label{eq:generacion_diaria}
     \text{Generación}_{\text{diaria}} = I_{\text{mp}} \times \text{HSP} = \SI{320}{\milli\ampere} \times \SI{3}{\hour} = \SI{960}{\milli\ampere\hour}
     \end{equation}
 \end{itemize}
-El excedente energético diario ($\text{Generación}_{\text{diaria}} - \text{Consumo}_{\text{diario}} \approx \SI{953}{\milli\ampere\hour}$) es extremadamente amplio (más de 140 veces el consumo diario), lo que garantiza la recarga completa de la batería incluso bajo condiciones de irradiación solar subóptimas (días nublados, sombra parcial). El tiempo teórico necesario para reponer el consumo de una semana completa con sol directo sería mínimo: $\SI{47.6}{\milli\ampere\hour} / \SI{320}{\milli\ampere} \approx \SI{0.15}{\hour} \approx \SI{9}{\minute}$.
+El excedente energético diario ($\text{Generación}_{\text{diaria}} - \text{Consumo}_{\text{diario}} \approx \SI{956.3}{\milli\ampere\hour}$) es extremadamente amplio (más de 250 veces el consumo diario), lo que garantiza la recarga completa de la batería incluso bajo condiciones de irradiación solar subóptimas (días nublados, sombra parcial). El tiempo teórico necesario para reponer el consumo de una semana completa con sol directo sería mínimo: $\SI{25.92}{\milli\ampere\hour} / \SI{320}{\milli\ampere} \approx \SI{0.08}{\hour} \approx \SI{5}{\minute}$.
 
-\subsection{Análisis de módulos de carga}
+
+\subsubsection{Análisis de módulos de carga}
 
 El módulo de carga es el componente encargado de gestionar la recarga segura de la batería desde el panel solar. Su función principal es proteger la batería contra sobrecargas, sobredescargas y controlar el flujo de corriente, lo cual es esencial para extender su vida útil. Esta subsección presenta una comparativa entre distintos módulos de carga compatibles con baterías Li-ion o LiPo, considerando su capacidad de carga, compatibilidad con paneles solares, protección integrada y facilidad de integración con el sistema(Tabla \ref{tab:modulos_carga}).
 
