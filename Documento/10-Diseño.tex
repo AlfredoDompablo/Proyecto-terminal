@@ -188,6 +188,128 @@ La Figura \ref{fig:uc_webapp} muestra las interacciones disponibles para los usu
 \end{figure}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: Mockups         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Diseño de Interfaz de Usuario}
+\label{sec:diseno_interfaz}
+
+La interfaz de usuario se ha diseñado bajo un enfoque web responsivo, dividida en dos entornos claramente diferenciados según el perfil del actor: un \textbf{Portal Público} de acceso libre para la consulta ciudadana y un \textbf{Portal Administrativo} para la gestión técnica del sistema. A continuación, se describen las pantallas principales diseñadas.
+
+\subsection{Portal Público}
+\label{subsec:portal_publico}
+
+Este módulo tiene como objetivo la divulgación y transparencia de la información. No requiere autenticación y está optimizado para una navegación intuitiva.
+
+\subsubsection*{Página de Inicio (Landing Page)}
+Es el punto de entrada al sistema. Presenta el proyecto ``MONICA'', su visión y el impacto esperado. Incluye un menú de navegación superior y llamadas a la acción claras para dirigir al usuario a los datos sensados.
+
+\begin{figure}[H]
+    \centering
+    % Ajusta el nombre del archivo si es necesario. 'page=1' selecciona la primera página del PDF.
+    \includegraphics[width=0.9\linewidth, page=1]{Documento/Imagenes/Diseño/mockups/mockups.pdf} 
+    \caption{Página de inicio del portal público con información general del proyecto.}
+    \label{fig:mockup_home}
+\end{figure}
+
+\subsubsection*{Mapa Interactivo}
+Permite la geolocalización de los nodos sensores sobre el río, facilitando la identificación de los puntos de monitoreo.
+
+\begin{figure}[H]
+    \centering
+    % Asegúrate de que la ruta sea correcta (Diseno sin ñ)
+    \includegraphics[width=0.85\linewidth, page=2]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+    \caption{Mapa interactivo de nodos para la geolocalización de puntos de monitoreo.}
+    \label{fig:mockup_mapa}
+\end{figure}
+
+\subsubsection*{Visualización de Estadísticas}
+Al seleccionar un nodo, el usuario visualiza un tablero detallado con los valores actuales de los sensores y gráficos de tendencias.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth, page=3]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+    \caption{Tablero de visualización de estadísticas y datos sensoriales.}
+    \label{fig:mockup_stats}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth, page=4]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+    \caption{Grafica de visualización de estadísticas y datos sensoriales.}
+    \label{fig:mockup_stats_graph}
+\end{figure}
+
+\subsubsection*{Galería de Evidencias Visuales}
+Esta sección muestra las imágenes capturadas por los nodos sensores. Permite al usuario visualizar la evidencia física del estado del río (ej. presencia de residuos) filtrando por fecha y ubicación, lo cual complementa los datos numéricos.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth, page=5]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+    \caption{Galería de imágenes capturadas por la red de sensores.}
+    \label{fig:mockup_galeria}
+\end{figure}
+
+\subsection{Portal Administrativo}
+\label{subsec:portal_admin}
+
+Este módulo es de acceso restringido y permite la configuración y mantenimiento del sistema.
+
+\subsubsection*{Acceso y Tablero de Control (Dashboard Admin)}
+El ingreso se realiza mediante credenciales seguras. Al acceder, el administrador visualiza un resumen operativo del sistema: estado de los nodos (activos/inactivos), alertas recientes (ej. batería baja, parámetros fuera de norma) y métricas de usuarios registrados.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth, page=7]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+    \caption{Portal de acceso.}
+    \label{fig:mockup_login}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth, page=8]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+    \caption{Tablero de control administrativo con resumen del estado del sistema.}
+    \label{fig:mockup_dashboard_admin}
+\end{figure}
+
+\subsubsection*{Gestión de Nodos y Datos}
+Permite a los administradores registrar nuevos nodos sensores, editar su ubicación geográfica o dar de baja dispositivos. También se incluye una vista tabular para la administración cruda de los datos recibidos, útil para auditoría y corrección de errores.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth, page=11]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+    \caption{Interfaz para la gestión del inventario de nodos sensores.}
+    \label{fig:mockup_nodos}
+\end{figure}
+
+\subsubsection*{Gestión de Usuarios (Rol: Dueño/Superusuario)}
+Esta pantalla es crítica para la seguridad del sistema y \textbf{solo es accesible para el usuario con rol de Dueño (Owner)}. Permite registrar nuevos administradores, modificar roles y gestionar el acceso al sistema. Los usuarios con rol de ``Administrador'' estándar no tienen acceso a esta vista, garantizando un control jerárquico de la plataforma.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth, page=10]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+    \caption{Panel de gestión de usuarios, exclusivo para el rol de Dueño.}
+    \label{fig:mockup_usuarios}
+\end{figure}
+
+\subsubsection*{Administración de Datos}
+Este módulo permite la gestión integral de la información recolectada por el sistema. Los administradores pueden visualizar, filtrar y gestionar tanto los registros de los \textbf{datos de los sensores} (parámetros físico-químicos) como el historial de \textbf{imágenes y detecciones}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth, page=12]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+    \caption{Interfaz para la administración y consulta de datos de nodos sensores.}
+    \label{fig:mockup_reportes_datos}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth, page=13]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+    \caption{Interfaz para la administración y consulta de imagenes de nodos sensores.}
+    \label{fig:mockup_reportes_img}
+\end{figure}
 
 
 
