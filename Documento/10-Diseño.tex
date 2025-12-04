@@ -80,6 +80,73 @@ Durante cada ciclo de adquisición:
     \item Al finalizar, el sistema entra en modo \textit{sleep} hasta el próximo ciclo.
 \end{enumerate}
 \end{comment}
+
+\section{Diseño del Circuito Electrónico}
+\label{sec:diseno_circuito}
+
+El diseño electrónico del nodo sensor implementa una arquitectura de \textbf{procesamiento distribuido} utilizando dos microcontroladores para separar las tareas críticas de comunicación y sensado de las tareas intensivas de adquisición de imágenes. El diagrama esquemático general se presenta en la Figura \ref{fig:diagrama_circuito}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\linewidth]{Documento/Imagenes/Diseño/circuitos/circuitopt_1.pdf}
+    \caption{Diagrama esquemático del nodo sensor, mostrando la interconexión entre microcontroladores y el bloque de sensores.}
+    \label{fig:diagrama_circuito}
+\end{figure}
+
+El sistema se estructura en tres bloques funcionales interconectados:
+
+\subsection{Unidad Central de Control y Telemetría (MCU1)}
+El núcleo del nodo es la plataforma \textbf{Heltec Wireless Tracker V1.1} (basada en ESP32-S3 + SX1262). Este microcontrolador actúa como el coordinador principal del sistema y es responsable de:
+
+\begin{itemize}
+    \item \textbf{Gestión de Sensores:} Controla directamente el encendido y apagado de los sensores mediante un multiplexor y realiza la lectura de las señales analógicas y digitales.
+    \item \textbf{Comunicación LoRa:} Administra el transceptor SX1262 integrado para el envío de paquetes de datos y fragmentos de imagen a la red.
+    \item \textbf{Geolocalización:} Obtiene las coordenadas del módulo GNSS integrado.
+    \item \textbf{Coordinación de Imagen:} Envía la orden de captura al módulo de cámara (MCU2) y recibe el flujo de bytes de la imagen procesada vía UART.
+\end{itemize}
+
+\subsection{Módulo de Adquisición de Imágenes (MCU2)}
+Para aislar el manejo de la cámara y asegurar la estabilidad del sistema principal, se utiliza un módulo \textbf{ESP32-CAM} dedicado exclusivamente a la visión. Sus funciones son:
+\begin{itemize}
+    \item \textbf{Control de la Cámara:} Inicializa y configura el sensor OV5640.
+    \item \textbf{Captura y Compresión:} Toma la fotografía en alta resolución y realiza la compresión JPEG en hardware.
+    \item \textbf{Transmisión Serial:} Envía la imagen comprimida al MCU1 a través de un puerto serie de alta velocidad, actuando como un periférico esclavo.
+\end{itemize}
+
+\subsection{Subsistema de Alimentación y Regulación}
+\label{subsec:diseno_alimentacion}
+
+Para garantizar la estabilidad operativa de los microcontroladores y la precisión de las mediciones analógicas, el diseño implementa una arquitectura de alimentación distribuida que gestiona la conversión de energía y los niveles de voltaje.
+
+\begin{enumerate}
+    \item \textbf{Gestión de Carga Solar:} Se integra el módulo basado en el controlador CN3065, encargado de administrar el flujo de energía desde el panel solar hacia la batería LiPo (\SI{3.7}{\volt}). Este módulo protege la batería contra sobrecargas y optimiza la corriente de carga disponible.
+
+    \item \textbf{Regulación Principal (Bus de \SI{5}{\volt}):} Dado que el voltaje de la batería varía durante la descarga (\SIrange{3.2}{4.2}{\volt}), se utiliza un convertidor DC-DC tipo \textit{Step-Up} (Boost) para elevar y estabilizar la tensión a \textbf{\SI{5}{\volt}}. Este bus alimenta las entradas de potencia de las placas de desarrollo principales:
+    \begin{itemize}
+        \item \textbf{Heltec Wireless Tracker (MCU1):} Se alimenta a través de su pin de \SI{5}{\volt}, permitiendo que su regulador LDO interno genere el voltaje lógico de \SI{3.3}{\volt} limpio para el ESP32 y la radio LoRa.
+        \item \textbf{ESP32-CAM (MCU2):} Recibe \SI{5}{\volt} estables para garantizar el correcto funcionamiento de la cámara, evitando reinicios por caídas de tensión (\textit{Brown-out}).
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Subsistema de Sensores y Eficiencia Energética}
+\label{subsec:diseno_sensores_control}
+
+Los sensores analógicos y digitales se alimentan a \textbf{\SI{3.3}{\volt}} para igualar los niveles de referencia del Conversor Analógico-Digital (ADC) del ESP32-S3. Para optimizar el consumo de corriente (que puede ser elevado en sensores como OD o Turbidez), se implementa una estrategia de energía bajo demanda (\textit{Power Gating}) controlada por el MCU1.
+
+\begin{enumerate}
+    \item \textbf{Multiplexación de Potencia:} El circuito incorpora un decodificador/demultiplexor 74HC238 y un arreglo de transistores MOSFET que actúan como interruptores de potencia.
+    
+    \item \textbf{Lógica de Control:}
+    \begin{itemize}
+        \item El MCU1 envía la dirección binaria del sensor requerido al multiplexor.
+        \item La salida correspondiente del 74HC238 activa la compuerta (\textit{Gate}) del transistor MOSFET asociado a ese sensor específico.
+        \item Esto permite el paso de los \SI{3.3}{\volt} únicamente al sensor seleccionado, manteniendo los demás físicamente desconectados y con consumo cero.
+    \end{itemize}
+
+    \item \textbf{Adquisición:} Una vez estabilizado el sensor activo, el MCU1 realiza la lectura a través de sus entradas analógicas (ADC) o digitales (OneWire) y procede inmediatamente a apagar el sensor antes de activar el siguiente o entrar en reposo.
+\end{enumerate}
+
+Esta arquitectura garantiza que el consumo pico del sistema se mantenga dentro de los límites soportados por la batería y evita interferencias cruzadas entre las lecturas de los sensores.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %             SECCIÓN: base de datos         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
