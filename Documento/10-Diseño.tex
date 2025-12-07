@@ -147,6 +147,71 @@ Los sensores analógicos y digitales se alimentan a \textbf{\SI{3.3}{\volt}} par
 \end{enumerate}
 
 Esta arquitectura garantiza que el consumo pico del sistema se mantenga dentro de los límites soportados por la batería y evita interferencias cruzadas entre las lecturas de los sensores.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        SECCIÓN: diseño del protocolo             % 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Diseño del Protocolo de Comunicación}
+\label{sec:diseno_protocolo}
+
+Dada la arquitectura de red lineal P2P y las limitaciones de ancho de banda de la modulación LoRa, se ha diseñado un protocolo de comunicación a medida que gestiona dos tipos de tráfico con requerimientos opuestos: la telemetría ligera (sensores) y la transmisión pesada (imágenes).
+
+\subsection{Estructura de la Trama de Datos}
+\label{subsec:estructura_trama}
+
+Para optimizar el uso del \textit{payload} (carga útil), se define una estructura de trama binaria compacta. Cada paquete transmitido por la radio SX1262 sigue el siguiente formato general:
+
+\begin{table}[h!]
+\centering
+\caption{Estructura general del paquete LoRa P2P.}
+\label{tab:trama_lora}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Cabecera (3B)} & \textbf{Origen (1B)} & \textbf{Tipo (1B)} & \textbf{Secuencia (2B)} & \textbf{Carga Útil (Variable)} \\
+\hline
+Sync Word & Node ID & DataType & Pkt Index & Datos / Fragmento \\
+\hline
+\end{tabular}
+\end{table}
+
+Donde:
+\begin{itemize}
+    \item \textbf{Tipo (DataType):} Indica el contenido: \texttt{0x01} (Sensores), \texttt{0x02} (Inicio Imagen), \texttt{0x03} (Fragmento Imagen), \texttt{0x04} (Fin Imagen).
+    \item \textbf{Secuencia (Pkt Index):} Contador para ordenar los fragmentos en el receptor.
+\end{itemize}
+
+\subsection{Transmisión de Datos de Sensores (Telemetría)}
+Los datos de los sensores (pH, OD, Turbidez, Temperatura, Batería) y la geolocalización (GNSS) se empaquetan en una sola trama de tamaño fijo ($\approx \SI{24}{bytes}$). Esta trama se transmite en una sola ráfaga LoRa, con un tiempo en el aire mínimo ($\approx \SI{9}{\milli\second}$), garantizando la máxima eficiencia energética.
+
+\subsection{Transmisión de Imágenes mediante Fragmentación}
+\label{subsec:transmision_fragmentada}
+
+La transmisión de evidencia visual presenta el mayor desafío técnico. Se establece una resolución de captura SVGA 800x600 píxeles, la cual ofrece un balance adecuado entre detalle visual y tamaño de archivo. Tras una compresión JPEG eficiente realizada por el ESP32-S3, se obtiene un archivo binario promedio de \SI{90}{kB}.
+
+Dado que este tamaño excede por mucho la Unidad Máxima de Transmisión (MTU) de LoRa (típicamente \SI{255}{bytes}), se implementa un algoritmo de Fragmentación y Reensamblaje inspirado en la metodología de Jebril et al..\cite{jebril2018overcoming}
+
+El proceso de diseño, ilustrado en la Figura \ref{fig:flujo_fragmentacion}, consta de las siguientes etapas:
+
+\begin{enumerate}
+    \item \textbf{Captura y Compresión:} El MCU captura la imagen en resolución SVGA y la comprime en formato JPEG, almacenando el archivo binario (\SI{\approx 90}{kB}) en la memoria RAM/PSRAM.
+    \item \textbf{División (Splitting):} El archivo binario se divide lógicamente en bloques de datos de tamaño $N$ (donde $N < \text{MTU LoRa}$, ej. \SI{200}{bytes}). Para una imagen de \SI{90}{kB}, esto resulta en aproximadamente 450 a 460 paquetes.
+    \item \textbf{Encapsulamiento:} A cada bloque se le añade un índice de secuencia ($1, 2, ..., K$) en la cabecera para permitir su reordenamiento y la detección de paquetes perdidos.
+    \item \textbf{Transmisión Secuencial:} Los fragmentos se envían uno tras otro a través del transceptor SX1262. Se introduce un pequeño retardo (\textit{delay}) entre paquetes para evitar saturar el buffer del receptor.
+    \item \textbf{Reensamblaje en Destino:} El nodo receptor (o Gateway) almacena los fragmentos entrantes en un buffer. Al recibir el paquete de "Fin de Imagen", concatena los fragmentos ordenados por su índice para reconstruir el archivo JPEG original.
+\end{enumerate}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Diseño/UML/flujo_fragmentacion.pdf}
+    \caption{Diagrama del proceso de fragmentación de imagen para transmisión sobre LoRa P2P.}
+    \label{fig:flujo_fragmentacion}
+\end{figure}
+
+Esta estrategia hace viable la transmisión de archivos de gran tamaño a través de un canal de banda estrecha, superando las estrictas restricciones de tamaño de paquete (MTU) inherentes a la tecnología LoRa y garantizando la reconstrucción íntegra de la evidencia visual en el nodo concentrador.
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %             SECCIÓN: base de datos         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
