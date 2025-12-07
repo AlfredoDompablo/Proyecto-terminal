@@ -36,7 +36,7 @@ En la figura \ref{Dig:diagramaAB} se presenta un diagrama a bloques que muestra 
     \end{itemize}
     La Tabla \ref{tab:parametros_calidad_agua} presenta los rangos de medición establecidos según las recomendaciones de la Comisión Nacional del Agua (CONAGUA) \cite{conagua2022} y las Normas Oficiales Mexicanas (NOM) para análisis de agua \cite{nmx0082016, nmx0122001, nmx0382001, nmx0932000}.
     
-    \input{Documento/Tablas/RangosParamCalidadAgua}
+    \input{Documento/Tablas/Analisis/RangosParamCalidadAgua}
 
     \item Subsistema – Cámara \\
     Encargado de capturar imágenes periódicas de la superficie del agua para identificar residuos sólidos flotantes.
@@ -148,7 +148,7 @@ La página web permite consultar los datos recopilados por los nodos sensores y 
 
 
 %\input{Documento/Tablas/Requerimientos}
-\input{Documento/Tablas/Requerimientos2}
+\input{Documento/Tablas/Analisis/Requerimientos2}
 
 
 
@@ -182,7 +182,7 @@ A continuación, se presenta el análisis comparativo de las opciones de mercado
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Análisis sensores pH}
-\input{Documento/Tablas/S.pH}
+\input{Documento/Tablas/Analisis/Sensores/S.pH}
 Para la medición de pH, se han considerado dos alternativas principales de sensores de la línea Gravity de DFRobot: el \textit{Analog pH Meter V2} y el \textit{Industrial Analog pH Meter Pro Kit V2}. Ambos dispositivos ofrecen un rango de medición de 0 a 14 pH y una precisión de $\pm$0.1 pH a 25°C, con salidas analógicas compatibles con microcontroladores basados en ESP32.
 
 La elección definitiva entre estos sensores dependerá de la evaluación del entorno específico donde se implementará el sistema. El \textit{Analog pH Meter V2} constituye una opción económica y de fácil integración, adecuada para aplicaciones en condiciones controladas o de baja exigencia ambiental. Por su parte, el \textit{Industrial Analog pH Meter Pro Kit V2} presenta características superiores para monitoreo continuo en ambientes hostiles, como un cable de sonda de 5 metros, un diseño robusto de grado industrial y una mayor resistencia a la exposición prolongada.
@@ -194,7 +194,7 @@ Considerando que el proyecto contempla la instalación de sensores en cuerpos de
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Análisis sensores oxigeno disuelto}
-\input{Documento/Tablas/S.OxigenDis}
+\input{Documento/Tablas/Analisis/Sensores/S.OxigenDis}
 
 Para la medición de oxígeno disuelto (OD) en el agua, se consideran dos opciones principales: el sensor Gravity: Analog Dissolved Oxygen Sensor (SEN0237) de DFRobot y el Atlas Scientific EZO-DO™.
 
@@ -209,7 +209,7 @@ Debido a que el sistema propuesto busca un equilibrio entre costos razonables y 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Análisis sensor de turbidez}
-\input{Documento/Tablas/S.turbidez}
+\input{Documento/Tablas/Analisis/Sensores/S.turbidez}
 
 Para la medición de turbidez en el sistema propuesto se ha seleccionado el sensor Gravity: Analog Turbidity Sensor (SKU: SEN0189) de DFRobot. Este sensor permite medir niveles de turbidez en un rango de 0 a 1000 NTU, entregando una señal analógica proporcional a la concentración de partículas suspendidas en el agua. Su compatibilidad con microcontroladores basados en ESP32, su facilidad de integración mediante conversión analógica lo hacen adecuado para el presente proyecto.
 
@@ -220,7 +220,7 @@ Aunque su precisión es limitada en comparación con sensores digitales o de gra
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Análisis sensores conductividad}
-\input{Documento/Tablas/S.conductividad}
+\input{Documento/Tablas/Analisis/Sensores/S.conductividad}
 
 Para la medición de conductividad eléctrica (EC) en el sistema propuesto se consideraron dos opciones: el sensor Gravity: Analog Electrical Conductivity Sensor V2 (SKU: DFR0300) de DFRobot y el Atlas Scientific EZO-EC™.
 
@@ -234,7 +234,7 @@ Considerando los objetivos de este Proyecto y las restricciones presupuestarias,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Análisis sensores temperatura}
-\input{Documento/Tablas/S.temperatura}
+\input{Documento/Tablas/Analisis/Sensores/S.temperatura}
 
 Para la medición de temperatura en el sistema propuesto se consideraron dos alternativas: el sensor digital sumergible DS18B20 y el sensor industrial Atlas Scientific EZO-RTD™.
 
@@ -318,75 +318,15 @@ Para seleccionar la tecnología más adecuada para la transmisión de datos en e
 
 La Tabla~\ref{tab:redes_corto_alcance} presenta un resumen comparativo de soluciones de red de corto alcance comúnmente utilizadas en WSN. Se incluyen tecnologías basadas en los estándares IEEE 802.15.4 y 802.15.1. Estas soluciones, aunque eficientes energéticamente, presentan limitaciones críticas de alcance ($<100$ m) para un despliegue fluvial extenso, lo que requeriría una cantidad excesiva de nodos repetidores.
 
-\begin{table}[H]
-\centering
-\caption{Resumen de soluciones de red de corto alcance \cite{lopez2023}}
-\label{tab:redes_corto_alcance}
-\renewcommand{\arraystretch}{1.3}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{p{2.5cm}p{2.5cm}p{2cm}p{2.5cm}p{2cm}p{1.5cm}p{2.3cm}}
-\toprule
-\textbf{Solution} & \textbf{Standard} & \textbf{Data rate} & \textbf{Coverage} & \textbf{Topology} & \textbf{Carrier freq} & \textbf{Energy cost} \\
-\midrule
-IEEE 802.15.4      & IEEE 802.15.4     & 250 kbps           & $<$100 m          & Star, tree, cluster tree, mesh & 868/915 MHz, 2.4 GHz & Low \\
-ZigBee             & IEEE 802.15.4     & 250, 40, 20 kbps    & $>$100 m          & Mesh, star, tree               & 868/915 MHz, 2.4 GHz & Low \\
-6LoWPAN            & IEEE 802.15.4     & 250 kbps           & $<$100 m          & Mesh, star                     & 868/915 MHz, 2.4 GHz & Low \\
-Bluetooth          & IEEE 802.15.1     & 1 Mbps             & Up to 100 m       & Star, P2P                      & 2.4 GHz              & Low \\
-BLE                & IEEE 802.15.1     & 1 Mbps             & Up to 200 m       & Star, P2P                      & 2.4 GHz              & Very low \\
-\bottomrule
-\end{tabular}
-}
-\end{table}
+\input{Documento/Tablas/Analisis/Transceptores/ResumenTecnologiasWLow}
 
-La Tabla~\ref{tab:redes_largo_alcance} complementa el análisis enfocándose en redes de medio y largo alcance (LPWAN). Se compara el estándar Wi-Fi (alto ancho de banda pero corto alcance/alto consumo) contra la tecnología LoRa. A diferencia del Wi-Fi, LoRa utiliza una técnica de modulación de espectro ensanchado (Chirp Spread Spectrum) que permite alcances de varios kilómetros y una alta inmunidad a interferencias, a costa de una tasa de transmisión reducida. Esta característica es vital para superar la atenuación por vegetación en las riberas del río.
+La Tabla~\ref{tab:redes_alcance_medio} complementa el análisis enfocándose en redes de medio y largo alcance (LPWAN). Se compara el estándar Wi-Fi (alto ancho de banda pero corto alcance/alto consumo) contra la tecnología LoRa. A diferencia del Wi-Fi, LoRa utiliza una técnica de modulación de espectro ensanchado (Chirp Spread Spectrum) que permite alcances de varios kilómetros y una alta inmunidad a interferencias, a costa de una tasa de transmisión reducida. Esta característica es vital para superar la atenuación por vegetación en las riberas del río.
 
-\begin{table}[H]
-\centering
-\caption{Comparativa de tecnologías de medio y largo alcance\cite{lopez2023}}
-\label{tab:redes_largo_alcance}
-\renewcommand{\arraystretch}{1.3}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{p{2.5cm}p{3cm}p{3cm}p{2cm}p{2.5cm}p{2cm}p{2.3cm}}
-\toprule
-\textbf{Tecnología} & \textbf{Estándar/Modulación} & \textbf{Tasa de Datos} & \textbf{Cobertura} & \textbf{Topología} & \textbf{Frecuencia} & \textbf{Costo Energético} \\
-\midrule
-Wi-Fi & IEEE 802.11 & Up to 54 Mbps & 200 m & Infrastructure, mesh & 2.4 GHz, 5 GHz & High \\
-Wi-Fi HaLow & IEEE 802.11ah   & 0.15 to 4 Mbps @ 1 MHz bandwidth, an 0.65 to 7.8 Mbps @ 2 MHz bandwidth & 1000m & star, mesh & ISM Sub-GHz & Low \\ 
-LoRa & CSS (Chirp Spread Spectrum) & 0.3 kbps a 50 kbps (Adaptativo) & $>$ 10 km (Rural) & Star, Mesh, P2P & Sub-GHz (915 MHz) & Muy Bajo \\ 
-\bottomrule
-\end{tabular}
-}
-\end{table}
+\input{Documento/Tablas/Analisis/Transceptores/ResumenTecnologiasWMed}
 
 Considerando las restricciones geográficas, en la Tabla~\ref{tab:comparativa_transceptores} se comparan módulos comerciales específicos. Se destaca el transceptor \textbf{SX1262} (integrado en la placa Heltec Wireless Tracker), que representa la generación más reciente de radios LoRa, ofreciendo mayor potencia de transmisión (+22 dBm) y menor consumo en recepción comparado con generaciones anteriores (como el SX1276) o tecnologías como Wi-Fi HaLow.
 
-\begin{table}[H]
-\renewcommand{\arraystretch}{1.5}
-\centering
-\caption{Comparativa de transceptores comerciales para WSN}
-\label{tab:comparativa_transceptores}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{|p{3.2cm}|C{3cm}|C{3cm}|C{3cm}|C{3cm}|C{3cm}|}
-\hline
-\textbf{Parámetro} 
-& \shortstack{\\ \textbf{LoRa (SX1262)}\\ \textbf{(Propuesto)}} 
-& \shortstack{\\ \textbf{Wi-Fi HaLow}\\ \textbf{(802.11ah)}} 
-& \shortstack{\\ \textbf{Wi-Fi}\\ \textbf{(802.11n)}} 
-& \shortstack{\\ \textbf{Zigbee}\\ \textbf{(802.15.4)}}
-& \shortstack{\\ \textbf{Bluetooth} \\ \textbf{(802.15.1)}} \\ \hline
-
-\textbf{Módulo/Chip} & Heltec (SX1262) \cite{semtech_sx1261_2017} & Quectel FGH100M \cite{QuectelFGH100M} & ESP32-S3 \cite{EspressifESP32S3} & XBee S2C \cite{DigiXBeeS2C} & HC-05 \cite{HC05Datasheet} \\ \hline
-\textbf{Tasa Máx.} & $\sim$ 22 kbps (SF7) & 32.5 Mbps & 150 Mbps & 0.25 Mbps & 2.1 Mbps \\ \hline
-\textbf{Potencia Tx} & +22 dBm & +20 dBm & +19 dBm & +5 dBm & +4 dBm \\ \hline
-\textbf{Sensibilidad Rx} & -148 dBm & -98 dBm & -98 dBm & -100 dBm & -84 dBm \\ \hline
-\textbf{Alcance LOS\footnote{Line Of Sight}} & $>$ 10 km & $\sim$ 1 km & 120 m & 1200 m & 40 m \\ \hline
-\textbf{Consumo Tx} & 118 mA (@22dBm) & 286 mA & 286 mA & 33 mA & 30 mA \\ \hline
-\textbf{Consumo Rx} & 4.2 mA & 43 mA & 95 mA & 28 mA & 30 mA \\ \hline
-\textbf{Consumo Sleep} & 0.6 µA & TBD & 240 µA & 1 µA & TBD \\ \hline
-
-\end{tabular}
-}
-\end{table}
+\input{Documento/Tablas/Analisis/Transceptores/ComparativaTransceptores}
 
 
 En la Tabla \ref{tab:imagenes_transceptore} se presentan imágenes representativas de los módulos evaluados.
@@ -532,7 +472,7 @@ Para la selección de la cámara que formará parte del sistema de visión artif
 %Para la selección de la cámara que formará parte del sistema de visión artificial, se evaluaron dos módulos ampliamente utilizados en plataformas embebidas: la OV2640 y la OV5640. La comparación se basó en criterios como resolución, tipo de interfaz, compatibilidad con microcontroladores, consumo energético, facilidad de integración y costo. Estos factores son determinantes para garantizar que el sistema sea eficiente en la captura de imágenes para la detección de residuos sólidos flotantes en cuerpos de agua.
 
 
-\input{Documento/Tablas/Cámaras2}
+\input{Documento/Tablas/Analisis/Cámaras2}
 
 %Ambas cámaras, OV2640 y OV5640, ofrecen características valiosas dependiendo de los requerimientos del sistema. La OV2640 es reconocida por su bajo consumo energético y facilidad de integración con microcontroladores de recursos limitados, lo que la hace adecuada para aplicaciones donde la eficiencia energética es prioritaria. La OV5640 mejora la resolución y la calidad de imagen, pero implica mayor consumo y complejidad. No obstante, debido a la necesidad de capturar imágenes de alta calidad para el análisis visual de residuos flotantes, se optó por la Raspberry Pi Camera Module 3. Esta cámara proporciona imágenes en alta resolución, mejor rendimiento en condiciones de baja iluminación y soporte para autoenfoque, lo que la convierte en la opción más adecuada para el sistema propuesto, a pesar de su mayor consumo energético.
 
@@ -547,7 +487,7 @@ Para la selección de la cámara que formará parte del sistema de visión artif
 \label{sec:analisis_microcontroladores}   
 La selección del microcontrolador constituye una decisión crítica en el diseño del sistema, determinando directamente las capacidades de integración sensorial, gestión energética, conectividad inalámbrica y procesamiento local de datos. Considerando los requerimientos específicos del proyecto, se llevó a cabo un análisis comparativo entre diversas placas de desarrollo ampliamente adoptadas en sistemas embebidos. Este estudio evaluó parámetros clave como arquitectura, capacidad de memoria, interfaces de comunicación, opciones de conectividad inalámbrica y costo. El objetivo fundamental es identificar la solución que optimice el equilibrio entre rendimiento computacional, eficiencia energética y viabilidad de implementación. A continuación, se presenta la comparativa técnica de las alternativas evaluadas.  
 
-\input{Documento/Tablas/Microcontroladores2} 
+\input{Documento/Tablas/Analisis/Microcontroladores2} 
 
 \begin{table}[H]
 \centering
@@ -644,7 +584,7 @@ El sistema de monitoreo propuesto está diseñado para operar de forma autónoma
 
 La Tabla~\ref{tab:componentes_energia} presenta los principales componentes seleccionados para el nodo sensor (ver secciones \ref{sec:analisis_microcontroladores} y \ref{sec:analisis_sensores}), junto con sus requerimientos estimados de voltaje y corriente de operación, extraídos de sus respectivas hojas de datos. Estos valores son fundamentales para dimensionar el sistema de alimentación.
 
-\input{Documento/Tablas/ConsumosElectricos}
+\input{Documento/Tablas/Analisis/ConsumosElectricos}
 
 
 
@@ -869,7 +809,7 @@ Las corrientes totales durante estas fases son:
 
 La Tabla \ref{tab:consumo_detallado_semanal} detalla el cálculo completo.
 
-\input{Documento/Tablas/consumo-sem}
+\input{Documento/Tablas/Analisis/consumo-sem}
 
 
 El análisis arroja un consumo energético semanal de \SI{25.921}{\milli\ampere\hour} para el nodo crítico. Este resultado demuestra que la adopción de un ciclo de trabajo de baja frecuencia es una medida eficaz para asegurar la sostenibilidad energética del sistema.
@@ -1134,7 +1074,7 @@ Se evaluaron dos paradigmas fundamentales para la implementación del servidor:
 
 Dado que el proyecto requiere flexibilidad, escalabilidad y alta disponibilidad, el modelo de servidor en la nube se identifica como el más adecuado. A continuación, se comparan los tres principales proveedores de servicios en la nube, reconocidos como líderes en el sector por analistas de la industria como Gartner \cite{gartner2023magic}.
 
-\input{Documento/Tablas/servidores.tex}
+\input{Documento/Tablas/Analisis/servidores.tex}
 
 
 Considerando los requerimientos del proyecto, se selecciona una arquitectura basada en la nube como la solución óptima. Entre los proveedores, \textbf{Amazon Web Services (AWS)} se elige como la plataforma para el desarrollo de este prototipo. La justificación se basa en los siguientes puntos:
@@ -1193,7 +1133,7 @@ Para satisfacer estos requerimientos, se analizaron los dos modelos de bases de 
 
 Dada la selección de AWS como proveedor de nube, se comparan sus servicios de bases de datos gestionadas más relevantes, incluyendo opciones relacionales y una opción especializada en series temporales.
 
-\input{Documento/Tablas/ComparativaBD.tex}
+\input{Documento/Tablas/Analisis/ComparativaBD.tex}
 
 Tras analizar los requerimientos y las plataformas disponibles, se ha decidido optar por una \textbf{arquitectura de base de datos unificada} para simplificar el diseño del sistema, reducir la complejidad operativa y centralizar la gestión de los datos.
 
