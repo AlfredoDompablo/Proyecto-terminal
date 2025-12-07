@@ -178,6 +178,8 @@ Sync Word & Node ID & DataType & Pkt Index & Datos / Fragmento \\
 
 Donde:
 \begin{itemize}
+    \item \textbf{Cabecera (Sync Word):} Secuencia de 3 bytes utilizada para identificar el inicio de la trama y filtrar paquetes de otras redes LoRa que operen en la misma frecuencia.
+    \item \textbf{Origen (Node ID):} Identificador único del nodo que genera los datos.
     \item \textbf{Tipo (DataType):} Indica el contenido: \texttt{0x01} (Sensores), \texttt{0x02} (Inicio Imagen), \texttt{0x03} (Fragmento Imagen), \texttt{0x04} (Fin Imagen).
     \item \textbf{Secuencia (Pkt Index):} Contador para ordenar los fragmentos en el receptor.
 \end{itemize}
