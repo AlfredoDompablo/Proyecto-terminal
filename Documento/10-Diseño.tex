@@ -148,6 +148,33 @@ Los sensores analógicos y digitales se alimentan a \textbf{\SI{3.3}{\volt}} par
 
 Esta arquitectura garantiza que el consumo pico del sistema se mantenga dentro de los límites soportados por la batería y evita interferencias cruzadas entre las lecturas de los sensores.
 
+\subsection{Diseño Electrónico del Nodo Concentrador (Gateway)}
+\label{subsec:diseno_gateway}
+
+Para el nodo concentrador, se ha seleccionado la misma plataforma de hardware que en los nodos sensores: la \textbf{Heltec Wireless Tracker V1.1}. Esta decisión se fundamenta en la capacidad de procesamiento dual del chip ESP32-S3 y su conectividad híbrida nativa (LoRa + Wi-Fi), lo que permite implementar toda la lógica del Gateway en un solo dispositivo integrado (System-on-Chip).
+
+El funcionamiento del concentrador se diseña bajo un esquema de concurrencia de tareas aprovechando los dos núcleos del microcontrolador y el sistema operativo en tiempo real (FreeRTOS):
+
+\begin{enumerate}
+    \item \textbf{Interfaz LoRa (Radiofrecuencia):}
+    Una tarea de alta prioridad se dedica exclusivamente a gestionar el transceptor SX1262 en modo de recepción continua.
+    \begin{itemize}
+        \item Escucha el espectro para detectar preámbulos válidos con la \textit{Sync Word} de la red.
+        \item Recibe los paquetes de telemetría y los fragmentos de imagen, almacenándolos temporalmente en un buffer circular en la memoria RAM (o PSRAM si el volumen de imágenes es alto).
+        \item Realiza el reensamblaje lógico de los archivos fragmentados.
+    \end{itemize}
+
+    \item \textbf{Interfaz Wi-Fi (Enlace de Bajada/Backhaul):}
+    Una segunda tarea gestiona la pila de protocolos TCP/IP utilizando la radio Wi-Fi de \SI{2.4}{\giga\hertz} integrada en el ESP32-S3.
+    \begin{itemize}
+        \item Mantiene la conexión con el punto de acceso local o router móvil.
+        \item Empaqueta los datos recibidos en formato JSON.
+        \item Realiza la transmisión segura (HTTPS/MQTT) hacia el servidor en la nube (Backend) para su almacenamiento y visualización.
+    \end{itemize}
+\end{enumerate}
+
+Esta arquitectura monoplaca reduce significativamente la complejidad del montaje físico, el costo del sistema y el tamaño del dispositivo final. Al ubicarse en un punto con infraestructura, la alimentación se suministra de forma continua a través de su puerto \textbf{USB Tipo-C} (\SI{5}{\volt}), garantizando una operación ininterrumpida sin depender de baterías externas.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %        SECCIÓN: diseño del protocolo             % 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
