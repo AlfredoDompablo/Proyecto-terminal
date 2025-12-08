@@ -507,9 +507,9 @@ RPi Zero 2 W & 40 GPIOs (sin ADC) & Micro SD & 2.5 A & - & WiFi 2.4GHz + BLE 4.2
 }
 \end{table}
 
-Para el nodo sensor, encargado de capturar datos de sensores (pH, turbidez, oxígeno disuelto), adquirir imágenes y gestionar la comunicación de largo alcance, se selecciona la placa de desarrollo \textbf{Heltec Wireless Tracker V1.1}. Debido a la superioridad en la integración de hardware que ofrece.
+Para el nodo sensor, se ha optado por una arquitectura de procesamiento distribuido utilizando dos unidades de desarrollo. Como controlador principal, encargado de la lectura de sensores físico-químicos (pH, turbidez, oxígeno disuelto) y la comunicación de largo alcance, se selecciona la placa Heltec Wireless Tracker V1.1. Esta elección se basa en su superioridad de integración, al unificar en un solo PCB el microcontrolador ESP32-S3, el transceptor LoRa SX1262 y el módulo GNSS UC6580, lo cual simplifica el diseño físico, elimina fallos por cableado externo y ofrece un consumo en reposo optimizado.
 
-Al integrar en un solo PCB el microcontrolador \textbf{ESP32-S3}, el transceptor \textbf{LoRa SX1262} y el módulo \textbf{GNSS UC6580}, se simplifica drásticamente el diseño físico del nodo y se eliminan puntos de falla asociados al cableado de módulos externos, lo cual es crítico para la robustez de un dispositivo flotante. Además, su consumo en modo de reposo es extremadamente bajo (\SI{\sim 20}{\micro\ampere}), optimizando la autonomía de la batería. Su capacidad de procesamiento es suficiente para gestionar la lectura de sensores y la compresión de imágenes, mientras que su radio LoRa integrada garantiza la conectividad en el entorno fluvial.
+Para complementar este sistema, se selecciona la tarjeta de desarrollo Freenove ESP32-S3 dedicada exclusivamente a la captura y pre-procesamiento de imágenes. Al aislar las operaciones intensivas de control de la cámara y compresión de la imagen en esta segunda placa, se garantiza que el flujo crítico de comunicación LoRa y telemetría en la Heltec no se vea interrumpido por el manejo de archivos multimedia, resultando en un nodo más robusto y eficiente.
 
 \begin{comment}
 \subsection{Comparativa de microcontroladores PIC para control de sensores}
