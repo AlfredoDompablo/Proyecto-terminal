@@ -107,12 +107,12 @@ Imagen
 
 \begin{longtable}{|p{3cm}|p{4cm}|p{4cm}|p{4cm}|}
 \hline
-\multicolumn{4}{|c|}{Parte 2 Microcontroladores}\\
+\multicolumn{4}{|c|}{Parte 2: Microcontroladores (Alto Rendimiento)}\\
 \hline
 \textbf{Característica} 
 & \textbf{Xiao ESP32-S3 R8} \cite{espressif2023_ESP32-S3}
 & \textbf{STM32F103} \cite{stmicroelectronics2025_STM32F103ZE_datasheet}
-& \textbf{ATmega328P} \cite{microchip2024_ATmega328P} \\
+& \textbf{Freenove ESP32-S3} \cite{espressif2023_ESP32-S3} \\ % Cita actualizada
 \hline
 \endfirsthead
 
@@ -120,7 +120,7 @@ Imagen
 \textbf{Característica} 
 & \textbf{Xiao ESP32-S3 R8} \cite{espressif2023_ESP32-S3}
 & \textbf{STM32F103} \cite{stmicroelectronics2025_STM32F103ZE_datasheet}
-& \textbf{ATmega328P} \cite{microchip2024_ATmega328P} \\
+& \textbf{Freenove ESP32-S3} \cite{espressif2023_ESP32-S3} \\
 \hline
 \endhead
 
@@ -134,71 +134,76 @@ Imagen
 Arquitectura 
 & Xtensa dual 32-bit LX7 
 & ARM 32-bit M3 
-& RISC 8-bit \\ \hline
+& Xtensa dual 32-bit LX7 \\ \hline
 
 Procesamiento 
 & 240 MHz 
 & 72 MHz 
-& 16 MHz \\ \hline
+& 240 MHz \\ \hline
 
 RAM 
 & 512KB + 8MB PSRAM 
 & 64KB SRAM 
-& 2KB SRAM \\ \hline
+& 512KB + 8MB PSRAM \\ \hline
 
 Flash 
-& 8MB 
+& 8MB (Externo)
 & 256–512KB 
-& 32KB \\ \hline
+& 16MB (N16) \\ \hline
 
 Consumo Activo 
-& 91 mA& 66 mA & 14 mA \\
-Consumo Sleep & 240 \unit{\uA} & 8.5 mA & 60 \unit{\uA} \\ \hline
+& 91 mA 
+& 66 mA 
+& 91 mA \\
+Consumo Sleep 
+& 240 \unit{\uA} 
+& 8.5 mA 
+& 240 \unit{\uA} \\ \hline
 
-Voltaje & 3.3V & 5V & 5V \\ \hline
+Voltaje & 3.3V & 3.3V / 5V & 3.3V (5V USB) \\ \hline
 
 WiFi 
 & 2.4GHz 
 & No 
-& No \\ \hline
+& 2.4GHz \\ \hline
 
 Bluetooth 
 & BLE 5 
 & No 
-& No \\ \hline
+& BLE 5 \\ \hline
 
-Sistema operativo (OS) 
+Sistema operativo 
 & FreeRTOS 
-& Bare-metal 
-& Bare-metal \\ \hline
+& Bare-metal/RTOS 
+& FreeRTOS \\ \hline
 
 Costo (USD) 
 & \$10–15 
 & \$5 
-& \$3 \\ \hline
+& \$15–20 \\ \hline
 
 Periféricos 
 & \shortstack[l]{\\• 11 GPIOs\\• ADC (8 canales)\\• UART\\• SPI}
 & \shortstack[l]{\\• 51 GPIOs\\• ADC (3 canales)\\• 5×UART\\• SPI}
-& \shortstack[l]{\\• 23 GPIOs\\• ADC (8 canales)\\• USART\\• SPI} \\ \hline
+& \shortstack[l]{\\• Puerto Cámara\\• Slot MicroSD\\• 20 GPIOs\\• USB Nativo} \\ \hline
 
 Ventajas 
-& \shortstack[l]{\\• RAM PSRAM (8MB)\\• Alto rendimiento\\• Bajo consumo \\• Compatible con \\tarjeta de expansión \\con cámara }
-& \shortstack[l]{\\• Múltiples UARTs\\• Amplios GPIOs\\• Bajo costo}
-& \shortstack[l]{\\• Amplia comunidad\\• Bajo consumo\\• Fácil prototipado} \\ \hline
+& \shortstack[l]{\\• Factor de forma\\ultra compacto\\• 8MB PSRAM\\• Bajo consumo}
+& \shortstack[l]{\\• Múltiples UARTs\\• Amplios GPIOs\\• Robustez industrial}
+& \shortstack[l]{\\• 16MB Flash\\• Cámara integrada\\• Slot SD integrado} \\ \hline
 
 Desventajas 
-& \shortstack[l]{\\• GPIOs limitados\\• Costo moderado\\• Canales ADC\\ insuficientes}
-& \shortstack[l]{\\• RAM limitada\\• Sin PSRAM\\• Procesamiento\\moderado}
-& \shortstack[l]{\\• RAM mínima\\• Arquitectura 8-bit \\limitada} \\ \hline
+& \shortstack[l]{\\• GPIOs limitados\\• Requiere expansión\\para cámara}
+& \shortstack[l]{\\• RAM limitada\\• Sin PSRAM\\• Sin conectividad}
+& \shortstack[l]{\\• Tamaño mayor\\• Alto consumo\\• Calentamiento} \\ \hline
 
 Imagen 
 & 
-    \shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Microcontroladores/xiao-esp32-s3-sense.jpg}}
+  \shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Microcontroladores/xiao-esp32-s3-sense.jpg}}
 &
-    \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Microcontroladores/STM32f103.jpg}
+  \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Microcontroladores/STM32f103.jpg}
 &  
-    \includegraphics[width=0.9 \linewidth]{Documento/Imagenes/Análisis/Microcontroladores/Atmega328p.jpg}   
+  \includegraphics[width=0.9 \linewidth]{Documento/Imagenes/Análisis/Microcontroladores/EspCam.jpeg}   
 \\ \hline
 
 \end{longtable}
