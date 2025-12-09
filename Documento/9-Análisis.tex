@@ -387,6 +387,46 @@ Por lo tanto, para equilibrar la robustez del enlace con la eficiencia operativa
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: GPS               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Análisis de receptores GNSS}
+\label{sec:analisis_gps}
+
+Para seleccionar la solución de posicionamiento más adecuada para el sistema de monitoreo, se evaluaron distintos módulos GNSS de bajo consumo comparables al integrado en la plataforma \textbf{Heltec Wireless Tracker V1.1}. El análisis considera tres criterios fundamentales:
+
+\begin{enumerate}
+    \item \textbf{Consumo energético}: Determina la autonomía del nodo durante el proceso de adquisición y seguimiento satelital, especialmente importante cuando el GPS se despierta periódicamente desde estados de bajo consumo.
+    \item \textbf{Sensibilidad de recepción}: Capacidad del receptor para detectar señales GNSS de baja potencia, particularmente relevante en entornos con obstrucciones parciales como vegetación densa, humedad elevada y ausencia de cielo abierto total.
+    \item \textbf{Tiempo a Primera Fijación (TTFF)}: Mide el tiempo necesario para obtener una posición válida. Influye directamente en el ciclo de operación del nodo y en el consumo energético total.
+\end{enumerate}
+
+La Tabla~\ref{tab:comparativa_chips_gnss} presenta un resumen de tecnologías GNSS de bajo consumo comúnmente utilizadas en sistemas IoT y WSN. Dichas soluciones se caracterizan por ofrecer un equilibrio entre sensibilidad, consumo y precisión métrica suficiente para aplicaciones ambientales, aunque presentan desafíos en zonas con follaje denso debido a pérdidas adicionales superiores a \SI{10}{dB} por atenuación vegetal.
+
+\input{Documento/Tablas/Analisis/ComparativaGPS.tex}
+
+\subsection{Justificación y estrategia de implementación}
+\label{subsec:justificacion_gps}
+
+Con base en la comparativa anterior, se selecciona el módulo \textbf{Quectel L76K} como la solución GNSS para el sistema. Este módulo ofrece un equilibrio óptimo entre sensibilidad, consumo y tamaño, aspectos cruciales para nodos alimentados por baterías operando en entornos fluviales.
+
+Su sensibilidad de \SI{-165}{dBm} permite mantener recepción estable aun en escenarios con obstrucción parcial del cielo debido a árboles, humedad y topografía irregular. Además, su soporte multiconstelación (GPS, GLONASS, Galileo) mejora la disponibilidad de satélites y reduce la probabilidad de pérdida de posicionamiento en zonas de vegetación densa.
+
+El consumo aproximado de \SI{25}{\milli\ampere} durante el seguimiento satelital, combinado con tiempos de adquisición de \SI{\sim 30}{\second} en \textit{cold start}, permite adoptar una estrategia eficiente basada en ciclos de activación breve:
+
+\begin{enumerate}
+    \item Activar el módulo GNSS únicamente al momento de muestreo.
+    \item Esperar hasta obtener un \textit{fix} válido (GGA Fix $\geq$ 1).
+    \item Registrar coordenadas, número de satélites, HDOP y datos complementarios.
+    \item Apagar el módulo para retornar al estado de bajo consumo del nodo.
+\end{enumerate}
+
+Aunque existen módulos con mayor precisión (u-blox M8) o menor consumo (Sony CXD5605), su integración implicaría antenas externas, mayor costo o rediseño de hardware, lo cual no se alinea con los objetivos de simplicidad y eficiencia energética del dispositivo.
+
+Por lo tanto, el \textbf{L76K} representa la solución más adecuada para el contexto del despliegue fluvial, proporcionando precisión métrica, robustez ante atenuación vegetal y un consumo controlado acorde a los requisitos del sistema.
+
+
 
 
 

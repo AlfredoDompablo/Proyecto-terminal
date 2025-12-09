@@ -350,6 +350,53 @@ La Figura \ref{fig:uc_webapp} muestra las interacciones disponibles para los usu
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: Diagramas de secuencia       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Digramas de secuencias}
+
+\subsection{Secuencia del nodo sensor}
+
+En la \ref{fig:SDNodosensor}, se muestra el diagrama de secuencia del ciclo de monitorización del nodo sensor describe las interacciones entre los componentes internos y los elementos de comunicación del nodo.  El proceso comienza cuando el temporizador despierta al microcontrolador.  
+El microcontrolador activa un sensor, espera a que se estabilice, lee el parámetro correspondiente, guarda el valor en un buffer de memoria y después desactiva el sensor.  Este ciclo se repite para cada uno de los sensores de calidad del agua (temperatura, turbidez, pH, oxígeno disuelto y conductividad) mediante un fragmento de bucle.  A continuación, el microcontrolador activa la cámara integrada, captura una imagen de la superficie y la fragmenta en bloques para su transmisión posterior.  
+Los datos de los sensores y los fragmentos de la imagen se empaquetan en un mismo mensaje y se almacenan temporalmente.  El microcontrolador activa el transceptor LoRa, transmite el paquete al nodo vecino y, tras recibir la confirmación, desactiva el transceptor.  
+Finalmente, vuelve a un modo de bajo consumo (\emph{sleep}) hasta el próximo ciclo de muestreo.  Este comportamiento se ajusta a la estructura de un nodo de medición WSN, que reúne componentes como la radio, la batería, el microcontrolador y la interfaz con los sensores.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Diseño/UML/SD Nodo Sensor - Página 1.pdf}
+    \caption{Diagrama de secuencia del nodo sensor, detallando el flujo.}
+    \label{fig:SDNodosensor}
+\end{figure}
+
+\subsection{Secuencia de la red inalámbrica de sensores}
+
+El diagrama de secuencia de la red inalámbrica de sensores (WSN), \ref{fig:SDWSN}, ilustra la transmisión multi‑salto de paquetes a lo largo de la cadena de nodos. Cada nodo sensor genera sus propias mediciones y, cuando corresponde, las imágenes capturadas. A continuación envía este paquete al nodo siguiente de la cadena, que lo recibe, agrega sus propias mediciones y reenvía el conjunto ampliado al nodo posterior. 
+De este modo, los datos se acumulan a medida que avanzan hacia la pasarela o nodo concentrador.  Este comportamiento responde al diseño de las WSN, en el que los nodos de medición están conectados de forma inalámbrica y la pasarela se encarga de recopilar los datos de cada nodo y enviarlos al servidor central.  Tras cada envío, el nodo receptor confirma la recepción para garantizar la fiabilidad de la comunicación.  
+Cuando el paquete consolidado llega al concentrador, éste lo transmite al servidor para su almacenamiento y procesamiento.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Diseño/UML/SDWSN.pdf}
+    \caption{Diagrama de secuencia de la red inalámbrica de sensores, detallando la transmisión de datos entre nodos sensores}
+    \label{fig:SDWSN}
+\end{figure}
+
+\subsection{Secuencia de la consulta del usuario}
+
+El diagrama de secuencia en la \ref{fig:SD User}, representa el proceso de obtención de datos y visualización en el navegador por parte del usuario. Cuando el usuario accede a la aplicación web, el frontend muestra un panel de información y ofrece diferentes opciones de visualización. Al seleccionar una opción, la interfaz realiza una petición al APIREST alojado en el servidor.  El API transmite la solicitud al backend, que procesa los parámetros recibidos y consulta la base de datos para recuperar las mediciones y los resultados de la detección de residuos flotantes.  
+Una vez obtenida la información, el backend la devuelve estructurada al API, que a su vez la proporciona al frontend en un formato adecuado.  
+La aplicación web transforma los datos en tablas, gráficos e imágenes y presenta los resultados al usuario.  
+Este flujo ejemplifica la separación entre cliente y servidor en un sistema web y cómo la API REST sirve de puente entre la interfaz y la base de datos.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Diseño/UML/SD User - Página 1.pdf}
+    \caption{Diagrama de secuencia de la consulta de usuario, detallando la obtencion y visualización de datos}
+    \label{fig:SD User}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %             SECCIÓN: Mockups         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
