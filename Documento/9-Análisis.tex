@@ -1,6 +1,6 @@
 \chapter{Análisis}
 
-\section{Análisis del sistema y requerimientos del prototipo}
+\section{Análisis del Sistema y Requerimientos del Prototipo}
 
 A continuación, se presenta una lista con los posibles requerimientos identificados para el desarrollo del prototipo de monitoreo ambiental. Estos requerimientos están organizados en subsistemas funcionales y servirán como guía para el diseño e implementación del sistema.
 
@@ -71,7 +71,7 @@ En la figura \ref{Dig:diagramaAB} se presenta un diagrama a bloques que muestra 
     \end{itemize}
 \end{enumerate}
 
-\subsubsection*{Módulo 2. Nodo concentrador}
+\subsubsection*{Módulo 2. Nodo Concentrador}
 
 El nodo concentrador cuenta con los mismos componentes que los nodos sensores, pero con la función adicional de recibir la información recolectada a través de la red. Este nodo centraliza los datos, los organiza y los transmite al servidor central para su procesamiento.
 
@@ -181,7 +181,7 @@ A continuación, se presenta el análisis comparativo de las opciones de mercado
 %             SECCIÓN: pH                          %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Análisis sensores pH}
+\subsection{Análisis Sensores pH}
 \input{Documento/Tablas/Analisis/Sensores/S.pH}
 Para la medición de pH, se han considerado dos alternativas principales de sensores de la línea Gravity de DFRobot: el \textit{Analog pH Meter V2} y el \textit{Industrial Analog pH Meter Pro Kit V2}. Ambos dispositivos ofrecen un rango de medición de 0 a 14 pH y una precisión de $\pm$0.1 pH a 25°C, con salidas analógicas compatibles con microcontroladores basados en ESP32.
 
@@ -193,7 +193,7 @@ Considerando que el proyecto contempla la instalación de sensores en cuerpos de
 %             SECCIÓN: Oxigeno Disuelto            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Análisis sensores oxigeno disuelto}
+\subsection{Análisis Sensores Oxigeno Disuelto}
 \input{Documento/Tablas/Analisis/Sensores/S.OxigenDis}
 
 Para la medición de oxígeno disuelto (OD) en el agua, se consideran dos opciones principales: el sensor Gravity: Analog Dissolved Oxygen Sensor (SEN0237) de DFRobot y el Atlas Scientific EZO-DO™.
@@ -208,7 +208,7 @@ Debido a que el sistema propuesto busca un equilibrio entre costos razonables y 
 %             SECCIÓN: Turbidez                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Análisis sensor de turbidez}
+\subsection{Análisis Sensor de Turbidez}
 \input{Documento/Tablas/Analisis/Sensores/S.turbidez}
 
 Para la medición de turbidez en el sistema propuesto se ha seleccionado el sensor Gravity: Analog Turbidity Sensor (SKU: SEN0189) de DFRobot. Este sensor permite medir niveles de turbidez en un rango de 0 a 1000 NTU, entregando una señal analógica proporcional a la concentración de partículas suspendidas en el agua. Su compatibilidad con microcontroladores basados en ESP32, su facilidad de integración mediante conversión analógica lo hacen adecuado para el presente proyecto.
@@ -219,7 +219,7 @@ Aunque su precisión es limitada en comparación con sensores digitales o de gra
 %             SECCIÓN: Conductividad               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Análisis sensores conductividad}
+\subsection{Análisis Sensores Conductividad}
 \input{Documento/Tablas/Analisis/Sensores/S.conductividad}
 
 Para la medición de conductividad eléctrica (EC) en el sistema propuesto se consideraron dos opciones: el sensor Gravity: Analog Electrical Conductivity Sensor V2 (SKU: DFR0300) de DFRobot y el Atlas Scientific EZO-EC™.
@@ -233,7 +233,7 @@ Considerando los objetivos de este Proyecto y las restricciones presupuestarias,
 %             SECCIÓN: Temperatura                 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Análisis sensores temperatura}
+\subsection{Análisis Sensores Temperatura}
 \input{Documento/Tablas/Analisis/Sensores/S.temperatura}
 
 Para la medición de temperatura en el sistema propuesto se consideraron dos alternativas: el sensor digital sumergible DS18B20 y el sensor industrial Atlas Scientific EZO-RTD™.
@@ -248,7 +248,7 @@ Considerando los objetivos de este Proyecto y las condiciones operativas previst
 %             SECCIÓN: Topologia de red            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Análisis de la topología de red}
+\section{Análisis de la Topología de Red}
 
 
 El diseño de la Red Inalámbrica de Sensores (WSN) es fundamental para garantizar la conectividad fiable y eficiente entre los nodos distribuidos y el sistema central de procesamiento. Para este proyecto, se ha seleccionado una \textbf{topología lineal multisalto} (\textit{multi-hop linear topology}).
@@ -391,7 +391,7 @@ Por lo tanto, para equilibrar la robustez del enlace con la eficiencia operativa
 %             SECCIÓN: GPS               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Análisis de receptores GNSS}
+\section{Análisis de Receptores GNSS}
 \label{sec:analisis_gps}
 
 Para seleccionar la solución de posicionamiento más adecuada para el sistema de monitoreo, se evaluaron distintos módulos GNSS de bajo consumo comparables al integrado en la plataforma \textbf{Heltec Wireless Tracker V1.1}. El análisis considera tres criterios fundamentales:
@@ -508,7 +508,7 @@ Como solución óptima para la transmisión bidireccional de los datos, en este 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %             SECCIÓN: Cámaras                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Análisis de cámaras}
+\section{Análisis de Cámaras}
 
 Para la selección de la cámara que formará parte del sistema de visión artificial, se evaluaron cuatro módulos de uso frecuente en plataformas embebidas: la OV2640, la OV5640, la Raspberry Pi Camera Module v2 y la Raspberry Pi Camera Module v3. La comparación se realizó con base en criterios como resolución, tipo de interfaz, compatibilidad con microcontroladores y computadoras de placa reducida, consumo energético, facilidad de integración y costo. Estos factores son determinantes para garantizar que el sistema sea eficiente en la captura de imágenes, considerando tanto la calidad visual necesaria para la detección de residuos sólidos flotantes en cuerpos de agua como las limitaciones energéticas y de procesamiento propias de una red de sensores. Además, la elección final también dependerá de la correspondencia entre las características de la cámara y la calidad de las imágenes disponibles en los conjuntos de datos utilizados para el entrenamiento del modelo de visión artificial, ya que la coherencia entre ambos elementos influye directamente en el desempeño del sistema.
 %Para la selección de la cámara que formará parte del sistema de visión artificial, se evaluaron dos módulos ampliamente utilizados en plataformas embebidas: la OV2640 y la OV5640. La comparación se basó en criterios como resolución, tipo de interfaz, compatibilidad con microcontroladores, consumo energético, facilidad de integración y costo. Estos factores son determinantes para garantizar que el sistema sea eficiente en la captura de imágenes para la detección de residuos sólidos flotantes en cuerpos de agua.
@@ -525,7 +525,7 @@ Para la selección de la cámara que formará parte del sistema de visión artif
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\section{Análisis de microcontroladores} 
+\section{Análisis de Microcontroladores} 
 \label{sec:analisis_microcontroladores}   
 La selección del microcontrolador constituye una decisión crítica en el diseño del sistema, determinando directamente las capacidades de integración sensorial, gestión energética, conectividad inalámbrica y procesamiento local de datos. Considerando los requerimientos específicos del proyecto, se llevó a cabo un análisis comparativo entre diversas placas de desarrollo ampliamente adoptadas en sistemas embebidos. Este estudio evaluó parámetros clave como arquitectura, capacidad de memoria, interfaces de comunicación, opciones de conectividad inalámbrica y costo. El objetivo fundamental es identificar la solución que optimice el equilibrio entre rendimiento computacional, eficiencia energética y viabilidad de implementación. A continuación, se presenta la comparativa técnica de las alternativas evaluadas.  
 
@@ -978,7 +978,7 @@ Se selecciona el \textbf{Panel Solar de \SI{6}{\volt} / \SI{1.92}{\watt}}. Aunqu
 El excedente energético diario ($\text{Generación}_{\text{diaria}} - \text{Consumo}_{\text{diario}} \approx \SI{956.3}{\milli\ampere\hour}$) es extremadamente amplio (más de 250 veces el consumo diario), lo que garantiza la recarga completa de la batería incluso bajo condiciones de irradiación solar subóptimas (días nublados, sombra parcial). El tiempo teórico necesario para reponer el consumo de una semana completa con sol directo sería mínimo: $\SI{25.92}{\milli\ampere\hour} / \SI{320}{\milli\ampere} \approx \SI{0.08}{\hour} \approx \SI{5}{\minute}$.
 
 
-\subsubsection{Análisis de módulos de carga}
+\subsubsection{Análisis de Módulos de Carga}
 
 El módulo de carga es el componente encargado de gestionar la recarga segura de la batería desde el panel solar. Su función principal es proteger la batería contra sobrecargas, sobredescargas y controlar el flujo de corriente, lo cual es esencial para extender su vida útil. Esta subsección presenta una comparativa entre distintos módulos de carga compatibles con baterías Li-ion o LiPo, considerando su capacidad de carga, compatibilidad con paneles solares, protección integrada y facilidad de integración con el sistema(Tabla \ref{tab:modulos_carga}).
 
@@ -1036,7 +1036,7 @@ Los módulos basados en el popular chip TP4056, aunque económicos, están optim
 %             SECCIÓN: Cálculo de residuos         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Análisis de la medición de residuos sólidos flotantes}
+\section{Análisis de la Medición de Residuos Sólidos Flotantes}
 \label{sec:analisis_medicion_residuos}
 
 La acumulación de residuos sólidos flotantes representa un problema crítico en cuerpos de agua lóticos, actuando como vectores de transporte de contaminantes. Para su evaluación, se toma como referencia la metodología de ``observación visual'' establecida en las guías operacionales de la UNEP/IOC para la basura marina \cite{cheshire2009directrices}, adaptándola al contexto fluvial y a las restricciones del sistema IoT.

@@ -214,7 +214,7 @@ Donde:
 \subsection{Transmisión de Datos de Sensores (Telemetría)}
 Los datos de los sensores (pH, OD, Turbidez, Temperatura, Batería) y la geolocalización (GNSS) se empaquetan en una sola trama de tamaño fijo ($\approx \SI{24}{bytes}$). Esta trama se transmite en una sola ráfaga LoRa, con un tiempo en el aire mínimo ($\approx \SI{9}{\milli\second}$), garantizando la máxima eficiencia energética.
 
-\subsection{Transmisión de Imágenes mediante Fragmentación}
+\subsection{Transmisión de Imágenes Mediante Fragmentación}
 \label{subsec:transmision_fragmentada}
 
 La transmisión de evidencia visual presenta el mayor desafío técnico. Se establece una resolución de captura SVGA 800x600 píxeles, la cual ofrece un balance adecuado entre detalle visual y tamaño de archivo. Tras una compresión JPEG eficiente realizada por el ESP32-S3, se obtiene un archivo binario promedio de \SI{90}{kB}.
@@ -353,9 +353,9 @@ La Figura \ref{fig:uc_webapp} muestra las interacciones disponibles para los usu
 %             SECCIÓN: Diagramas de secuencia       %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Digramas de secuencias}
+\section{Digramas de Secuencias}
 
-\subsection{Secuencia del nodo sensor}
+\subsection{Secuencia del Nodo Sensor}
 
 En la \ref{fig:SDNodosensor}, se muestra el diagrama de secuencia del ciclo de monitorización del nodo sensor describe las interacciones entre los componentes internos y los elementos de comunicación del nodo.  El proceso comienza cuando el temporizador despierta al microcontrolador.  
 El microcontrolador activa un sensor, espera a que se estabilice, lee el parámetro correspondiente, guarda el valor en un buffer de memoria y después desactiva el sensor.  Este ciclo se repite para cada uno de los sensores de calidad del agua (temperatura, turbidez, pH, oxígeno disuelto y conductividad) mediante un fragmento de bucle.  A continuación, el microcontrolador activa la cámara integrada, captura una imagen de la superficie y la fragmenta en bloques para su transmisión posterior.  
@@ -369,7 +369,7 @@ Finalmente, vuelve a un modo de bajo consumo (\emph{sleep}) hasta el próximo ci
     \label{fig:SDNodosensor}
 \end{figure}
 
-\subsection{Secuencia de la red inalámbrica de sensores}
+\subsection{Secuencia de la Red Inalámbrica de Sensores}
 
 El diagrama de secuencia de la red inalámbrica de sensores (WSN), \ref{fig:SDWSN}, ilustra la transmisión multi‑salto de paquetes a lo largo de la cadena de nodos. Cada nodo sensor genera sus propias mediciones y, cuando corresponde, las imágenes capturadas. A continuación envía este paquete al nodo siguiente de la cadena, que lo recibe, agrega sus propias mediciones y reenvía el conjunto ampliado al nodo posterior. 
 De este modo, los datos se acumulan a medida que avanzan hacia la pasarela o nodo concentrador.  Este comportamiento responde al diseño de las WSN, en el que los nodos de medición están conectados de forma inalámbrica y la pasarela se encarga de recopilar los datos de cada nodo y enviarlos al servidor central.  Tras cada envío, el nodo receptor confirma la recepción para garantizar la fiabilidad de la comunicación.  
@@ -382,7 +382,7 @@ Cuando el paquete consolidado llega al concentrador, éste lo transmite al servi
     \label{fig:SDWSN}
 \end{figure}
 
-\subsection{Secuencia de la consulta del usuario}
+\subsection{Secuencia de la Consulta del Usuario}
 
 El diagrama de secuencia en la \ref{fig:SD User}, representa el proceso de obtención de datos y visualización en el navegador por parte del usuario. Cuando el usuario accede a la aplicación web, el frontend muestra un panel de información y ofrece diferentes opciones de visualización. Al seleccionar una opción, la interfaz realiza una petición al APIREST alojado en el servidor.  El API transmite la solicitud al backend, que procesa los parámetros recibidos y consulta la base de datos para recuperar las mediciones y los resultados de la detección de residuos flotantes.  
 Una vez obtenida la información, el backend la devuelve estructurada al API, que a su vez la proporciona al frontend en un formato adecuado.  

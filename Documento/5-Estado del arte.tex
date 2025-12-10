@@ -1,33 +1,33 @@
-\chapter{Estado del arte}
+\chapter{Estado del Arte}
 Esta sección analiza críticamente soluciones existentes en monitoreo acuático, identificando brechas tecnológicas que justifican nuestra propuesta integrada de WSN y visión artificial para ríos.
 
-\section{Sistema telemático para el monitoreo y control de huertos urbanos basado en una red inalámbrica de sensores (Instituto Politécnico Nacional)}
+\section{Sistema Telemático Para el Monitoreo y Control de Huertos Urbanos Basado En Una Red Inalámbrica de Sensores (Instituto Politécnico Nacional)}
 
 Este proyecto propone el desarrollo de un sistema telemático para el monitoreo y control de huertos urbanos, utilizando una red inalámbrica de sensores (WSN). El sistema monitorea parámetros como temperatura, humedad, pH y la cantidad de nutrientes en el sustrato, con el objetivo de optimizar el riego y el suministro de nutrientes. Está compuesto por tres módulos: una red de sensores que recopila los datos, un servidor para almacenar la información y una aplicación web que permite al usuario visualizar y controlar los actuadores de riego y nutrientes en los cultivos. La implementación de este sistema busca facilitar la agricultura urbana al permitir a los usuarios interactuar de manera remota y tomar decisiones informadas sobre el cuidado de los cultivos, optimizando así el uso de los recursos en entornos urbanos \cite{benitez2024}.
 
 Aunque este sistema se centra en el monitoreo de huertos urbanos, no aborda la complejidad de los entornos acuáticos ni considera parámetros específicos de calidad del agua. El sistema propuesto amplía este enfoque al incorporar tecnologías diseñadas para cuerpos de agua como los ríos, adaptadas a la detección de residuos flotantes y parámetros físicos y químicos del agua.
 \newpage
 
-\section{Sistema de detección de nivel de agua basado en una red inalámbrica de sensores (Instituto Politécnico Nacional)}
+\section{Sistema de Detección de Nivel de Agua Basado en una Red Inalámbrica de Sensores (Instituto Politécnico Nacional)}
 
 Este proyecto presenta un sistema basado en sensores inalámbricos que recopila y envía información sobre los niveles de agua a una plataforma en la nube. Utiliza métodos de regresión para predecir futuros niveles de agua y alertar sobre posibles inundaciones. El sistema incluye un tablero de control que muestra los datos de manera gráfica y una aplicación móvil que proporciona alertas. La aplicación clasifica los niveles de agua mediante un sistema de colores (verde, amarillo, naranja y rojo) e informa sobre las opciones de tránsito disponibles. Este enfoque busca mejorar la prevención de inundaciones y optimizar la toma de decisiones por parte de servicios de emergencia mediante la información del nivel del agua y alertas en determinado rango de tiempo basadas en modelos predictivos\cite{perez2024}.
 
 Si bien este sistema utiliza técnicas predictivas para anticipar inundaciones, no incluye la capacidad de monitorear la calidad del agua ni la detección de residuos sólidos flotantes. La propuesta presentada aborda la necesidad de un monitoreo más integral al incluir sensores multiparamétricos y un sistema de visión artificial.
 
-\section{Sistema de detección de basura en la superficie del agua basada en lightweight YOLOv5(Artículo Cientific Reports)}
+\section{Sistema de Detección de Basura en la Superficie del Agua Basada en Lightweight YOLOv5(Artículo Cientific Reports)}
 
 Se desarrolló un sistema de detección de basura flotante en cuerpos de agua utilizando una versión optimizada del algoritmo YOLOv5, con el objetivo de mejorar la eficiencia en la identificación de residuos en tiempo real. Este sistema, implementado en barcos no tripulados y diseñado para operar en entornos con recursos computacionales limitados, busca incrementar la capacidad de detectar residuos plásticos, envases y otros desechos visibles que pueden dispersar contaminantes peligrosos como metales pesados. Para lograrlo, se empleó una red ligera basada en Shufflenetv2 junto con mecanismos de atención SE (Squeeze and Excitation), mejorando tanto la precisión como la velocidad de detección. Las pruebas realizadas por los investigadores en entornos controlados demostraron que el sistema mantiene una alta precisión incluso en condiciones adversas, haciéndolo adecuado para aplicaciones en el monitoreo de cuerpos de agua \cite{chen2024}.
 
 Este sistema está diseñado para entornos computacionales limitados, pero no contempla la integración con sensores de calidad del agua ni una plataforma web para la visualización de los datos recolectados. La solución planteada combina la detección de residuos con el monitoreo continuo de parámetros de calidad del agua, proporcionando información más completa.
 
-\section{Sistema de monitoreo para cuerpos de agua basado en IoT(Universidad de Cartagena)}
+\section{Sistema de Monitoreo para Cuerpos de Agua Basado en IoT(Universidad de Cartagena)}
 
 Se desarrolló un sistema de monitoreo para medir la calidad del agua en la ciudad de Cartagena, Colombia, utilizando una red de Internet de las Cosas (IoT). Este sistema emplea sensores que monitorean continuamente parámetros como temperatura, pH, turbidez, conductividad, oxígeno disuelto y sólidos suspendidos, transmitiendo la información en tiempo real a una plataforma central. La solución busca apoyar a las autoridades locales en la toma de decisiones más informadas para la conservación del agua, especialmente en actividades agropecuarias. El sistema fue diseñado para ser accesible y de bajo costo, con boyas flotantes equipadas con paneles solares para garantizar la autonomía energética. Los datos recopilados permiten prevenir la contaminación del agua y facilitar una gestión sostenible de los recursos hídricos \cite{lechuga2023}.
 
 Aunque este sistema incluye monitoreo multiparamétrico, se centra en soluciones de bajo costo y no aborda la detección de residuos flotantes. El sistema que se esta proponiendo complementa esta limitación al integrar un sistema de visión artificial para identificar residuos sólidos visibles.
 
 
-\section{Evaluación del rendimiento de redes LoRa para sistemas de monitoreo de la calidad del agua (Artículo University of Malaya)}
+\section{Evaluación del Rendimiento de Redes LoRa para Sistemas de Monitoreo de la Calidad del Agua (Artículo University of Malaya)}
 
 Se implementó y evaluó un sistema de monitoreo de la calidad del agua basado en la red LoRa (Long Range) para medir parámetros como pH, turbidez, temperatura, sólidos disueltos totales y oxígeno disuelto en dos ríos del campus de la Universidad de Malaya. El sistema utilizó estaciones de monitoreo conectadas a una red LoRa, evaluando el rendimiento en la transmisión de datos en tiempo real bajo diferentes factores de dispersión y condiciones de antena. Los resultados demostraron que LoRa es eficiente para aplicaciones de monitoreo de ríos en entornos urbanos, con una buena calidad de señal y baja pérdida de paquetes, incluso en condiciones sin línea de vista (NLOS) \cite{syed2024}.
 
@@ -35,26 +35,26 @@ Este sistema se enfoca en la eficiencia de transmisión en redes LoRa, pero no i
 
 \newpage
 
-\section{Monitoreo de residuos sólidos en las riberas del río San Pedro mediante el reconocimiento de objetos con un dron (Universidad Politécnica Salesiana)}
+\section{Monitoreo De Residuos Sólidos en las Riberas del Río San Pedro Mediante el Reconocimiento de Objetos con un Dron (Universidad Politécnica Salesiana)}
 
 Este proyecto se centra en la implementación de un sistema de reconocimiento de residuos sólidos en las riberas del río San Pedro utilizando un dron y tecnología de visión artificial. Se desarrolló un modelo que permite identificar tres tipos principales de residuos: contenedores de comida, envases Tetrapak y botellas PET. Mediante la captura de imágenes aéreas con el dron, el sistema procesa los datos utilizando algoritmos de inteligencia artificial para la detección de estos residuos. Se lograron resultados de precisión superiores al 90\% en las pruebas realizadas, lo que demuestra la efectividad del sistema para el monitoreo y la detección de basura en zonas ribereñas\cite{ortega2024}.
 
 Aunque este sistema es eficaz para la detección de residuos sólidos en riberas, su alcance es limitado a imágenes aéreas. El sistema propuesto expande este enfoque al implementar una solución integrada para la calidad del agua y la detección de residuos en tiempo real.
 
-\section{Sistema de detección y clasificación de contaminantes plásticos en entornos acuáticos utilizando un ASV (Universidad de Sevilla)}
+\section{Sistema de Detección y Clasificación de Contaminantes Plásticos en Entornos Acuáticos Utilizando un ASV (Universidad de Sevilla)}
 
 Se implementó un sistema de detección y clasificación de basura flotante en entornos acuáticos mediante el uso de un vehículo autónomo de superficie (ASV) equipado con una cámara. El sistema emplea un algoritmo de visión artificial basado en YOLOv5, optimizado para identificar y clasificar residuos plásticos en tiempo real. El ASV fue diseñado para navegar de manera autónoma y recopilar imágenes de la superficie del agua, las cuales son procesadas para detectar objetos como botellas de plástico y otros desechos flotantes. Los resultados obtenidos durante las pruebas demostraron una alta precisión en la identificación de contaminantes, lo que hace que el sistema sea una herramienta efectiva para la limpieza y preservación de cuerpos de agua. Este enfoque contribuye significativamente a la mitigación de la contaminación plástica en los entornos acuáticos \cite{fernandez2024}.
 
 Aunque este sistema utiliza un vehículo autónomo de superficie (ASV) y un algoritmo de visión artificial para detectar contaminantes plásticos flotantes con alta precisión, se limita a residuos visibles y no incluye el monitoreo de parámetros de calidad del agua. El presente trabajo amplía este enfoque al integrar sensores multiparamétricos y una plataforma web, ofreciendo un monitoreo más completo y accesible de los cuerpos de agua.
 
-\section{Sistema de monitoreo de calidad de agua con WSN en el Lago Victoria (Universidad de Dodoma)}  
+\section{Sistema de Monitoreo de Calidad de Agua con WSN en el Lago Victoria (Universidad de Dodoma)}  
 
 Se implementó una red de sensores inalámbricos (WSN) para monitorear parámetros de calidad del agua en el Lago Victoria (Tanzania). El sistema utiliza nodos sensores basados en Arduino, equipados con sensores de \textbf{pH}, \textbf{conductividad eléctrica}, \textbf{oxígeno disuelto} y \textbf{temperatura}, transmitiendo datos mediante módulos XBee (ZigBee) a una pasarela central. Esta pasarela emplea GPRS para enviar información a un portal web que visualiza datos en tiempo real. La solución destaca por su bajo costo (USD \$1250) y uso de paneles solares para autonomía energética, demostrando viabilidad en entornos remotos \cite{faustine2014}.
 
 
 Si bien este sistema ofrece monitoreo multiparamétrico continuo, presenta limitaciones relevantes: carece de capacidades de detección de residuos sólidos flotantes, su arquitectura de red no está optimizada para topologías lineales extensas (ej. ríos), depende de cobertura celular para transmisión de datos, y no integra procesamiento edge para análisis visual. La presente propuesta supera estas limitaciones mediante una topología lineal adaptada a ríos y la integración de visión artificial para detección de basura flotante.
 
-\section{Artículo de redes de sensores inalámbricos para monitoreo de calidad de agua (López-Ramírez y Aragón-Zavala, 2023)}
+\section{Artículo de Redes de Sensores Inalámbricos para Monitoreo de Calidad de Agua (López-Ramírez y Aragón-Zavala, 2023)}
 
 Este artículo analiza redes de sensores inalámbricos (WSN) aplicadas al monitoreo de calidad de agua (WQM), destacando su superioridad frente a métodos tradicionales en velocidad de respuesta, costo y confiabilidad. Examina arquitecturas de nodos sensores con énfasis en microcontroladores de bajo consumo (STM32L0, ATmega) y protocolos LPWAN (LoRaWAN, Sigfox, NB-IoT) para cobertura extensa. También considera sensores para medir \textbf{pH}, \textbf{turbidez} y \textbf{oxígeno disuelto}, variables clave en la evaluación de cuerpos de agua. El estudio incluye casos de aplicación de tecnologías LPWAN y discute técnicas de \textit{machine learning} para predicción de calidad de agua, aunque no propone un sistema específico de implementación \cite{lopez2023}.
 
