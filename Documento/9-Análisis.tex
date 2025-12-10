@@ -355,8 +355,8 @@ En la Tabla \ref{tab:imagenes_transceptore} se presentan imágenes representativ
 }
 \end{table}
 
-\subsection{Justificación y Estrategia de Implementación}
-\label{subsec:justificacion_lora}
+%\subsection{Justificación y Estrategia de Implementación}
+%\label{subsec:justificacion_lora}
 
 Con base en la comparativa anterior, se selecciona el transceptor \textbf{Semtech SX1262} como el elemento de comunicación central del sistema. Esta decisión se fundamenta en dos ventajas técnicas decisivas para el entorno fluvial: su \textbf{presupuesto de enlace superior} y su \textbf{eficiencia energética}.
 
@@ -406,9 +406,9 @@ La Tabla~\ref{tab:comparativa_chips_gnss} presenta un resumen de tecnologías GN
 
 \input{Documento/Tablas/Analisis/ComparativaGPS.tex}
 
-\subsection{Justificación y estrategia de implementación}
+%\subsection*{Justificación y estrategia de implementación}
 
-Con base en la comparativa anterior, se selecciona el módulo \textbf{UC6580} como la solución GNSS para el sistema de monitoreo. Este módulo ofrece un equilibrio óptimo entre sensibilidad, consumo y tamaño, aspectos cruciales para nodos alimentados por baterías operando en entornos fluviales y áreas de difícil acceso.
+Derivado del análisis comparativo previo, se opta por el módulo \textbf{UC6580} como la solución GNSS para el sistema de monitoreo. Este dispositivo presenta una relación idónea entre sensibilidad, consumo energético y dimensiones físicas, aspectos cruciales para nodos alimentados por baterías operando en entornos fluviales y áreas de difícil acceso.
 
 Su sensibilidad de \SI{-165}{dBm} permite mantener una recepción estable incluso en escenarios con obstrucción parcial del cielo, como cuando hay árboles, humedad elevada y topografía irregular. Además, su soporte multiconstelación (GPS, GLONASS, Galileo) mejora significativamente la disponibilidad de satélites y reduce la probabilidad de pérdida de posicionamiento en zonas de vegetación densa, algo crucial en los entornos de monitoreo ambiental.
 
@@ -1079,8 +1079,8 @@ El servidor constituye el núcleo central de la arquitectura del sistema, operan
 
 El análisis se centra en dos modelos de despliegue principales: servidores locales (\textit{on-premise}) y servidores en la nube (\textit{cloud computing}), evaluando su idoneidad frente a los requerimientos del proyecto.
 
-\subsection{Requerimientos Clave del Servidor}
-\label{subsec:reqs_servidor}
+%\subsection*{Requerimientos Clave del Servidor}
+%\label{subsec:reqs_servidor}
 
 Para cumplir con sus funciones, la plataforma servidora debe satisfacer los siguientes requerimientos técnicos:
 
@@ -1093,7 +1093,7 @@ Para cumplir con sus funciones, la plataforma servidora debe satisfacer los sigu
     \item \textbf{Viabilidad Económica:} La solución debe ser rentable, considerando los costos iniciales y operativos a largo plazo.
 \end{enumerate}
 
-\subsection{Comparativa de Modelos de Despliegue}
+\subsection*{Comparativa de Modelos de Despliegue}
 \label{subsec:modelos_despliegue}
 
 Se evaluaron dos paradigmas fundamentales para la implementación del servidor:
@@ -1111,7 +1111,7 @@ Se evaluaron dos paradigmas fundamentales para la implementación del servidor:
         \end{itemize}
 \end{itemize}
 
-\subsection{Análisis de Proveedores de Servicios en la Nube}
+\subsection*{Análisis de Proveedores de Servicios en la Nube}
 \label{subsec:proveedores_nube}
 
 Dado que el proyecto requiere flexibilidad, escalabilidad y alta disponibilidad, el modelo de servidor en la nube se identifica como el más adecuado. A continuación, se comparan los tres principales proveedores de servicios en la nube, reconocidos como líderes en el sector por analistas de la industria como Gartner \cite{gartner2023magic}.
@@ -1147,8 +1147,8 @@ La selección específica del motor y el tipo de servicio de base de datos se ju
 
 La base de datos es un componente crítico del servidor, responsable de la persistencia, integridad y disponibilidad de los datos generados por la WSN. La elección de una tecnología de base de datos adecuada impacta directamente en el rendimiento de las consultas, la escalabilidad del sistema y la facilidad con la que se pueden realizar análisis históricos.
 
-\subsection{Requerimientos de la Base de Datos}
-\label{subsec:reqs_db}
+%\subsection{Requerimientos de la Base de Datos}
+%\label{subsec:reqs_db}
 
 Con base en la arquitectura del sistema, la base de datos debe cumplir con los siguientes requerimientos específicos:
 
@@ -1160,7 +1160,7 @@ Con base en la arquitectura del sistema, la base de datos debe cumplir con los s
     \item \textbf{Rendimiento de Consultas:} El sistema debe permitir consultas de baja latencia para alimentar la interfaz web con datos históricos y en tiempo real.
 \end{enumerate}
 
-\subsection{Análisis de Modelos de Base de Datos: SQL vs. NoSQL}
+\subsection*{Análisis de Modelos de Base de Datos: SQL vs. NoSQL}
 %\label{subsec:modelos_db}
 
 Para satisfacer estos requerimientos, se analizaron los dos modelos de bases de datos predominantes: relacional (SQL) y no relacional (NoSQL).
@@ -1170,7 +1170,7 @@ Para satisfacer estos requerimientos, se analizaron los dos modelos de bases de 
     \item \textbf{Bases de Datos No Relacionales (NoSQL):} Utilizan modelos de datos flexibles y priorizan la escalabilidad y la disponibilidad, a menudo siguiendo el modelo BASE (Basically Available, Soft state, Eventually consistent) \cite{mongodb2024sqlvsnosql}. Son ideales para el almacenamiento de datos de series temporales, donde el volumen de inserciones es alto \cite{aws2024sqlvsnosql}.
 \end{itemize}
 
-\subsection{Comparativa de Servicios de Base de Datos en AWS}
+\subsection*{Comparativa de Servicios de Base de Datos en AWS}
 \label{subsec:comparativa_db_aws}
 
 Dada la selección de AWS como proveedor de nube, se comparan sus servicios de bases de datos gestionadas más relevantes, incluyendo opciones relacionales y una opción especializada en series temporales.
@@ -1236,8 +1236,8 @@ No obstante, se reconoce que una arquitectura de cómputo en el borde es una opt
 
 La selección de un algoritmo adecuado para identificar y cuantificar los residuos sólidos flotantes es un componente central de la funcionalidad de visión artificial del sistema. Dada la necesidad de estimar la densidad de basura (posiblemente a través del área cubierta en píxeles), se requiere un modelo capaz no solo de detectar objetos (\textit{object detection}) sino también de delinear sus contornos precisos (\textit{instance segmentation}). La familia de modelos \textbf{YOLO (\textit{You Only Look Once})} ofrece arquitecturas que cubren ambas tareas con un buen balance entre velocidad y precisión \cite{sapkota2025yolo}. Se realizó un análisis comparativo para identificar la versión más apropiada.
 
-\subsection{Criterios de Selección}
-\label{subsec:criterios_vision}
+%\subsection{Criterios de Selección}
+%\label{subsec:criterios_vision}
 
 La elección del modelo se basa en los siguientes criterios prioritarios:
 
@@ -1249,7 +1249,7 @@ La elección del modelo se basa en los siguientes criterios prioritarios:
     \item \textbf{Flexibilidad para Re-entrenamiento:} Capacidad del modelo para ser afinado (\textit{fine-tuning}) con un dataset específico de residuos flotantes.
 \end{enumerate}
 
-\subsection{Comparativa de Modelos YOLO Relevantes}
+\subsection*{Comparativa de Modelos YOLO Relevantes}
 \label{subsec:comparativa_yolo}
 
 La Tabla \ref{tab:comparativa_yolo_condensada} presenta una comparativa de las versiones de YOLO consideradas, destacando su capacidad para la segmentación. Los valores de mAP corresponden al dataset COCO y dependen del hardware \cite{terven2023yolo, sapkota2025yolo}.
@@ -1317,15 +1317,15 @@ YOLOv11
 & \textbf{Sí} (Framework Unificado)
 & Alta (Gama Alta)
 & Alta (Reciente)
-& Detección/Segmentación, mejoras arquitectónicas recientes \\ \hline
+& Detección/ Segmentación, mejoras arquitectónicas recientes \\ \hline
 
 \multicolumn{6}{p{16cm}}{\footnotesize \textit{Nota: Los tamaños de modelo varían según la versión específica (n, s, m, l, x). El mAP corresponde a COCO val2017 para detección. La facilidad de uso de YOLOv11 puede variar por ser más reciente.}} \\
 
 \end{longtable}
 
 
-\subsection{Justificación y Selección del Modelo}
-\label{subsec:justificacion_yolo}
+%\subsection{Justificación y Selección del Modelo}
+%\label{subsec:justificacion_yolo}
 
 La necesidad explícita de realizar segmentación de instancias para estimar la densidad de residuos mediante el área cubierta en píxeles inclina la balanza hacia modelos que ofrezcan esta funcionalidad de manera integrada y eficiente.
 
@@ -1339,7 +1339,7 @@ La necesidad explícita de realizar segmentación de instancias para estimar la 
     \item \textbf{YOLOv11:} Representa una de las evoluciones más recientes, prometiendo mejoras arquitectónicas \cite{sapkota2025yolo}. Aunque también soporta segmentación, al ser más nuevo, podría tener menos documentación comunitaria o requerir ajustes en las herramientas de entrenamiento en comparación con YOLOv8.
 \end{itemize}
 
-Considerando la necesidad de segmentación, la madurez relativa dentro de las arquitecturas modernas y la robustez del framework, se selecciona \textbf{YOLOv8-YOLOv11} como el modelo para este proyecto. Específicamente, se optará por una de sus variantes pre-entrenadas (ej. `yolov8s-seg.pt`) que ya incluye la capacidad de segmentación.
+Considerando la necesidad de segmentación, la madurez relativa dentro de las arquitecturas modernas y la robustez del framework, se selecciona \textbf{YOLOv8} como el modelo para este proyecto. Específicamente, se optará por una de sus variantes pre-entrenadas (ej. `yolov8s-seg.pt`) que ya incluye la capacidad de segmentación.
 
 Esta elección ofrece el mejor compromiso entre:
 \begin{itemize}
