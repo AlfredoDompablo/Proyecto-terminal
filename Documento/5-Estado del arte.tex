@@ -65,39 +65,6 @@ Si bien este artículo ofrece un análisis exhaustivo de tecnologías WSN, prese
 
 En la tabla \ref{tab:comparacion_tecnologias} se presenta una comparación de las principales características entre diversos proyectos relacionados con el monitoreo de la calidad del agua y la detección de basura flotante en cuerpos de agua. Se destacan los aspectos clave como el uso de sensores para la medición de parámetros de calidad del agua, la implementación de sistemas de visión artificial para la identificación de residuos, el empleo de redes inalámbricas para la transmisión de datos, y la existencia de plataformas de visualización de la información. El propósito de esta comparación es evidenciar las similitudes y diferencias entre los proyectos previos y el sistema propuesto en este trabajo.
 
-
-
-\begin{table}[H]
-    \caption{Comparativa de soluciones en monitoreo acuático}
-    \label{tab:comparacion_tecnologias}
-    \centering
-    \renewcommand{\arraystretch}{1.5}
-    \scalebox{0.8}{
-    \begin{tabular}{|p{3.5cm}|c|c|c|c|p{3.2cm}|}
-        \hline
-        \textbf{Proyecto} & \textbf{Detección de Basura} & \textbf{Sensores de Agua} & \textbf{Red Inalámbrica} & \textbf{Web} & \textbf{Tecnologías Clave} \\
-        \hline
-        Sistema telemático para huertos urbanos  \cite{benitez2024} & No & Sí & Sí & Sí & Zigbee, actuadores \\ 
-        \hline
-        Sistema de detección de nivel de agua  \cite{perez2024} & No & No & Sí & Sí & Sensores ultrasónicos, modelos predictivos, app móvil \\
-        \hline
-        Lightweight YOLOv5 para detección de basura flotante \cite{chen2024} & Sí & No & No & No & YOLOv5, Shufflenetv2, SE \\ 
-        \hline
-        Sistema de monitoreo basado en IoT  \cite{lechuga2023} & No & Sí & Sí & Sí & ESP32, LoRa, paneles solares \\ 
-        \hline
-        Monitoreo de calidad del agua con LoRa  \cite{syed2024} & No & Sí & Sí & No & LoRaWAN, sensores multiparamétricos \\ 
-        \hline
-        Monitoreo de residuos sólidos con dron  \cite{ortega2024} & Sí & No & No & No & Visión artificial, drones \\ 
-        \hline
-        Detección de contaminantes con ASV  \cite{fernandez2024} & Sí & No & No & No & ASV, YOLOv5 \\ 
-        \hline
-        Monitoreo Lago Victoria \cite{faustine2014} & No & Sí & Sí & Sí & Arduino, XBee (ZigBee), GPRS, paneles solares \\
-        \hline
-        Artículo de WSN para calidad de agua \cite{lopez2023} & No & Sí & Sí & No & LoRaWAN, Sigfox, NB-IoT, STM32, técnicas de ML \\
-        \hline
-       
-    \end{tabular}
-    }
-\end{table}
+\input{Documento/Tablas/EstadoArte/ComparacionProyectos}
 
 En comparación con los proyectos previamente analizados, este trabajo propone una solución integral que combina sensores multiparamétricos y un sistema de visión artificial para monitorear la calidad del agua y detectar residuos flotantes en ríos. También incluye un servidor centralizado y una página web para visualizar los datos, superando las limitaciones de enfoques aislados o unidimensionales observados en otros proyectos. Este enfoque ofrece una herramienta más completa y adaptable a las condiciones específicas de los cuerpos de agua monitoreados.
