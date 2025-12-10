@@ -2,7 +2,7 @@
 
 En respuesta al contexto planteado anteriormente, se propone desarrollar un sistema automatizado para el monitoreo periódico de los parámetros de calidad del agua en cuerpos de agua que se mueven en una sola dirección, como ríos, riachuelos y arroyos. Este sistema integrará una red inalámbrica de sensores distribuidos, junto con un módulo de visión artificial para la detección de posibles residuos sólidos flotantes, como plásticos (PET), envases Tetra Pak, latas o desechos de unicel de un solo uso. La visión artificial procesará imágenes capturadas en intervalos de tiempo predefinidos, lo que permitirá estimar la cantidad de contaminantes flotantes presentes en la superficie del agua. Los sensores medirán parámetros clave de calidad del agua, incluyendo pH, oxigenación, temperatura, turbidez y conductividad, proporcionando información sobre su composición físico-química de forma periódica.
 
-En la figura \ref{Dig:diagrama general} se presenta un diagrama a que muestra el funcionamiento general del sistema, destacando los diferentes módulos que lo componen: nodos sensores, nodo concentrador, almacenamiento en un servidor, así como la visualización a través de la página web.
+En la figura \ref{Dig:diagrama general} se presenta un diagrama que muestra el funcionamiento general del sistema, destacando los diferentes módulos que lo componen: nodos sensores, nodo concentrador, almacenamiento en un servidor, así como la visualización a través de la página web.
 
 \begin{figure}[H]
     \centering
@@ -12,9 +12,9 @@ En la figura \ref{Dig:diagrama general} se presenta un diagrama a que muestra el
 \end{figure}
 
 
-El diseño del sistema  considera las recomendaciones establecidas con las normas \textit{NTC-ISO 5667-1} y \textit{NTC-ISO 5667-10}, que recomiendan el uso de instrumentos automáticos en línea o muestreos regulares para obtener datos representativos. En este marco, la red de sensores con transmisión remota asegura mayor frecuencia y calidad en la información recolectada.  
+El diseño del sistema  considera las recomendaciones establecidas con las normas \textit{NTC-ISO 5667-1:2023} \cite{ISO5667-1:2023} y \textit{NTC-ISO 5667-10:2020} \cite{ISO5667-10:2020}, que recomiendan el uso de instrumentos automáticos en línea o muestreos regulares para obtener datos representativos. En este marco, la red de sensores con transmisión remota asegura mayor frecuencia y calidad en la información recolectada.  
 
-La frecuencia inicial de monitoreo propúesta es mensual, con posibilidad de reducir intervalos según resultados y recursos, en coherencia con la \textit{NOM-001-SEMARNAT-2021} cuyas exigencias para descargas (municipales y no municipales) varían entre frecuencias mensuales, trimestrales o semestrales según el tipo de carga contaminante \cite{nom001}. Los datos se enviarán a un servidor central para su análisis y publicación en una plataforma web accesible a autoridades y comunidad, esta página permitirá la visualización de la información recopilada sobre la calidad del agua y las condiciones del cuerpo hídrico monitoreado.  
+La frecuencia inicial de monitoreo propuesta es semanal, con la finalidad de obtener una mayor granularidad en los datos y detectar variaciones puntuales en el corto plazo. Este enfoque asegura un control más riguroso respecto a los intervalos establecidos en la \textit{NOM-001-SEMARNAT-2021}, cuyas exigencias mínimas para descargas (municipales y no municipales) oscilan entre frecuencias mensuales, trimestrales o semestrales dependiendo del tipo de carga contaminante \cite{nom001}. Los datos recopilados se enviarán a un servidor central para su análisis y publicación en una plataforma web accesible a autoridades y a la comunidad, permitiendo la visualización actualizada de la calidad del agua y las condiciones del cuerpo hídrico.
 
 El sistema requiere conectividad de red estable, capacidad de almacenamiento y sensores con protección robusta (IP68/NEMA 6P) frente a condiciones adversas. Además, responde al mandato de la \textit{Ley de Aguas Nacionales} (Art. 86), que designa a la Autoridad del Agua promover, ejecutar y operar sistemas de monitoreo para preservar y mejorar la calidad del agua en cuencas y acuíferos \cite{LAN2024}, al habilitar un monitoreo hídrico constante, confiable y distribuido espacialmente.
 
@@ -35,27 +35,29 @@ En aplicaciones ribereñas con cobertura longitudinal, la topología lineal/semi
 \end{itemize}
 
 \subsection{Módulo 2. Nodo Concentrador}
-El nodo concentrador actúa como puente entre la red de sensores y el servidor central, cumpliendo una función dual: opera como un nodo sensor estándar y como punto de agregación y comunicación con el servidor.
+El nodo concentrador funge exclusivamente como el punto de enlace o pasarela (\textit{Gateway}) entre la red de sensores distribuida en el cuerpo de agua y la plataforma de almacenamiento en la nube. A diferencia de los nodos de monitoreo, este módulo no realiza la toma de muestras ambientales; su rol principal es centralizar el tráfico de datos, garantizando la integridad de la información durante su tránsito hacia el servidor.
 
 \begin{itemize}
-  \item \textbf{Hardware}
-  \item \textbf{Control}
-  \item \textbf{Flujo}
+    \item \textbf{Hardware:} Unidad de procesamiento con interfaz de comunicación dual: radiofrecuencia de largo alcance para la red local y conexión IP (inalámbrica o cableada) para Internet. Opera con alimentación continua, prescindiendo de sistemas de recarga solar.
+    
+    \item \textbf{Control:} Opera bajo un esquema de escucha permanente, gestionando simultáneamente la recepción de telemetría de múltiples nodos y el mantenimiento del enlace de red con la nube.
+    
+    \item \textbf{Flujo de Información:} Actúa como gestor de tráfico: valida los datos entrantes, organiza la información y retransmite los datos estructurados al servidor central.
 \end{itemize}
 
 \subsection{Módulo 3. Servidor}
 Es el centro de procesamiento y gestión, compuesto por:
 \begin{itemize}
-\item \textbf{Base de Datos:} Almacena las series temporales de los parámetros medidos.
-\item \textbf{Backend:} Realiza el procesamiento analítico (ej., detección de anomalías).
-\item \textbf{Frontend Web:} Sirve la interfaz de usuario para la visualización.
+    \item \textbf{Base de Datos:} Almacena las series temporales de los parámetros medidos y las evidencias visuales.
+    \item \textbf{Backend:} Realiza el procesamiento analítico de datos y el procesamiento de imágenes para la detección de residuos flotantes.
+    \item \textbf{Frontend Web:} Sirve la interfaz de usuario para la visualización de estadísticas.
 \end{itemize}
 
 \subsection{Módulo 4. Interfaz Web de Monitoreo}
 Plataforma web pública y de acceso libre que muestra:
 \begin{itemize}
-\item \textbf{Calidad del Agua:} Gráficos de series temporales de los parámetros con indicadores de estado.
-\item \textbf{Basura Flotante:} Frecuencia de detecciones e histórico de eventos.
+    \item \textbf{Calidad del Agua:} Gráficos de series temporales de los parámetros con indicadores de estado.
+    \item \textbf{Residuos Flotantes:} Estimación del porcentaje de cobertura de residuos en la superficie del agua y galería de evidencia visual.
 \end{itemize}
 
 
