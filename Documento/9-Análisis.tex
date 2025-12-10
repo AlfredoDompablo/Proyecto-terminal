@@ -402,7 +402,7 @@ Para seleccionar la solución de posicionamiento más adecuada para el sistema d
     \item \textbf{Tiempo a Primera Fijación (TTFF)}: Mide el tiempo necesario para obtener una posición válida. Influye directamente en el ciclo de operación del nodo y en el consumo energético total.
 \end{enumerate}
 
-La Tabla~\ref{tab:comparativa_chips_tab:gnss_longtable} presenta un resumen de tecnologías GNSS de bajo consumo comúnmente utilizadas en sistemas IoT y WSN. Dichas soluciones se caracterizan por ofrecer un equilibrio entre sensibilidad, consumo y precisión métrica suficiente para aplicaciones ambientales, aunque presentan desafíos en zonas con follaje denso debido a pérdidas adicionales superiores a \SI{10}{dB} por atenuación vegetal.
+La Tabla~\ref{tab:comparativa_chips_gnss} presenta un resumen de tecnologías GNSS de bajo consumo comúnmente utilizadas en sistemas IoT y WSN. Dichas soluciones se caracterizan por ofrecer un equilibrio entre sensibilidad, consumo y precisión métrica suficiente para aplicaciones ambientales, aunque presentan desafíos en zonas con follaje denso debido a pérdidas adicionales superiores a \SI{10}{dB} por atenuación vegetal.
 
 \input{Documento/Tablas/Analisis/ComparativaGPS.tex}
 
@@ -422,8 +422,6 @@ La estrategia de operación se detalla a continuación:
     \item \textbf{Esperar hasta obtener un \textit{fix} válido:} Antes de proceder con la transmisión de datos, el sistema espera a que el GPS obtenga una solución válida, minimizando el riesgo de transmitir coordenadas incorrectas.
     
     \item \textbf{Uso de un ciclo de baja potencia:} Una vez obtenido el fix, el GPS se apaga para entrar en el modo de baja potencia hasta que se necesite realizar una nueva adquisición de ubicación.
-    
-    \item \textbf{Transmisión de datos eficiente:} Los datos del sensor (como pH, oxígeno disuelto, temperatura) se transmiten a través de la red LoRa con un bajo consumo energético, aprovechando la capacidad de bajo consumo del UC6580 y maximizando la vida útil de la batería.
     
     \item \textbf{Posicionamiento y monitoreo remoto:} El UC6580 proporciona la precisión necesaria para el seguimiento geográfico a lo largo del río, facilitando la geolocalización precisa y el monitoreo en tiempo real de los nodos en la red.
 \end{enumerate}

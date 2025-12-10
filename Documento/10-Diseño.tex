@@ -407,7 +407,7 @@ Este flujo ejemplifica la separación entre cliente y servidor en un sistema web
 El diagrama de arquitectura presentado describe la organización y los componentes principales del sistema de monitoreo ambiental basado en una Red Inalámbrica de Sensores (WSN). El sistema se compone de tres bloques principales: la Red Inalámbrica de Sensores, el Servidor en la Nube, y la Visualización Web.
 
 \textbf{Red Inalámbrica de Sensores (WSN)}
-Este bloque incluye los Nodos Sensores y el Nodo Concentrador(Gateway). Los nodos sensores, equipados con el microcontrolador Heltec ESP32, los sensores (pH, oxígeno disuelto, turbidez, etc.), y la cámara, están interconectados mediante el protocolo de comunicación LoRa. Los nodos sensores capturan datos de las condiciones del agua y los envían al Nodo Concentrador a través de LoRa.
+Este bloque incluye los Nodos Sensores y el Nodo Concentrador(Gateway). Los nodos sensores, equipados con el microcontrolador Heltec ESP32, los sensores (pH, oxígeno disuelto, turbidez, temperatura y conductividad.), y la cámara, están interconectados mediante el protocolo de comunicación LoRa. Los nodos sensores capturan datos de las condiciones del agua y los envían al Nodo Concentrador a través de LoRa.
 
 El Nodo Concentrador tiene la función de recibir los paquetes de datos de los nodos sensores y retransmitirlos hacia la nube utilizando Wi-Fi/4G. El nodo concentrador también está integrado con AWS IoT Core, lo que le permite comunicarse con el servidor en la nube.
 
