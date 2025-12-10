@@ -30,7 +30,7 @@ En México, los niveles recomendados de pH para agua potable están regulados po
 Este rango busca no solo proteger los equipos de distribución, sino también asegurar la eficiencia en los procesos de tratamiento, como la desinfección, y garantizar que el agua sea apta para el consumo humano \cite{uno2020}.
 
 \subsection{Turbiedad}
-La turbidez del agua se produce por partículas en suspensión, como arcillas, limo y tierra fina, que reducen su transparencia. Se mide usando turbidímetros o nefelómetros, en Unidades Nefelométricas de Turbidez (UNT). Para mantener la calidad del agua potable, las normas recomiendan no superar 5 UNT, y para una desinfección eficiente, el agua filtrada debería tener menos de 1 UNT\cite{uno2020}
+La turbidez del agua se produce por partículas en suspensión, como arcillas, limo y tierra fina, que reducen su transparencia. Se mide usando turbidímetros o nefelómetros, en Unidades Nefelométricas de Turbidez (UNT). Para mantener la calidad del agua potable, las normas recomiendan no superar 5 UNT, y para una desinfección eficiente, el agua filtrada debería tener menos de 1 UNT \cite{uno2020}
 
 \subsection{Conductividad Eléctrica}
 El agua pura es un mal conductor de la electricidad, pero cuando contiene sales se convierte en un buen conductor debido a la presencia de iones con cargas eléctricas. La conductividad electrolítica es una expresión numérica de la capacidad de una solución para transportar una corriente eléctrica. Esta capacidad depende de la presencia de iones, de su concentración total, de su movilidad, valencia y concentraciones relativas, así como de la temperatura \cite{nmx2000}.
@@ -591,7 +591,7 @@ En los modelos YOLO, las arquitecturas se describen utilizando estas tres partes
 \section{Visión Artificial}
 \label{sec:vision_artificial}
 
-La Visión Artificial es una disciplina dentro de la Inteligencia Artificial (IA) que busca desarrollar sistemas capaces de interpretar y comprender información del mundo visual \cite{szeliski2022computer}. De manera análoga a la visión humana, su objetivo es deducir automáticamente la estructura y propiedades de un entorno a partir de imágenes bidimensionales, permitiendo a las máquinas "ver" e identificar objetos \cite{visionartificialunirioja}.
+La Visión Artificial es una disciplina dentro de la Inteligencia Artificial (IA) que busca desarrollar sistemas capaces de interpretar y comprender información del mundo visual \cite{szeliski2022computer}. De manera análoga a la visión humana, su objetivo es deducir automáticamente la estructura y propiedades de un entorno a partir de imágenes bidimensionales, permitiendo a las máquinas ``ver'' e identificar objetos \cite{visionartificialunirioja}.
 
 Un sistema de visión artificial típicamente opera en cuatro fases, como se ilustra en la Figura \ref{fig:proceso_vision}: 1) \textbf{Adquisición} de la imagen, 2) \textbf{Preprocesamiento} para mejorar su calidad, 3) \textbf{Segmentación} para aislar objetos de interés, y 4) \textbf{Reconocimiento y Clasificación} para identificar dichos objetos \cite{visionporcomputador}. Para esta última fase, las técnicas modernas se basan fundamentalmente en el Aprendizaje Profundo.
 
@@ -621,7 +621,7 @@ El \textbf{Aprendizaje Profundo (\textit{Deep Learning}, DL)} es, a su vez, una 
 
 Las \textbf{Redes Neuronales Convolucionales (\textit{Convolutional Neural Networks}, CNN)} son una clase de redes neuronales profundas que se han convertido en el estándar de facto para el análisis de imágenes \cite{lecun1998gradient}. Su arquitectura está inspirada en el córtex visual humano y está especialmente diseñada para procesar datos con una estructura de rejilla, como una imagen.
 
-La característica distintiva de una CNN es la \textbf{capa convolucional}, que aplica una serie de filtros (o kernels) a la imagen de entrada. Cada filtro está diseñado para detectar una característica específica. Al deslizar estos filtros por toda la imagen, como se muestra en la Figura \ref{fig:cnn_convolution}, la red crea "mapas de características" que indican dónde se han detectado dichos patrones \cite{cnnIBM}. Esta operación permite a la red ser invariante a la posición de los objetos en la imagen.
+La característica distintiva de una CNN es la \textbf{capa convolucional}, que aplica una serie de filtros (o kernels) a la imagen de entrada. Cada filtro está diseñado para detectar una característica específica. Al deslizar estos filtros por toda la imagen, como se muestra en la Figura \ref{fig:cnn_convolution}, la red crea ``mapas de características'' que indican dónde se han detectado dichos patrones \cite{cnnIBM}. Esta operación permite a la red ser invariante a la posición de los objetos en la imagen.
 
 \begin{figure}[H]
     \centering
@@ -654,9 +654,9 @@ Si bien YOLO fue concebido originalmente para la detección de objetos, las arqu
 
     \item \textbf{Segmentación de Instancias (\textit{Instance Segmentation}):} Proporciona una localización mucho más precisa que la detección. En lugar de un cuadro delimitador, el modelo genera una máscara a nivel de píxel que perfila la forma exacta de cada instancia de objeto \cite{ultralyticsYOLOv8}. Esta tarea es computacionalmente más intensiva, pero es crucial para aplicaciones que requieren un análisis preciso de la forma y el área de los objetos, como en la imaginería médica.
 
-    \item \textbf{Clasificación de Imágenes (\textit{Image Classification}):} Es la tarea más simple. Consiste en asignar una única etiqueta a toda la imagen para describir su contenido principal, sin proporcionar información sobre la ubicación del objeto \cite{sapkota2025yolo}. Por ejemplo, determinar si una imagen contiene un "río contaminado" o un "río limpio".
+    \item \textbf{Clasificación de Imágenes (\textit{Image Classification}):} Es la tarea más simple. Consiste en asignar una única etiqueta a toda la imagen para describir su contenido principal, sin proporcionar información sobre la ubicación del objeto \cite{sapkota2025yolo}. Por ejemplo, determinar si una imagen contiene un ``río contaminado'' o un ``río limpio''.
 
-    \item \textbf{Estimación de Pose (\textit{Pose Estimation}):} Se enfoca en la detección de puntos clave (\textit{keypoints}) en un objeto, comúnmente en el cuerpo humano para identificar la posición de las articulaciones (codos, rodillas, etc.). El resultado no es un cuadro ni una máscara, sino un conjunto de coordenadas que definen el "esqueleto" o la postura del sujeto \cite{ultralyticsYOLOv8}. Es ampliamente utilizada en análisis de movimiento, deportes y realidad aumentada.
+    \item \textbf{Estimación de Pose (\textit{Pose Estimation}):} Se enfoca en la detección de puntos clave (\textit{keypoints}) en un objeto, comúnmente en el cuerpo humano para identificar la posición de las articulaciones (codos, rodillas, etc.). El resultado no es un cuadro ni una máscara, sino un conjunto de coordenadas que definen el ``esqueleto'' o la postura del sujeto \cite{ultralyticsYOLOv8}. Es ampliamente utilizada en análisis de movimiento, deportes y realidad aumentada.
 \end{itemize}
 
 Esta versatilidad consolida a YOLO como una herramienta integral para una amplia gama de aplicaciones en visión por computadora, más allá de la simple detección de objetos.
@@ -703,7 +703,7 @@ Para evaluar cuantitativamente el rendimiento de un modelo de detección de obje
 \subsection{Cámaras}
 \label{subsec:camaras}
 
-En el contexto de la visión artificial, la cámara es el dispositivo de adquisición de imagen, actuando como el ``ojo" del sistema. Su función principal es capturar la radiación electromagnética (luz) reflejada por los objetos en la escena y convertirla en una señal electrónica que puede ser procesada por un sistema digital \cite{szeliski2022computer}.
+En el contexto de la visión artificial, la cámara es el dispositivo de adquisición de imagen, actuando como el ``ojo'' del sistema. Su función principal es capturar la radiación electromagnética (luz) reflejada por los objetos en la escena y convertirla en una señal electrónica que puede ser procesada por un sistema digital \cite{szeliski2022computer}.
 
 Un módulo de cámara, especialmente en sistemas embebidos, se compone de varios elementos clave:
 
@@ -806,7 +806,7 @@ Estas bases de datos utilizan el Lenguaje de Consulta Estructurado (SQL) para la
 \end{itemize}
 
 \subsubsection{Bases de Datos No Relacionales (NoSQL)}
-Las bases de datos NoSQL (a menudo interpretado como "Not Only SQL") surgieron para abordar las limitaciones de escalabilidad y flexibilidad de los modelos relacionales, especialmente para aplicaciones web a gran escala y el manejo de datos no estructurados \cite{aws2024nosql}. No utilizan un esquema fijo, lo que permite una mayor flexibilidad en el almacenamiento de datos.
+Las bases de datos NoSQL (a menudo interpretado como ``Not Only SQL'') surgieron para abordar las limitaciones de escalabilidad y flexibilidad de los modelos relacionales, especialmente para aplicaciones web a gran escala y el manejo de datos no estructurados \cite{aws2024nosql}. No utilizan un esquema fijo, lo que permite una mayor flexibilidad en el almacenamiento de datos.
 
 En lugar de la consistencia estricta de ACID, muchos sistemas NoSQL se adhieren al teorema CAP (Consistencia, Disponibilidad, Tolerancia a particiones) y a menudo garantizan un modelo de consistencia eventual a través de las propiedades \textbf{BASE} (Basically Available, Soft state, Eventually consistent) \cite{mongodb2024sqlvsnosql}.
 

@@ -228,7 +228,7 @@ El proceso de diseño, ilustrado en la Figura \ref{fig:flujo_fragmentacion}, con
     \item \textbf{División (Splitting):} El archivo binario se divide lógicamente en bloques de datos de tamaño $N$ (donde $N < \text{MTU LoRa}$, ej. \SI{200}{bytes}). Para una imagen de \SI{90}{kB}, esto resulta en aproximadamente 450 a 460 paquetes.
     \item \textbf{Encapsulamiento:} A cada bloque se le añade un índice de secuencia ($1, 2, ..., K$) en la cabecera para permitir su reordenamiento y la detección de paquetes perdidos.
     \item \textbf{Transmisión Secuencial:} Los fragmentos se envían uno tras otro a través del transceptor SX1262. Se introduce un pequeño retardo (\textit{delay}) entre paquetes para evitar saturar el buffer del receptor.
-    \item \textbf{Reensamblaje en Destino:} El nodo receptor (o Gateway) almacena los fragmentos entrantes en un buffer. Al recibir el paquete de "Fin de Imagen", concatena los fragmentos ordenados por su índice para reconstruir el archivo JPEG original.
+    \item \textbf{Reensamblaje en Destino:} El nodo receptor (o Gateway) almacena los fragmentos entrantes en un buffer. Al recibir el paquete de ``Fin de Imagen'', concatena los fragmentos ordenados por su índice para reconstruir el archivo JPEG original.
 \end{enumerate}
 
 \begin{figure}[H]
@@ -415,7 +415,7 @@ El Nodo Concentrador tiene la función de recibir los paquetes de datos de los n
 El servidor en la nube se encarga de gestionar los datos enviados desde los nodos concentradores. Este bloque se divide en tres componentes principales:
 \begin{itemize}
     \item Almacenamiento: Utiliza Amazon RDS para almacenar los datos estructurados (en PostgreSQL) y Amazon S3 para almacenar las imágenes procesadas y otros archivos.
-    \item Backend y Frontend: El backend está basado en Amazon EC2 y utiliza Node.js y Java para procesar las solicitudes, analizar los datos y gestionar la comunicación con la base de datos y el almacenamiento. El frontend está relacionado con la interfaz de usuario que consulta los datos procesados.
+    \item Backend y Frontend: El backend está basado en Amazon EC2 y utiliza Node.js y HTML5 para procesar las solicitudes, analizar los datos y gestionar la comunicación con la base de datos y el almacenamiento. El frontend está relacionado con la interfaz de usuario que consulta los datos procesados.
     \item Conexión a través de HTTP/MQTT: El servidor gestiona la comunicación entre los diferentes módulos a través de los protocolos HTTP y MQTT. El protocolo MQTT se usa para la comunicación eficiente entre los nodos concentradores y el backend.
     \item API Rest: La API REST proporciona la capa de comunicación entre el frontend y el backend, permitiendo que la aplicación web recupere y presente los datos al usuario.
 \end{itemize}
