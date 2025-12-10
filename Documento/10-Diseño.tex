@@ -231,7 +231,7 @@ El proceso de diseño, ilustrado en la Figura \ref{fig:flujo_fragmentacion}, con
     \item \textbf{Reensamblaje en Destino:} El nodo receptor (o Gateway) almacena los fragmentos entrantes en un buffer. Al recibir el paquete de "Fin de Imagen", concatena los fragmentos ordenados por su índice para reconstruir el archivo JPEG original.
 \end{enumerate}
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Diseño/UML/flujo_fragmentacion.pdf}
     \caption{Diagrama del proceso de fragmentación de imagen para transmisión sobre LoRa P2P.}
@@ -555,6 +555,46 @@ Este módulo permite la gestión integral de la información recolectada por el 
     \caption{Interfaz para la administración y consulta de imagenes de nodos sensores.}
     \label{fig:mockup_reportes_img}
 \end{figure}
+
+
+\section{Escenario de Pruebas}
+\label{sec:escenario_pruebas}
+
+Con el objetivo de validar el funcionamiento integral del sistema MONICA antes de su despliegue final en el cuerpo de agua real, se ha diseñado un escenario de pruebas controlado en exteriores. Este entorno permite evaluar el desempeño de la red de sensores inalámbrica (WSN), la precisión de la telemetría y la eficacia del sistema de visión artificial bajo condiciones manipulables pero representativas.
+
+\subsection{Disposición Física y Topología}
+Para simular la distribución lineal del río, se dispondrá de una serie de \textbf{contenedores de agua} (capacidad mínima de 20 litros) alineados geográficamente. Cada contenedor alojará un nodo sensor completo, garantizando que las sondas se encuentren sumergidas y la cámara tenga un campo de visión despejado hacia la superficie del agua.
+
+Cumpliendo con los objetivos de alcance del proyecto, se establece una \textbf{separación física de al menos 50 m} entre cada contenedor. Esta distancia es crítica para validar:
+\begin{itemize}
+    \item La potencia de la señal RSSI del enlace LoRa P2P.
+    \item La capacidad de la red para realizar saltos múltiples (multi-hop) desde el nodo más lejano hasta el Gateway.
+    \item La integridad de la transmisión de imágenes fragmentadas a través de distancias significativas.
+\end{itemize}
+
+El Nodo Concentrador (Gateway) se ubicará en el extremo final de la línea, proveyendo la conexión Wi-Fi necesaria para retransmitir los datos acumulados hacia el servidor en la nube.
+
+\subsection{Protocolo de Validación de Variables}
+La funcionalidad del sistema se evaluará mediante la alteración intencional y controlada de las condiciones del entorno en los contenedores:
+
+\begin{enumerate}
+    \item \textbf{Variables Físico-Químicas:} Se introducirán variaciones en el agua de los contenedores para verificar la respuesta de los sensores y la correcta visualización de los datos en el Dashboard web.
+    \begin{itemize}
+        \item \textit{Turbidez:} Adición progresiva de partículas en suspensión (tierra o arcilla) para elevar los niveles NTU.
+        \item \textit{Temperatura:} Vertido de agua caliente para generar picos térmicos detectables.
+        \item \textit{pH y Conductividad:} Disolución de soluciones ácidas/alcalinas o sales para alterar la conductividad eléctrica y el potencial de hidrógeno.
+    \end{itemize}
+    
+    \item \textbf{Detección de Residuos (Visión Artificial):} Se simulará la presencia de contaminación flotante colocando aleatoriamente objetos representativos (botellas de PET, bolsas plásticas, latas) en la superficie del agua de los contenedores.
+    \begin{itemize}
+        \item El objetivo es confirmar que el sistema captura la imagen, la comprime, la transmite exitosamente al servidor y que, posteriormente, el algoritmo de IA es capaz de identificar los objetos en la fotografía reconstruida.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Validación de Conectividad y Plataforma}
+Finalmente, el escenario contempla la verificación del flujo de información \textit{extremo a extremo} (End-to-End). Se cotejarán los estímulos físicos aplicados en los contenedores con los registros almacenados en la base de datos y su representación gráfica en la aplicación web. 
+
+Asimismo, se pondrán a prueba los roles de usuario definidos, verificando que la gestión de nodos sea exclusiva del administrador y que el acceso público a los datos sea fluido y en tiempo real, validando así la arquitectura completa del sistema de monitoreo.
 
 
 

@@ -52,44 +52,39 @@ Los parámetros básicos, como pH, oxígeno disuelto, turbidez, conductividad y 
 Se entiende por el proceso constante de observación, medición y análisis de parámetros que dan indicio de la calidad del agua. El monitoreo del agua permite conocer su calidad a través del tiempo, la cual se determina analíticamente por diferentes parámetros físicos, químicos y biológicos, en función del uso al cual va a ser destinada \cite{monitoreo2023}.
 
 
-\section{Sensores}
-Los sensores son dispositivos hardware que producen una respuesta medible ante un cambio en un estado
-físico, como puede ser temperatura o presión. Los sensores detectan o miden cambios físicos en el área
-que están monitorizando. La señal analógica continua detectada es digitalizada por un convertidor
-analógico digital y enviada a un controlador para ser procesada.
-Las características y requerimientos que un sensor debe tener son un pequeño tamaño, un consumo bajo
-de energía, operar en densidades volumétricas altas, ser autónomo y funcionar desatendidamente y tener
-capacidad para adaptarse al ambiente \cite{fernandez2009}.
-Los sensores pueden estar clasificados en tres categorías:
+\section{Sensores e Instrumentación}
+\label{sec:marco_sensores}
+
+Un sensor se define como un dispositivo de hardware capaz de detectar cambios físicos o químicos en el entorno monitoreado (como variaciones de temperatura, presión o acidez) y producir una respuesta medible. Esta señal, que generalmente es analógica y continua, es digitalizada posteriormente mediante un convertidor analógico-digital (ADC) para ser procesada por un microcontrolador.
+
+Para la implementación eficiente en redes de monitoreo, los sensores deben cumplir con características críticas como un tamaño reducido, bajo consumo energético para garantizar la autonomía, capacidad de operación desatendida y adaptabilidad a las condiciones ambientales \cite{fernandez2009}.
+
+Generalmente, los sensores pueden clasificarse en tres categorías según su método de interacción con el medio:
 \begin{itemize}
-    \item Sensores pasivos omnidireccionales: Los sensores pasivos captan los datos sin necesidad de
-manipular el entorno. Son autoalimentados y solo usan la energía para amplificar la señal
-analógica captada. No hay ninguna noción de 'dirección' involucrada en estas mediciones.
-    \item Sensores pasivos unidireccionales: Son sensores pasivos que tienen bien definida la dirección
-desde donde deben captar la información. Un ejemplo típico es una cámara.
-    \item Sensores activos: Este tipo de sensores sondean el ambiente, por ejemplo un radar, o algún tipo de sensor sísmico que generan ondas expansivas a través de pequeñas explosiones.
+    \item \textbf{Sensores pasivos omnidireccionales:} Captan datos del entorno sin manipularlo y sin una dirección de enfoque específica. Son autoalimentados y utilizan la energía únicamente para amplificar la señal captada.
+    \item \textbf{Sensores pasivos unidireccionales:} Similares a los anteriores, pero con una dirección de captura bien definida; un ejemplo típico son las cámaras de visión artificial.
+    \item \textbf{Sensores activos:} Sondean el ambiente emitiendo energía para medir la respuesta del entorno, como los radares o sensores sísmicos que generan ondas expansivas.
 \end{itemize}
 
+\subsection{Parámetros de Calidad del Agua}
+En el contexto del monitoreo hídrico, se emplean sensores específicos diseñados para cuantificar las propiedades físico-químicas que determinan la salud del ecosistema. A continuación, se describen los principios de operación de los sensores utilizados en este proyecto \cite{waterQualitySensors}:
 
-\section{Sensores para medir la calidad del agua}
- \begin{itemize}
+\begin{itemize}
+    \item \textbf{Sensores de pH:} 
+    Detectan variaciones en la acidez o alcalinidad del agua, las cuales suelen estar asociadas a vertidos industriales o agrícolas que alteran el equilibrio químico. Estos dispositivos utilizan comúnmente un electrodo de vidrio que mide la actividad de los iones de hidrógeno, generando un voltaje proporcional al nivel de pH detectado.
     
-        \item \textbf{Sensores de pH:} Detectan variaciones en la acidez del agua, asociadas a posibles vertidos industriales o agrícolas que alteran el equilibrio químico del ecosistema. Los sensores de pH suelen utilizar un electrodo de vidrio que mide la actividad de los iones de hidrógeno en el agua. El sensor produce un voltaje proporcional al nivel de pH, que luego se muestra en un medidor \cite{waterQualitySensors}.
-        
-        \item \textbf{Sensores de Turbidez:} Miden la claridad del agua para identificar la presencia de residuos sólidos en suspensión, lo que podría estar relacionado con actividades de minería o construcción cercanas.
-        Los sensores de turbidez funcionan haciendo brillar una luz a través del agua y midiendo la cantidad de luz dispersada por las partículas. Cuanto mayor es la turbidez, más luz se dispersa \cite{waterQualitySensors}.
-        
-        \item \textbf{Sensores de Temperatura:} Detectan cambios abruptos en la temperatura, los cuales podrían señalar descargas de aguas industriales o vertidos térmicos que afectan la fauna acuática. Además, la medición precisa de la temperatura es fundamental para mejorar las lecturas del sensor de conductividad, ya que la conductividad del agua varía con la temperatura. Integrar ambas lecturas permite ajustar los valores de conductividad en función de las fluctuaciones térmicas.
-        Los sensores de temperatura suelen utilizar termistores o detectores de temperatura de resistencia (RTD) que cambian la resistencia con la temperatura. El cambio de resistencia se convierte en una lectura de temperatura \cite{waterQualitySensors}.
-        
-        \item \textbf{Sensores de Oxigenación:} Miden el nivel de oxígeno disuelto en el agua, un parámetro crítico para la vida acuática. La disminución de oxígeno puede ser un indicio de contaminación orgánica o inorgánica que afecte la salud del ecosistema. 
-        Estos sensores suelen utilizar métodos electroquímicos u ópticos. En los sensores electroquímicos, el oxígeno se difunde a través de una membrana y reacciona en un electrodo, generando una corriente proporcional a la concentración de oxígeno. Los sensores ópticos miden la extinción de un tinte luminiscente por el oxígeno \cite{waterQualitySensors}.
+    \item \textbf{Sensores de Turbidez:} 
+    Miden la claridad del agua para identificar la presencia de residuos sólidos o partículas en suspensión (sedimentos), a menudo relacionados con actividades de minería o construcción. Su funcionamiento se basa en principios ópticos: emiten un haz de luz a través del agua y miden la cantidad de luz dispersada por las partículas; a mayor dispersión, mayor es el nivel de turbidez.
+    
+    \item \textbf{Sensores de Temperatura:} 
+    Estos dispositivos, generalmente basados en termistores o detectores de temperatura de resistencia (RTD), miden los cambios de resistencia eléctrica en función del calor. Su uso es doble: primero, para detectar contaminación térmica (vertidos industriales) que afecta la fauna; y segundo, para compensar las lecturas de otros sensores, como el de conductividad, que son sensibles a las fluctuaciones térmicas.
+    
+    \item \textbf{Sensores de Oxígeno Disuelto (OD):} 
+    Cuantifican la concentración de oxígeno en el agua, un parámetro vital para la supervivencia acuática cuya disminución indica contaminación orgánica. Utilizan métodos electroquímicos (difusión de oxígeno a través de una membrana generando corriente) o métodos ópticos (medición de la extinción de luminescencia en un tinte sensible al oxígeno).
 
-        \item \textbf{Sensores de Conductividad:} Miden la capacidad del agua para conducir corriente eléctrica, lo cual está relacionado directamente con la cantidad de iones disueltos (sales, minerales y otros compuestos) presentes en el agua. 
-        Los sensores de conductividad utilizan electrodos para hacer pasar una pequeña corriente eléctrica a través del agua. La conductividad se determina midiendo la caída de voltaje a través de los electrodos \cite{waterQualitySensors}.
-        %referencias: https://sensor1stop.com/es/knowledge/water-quality-sensors/ es la misma para todos los parametros, poner al final de cada parrafo
-        
-    \end{itemize}
+    \item \textbf{Sensores de Conductividad Eléctrica (EC):} 
+    Determinan la capacidad del agua para conducir corriente eléctrica, lo cual es un indicador directo de la cantidad de sólidos disueltos (sales y minerales). Funcionan aplicando una pequeña corriente entre electrodos y midiendo la caída de voltaje resultante para calcular la conductividad del medio.
+\end{itemize}
 
 Los sensores representan una solución innovadora para medir parámetros de calidad del agua de forma continua y precisa. A diferencia de los métodos manuales, estos dispositivos permiten la recolección de datos en tiempo real, incluso en condiciones ambientales adversas. Al integrarse en redes inalámbricas, los sensores facilitan la transmisión inmediata de datos a sistemas de procesamiento, lo que optimiza su análisis y visualización
     
@@ -196,7 +191,7 @@ El diseño del nodo y la elección de sus componentes deben considerar: tamaño,
     \caption{Componentes que conforman a un nodo sensor inalámbrico.}
     \label{fig:Componentes_nodo}
 \end{figure}
-\subsubsection*{Nodo Coordinador o Puerta de Enlace}
+\subsubsection*{Nodo Concentrador o Puerta de Enlace}
 
 El nodo coordinador, también conocido como \textit{sink node} o puerta de enlace, es el elemento central encargado de recibir los datos transmitidos por los nodos sensores distribuidos en el campo. A diferencia de los nodos comunes, el coordinador suele contar con mayores capacidades de procesamiento, almacenamiento y conectividad, ya que su función principal es consolidar la información generada por la red y transmitirla hacia una red de mayor alcance, como una red local (LAN) o la Internet \cite{perez2014metodologia}.
 
@@ -278,6 +273,15 @@ Esta sección describe los fundamentos técnicos de protocolos inalámbricos rel
             \item \textit{Alcance}: Hasta 1 km (exteriores), mayor penetración en obstáculos
             \item \textit{Potencia típica}: 14-20 dBm (25-100 mW) con modos de sueño profundo
             \item \textit{Aplicaciones}: Smart cities, agricultura de precisión, WSN de largo alcance \cite{Adame2014}
+        \end{itemize}
+    \item \textbf{LoRa (Long Range)}:
+        \begin{itemize}
+            \item \textit{Técnica de acceso al medio}: ALOHA (en redes LoRaWAN) o CAD (Channel Activity Detection) en implementaciones P2P
+            \item \textit{Modulación}: CSS (Chirp Spread Spectrum)
+            \item \textit{Tasa de transmisión}: 292 bps - 50 kbps (Adaptable según Factor de Dispersión SF7-SF12 y Ancho de Banda)
+            \item \textit{Alcance}: 2-5 km (entornos urbanos), 15 km o más (rural/línea de vista)
+            \item \textit{Potencia típica}: +14 dBm a +22 dBm (25-150 mW), altamente eficiente en receptor
+            \item \textit{Aplicaciones}: Agricultura inteligente, medición de servicios públicos (metering), rastreo de activos, IoT industrial \cite{TTN_LoRaWAN}
         \end{itemize}
 \end{itemize}
 
