@@ -396,6 +396,43 @@ Este flujo ejemplifica la separación entre cliente y servidor en un sistema web
     \label{fig:SD User}
 \end{figure}
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             SECCIÓN: Diagrama de Arquitectura    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Arquitectura}
+
+El diagrama de arquitectura presentado describe la organización y los componentes principales del sistema de monitoreo ambiental basado en una Red Inalámbrica de Sensores (WSN). El sistema se compone de tres bloques principales: la Red Inalámbrica de Sensores, el Servidor en la Nube, y la Visualización Web.
+
+\textbf{Red Inalámbrica de Sensores (WSN)}
+Este bloque incluye los Nodos Sensores y el Nodo Concentrador(Gateway). Los nodos sensores, equipados con el microcontrolador Heltec ESP32, los sensores (pH, oxígeno disuelto, turbidez, etc.), y la cámara, están interconectados mediante el protocolo de comunicación LoRa. Los nodos sensores capturan datos de las condiciones del agua y los envían al Nodo Concentrador a través de LoRa.
+
+El Nodo Concentrador tiene la función de recibir los paquetes de datos de los nodos sensores y retransmitirlos hacia la nube utilizando Wi-Fi/4G. El nodo concentrador también está integrado con AWS IoT Core, lo que le permite comunicarse con el servidor en la nube.
+
+\textbf{Servidor en la Nube}
+El servidor en la nube se encarga de gestionar los datos enviados desde los nodos concentradores. Este bloque se divide en tres componentes principales:
+\begin{itemize}
+    \item Almacenamiento: Utiliza Amazon RDS para almacenar los datos estructurados (en PostgreSQL) y Amazon S3 para almacenar las imágenes procesadas y otros archivos.
+    \item Backend y Frontend: El backend está basado en Amazon EC2 y utiliza Node.js y Java para procesar las solicitudes, analizar los datos y gestionar la comunicación con la base de datos y el almacenamiento. El frontend está relacionado con la interfaz de usuario que consulta los datos procesados.
+    \item Conexión a través de HTTP/MQTT: El servidor gestiona la comunicación entre los diferentes módulos a través de los protocolos HTTP y MQTT. El protocolo MQTT se usa para la comunicación eficiente entre los nodos concentradores y el backend.
+    \item API Rest: La API REST proporciona la capa de comunicación entre el frontend y el backend, permitiendo que la aplicación web recupere y presente los datos al usuario.
+\end{itemize}
+
+\textbf{Visualización Web}
+El bloque de visualización web está dedicado a la interfaz de usuario, donde los usuarios pueden consultar los datos monitoreados, visualizar gráficos sobre la calidad del agua y revisar las imágenes procesadas. La comunicación entre el frontend y el backend se realiza a través de la API Rest.
+
+Este diagrama destaca las interacciones entre los componentes del sistema, incluyendo la transmisión de datos desde los nodos sensores a través del nodo concentrador, el procesamiento y almacenamiento en la nube, y la entrega de resultados al usuario final a través de la aplicación web.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{Documento/Imagenes/Diseño/Diagramadearq.pdf}
+    \caption{Diagrama de arquitectura del sistema}
+    \label{fig:DiagramaArq}
+\end{figure}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %             SECCIÓN: Mockups         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

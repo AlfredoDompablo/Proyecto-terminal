@@ -402,29 +402,33 @@ Para seleccionar la solución de posicionamiento más adecuada para el sistema d
     \item \textbf{Tiempo a Primera Fijación (TTFF)}: Mide el tiempo necesario para obtener una posición válida. Influye directamente en el ciclo de operación del nodo y en el consumo energético total.
 \end{enumerate}
 
-La Tabla~\ref{tab:comparativa_chips_gnss} presenta un resumen de tecnologías GNSS de bajo consumo comúnmente utilizadas en sistemas IoT y WSN. Dichas soluciones se caracterizan por ofrecer un equilibrio entre sensibilidad, consumo y precisión métrica suficiente para aplicaciones ambientales, aunque presentan desafíos en zonas con follaje denso debido a pérdidas adicionales superiores a \SI{10}{dB} por atenuación vegetal.
+La Tabla~\ref{tab:comparativa_chips_tab:gnss_longtable} presenta un resumen de tecnologías GNSS de bajo consumo comúnmente utilizadas en sistemas IoT y WSN. Dichas soluciones se caracterizan por ofrecer un equilibrio entre sensibilidad, consumo y precisión métrica suficiente para aplicaciones ambientales, aunque presentan desafíos en zonas con follaje denso debido a pérdidas adicionales superiores a \SI{10}{dB} por atenuación vegetal.
 
 \input{Documento/Tablas/Analisis/ComparativaGPS.tex}
 
 \subsection{Justificación y estrategia de implementación}
-\label{subsec:justificacion_gps}
 
-Con base en la comparativa anterior, se selecciona el módulo \textbf{Quectel L76K} como la solución GNSS para el sistema. Este módulo ofrece un equilibrio óptimo entre sensibilidad, consumo y tamaño, aspectos cruciales para nodos alimentados por baterías operando en entornos fluviales.
+Con base en la comparativa anterior, se selecciona el módulo \textbf{UC6580} como la solución GNSS para el sistema de monitoreo. Este módulo ofrece un equilibrio óptimo entre sensibilidad, consumo y tamaño, aspectos cruciales para nodos alimentados por baterías operando en entornos fluviales y áreas de difícil acceso.
 
-Su sensibilidad de \SI{-165}{dBm} permite mantener recepción estable aun en escenarios con obstrucción parcial del cielo debido a árboles, humedad y topografía irregular. Además, su soporte multiconstelación (GPS, GLONASS, Galileo) mejora la disponibilidad de satélites y reduce la probabilidad de pérdida de posicionamiento en zonas de vegetación densa.
+Su sensibilidad de \SI{-165}{dBm} permite mantener una recepción estable incluso en escenarios con obstrucción parcial del cielo, como cuando hay árboles, humedad elevada y topografía irregular. Además, su soporte multiconstelación (GPS, GLONASS, Galileo) mejora significativamente la disponibilidad de satélites y reduce la probabilidad de pérdida de posicionamiento en zonas de vegetación densa, algo crucial en los entornos de monitoreo ambiental.
 
-El consumo aproximado de \SI{25}{\milli\ampere} durante el seguimiento satelital, combinado con tiempos de adquisición de \SI{\sim 30}{\second} en \textit{cold start}, permite adoptar una estrategia eficiente basada en ciclos de activación breve:
+El consumo aproximado de \SI{25}{\milli\ampere} durante el seguimiento satelital, combinado con tiempos de adquisición de \SI{\sim 30}{\second} en \textit{cold start}, permite adoptar una estrategia eficiente basada en ciclos de activación breve y optimización energética.
+
+La estrategia de operación se detalla a continuación:
 
 \begin{enumerate}
-    \item Activar el módulo GNSS únicamente al momento de muestreo.
-    \item Esperar hasta obtener un \textit{fix} válido (GGA Fix $\geq$ 1).
-    \item Registrar coordenadas, número de satélites, HDOP y datos complementarios.
-    \item Apagar el módulo para retornar al estado de bajo consumo del nodo.
+    \item \textbf{Activación del GPS solo cuando sea necesario:} El módulo GNSS se activa únicamente para obtener las coordenadas de los sensores, y se apaga inmediatamente después de capturar la información. Esto reduce el consumo energético y prolonga la autonomía del sistema.
+    
+    \item \textbf{Esperar hasta obtener un \textit{fix} válido:} Antes de proceder con la transmisión de datos, el sistema espera a que el GPS obtenga una solución válida, minimizando el riesgo de transmitir coordenadas incorrectas.
+    
+    \item \textbf{Uso de un ciclo de baja potencia:} Una vez obtenido el fix, el GPS se apaga para entrar en el modo de baja potencia hasta que se necesite realizar una nueva adquisición de ubicación.
+    
+    \item \textbf{Transmisión de datos eficiente:} Los datos del sensor (como pH, oxígeno disuelto, temperatura) se transmiten a través de la red LoRa con un bajo consumo energético, aprovechando la capacidad de bajo consumo del UC6580 y maximizando la vida útil de la batería.
+    
+    \item \textbf{Posicionamiento y monitoreo remoto:} El UC6580 proporciona la precisión necesaria para el seguimiento geográfico a lo largo del río, facilitando la geolocalización precisa y el monitoreo en tiempo real de los nodos en la red.
 \end{enumerate}
 
-Aunque existen módulos con mayor precisión (u-blox M8) o menor consumo (Sony CXD5605), su integración implicaría antenas externas, mayor costo o rediseño de hardware, lo cual no se alinea con los objetivos de simplicidad y eficiencia energética del dispositivo.
-
-Por lo tanto, el \textbf{L76K} representa la solución más adecuada para el contexto del despliegue fluvial, proporcionando precisión métrica, robustez ante atenuación vegetal y un consumo controlado acorde a los requisitos del sistema.
+La elección del UC6580, al equilibrar sensibilidad, consumo y precisión, garantiza que el sistema de monitoreo se adapte eficazmente a las exigencias del entorno y optimice la eficiencia energética, asegurando así un rendimiento confiable y autonomía prolongada en zonas de difícil acceso.
 
 
 
