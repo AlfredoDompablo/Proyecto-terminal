@@ -17,9 +17,9 @@
 
 \makeatletter
 \renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
-            {-2.5ex\@plus -1ex \@minus -.25ex}%
-            {1.25ex \@plus .25ex}%
-            {\normalfont\normalsize\bfseries}}
+  {-2.5ex\@plus -1ex \@minus -.25ex}%
+  {1.25ex \@plus .25ex}%
+{\normalfont\normalsize\bfseries}}
 \makeatother
 \setcounter{secnumdepth}{4} % how many sectioning levels to assign numbers to
 \setcounter{tocdepth}{4}    % how many sectioning levels to show in ToC
@@ -27,31 +27,31 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows}
 
-\tikzstyle{startstop} = [rectangle, rounded corners, 
-minimum width=3cm, 
-minimum height=1cm,
-text centered, 
-draw=black, 
+\tikzstyle{startstop} = [rectangle, rounded corners,
+  minimum width=3cm,
+  minimum height=1cm,
+  text centered,
+  draw=black,
 fill=red!30]
-\tikzstyle{io} = [trapezium, 
-trapezium stretches=true, % A later addition
-trapezium left angle=70, 
-trapezium right angle=110, 
-minimum width=3cm, 
-minimum height=1cm, text centered, 
+\tikzstyle{io} = [trapezium,
+  trapezium stretches=true, % A later addition
+  trapezium left angle=70,
+  trapezium right angle=110,
+  minimum width=3cm,
+  minimum height=1cm, text centered,
 draw=black, fill=blue!30]
-\tikzstyle{process} = [rectangle, 
-minimum width=3cm, 
-minimum height=1cm, 
-text centered, 
-text width=3cm, 
-draw=black, 
+\tikzstyle{process} = [rectangle,
+  minimum width=3cm,
+  minimum height=1cm,
+  text centered,
+  text width=3cm,
+  draw=black,
 fill=orange!30]
-\tikzstyle{decision} = [diamond, 
-minimum width=3cm, 
-minimum height=1cm, 
-text centered, 
-draw=black, 
+\tikzstyle{decision} = [diamond,
+  minimum width=3cm,
+  minimum height=1cm,
+  text centered,
+  draw=black,
 fill=green!30]
 \tikzstyle{arrow} = [thick,->,>=stealth]
 %======================================
@@ -65,11 +65,10 @@ fill=green!30]
 \maketitlepage % Portada
 \newpage
 \textbf{Resumen:}
-Este documento describe el desarrollo de un sistema automatizado para monitorear parámetros de calidad del agua en cuerpos lóticos basado en red inalámbrica de sensores distribuida que mide parámetros esenciales de calidad del agua, como pH, oxigenación, temperatura, turbidez y conductividad, y emplea visión artificial para detectar residuos sólidos en la superficie. Los datos recopilados por los sensores se transmiten a una central de procesamiento y se visualizan en un periodo de tiempo a través de una página web. Esta solución proporcionará datos que permitirán una respuesta más informada ante emergencias ambientales y contribuirá a la sostenibilidad de los cuerpos de agua.
+Este documento describe el desarrollo de un sistema automatizado para monitorear parámetros de calidad del agua en cuerpos lóticos basado en red inalámbrica de sensores distribuida que mide parámetros esenciales de calidad del agua, como pH, oxigenación, temperatura, turbidez y conductividad, y emplea visión artificial para detectar residuos sólidos en la superficie. La información recolectada por la red de sensores se transmite de forma inalámbrica hacia un nodo central, donde es procesada e integrada en una plataforma web. Esta interfaz permite la visualización de series temporales y el análisis de métricas en tiempo real, facilitando una respuesta informada ante emergencias ambientales.
 
 \textbf{Palabras clave}: Red inalámbrica de sensores, parámetros de calidad, monitoreo, visión artificial, página web, recolección de datos.
 \newpage
-
 
 %=============================================================
 %=================== Inicio del Documeunto ===================
@@ -81,7 +80,7 @@ Este documento describe el desarrollo de un sistema automatizado para monitorear
 \listoftables    % Índice de Tablas
 
 %\listoffigures   %Índice de figuras
-%\newpage        
+%\newpage
 %\listoftables   %Índice de tablas
 %\newpage
 %=================== Cuerpo del Documento ===================
@@ -103,7 +102,6 @@ Este documento describe el desarrollo de un sistema automatizado para monitorear
 \input{Documento/9-Análisis}
 %\newpage
 \input{Documento/10-Diseño}
-
 
 %\newpage
 %\input{Documento/7-Escenario de Pruebas3}
