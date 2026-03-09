@@ -17,7 +17,7 @@
 \section{Pagina principal}
 \section{Diseño de la interfaz para la página Web}
 \section{Integracion Final del Sistema}
-\section{Escenario de pruebas}    
+\section{Escenario de pruebas}
 \end{comment}
 
 %opcion 2
@@ -40,7 +40,7 @@ El circuito del nodo sensor se compone de dos microcontroladores principales: un
 
 \begin{itemize}
     \item \textbf{PIC16F1823}: gestiona la activación secuencial de los sensores mediante un demultiplexor \textbf{74HC238}, activando solo un sensor a la vez para minimizar el consumo energético. Los sensores analógicos (pH, conductividad, OD, turbidez) son activados por MOSFETs \textbf{AO3400A} y su señal de salida se dirige a entradas ADC del PIC.
-    
+
     \item \textbf{Sensor de temperatura DS18B20}: se conecta directamente al PIC mediante una línea digital dedicada para adquisición por protocolo 1-Wire.
 
     \item \textbf{Demultiplexor 74HC238}: permite seleccionar cuál de los sensores analógicos se activa en cada momento, controlado por tres líneas digitales del PIC.
@@ -66,7 +66,6 @@ El circuito del nodo sensor se compone de dos microcontroladores principales: un
 \label{fig:esquema_nodo_sensor2}
 \end{figure}
 
-
 \subsection*{Funcionamiento del sistema}
 
 Durante cada ciclo de adquisición:
@@ -87,10 +86,10 @@ Durante cada ciclo de adquisición:
 El diseño electrónico del nodo sensor implementa una arquitectura de \textbf{procesamiento distribuido} utilizando dos microcontroladores para separar las tareas críticas de comunicación y sensado de las tareas intensivas de adquisición de imágenes. El diagrama esquemático general se presenta en la Figura \ref{fig:diagrama_circuito}.
 
 \begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.95\linewidth]{Documento/Imagenes/Diseño/circuitos/circuitopt_1.pdf}
-    \caption{Diagrama esquemático del nodo sensor, mostrando la interconexión entre microcontroladores y el bloque de sensores.}
-    \label{fig:diagrama_circuito}
+  \centering
+  \includegraphics[width=0.95\linewidth]{Documento/Imagenes/Diseño/circuitos/circuitopt_1.pdf}
+  \caption{Diagrama esquemático del nodo sensor, mostrando la interconexión entre microcontroladores y el bloque de sensores.}
+  \label{fig:diagrama_circuito}
 \end{figure}
 
 El sistema se estructura en tres bloques funcionales interconectados:
@@ -99,18 +98,18 @@ El sistema se estructura en tres bloques funcionales interconectados:
 El núcleo del nodo es la plataforma \textbf{Heltec Wireless Tracker V1.1} (basada en ESP32-S3 + SX1262). Este microcontrolador actúa como el coordinador principal del sistema y es responsable de:
 
 \begin{itemize}
-    \item \textbf{Gestión de Sensores:} Controla directamente el encendido y apagado de los sensores mediante un multiplexor y realiza la lectura de las señales analógicas y digitales.
-    \item \textbf{Comunicación LoRa:} Administra el transceptor SX1262 integrado para el envío de paquetes de datos y fragmentos de imagen a la red.
-    \item \textbf{Geolocalización:} Obtiene las coordenadas del módulo GNSS integrado.
-    \item \textbf{Coordinación de Imagen:} Envía la orden de captura al módulo de cámara (MCU2) y recibe el flujo de bytes de la imagen procesada vía UART.
+  \item \textbf{Gestión de Sensores:} Controla directamente el encendido y apagado de los sensores mediante un multiplexor y realiza la lectura de las señales analógicas y digitales.
+  \item \textbf{Comunicación LoRa:} Administra el transceptor SX1262 integrado para el envío de paquetes de datos y fragmentos de imagen a la red.
+  \item \textbf{Geolocalización:} Obtiene las coordenadas del módulo GNSS integrado.
+  \item \textbf{Coordinación de Imagen:} Envía la orden de captura al módulo de cámara (MCU2) y recibe el flujo de bytes de la imagen procesada vía UART.
 \end{itemize}
 
 \subsection{Módulo de Adquisición de Imágenes (MCU2)}
 Para aislar el manejo de la cámara y asegurar la estabilidad del sistema principal, se utiliza un módulo \textbf{ESP32-CAM} dedicado exclusivamente a la visión. Sus funciones son:
 \begin{itemize}
-    \item \textbf{Control de la Cámara:} Inicializa y configura el sensor OV5640.
-    \item \textbf{Captura y Compresión:} Toma la fotografía en alta resolución y realiza la compresión JPEG en hardware.
-    \item \textbf{Transmisión Serial:} Envía la imagen comprimida al MCU1 a través de un puerto serie de alta velocidad, actuando como un periférico esclavo.
+  \item \textbf{Control de la Cámara:} Inicializa y configura el sensor OV5640.
+  \item \textbf{Captura y Compresión:} Toma la fotografía en alta resolución y realiza la compresión JPEG en hardware.
+  \item \textbf{Transmisión Serial:} Envía la imagen comprimida al MCU1 a través de un puerto serie de alta velocidad, actuando como un periférico esclavo.
 \end{itemize}
 
 \subsection{Subsistema de Alimentación y Regulación}
@@ -119,12 +118,12 @@ Para aislar el manejo de la cámara y asegurar la estabilidad del sistema princi
 Para garantizar la estabilidad operativa de los microcontroladores y la precisión de las mediciones analógicas, el diseño implementa una arquitectura de alimentación distribuida que gestiona la conversión de energía y los niveles de voltaje.
 
 \begin{enumerate}
-    \item \textbf{Gestión de Carga Solar:} Se integra el módulo basado en el controlador CN3065, encargado de administrar el flujo de energía desde el panel solar hacia la batería LiPo (\SI{3.7}{\volt}). Este módulo protege la batería contra sobrecargas y optimiza la corriente de carga disponible.
+  \item \textbf{Gestión de Carga Solar:} Se integra el módulo basado en el controlador CN3065, encargado de administrar el flujo de energía desde el panel solar hacia la batería LiPo (\SI{3.7}{\volt}). Este módulo protege la batería contra sobrecargas y optimiza la corriente de carga disponible.
 
-    \item \textbf{Regulación Principal (Bus de \SI{5}{\volt}):} Dado que el voltaje de la batería varía durante la descarga (\SIrange{3.2}{4.2}{\volt}), se utiliza un convertidor DC-DC tipo \textit{Step-Up} (Boost) para elevar y estabilizar la tensión a \textbf{\SI{5}{\volt}}. Este bus alimenta las entradas de potencia de las placas de desarrollo principales:
+  \item \textbf{Regulación Principal (Bus de \SI{5}{\volt}):} Dado que el voltaje de la batería varía durante la descarga (\SIrange{3.2}{4.2}{\volt}), se utiliza un convertidor DC-DC tipo \textit{Step-Up} (Boost) para elevar y estabilizar la tensión a \textbf{\SI{5}{\volt}}. Este bus alimenta las entradas de potencia de las placas de desarrollo principales:
     \begin{itemize}
-        \item \textbf{Heltec Wireless Tracker (MCU1):} Se alimenta a través de su pin de \SI{5}{\volt}, permitiendo que su regulador LDO interno genere el voltaje lógico de \SI{3.3}{\volt} limpio para el ESP32 y la radio LoRa.
-        \item \textbf{ESP32-CAM (MCU2):} Recibe \SI{5}{\volt} estables para garantizar el correcto funcionamiento de la cámara, evitando reinicios por caídas de tensión (\textit{Brown-out}).
+      \item \textbf{Heltec Wireless Tracker (MCU1):} Se alimenta a través de su pin de \SI{5}{\volt}, permitiendo que su regulador LDO interno genere el voltaje lógico de \SI{3.3}{\volt} limpio para el ESP32 y la radio LoRa.
+      \item \textbf{ESP32-CAM (MCU2):} Recibe \SI{5}{\volt} estables para garantizar el correcto funcionamiento de la cámara, evitando reinicios por caídas de tensión (\textit{Brown-out}).
     \end{itemize}
 \end{enumerate}
 
@@ -134,16 +133,16 @@ Para garantizar la estabilidad operativa de los microcontroladores y la precisi�
 Los sensores analógicos y digitales se alimentan a \textbf{\SI{3.3}{\volt}} para igualar los niveles de referencia del Conversor Analógico-Digital (ADC) del ESP32-S3. Para optimizar el consumo de corriente (que puede ser elevado en sensores como OD o Turbidez), se implementa una estrategia de energía bajo demanda (\textit{Power Gating}) controlada por el MCU1.
 
 \begin{enumerate}
-    \item \textbf{Multiplexación de Potencia:} El circuito incorpora un decodificador/demultiplexor 74HC238 y un arreglo de transistores MOSFET que actúan como interruptores de potencia.
-    
-    \item \textbf{Lógica de Control:}
+  \item \textbf{Multiplexación de Potencia:} El circuito incorpora un decodificador/demultiplexor 74HC238 y un arreglo de transistores MOSFET que actúan como interruptores de potencia.
+
+  \item \textbf{Lógica de Control:}
     \begin{itemize}
-        \item El MCU1 envía la dirección binaria del sensor requerido al multiplexor.
-        \item La salida correspondiente del 74HC238 activa la compuerta (\textit{Gate}) del transistor MOSFET asociado a ese sensor específico.
-        \item Esto permite el paso de los \SI{3.3}{\volt} únicamente al sensor seleccionado, manteniendo los demás físicamente desconectados y con consumo cero.
+      \item El MCU1 envía la dirección binaria del sensor requerido al multiplexor.
+      \item La salida correspondiente del 74HC238 activa la compuerta (\textit{Gate}) del transistor MOSFET asociado a ese sensor específico.
+      \item Esto permite el paso de los \SI{3.3}{\volt} únicamente al sensor seleccionado, manteniendo los demás físicamente desconectados y con consumo cero.
     \end{itemize}
 
-    \item \textbf{Adquisición:} Una vez estabilizado el sensor activo, el MCU1 realiza la lectura a través de sus entradas analógicas (ADC) o digitales (OneWire) y procede inmediatamente a apagar el sensor antes de activar el siguiente o entrar en reposo.
+  \item \textbf{Adquisición:} Una vez estabilizado el sensor activo, el MCU1 realiza la lectura a través de sus entradas analógicas (ADC) o digitales (OneWire) y procede inmediatamente a apagar el sensor antes de activar el siguiente o entrar en reposo.
 \end{enumerate}
 
 Esta arquitectura garantiza que el consumo pico del sistema se mantenga dentro de los límites soportados por la batería y evita interferencias cruzadas entre las lecturas de los sensores.
@@ -156,27 +155,27 @@ Para el nodo concentrador, se ha seleccionado la misma plataforma de hardware qu
 El funcionamiento del concentrador se diseña bajo un esquema de concurrencia de tareas aprovechando los dos núcleos del microcontrolador y el sistema operativo en tiempo real (FreeRTOS):
 
 \begin{enumerate}
-    \item \textbf{Interfaz LoRa (Radiofrecuencia):}
+  \item \textbf{Interfaz LoRa (Radiofrecuencia):}
     Una tarea de alta prioridad se dedica exclusivamente a gestionar el transceptor SX1262 en modo de recepción continua.
     \begin{itemize}
-        \item Escucha el espectro para detectar preámbulos válidos con la \textit{Sync Word} de la red.
-        \item Recibe los paquetes de telemetría y los fragmentos de imagen, almacenándolos temporalmente en un buffer circular en la memoria RAM (o PSRAM si el volumen de imágenes es alto).
-        \item Realiza el reensamblaje lógico de los archivos fragmentados.
+      \item Escucha el espectro para detectar preámbulos válidos con la \textit{Sync Word} de la red.
+      \item Recibe los paquetes de telemetría y los fragmentos de imagen, almacenándolos temporalmente en un buffer circular en la memoria RAM (o PSRAM si el volumen de imágenes es alto).
+      \item Realiza el reensamblaje lógico de los archivos fragmentados.
     \end{itemize}
 
-    \item \textbf{Interfaz Wi-Fi (Enlace de Bajada/Backhaul):}
+  \item \textbf{Interfaz Wi-Fi (Enlace de Bajada/Backhaul):}
     Una segunda tarea gestiona la pila de protocolos TCP/IP utilizando la radio Wi-Fi de \SI{2.4}{\giga\hertz} integrada en el ESP32-S3.
     \begin{itemize}
-        \item Mantiene la conexión con el punto de acceso local o router móvil.
-        \item Empaqueta los datos recibidos en formato JSON.
-        \item Realiza la transmisión segura (HTTPS/MQTT) hacia el servidor en la nube (Backend) para su almacenamiento y visualización.
+      \item Mantiene la conexión con el punto de acceso local o router móvil.
+      \item Empaqueta los datos recibidos en formato JSON.
+      \item Realiza la transmisión segura (HTTPS/MQTT) hacia el servidor en la nube (Backend) para su almacenamiento y visualización.
     \end{itemize}
 \end{enumerate}
 
 Esta arquitectura monoplaca reduce significativamente la complejidad del montaje físico, el costo del sistema y el tamaño del dispositivo final. Al ubicarse en un punto con infraestructura, la alimentación se suministra de forma continua a través de su puerto \textbf{USB Tipo-C} (\SI{5}{\volt}), garantizando una operación ininterrumpida sin depender de baterías externas.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%        SECCIÓN: diseño del protocolo             % 
+%        SECCIÓN: diseño del protocolo             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Diseño del Protocolo de Comunicación}
@@ -190,25 +189,25 @@ Dada la arquitectura de red lineal P2P y las limitaciones de ancho de banda de l
 Para optimizar el uso del \textit{payload} (carga útil), se define una estructura de trama binaria compacta. Cada paquete transmitido por la radio SX1262 sigue el siguiente formato general:
 
 \begin{table}[h!]
-\centering
-\caption{Estructura general del paquete LoRa P2P.}
-\label{tab:trama_lora}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{|c|c|c|c|c|}
-\hline
-\textbf{Cabecera (3B)} & \textbf{Origen (1B)} & \textbf{Tipo (1B)} & \textbf{Secuencia (2B)} & \textbf{Carga Útil (Variable)} \\
-\hline
-Sync Word & Node ID & DataType & Pkt Index & Datos / Fragmento \\
-\hline
-\end{tabular}
+  \centering
+  \caption{Estructura general del paquete LoRa P2P.}
+  \label{tab:trama_lora}
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    \textbf{Cabecera (3B)} & \textbf{Origen (1B)} & \textbf{Tipo (1B)} & \textbf{Secuencia (2B)} & \textbf{Carga Útil (Variable)} \\
+    \hline
+    Sync Word & Node ID & DataType & Pkt Index & Datos / Fragmento \\
+    \hline
+  \end{tabular}
 \end{table}
 
 Donde:
 \begin{itemize}
-    \item \textbf{Cabecera (Sync Word):} Secuencia de 3 bytes utilizada para identificar el inicio de la trama y filtrar paquetes de otras redes LoRa que operen en la misma frecuencia.
-    \item \textbf{Origen (Node ID):} Identificador único del nodo que genera los datos.
-    \item \textbf{Tipo (DataType):} Indica el contenido: \texttt{0x01} (Sensores), \texttt{0x02} (Inicio Imagen), \texttt{0x03} (Fragmento Imagen), \texttt{0x04} (Fin Imagen).
-    \item \textbf{Secuencia (Pkt Index):} Contador para ordenar los fragmentos en el receptor.
+  \item \textbf{Cabecera (Sync Word):} Secuencia de 3 bytes utilizada para identificar el inicio de la trama y filtrar paquetes de otras redes LoRa que operen en la misma frecuencia.
+  \item \textbf{Origen (Node ID):} Identificador único del nodo que genera los datos.
+  \item \textbf{Tipo (DataType):} Indica el contenido: \texttt{0x01} (Sensores), \texttt{0x02} (Inicio Imagen), \texttt{0x03} (Fragmento Imagen), \texttt{0x04} (Fin Imagen).
+  \item \textbf{Secuencia (Pkt Index):} Contador para ordenar los fragmentos en el receptor.
 \end{itemize}
 
 \subsection{Transmisión de Datos de Sensores (Telemetría)}
@@ -224,27 +223,273 @@ Dado que este tamaño excede por mucho la Unidad Máxima de Transmisión (MTU) d
 El proceso de diseño, ilustrado en la Figura \ref{fig:flujo_fragmentacion}, consta de las siguientes etapas:
 
 \begin{enumerate}
-    \item \textbf{Captura y Compresión:} El MCU captura la imagen en resolución SVGA y la comprime en formato JPEG, almacenando el archivo binario (\SI{\approx 90}{kB}) en la memoria RAM/PSRAM.
-    \item \textbf{División (Splitting):} El archivo binario se divide lógicamente en bloques de datos de tamaño $N$ (donde $N < \text{MTU LoRa}$, ej. \SI{200}{bytes}). Para una imagen de \SI{90}{kB}, esto resulta en aproximadamente 450 a 460 paquetes.
-    \item \textbf{Encapsulamiento:} A cada bloque se le añade un índice de secuencia ($1, 2, ..., K$) en la cabecera para permitir su reordenamiento y la detección de paquetes perdidos.
-    \item \textbf{Transmisión Secuencial:} Los fragmentos se envían uno tras otro a través del transceptor SX1262. Se introduce un pequeño retardo (\textit{delay}) entre paquetes para evitar saturar el buffer del receptor.
-    \item \textbf{Reensamblaje en Destino:} El nodo receptor (o Gateway) almacena los fragmentos entrantes en un buffer. Al recibir el paquete de ``Fin de Imagen'', concatena los fragmentos ordenados por su índice para reconstruir el archivo JPEG original.
+  \item \textbf{Captura y Compresión:} El MCU captura la imagen en resolución SVGA y la comprime en formato JPEG, almacenando el archivo binario (\SI{\approx 90}{kB}) en la memoria RAM/PSRAM.
+  \item \textbf{División (Splitting):} El archivo binario se divide lógicamente en bloques de datos de tamaño $N$ (donde $N < \text{MTU LoRa}$, ej. \SI{200}{bytes}). Para una imagen de \SI{90}{kB}, esto resulta en aproximadamente 450 a 460 paquetes.
+  \item \textbf{Encapsulamiento:} A cada bloque se le añade un índice de secuencia ($1, 2, ..., K$) en la cabecera para permitir su reordenamiento y la detección de paquetes perdidos.
+  \item \textbf{Transmisión Secuencial:} Los fragmentos se envían uno tras otro a través del transceptor SX1262. Se introduce un pequeño retardo (\textit{delay}) entre paquetes para evitar saturar el buffer del receptor.
+  \item \textbf{Reensamblaje en Destino:} El nodo receptor (o Gateway) almacena los fragmentos entrantes en un buffer. Al recibir el paquete de ``Fin de Imagen'', concatena los fragmentos ordenados por su índice para reconstruir el archivo JPEG original.
 \end{enumerate}
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Diseño/UML/flujo_fragmentacion.pdf}
-    \caption{Diagrama del proceso de fragmentación de imagen para transmisión sobre LoRa P2P.}
-    \label{fig:flujo_fragmentacion}
+  \centering
+  \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Diseño/UML/flujo_fragmentacion.pdf}
+  \caption{Diagrama del proceso de fragmentación de imagen para transmisión sobre LoRa P2P.}
+  \label{fig:flujo_fragmentacion}
 \end{figure}
 
 Esta estrategia hace viable la transmisión de archivos de gran tamaño a través de un canal de banda estrecha, superando las estrictas restricciones de tamaño de paquete (MTU) inherentes a la tecnología LoRa y garantizando la reconstrucción íntegra de la evidencia visual en el nodo concentrador.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Arquitectura General del Sistema}
+
+La arquitectura propuesta consiste en una red lineal multi-salto en la cual los nodos sensores se encuentran distribuidos a lo largo del cauce del río. Cada nodo es capaz de medir parámetros de calidad del agua, capturar imágenes del entorno y transmitir la información hacia un nodo concentrador.
+
+Los nodos sensores incluyen los siguientes componentes principales:
+
+\begin{itemize}
+  \item Microcontrolador ESP32
+  \item Módulo de comunicación LoRa
+  \item Sensores de calidad del agua
+  \item Cámara digital OV5640
+  \item Sistema de alimentación basado en batería y panel solar
+\end{itemize}
+
+Los parámetros monitoreados por los sensores incluyen:
+
+\begin{itemize}
+  \item pH
+  \item Turbidez
+  \item Conductividad eléctrica
+  \item Oxígeno disuelto
+  \item Temperatura del agua
+\end{itemize}
+
+El nodo concentrador recibe la información transmitida por los nodos sensores y la envía a un servidor central mediante un enlace de mayor capacidad.
+
+\section{Topología de la Red}
+
+La red adopta una topología lineal debido a la naturaleza geográfica del escenario de despliegue, en el cual los nodos se ubican a lo largo del curso del río.
+
+\begin{figure}[H]
+  \centering
+\begin{verbatim}
+Nodo3 ---- Nodo2 ---- Nodo1 ---- Sink
+\end{verbatim}
+  \caption{Topología lineal de la red de sensores}
+\end{figure}
+
+En esta configuración, los nodos intermedios actúan como retransmisores, permitiendo la transmisión multi-salto de la información hacia el nodo concentrador.
+
+\section{Diseño del Protocolo de Comunicación}
+
+Para coordinar la transmisión de datos entre los nodos de la red se propone un protocolo de comunicación basado en acceso múltiple por división de tiempo (TDMA), sincronizado mediante mensajes de control denominados \textit{Beacon}.
+
+\subsection{Mensajes Beacon}
+
+El nodo concentrador transmite periódicamente un mensaje Beacon cuyo objetivo es sincronizar temporalmente a los nodos de la red e indicar el inicio de un nuevo ciclo de transmisión.
+
+La estructura del mensaje Beacon se define en la Tabla \ref{tab:beacon}.
+
+\begin{table}[H]
+  \centering
+  \caption{Estructura del mensaje Beacon}
+  \label{tab:beacon}
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Campo & Tamaño (bytes) & Descripción \\
+    \hline
+    Tipo & 1 & Identificador del mensaje \\
+    Timestamp & 4 & Tiempo de referencia del ciclo \\
+    Periodo & 2 & Duración del ciclo de comunicación \\
+    Slot\_time & 1 & Duración de cada slot TDMA \\
+    CRC & 2 & Verificación de errores \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\subsection{Acceso al Medio}
+
+Después de recibir el mensaje Beacon, cada nodo transmite sus datos en un intervalo de tiempo previamente asignado. Los slots de transmisión se organizan desde el nodo más lejano hacia el nodo más cercano al concentrador.
+
+Este esquema permite:
+
+\begin{itemize}
+  \item Evitar colisiones
+  \item Reducir el consumo energético
+  \item Garantizar transmisión determinista
+\end{itemize}
+
+\section{Transmisión de Imágenes}
+
+Debido a las limitaciones del tamaño de carga útil de los paquetes LoRa, las imágenes capturadas por la cámara deben ser fragmentadas antes de su transmisión.
+
+\subsection{Fragmentación}
+
+La imagen capturada se comprime en formato JPEG y posteriormente se divide en fragmentos de tamaño fijo.
+
+Si el tamaño de la imagen es:
+
+\[
+  S_{img}
+\]
+
+y el tamaño de cada fragmento es:
+
+\[
+  S_{frag}
+\]
+
+el número total de fragmentos se calcula como:
+
+\[
+  N_{frag} = \frac{S_{img}}{S_{frag}}
+\]
+
+Cada fragmento incluye un encabezado que contiene la información necesaria para su reensamblado.
+
+\subsection{Formato de Fragmento}
+
+La estructura de cada fragmento se muestra en la Tabla \ref{tab:fragmento}.
+
+\begin{table}[H]
+  \centering
+  \caption{Formato de fragmento de imagen}
+  \label{tab:fragmento}
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Campo & Tamaño (bytes) & Descripción \\
+    \hline
+    Node\_ID & 1 & Identificador del nodo \\
+    Image\_ID & 1 & Identificador de imagen \\
+    Fragment\_ID & 2 & Número de fragmento \\
+    Total\_Fragments & 2 & Número total de fragmentos \\
+    Payload & N & Datos de la imagen \\
+    CRC & 2 & Verificación de errores \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\section{Codificación de Corrección de Errores}
+
+Con el objetivo de mejorar la confiabilidad de la transmisión en enlaces inalámbricos, se implementa un mecanismo de corrección de errores hacia adelante (FEC) basado en el algoritmo Reed-Solomon.
+
+El algoritmo Reed-Solomon permite agregar símbolos redundantes a un bloque de datos con el fin de recuperar información perdida durante la transmisión.
+
+\subsection{Modelo Reed-Solomon}
+
+Un código Reed-Solomon se define como:
+
+\[
+  RS(n,k)
+\]
+
+donde:
+
+\begin{itemize}
+  \item $k$ representa el número de símbolos de datos
+  \item $n$ representa el número total de símbolos transmitidos
+  \item $n-k$ corresponde a los símbolos de redundancia
+\end{itemize}
+
+La capacidad de corrección de errores está dada por:
+
+\[
+  t = \frac{n-k}{2}
+\]
+
+donde $t$ representa el número máximo de símbolos erróneos que pueden corregirse.
+
+\subsection{Aplicación por Ventanas}
+
+En el sistema propuesto, la codificación Reed-Solomon se aplica sobre ventanas de fragmentos de imagen.
+
+Por ejemplo, una ventana puede estar compuesta por:
+
+\begin{itemize}
+  \item 10 fragmentos de datos
+  \item 2 fragmentos de redundancia
+\end{itemize}
+
+Por lo tanto:
+
+\[
+  RS(12,10)
+\]
+
+Este esquema permite recuperar hasta dos fragmentos perdidos sin necesidad de retransmisión.
+
+\section{Proceso de Transmisión}
+
+El flujo general de transmisión se describe en la Figura \ref{fig:flujo}.
+
+\begin{figure}[H]
+  \centering
+\begin{verbatim}
+Captura Imagen
+       |
+Compresión JPEG
+       |
+Fragmentación
+       |
+Codificación FEC
+       |
+Transmisión LoRa
+       |
+Reenvío Multi-hop
+       |
+Nodo Sink
+       |
+Decodificación FEC
+       |
+Reconstrucción Imagen
+\end{verbatim}
+  \caption{Flujo del proceso de transmisión}
+  \label{fig:flujo}
+\end{figure}
+
+\section{Máquina de Estados del Nodo}
+
+El comportamiento de los nodos sensores puede representarse mediante la máquina de estados mostrada en la Figura \ref{fig:estados}.
+
+\begin{figure}[H]
+  \centering
+\begin{verbatim}
+SLEEP
+  |
+WAIT_BEACON
+  |
+SENSE
+  |
+CAPTURE_IMAGE
+  |
+FRAGMENT
+  |
+TRANSMIT
+  |
+FORWARD
+  |
+SLEEP
+\end{verbatim}
+  \caption{Máquina de estados del nodo sensor}
+  \label{fig:estados}
+\end{figure}
+
+\section{Consideraciones Energéticas}
+
+Dado que los nodos sensores operan con alimentación basada en batería y panel solar, el protocolo de comunicación fue diseñado para minimizar el tiempo de actividad de los nodos.
+
+El uso de sincronización mediante Beacon y acceso TDMA permite que los nodos permanezcan en modo de bajo consumo durante la mayor parte del tiempo, activándose únicamente durante los intervalos de transmisión asignados.
+
+\section{Resumen del Diseño}
+
+El sistema propuesto integra una arquitectura de red lineal multi-salto con un protocolo de comunicación determinista basado en TDMA. La transmisión de imágenes se realiza mediante fragmentación y protección de errores utilizando códigos Reed-Solomon aplicados por ventanas de fragmentos.
+
+Este enfoque permite mejorar la confiabilidad de la comunicación en enlaces LoRa de largo alcance, al tiempo que mantiene un consumo energético adecuado para nodos alimentados mediante sistemas autónomos.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %             SECCIÓN: base de datos         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 \section{Diseño de la Base de Datos}
 \label{sec:diseno_bd}
@@ -257,9 +502,9 @@ Con base en el análisis previo, se ha diseñado un esquema de base de datos rel
 El modelo de datos se estructura en torno a tres entidades principales que reflejan la arquitectura del sistema:
 
 \begin{enumerate}
-    \item \textbf{Nodos (nodes):} Representa los dispositivos físicos (nodos sensores) desplegados en el río. Almacena su configuración estática y ubicación.
-    \item \textbf{Lecturas de Sensores (sensor\_readings):} Almacena las series temporales de los parámetros físico-químicos y el estado de la batería, vinculadas a un nodo específico.
-    \item \textbf{Detecciones de Residuos (waste\_detections):} Almacena los metadatos resultantes del análisis de imágenes (densidad de cobertura), la referencia a la imagen almacenada (URL) y la trazabilidad del modelo de IA.
+  \item \textbf{Nodos (nodes):} Representa los dispositivos físicos (nodos sensores) desplegados en el río. Almacena su configuración estática y ubicación.
+  \item \textbf{Lecturas de Sensores (sensor\_readings):} Almacena las series temporales de los parámetros físico-químicos y el estado de la batería, vinculadas a un nodo específico.
+  \item \textbf{Detecciones de Residuos (waste\_detections):} Almacena los metadatos resultantes del análisis de imágenes (densidad de cobertura), la referencia a la imagen almacenada (URL) y la trazabilidad del modelo de IA.
 \end{enumerate}
 
 La Figura \ref{fig:diagrama_er} ilustra el Diagrama Entidad-Relación (ER) del sistema, mostrando las relaciones de ``uno a muchos'' ($1:N$) entre los nodos y sus mediciones/detecciones.
@@ -272,12 +517,11 @@ La Figura \ref{fig:diagrama_er} ilustra el Diagrama Entidad-Relación (ER) del s
 %     \label{fig:diagrama_er}
 % \end{figure}
 \begin{figure}[h]
-    \centering
-    \input{Documento/Imagenes/Diseño/BD/entidad-relacion.tex}
-    \caption{Diagrama Entidad-Relación (ER) de la base de datos del sistema de monitoreo.}
-    \label{fig:diagrama_er}
+  \centering
+  \input{Documento/Imagenes/Diseño/BD/entidad-relacion.tex}
+  \caption{Diagrama Entidad-Relación (ER) de la base de datos del sistema de monitoreo.}
+  \label{fig:diagrama_er}
 \end{figure}
-
 
 \subsection{Diseño Lógico y Diccionario de Datos}
 \label{subsec:diccionario_datos}
@@ -298,12 +542,10 @@ Almacena los resultados del análisis y la evidencia visual. Se opta por almacen
 
 \input{Documento/Tablas/DiccionarioBD/waste}
 
-
 \subsubsection*{Tabla: Users (Usuarios del Sistema)}
 Almacena las credenciales de acceso para los administradores y el dueño del sistema. El control de privilegios se gestiona mediante el campo de rol.
 
 \input{Documento/Tablas/DiccionarioBD/user}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %             SECCIÓN: casos de uso         %
@@ -317,37 +559,36 @@ Para modelar el comportamiento funcional del sistema y las interacciones entre l
 La Figura \ref{fig:uc_wsn} ilustra las operaciones autónomas realizadas por los nodos sensores y el nodo concentrador (Gateway). Se destaca el rol del \textbf{Entorno Fluvial} como un actor externo que provee los estímulos físicos (parámetros y luz para la imagen) que activan el proceso de monitoreo. El diagrama muestra el flujo de datos en la topología lineal multisalto, donde cada nodo intermedio no solo genera su información, sino que también recibe y retransmite datos de sus vecinos (\textit{store-and-forward}).
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Diseño/UML/UMLNodos.pdf}
-    \caption{Diagrama de casos de uso para la Red Inalámbrica de Sensores y el Gateway, mostrando la interacción con el entorno y el relevo de datos.}
-    \label{fig:uc_wsn}
+  \centering
+  \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Diseño/UML/UMLNodos.pdf}
+  \caption{Diagrama de casos de uso para la Red Inalámbrica de Sensores y el Gateway, mostrando la interacción con el entorno y el relevo de datos.}
+  \label{fig:uc_wsn}
 \end{figure}
 
 \subsection{Casos de Uso del Servidor y Procesamiento}
 La Figura \ref{fig:uc_backend} detalla el flujo de información en el servidor (Backend). Este subsistema actúa como el núcleo de procesamiento, iniciando su operación con la recepción de datos desde el Gateway. Se ilustra la secuencia de procesamiento que incluye el reensamblaje de imágenes fragmentadas, la ejecución de los algoritmos de Inteligencia Artificial (segmentación de residuos) y el almacenamiento persistente de los resultados para su posterior consulta vía API.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Diseño/UML/servidor.pdf}
-    \caption{Diagrama de casos de uso para el Backend, abarcando la ingesta, procesamiento de IA y almacenamiento de datos.}
-    \label{fig:uc_backend}
+  \centering
+  \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Diseño/UML/servidor.pdf}
+  \caption{Diagrama de casos de uso para el Backend, abarcando la ingesta, procesamiento de IA y almacenamiento de datos.}
+  \label{fig:uc_backend}
 \end{figure}
 
 \subsection{Casos de Uso de la Interfaz Web}
 La Figura \ref{fig:uc_webapp} muestra las interacciones disponibles para los usuarios humanos a través de la plataforma web. Se modelan tres niveles de actores:
 \begin{itemize}
-    \item \textbf{Usuario Público:} Con acceso libre a la visualización de datos actuales, históricos y evidencia visual.
-    \item \textbf{Administrador:} Hereda los permisos de visualización y añade capacidades de gestión sobre los nodos sensores (altas, bajas, configuración) previo inicio de sesión.
-    \item \textbf{Dueño (Owner):} Actor con el máximo nivel de privilegios, capaz de gestionar las cuentas de los administradores del sistema.
+  \item \textbf{Usuario Público:} Con acceso libre a la visualización de datos actuales, históricos y evidencia visual.
+  \item \textbf{Administrador:} Hereda los permisos de visualización y añade capacidades de gestión sobre los nodos sensores (altas, bajas, configuración) previo inicio de sesión.
+  \item \textbf{Dueño (Owner):} Actor con el máximo nivel de privilegios, capaz de gestionar las cuentas de los administradores del sistema.
 \end{itemize}
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{Documento/Imagenes/Diseño/UML/aplicacionWeb.pdf}
-    \caption{Diagrama de casos de uso para la Aplicación Web, detallando los roles de usuario y sus privilegios.}
-    \label{fig:uc_webapp}
+  \centering
+  \includegraphics[width=0.6\linewidth]{Documento/Imagenes/Diseño/UML/aplicacionWeb.pdf}
+  \caption{Diagrama de casos de uso para la Aplicación Web, detallando los roles de usuario y sus privilegios.}
+  \label{fig:uc_webapp}
 \end{figure}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %             SECCIÓN: Diagramas de secuencia       %
@@ -357,46 +598,44 @@ La Figura \ref{fig:uc_webapp} muestra las interacciones disponibles para los usu
 
 \subsection{Secuencia del Nodo Sensor}
 
-En la \ref{fig:SDNodosensor}, se muestra el diagrama de secuencia del ciclo de monitorización del nodo sensor describe las interacciones entre los componentes internos y los elementos de comunicación del nodo.  El proceso comienza cuando el temporizador despierta al microcontrolador.  
-El microcontrolador activa un sensor, espera a que se estabilice, lee el parámetro correspondiente, guarda el valor en un buffer de memoria y después desactiva el sensor.  Este ciclo se repite para cada uno de los sensores de calidad del agua (temperatura, turbidez, pH, oxígeno disuelto y conductividad) mediante un fragmento de bucle.  A continuación, el microcontrolador activa la cámara integrada, captura una imagen de la superficie y la fragmenta en bloques para su transmisión posterior.  
-Los datos de los sensores y los fragmentos de la imagen se empaquetan en un mismo mensaje y se almacenan temporalmente.  El microcontrolador activa el transceptor LoRa, transmite el paquete al nodo vecino y, tras recibir la confirmación, desactiva el transceptor.  
+En la \ref{fig:SDNodosensor}, se muestra el diagrama de secuencia del ciclo de monitorización del nodo sensor describe las interacciones entre los componentes internos y los elementos de comunicación del nodo.  El proceso comienza cuando el temporizador despierta al microcontrolador.
+El microcontrolador activa un sensor, espera a que se estabilice, lee el parámetro correspondiente, guarda el valor en un buffer de memoria y después desactiva el sensor.  Este ciclo se repite para cada uno de los sensores de calidad del agua (temperatura, turbidez, pH, oxígeno disuelto y conductividad) mediante un fragmento de bucle.  A continuación, el microcontrolador activa la cámara integrada, captura una imagen de la superficie y la fragmenta en bloques para su transmisión posterior.
+Los datos de los sensores y los fragmentos de la imagen se empaquetan en un mismo mensaje y se almacenan temporalmente.  El microcontrolador activa el transceptor LoRa, transmite el paquete al nodo vecino y, tras recibir la confirmación, desactiva el transceptor.
 Finalmente, vuelve a un modo de bajo consumo (\emph{sleep}) hasta el próximo ciclo de muestreo.  Este comportamiento se ajusta a la estructura de un nodo de medición WSN, que reúne componentes como la radio, la batería, el microcontrolador y la interfaz con los sensores.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Diseño/UML/SD Nodo Sensor - Página 1.pdf}
-    \caption{Diagrama de secuencia del nodo sensor, detallando el flujo.}
-    \label{fig:SDNodosensor}
+  \centering
+  \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Diseño/UML/SD Nodo Sensor - Página 1.pdf}
+  \caption{Diagrama de secuencia del nodo sensor, detallando el flujo.}
+  \label{fig:SDNodosensor}
 \end{figure}
 
 \subsection{Secuencia de la Red Inalámbrica de Sensores}
 
-El diagrama de secuencia de la red inalámbrica de sensores (WSN), \ref{fig:SDWSN}, ilustra la transmisión multi‑salto de paquetes a lo largo de la cadena de nodos. Cada nodo sensor genera sus propias mediciones y, cuando corresponde, las imágenes capturadas. A continuación envía este paquete al nodo siguiente de la cadena, que lo recibe, agrega sus propias mediciones y reenvía el conjunto ampliado al nodo posterior. 
-De este modo, los datos se acumulan a medida que avanzan hacia la pasarela o nodo concentrador.  Este comportamiento responde al diseño de las WSN, en el que los nodos de medición están conectados de forma inalámbrica y la pasarela se encarga de recopilar los datos de cada nodo y enviarlos al servidor central.  Tras cada envío, el nodo receptor confirma la recepción para garantizar la fiabilidad de la comunicación.  
+El diagrama de secuencia de la red inalámbrica de sensores (WSN), \ref{fig:SDWSN}, ilustra la transmisión multi‑salto de paquetes a lo largo de la cadena de nodos. Cada nodo sensor genera sus propias mediciones y, cuando corresponde, las imágenes capturadas. A continuación envía este paquete al nodo siguiente de la cadena, que lo recibe, agrega sus propias mediciones y reenvía el conjunto ampliado al nodo posterior.
+De este modo, los datos se acumulan a medida que avanzan hacia la pasarela o nodo concentrador.  Este comportamiento responde al diseño de las WSN, en el que los nodos de medición están conectados de forma inalámbrica y la pasarela se encarga de recopilar los datos de cada nodo y enviarlos al servidor central.  Tras cada envío, el nodo receptor confirma la recepción para garantizar la fiabilidad de la comunicación.
 Cuando el paquete consolidado llega al concentrador, éste lo transmite al servidor para su almacenamiento y procesamiento.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Diseño/UML/SDWSN.pdf}
-    \caption{Diagrama de secuencia de la red inalámbrica de sensores, detallando la transmisión de datos entre nodos sensores}
-    \label{fig:SDWSN}
+  \centering
+  \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Diseño/UML/SDWSN.pdf}
+  \caption{Diagrama de secuencia de la red inalámbrica de sensores, detallando la transmisión de datos entre nodos sensores}
+  \label{fig:SDWSN}
 \end{figure}
 
 \subsection{Secuencia de la Consulta del Usuario}
 
-El diagrama de secuencia en la \ref{fig:SD User}, representa el proceso de obtención de datos y visualización en el navegador por parte del usuario. Cuando el usuario accede a la aplicación web, el frontend muestra un panel de información y ofrece diferentes opciones de visualización. Al seleccionar una opción, la interfaz realiza una petición al APIREST alojado en el servidor.  El API transmite la solicitud al backend, que procesa los parámetros recibidos y consulta la base de datos para recuperar las mediciones y los resultados de la detección de residuos flotantes.  
-Una vez obtenida la información, el backend la devuelve estructurada al API, que a su vez la proporciona al frontend en un formato adecuado.  
-La aplicación web transforma los datos en tablas, gráficos e imágenes y presenta los resultados al usuario.  
+El diagrama de secuencia en la \ref{fig:SD User}, representa el proceso de obtención de datos y visualización en el navegador por parte del usuario. Cuando el usuario accede a la aplicación web, el frontend muestra un panel de información y ofrece diferentes opciones de visualización. Al seleccionar una opción, la interfaz realiza una petición al APIREST alojado en el servidor.  El API transmite la solicitud al backend, que procesa los parámetros recibidos y consulta la base de datos para recuperar las mediciones y los resultados de la detección de residuos flotantes.
+Una vez obtenida la información, el backend la devuelve estructurada al API, que a su vez la proporciona al frontend en un formato adecuado.
+La aplicación web transforma los datos en tablas, gráficos e imágenes y presenta los resultados al usuario.
 Este flujo ejemplifica la separación entre cliente y servidor en un sistema web y cómo la API REST sirve de puente entre la interfaz y la base de datos.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Diseño/UML/SD User - Página 1.pdf}
-    \caption{Diagrama de secuencia de la consulta de usuario, detallando la obtencion y visualización de datos}
-    \label{fig:SD User}
+  \centering
+  \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Diseño/UML/SD User - Página 1.pdf}
+  \caption{Diagrama de secuencia de la consulta de usuario, detallando la obtencion y visualización de datos}
+  \label{fig:SD User}
 \end{figure}
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %             SECCIÓN: Diagrama de Arquitectura    %
@@ -414,10 +653,10 @@ El Nodo Concentrador tiene la función de recibir los paquetes de datos de los n
 \textbf{Servidor}\\
 El servidor en la nube se encarga de gestionar los datos enviados desde los nodos concentradores. Este bloque se divide en tres componentes principales:
 \begin{itemize}
-    \item Almacenamiento: Utiliza Amazon RDS para almacenar los datos estructurados (en PostgreSQL) y Amazon S3 para almacenar las imágenes procesadas y otros archivos.
-    \item Backend y Frontend: El backend está basado en Amazon EC2 y utiliza Node.js y HTML5 para procesar las solicitudes, analizar los datos y gestionar la comunicación con la base de datos y el almacenamiento. El frontend está relacionado con la interfaz de usuario que consulta los datos procesados.
-    \item Conexión a través de HTTP/MQTT: El servidor gestiona la comunicación entre los diferentes módulos a través de los protocolos HTTP y MQTT. El protocolo MQTT se usa para la comunicación eficiente entre los nodos concentradores y el backend.
-    \item API Rest: La API REST proporciona la capa de comunicación entre el frontend y el backend, permitiendo que la aplicación web recupere y presente los datos al usuario.
+  \item Almacenamiento: Utiliza Amazon RDS para almacenar los datos estructurados (en PostgreSQL) y Amazon S3 para almacenar las imágenes procesadas y otros archivos.
+  \item Backend y Frontend: El backend está basado en Amazon EC2 y utiliza Node.js y HTML5 para procesar las solicitudes, analizar los datos y gestionar la comunicación con la base de datos y el almacenamiento. El frontend está relacionado con la interfaz de usuario que consulta los datos procesados.
+  \item Conexión a través de HTTP/MQTT: El servidor gestiona la comunicación entre los diferentes módulos a través de los protocolos HTTP y MQTT. El protocolo MQTT se usa para la comunicación eficiente entre los nodos concentradores y el backend.
+  \item API Rest: La API REST proporciona la capa de comunicación entre el frontend y el backend, permitiendo que la aplicación web recupere y presente los datos al usuario.
 \end{itemize}
 
 \textbf{Visualización web}\\
@@ -426,12 +665,11 @@ El bloque de visualización web está dedicado a la interfaz de usuario, donde l
 Este diagrama destaca las interacciones entre los componentes del sistema, incluyendo la transmisión de datos desde los nodos sensores a través del nodo concentrador, el procesamiento y almacenamiento en la nube, y la entrega de resultados al usuario final a través de la página web.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{Documento/Imagenes/Diseño/Diagramadearq.pdf}
-    \caption{Diagrama de arquitectura del sistema}
-    \label{fig:DiagramaArq}
+  \centering
+  \includegraphics[width=0.5\linewidth]{Documento/Imagenes/Diseño/Diagramadearq.pdf}
+  \caption{Diagrama de arquitectura del sistema}
+  \label{fig:DiagramaArq}
 \end{figure}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %             SECCIÓN: Mockups         %
@@ -451,49 +689,49 @@ Este módulo tiene como objetivo la divulgación y transparencia de la informaci
 Es el punto de entrada al sistema. Presenta el proyecto ``MONICA'', su visión y el impacto esperado. Incluye un menú de navegación superior y llamadas a la acción claras para dirigir al usuario a los datos sensados.
 
 \begin{figure}[H]
-    \centering
-    % Ajusta el nombre del archivo si es necesario. 'page=1' selecciona la primera página del PDF.
-    \includegraphics[width=0.7\linewidth, page=1]{Documento/Imagenes/Diseño/mockups/mockups.pdf} 
-    \caption{Página de inicio del portal público con información general del proyecto.}
-    \label{fig:mockup_home}
+  \centering
+  % Ajusta el nombre del archivo si es necesario. 'page=1' selecciona la primera página del PDF.
+  \includegraphics[width=0.7\linewidth, page=1]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+  \caption{Página de inicio del portal público con información general del proyecto.}
+  \label{fig:mockup_home}
 \end{figure}
 
 \subsubsection*{Mapa Interactivo}
 Permite la geolocalización de los nodos sensores sobre el río, facilitando la identificación de los puntos de monitoreo.
 
 \begin{figure}[H]
-    \centering
-    % Asegúrate de que la ruta sea correcta (Diseno sin ñ)
-    \includegraphics[width=0.75\linewidth, page=2]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
-    \caption{Mapa interactivo de nodos para la geolocalización de puntos de monitoreo.}
-    \label{fig:mockup_mapa}
+  \centering
+  % Asegúrate de que la ruta sea correcta (Diseno sin ñ)
+  \includegraphics[width=0.75\linewidth, page=2]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+  \caption{Mapa interactivo de nodos para la geolocalización de puntos de monitoreo.}
+  \label{fig:mockup_mapa}
 \end{figure}
 
 \subsubsection*{Visualización de Estadísticas}
 Al seleccionar un nodo, el usuario visualiza un tablero detallado con los valores actuales de los sensores y gráficos de tendencias.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth, page=3]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
-    \caption{Tablero de visualización de estadísticas y datos sensoriales.}
-    \label{fig:mockup_stats}
+  \centering
+  \includegraphics[width=0.75\linewidth, page=3]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+  \caption{Tablero de visualización de estadísticas y datos sensoriales.}
+  \label{fig:mockup_stats}
 \end{figure}
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth, page=4]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
-    \caption{Grafica de visualización de estadísticas y datos sensoriales.}
-    \label{fig:mockup_stats_graph}
+  \centering
+  \includegraphics[width=0.75\linewidth, page=4]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+  \caption{Grafica de visualización de estadísticas y datos sensoriales.}
+  \label{fig:mockup_stats_graph}
 \end{figure}
 
 \subsubsection*{Galería de Evidencias Visuales}
 Esta sección muestra las imágenes capturadas por los nodos sensores. Permite al usuario visualizar la evidencia física del estado del río (ej. presencia de residuos) filtrando por fecha y ubicación, lo cual complementa los datos numéricos.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth, page=5]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
-    \caption{Galería de imágenes capturadas por la red de sensores.}
-    \label{fig:mockup_galeria}
+  \centering
+  \includegraphics[width=0.8\linewidth, page=5]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+  \caption{Galería de imágenes capturadas por la red de sensores.}
+  \label{fig:mockup_galeria}
 \end{figure}
 
 \subsection{Portal Administrativo}
@@ -505,57 +743,55 @@ Este módulo es de acceso restringido y permite la configuración y mantenimient
 El ingreso se realiza mediante credenciales seguras. Al acceder, el administrador visualiza un resumen operativo del sistema: estado de los nodos (activos/inactivos), alertas recientes (ej. batería baja, parámetros fuera de norma) y métricas de usuarios registrados.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth, page=7]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
-    \caption{Portal de acceso.}
-    \label{fig:mockup_login}
+  \centering
+  \includegraphics[width=0.8\linewidth, page=7]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+  \caption{Portal de acceso.}
+  \label{fig:mockup_login}
 \end{figure}
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth, page=8]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
-    \caption{Tablero de control administrativo con resumen del estado del sistema.}
-    \label{fig:mockup_dashboard_admin}
+  \centering
+  \includegraphics[width=0.8\linewidth, page=8]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+  \caption{Tablero de control administrativo con resumen del estado del sistema.}
+  \label{fig:mockup_dashboard_admin}
 \end{figure}
 
 \subsubsection*{Gestión de Nodos y Datos}
 Permite a los administradores registrar nuevos nodos sensores, editar su ubicación geográfica o dar de baja dispositivos. También se incluye una vista tabular para la administración cruda de los datos recibidos, útil para auditoría y corrección de errores.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth, page=11]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
-    \caption{Interfaz para la gestión del inventario de nodos sensores.}
-    \label{fig:mockup_nodos}
+  \centering
+  \includegraphics[width=0.8\linewidth, page=11]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+  \caption{Interfaz para la gestión del inventario de nodos sensores.}
+  \label{fig:mockup_nodos}
 \end{figure}
 
 \subsubsection*{Gestión de Usuarios (Rol: Dueño/Superusuario)}
 Esta pantalla es crítica para la seguridad del sistema y \textbf{solo es accesible para el usuario con rol de Dueño (Owner)}. Permite registrar nuevos administradores, modificar roles y gestionar el acceso al sistema. Los usuarios con rol de ``Administrador'' estándar no tienen acceso a esta vista, garantizando un control jerárquico de la plataforma.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth, page=10]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
-    \caption{Panel de gestión de usuarios, exclusivo para el rol de Dueño.}
-    \label{fig:mockup_usuarios}
+  \centering
+  \includegraphics[width=0.8\linewidth, page=10]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+  \caption{Panel de gestión de usuarios, exclusivo para el rol de Dueño.}
+  \label{fig:mockup_usuarios}
 \end{figure}
 
 \subsubsection*{Administración de Datos}
 Este módulo permite la gestión integral de la información recolectada por el sistema. Los administradores pueden visualizar, filtrar y gestionar tanto los registros de los \textbf{datos de los sensores} (parámetros físico-químicos) como el historial de \textbf{imágenes y detecciones}.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth, page=12]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
-    \caption{Interfaz para la administración y consulta de datos de nodos sensores.}
-    \label{fig:mockup_reportes_datos}
+  \centering
+  \includegraphics[width=0.8\linewidth, page=12]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+  \caption{Interfaz para la administración y consulta de datos de nodos sensores.}
+  \label{fig:mockup_reportes_datos}
 \end{figure}
-
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth, page=13]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
-    \caption{Interfaz para la administración y consulta de imagenes de nodos sensores.}
-    \label{fig:mockup_reportes_img}
+  \centering
+  \includegraphics[width=0.8\linewidth, page=13]{Documento/Imagenes/Diseño/mockups/mockups.pdf}
+  \caption{Interfaz para la administración y consulta de imagenes de nodos sensores.}
+  \label{fig:mockup_reportes_img}
 \end{figure}
-
 
 \section{Escenario de Pruebas}
 \label{sec:escenario_pruebas}
@@ -567,9 +803,9 @@ Para simular la distribución lineal del río, se dispondrá de una serie de \te
 
 Cumpliendo con los objetivos de alcance del proyecto, se establece una \textbf{separación física de al menos 50 m} entre cada contenedor. Esta distancia es crítica para validar:
 \begin{itemize}
-    \item La potencia de la señal RSSI del enlace LoRa P2P.
-    \item La capacidad de la red para realizar saltos múltiples (multi-hop) desde el nodo más lejano hasta el Gateway.
-    \item La integridad de la transmisión de imágenes fragmentadas a través de distancias significativas.
+  \item La potencia de la señal RSSI del enlace LoRa P2P.
+  \item La capacidad de la red para realizar saltos múltiples (multi-hop) desde el nodo más lejano hasta el Gateway.
+  \item La integridad de la transmisión de imágenes fragmentadas a través de distancias significativas.
 \end{itemize}
 
 El Nodo Concentrador (Gateway) se ubicará en el extremo final de la línea, proveyendo la conexión Wi-Fi necesaria para retransmitir los datos acumulados hacia el servidor en la nube.
@@ -578,25 +814,23 @@ El Nodo Concentrador (Gateway) se ubicará en el extremo final de la línea, pro
 La funcionalidad del sistema se evaluará mediante la alteración intencional y controlada de las condiciones del entorno en los contenedores:
 
 \begin{enumerate}
-    \item \textbf{Variables Físico-Químicas:} Se introducirán variaciones en el agua de los contenedores para verificar la respuesta de los sensores y la correcta visualización de los datos en el Dashboard web.
+  \item \textbf{Variables Físico-Químicas:} Se introducirán variaciones en el agua de los contenedores para verificar la respuesta de los sensores y la correcta visualización de los datos en el Dashboard web.
     \begin{itemize}
-        \item \textit{Turbidez:} Adición progresiva de partículas en suspensión (tierra o arcilla) para elevar los niveles NTU.
-        \item \textit{Temperatura:} Vertido de agua caliente para generar picos térmicos detectables.
-        \item \textit{pH y Conductividad:} Disolución de soluciones ácidas/alcalinas o sales para alterar la conductividad eléctrica y el potencial de hidrógeno.
+      \item \textit{Turbidez:} Adición progresiva de partículas en suspensión (tierra o arcilla) para elevar los niveles NTU.
+      \item \textit{Temperatura:} Vertido de agua caliente para generar picos térmicos detectables.
+      \item \textit{pH y Conductividad:} Disolución de soluciones ácidas/alcalinas o sales para alterar la conductividad eléctrica y el potencial de hidrógeno.
     \end{itemize}
-    
-    \item \textbf{Detección de Residuos (Visión Artificial):} Se simulará la presencia de contaminación flotante colocando aleatoriamente objetos representativos (botellas de PET, bolsas plásticas, latas) en la superficie del agua de los contenedores.
+
+  \item \textbf{Detección de Residuos (Visión Artificial):} Se simulará la presencia de contaminación flotante colocando aleatoriamente objetos representativos (botellas de PET, bolsas plásticas, latas) en la superficie del agua de los contenedores.
     \begin{itemize}
-        \item El objetivo es confirmar que el sistema captura la imagen, la comprime, la transmite exitosamente al servidor y que, posteriormente, el algoritmo de IA es capaz de identificar los objetos en la fotografía reconstruida.
+      \item El objetivo es confirmar que el sistema captura la imagen, la comprime, la transmite exitosamente al servidor y que, posteriormente, el algoritmo de IA es capaz de identificar los objetos en la fotografía reconstruida.
     \end{itemize}
 \end{enumerate}
 
 \subsection{Validación de Conectividad y Plataforma}
-Finalmente, el escenario contempla la verificación del flujo de información \textit{extremo a extremo} (End-to-End). Se cotejarán los estímulos físicos aplicados en los contenedores con los registros almacenados en la base de datos y su representación gráfica en la aplicación web. 
+Finalmente, el escenario contempla la verificación del flujo de información \textit{extremo a extremo} (End-to-End). Se cotejarán los estímulos físicos aplicados en los contenedores con los registros almacenados en la base de datos y su representación gráfica en la aplicación web.
 
 Asimismo, se pondrán a prueba los roles de usuario definidos, verificando que la gestión de nodos sea exclusiva del administrador y que el acceso público a los datos sea fluido y en tiempo real, validando así la arquitectura completa del sistema de monitoreo.
-
-
 
 \begin{comment}
 \section{Diseño de Software}

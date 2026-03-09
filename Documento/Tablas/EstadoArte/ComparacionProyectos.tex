@@ -1,50 +1,52 @@
 \renewcommand{\arraystretch}{1.5}
 
-\begin{longtable}{|p{3cm}|C{2cm}|C{2cm}|C{2cm}|C{2cm}|p{3cm}|}
-\caption{Comparativa de soluciones en monitoreo acuático}
-\label{tab:comparacion_tecnologias} \\
-\hline
-\textbf{Proyecto} & \textbf{Detección de Basura} & \textbf{Sensores de Agua} & \textbf{Red Inalámbrica} & \textbf{Web} & \textbf{Tecnologías Clave} \\
-\hline
-\endfirsthead
+\begin{longtable}{|p{3.5cm}|C{2cm}|C{2cm}|C{2cm}|C{1.8cm}|p{3.5cm}|}
+  \caption{Comparativa de soluciones tecnológicas frente al sistema propuesto.}
+  \label{tab:comparacion_tecnologias} \\
+  \hline
+  \textbf{Proyecto / Enfoque} & \textbf{Detección de Residuos} & \textbf{Sensores de Agua} & \textbf{Red Inalámbrica} & \textbf{Plat. Web} & \textbf{Tecnologías Clave} \\
+  \hline
+  \endfirsthead
 
-\hline
-\textbf{Proyecto} & \textbf{Detección de Basura} & \textbf{Sensores de Agua} & \textbf{Red Inalámbrica} & \textbf{Web} & \textbf{Tecnologías Clave} \\
-\hline
-\endhead
+  \hline
+  \textbf{Proyecto / Enfoque} & \textbf{Detección de Residuos} & \textbf{Sensores de Agua} & \textbf{Red Inalámbrica} & \textbf{Plat. Web} & \textbf{Tecnologías Clave} \\
+  \hline
+  \endhead
 
+  \multicolumn{6}{r}{\textit{Continúa en la siguiente página}} \\
+  \endfoot
 
-\multicolumn{6}{r}{\textit{Continúa en la siguiente página}} \\
-\endfoot
+  \endlastfoot
 
+  Monitoreo telemático agrícola \cite{benitez2024}
+  & No & Sí & Sí & Sí & WSN (Zigbee), actuadores \\ \hline
 
-\endlastfoot
+  Alerta predictiva de nivel de agua \cite{perez2024}
+  & No & No & Sí & Sí & Ultrasónicos, ML, app móvil \\ \hline
 
-Sistema telemático para huertos urbanos \cite{benitez2024} 
-& No & Sí & Sí & Sí & Zigbee, actuadores \\ \hline
+  Detección en barcos (Scientific Reports) \cite{chen2024}
+  & Sí & No & No & No & YOLOv5, Shufflenetv2, \textit{Edge} \\ \hline
 
-Sistema de detección de nivel de agua \cite{perez2024} 
-& No & No & Sí & Sí & Sensores ultrasónicos, modelos predictivos, app móvil \\ \hline
+  Monitoreo multiparamétrico IoT \cite{lechuga2023}
+  & No & Sí & Sí & Sí & ESP32, LoRa, boyas solares \\ \hline
 
-Lightweight YOLOv5 para detección de basura flotante \cite{chen2024} 
-& Sí & No & No & No & YOLOv5, Shufflenetv2, SE \\ \hline
+  Evaluación de red LoRa en ríos \cite{syed2024}
+  & No & Sí & Sí & No & LoRaWAN, sensores químicos \\ \hline
 
-Sistema de monitoreo basado en IoT \cite{lechuga2023} 
-& No & Sí & Sí & Sí & ESP32, LoRa, paneles solares \\ \hline
+  Reconocimiento aéreo en riberas \cite{ortega2024}
+  & Sí & No & No & No & Visión artificial, UAV / Drones \\ \hline
 
-Monitoreo de calidad del agua con LoRa \cite{syed2024} 
-& No & Sí & Sí & No & LoRaWAN, sensores multiparamétricos \\ \hline
+  Clasificación dinámica con ASV \cite{fernandez2024}
+  & Sí & No & No & No & Vehículo autónomo, YOLOv5 \\ \hline
 
-Monitoreo de residuos sólidos con dron \cite{ortega2024} 
-& Sí & No & No & No & Visión artificial, drones \\ \hline
+  WSN en Lago Victoria \cite{faustine2014}
+  & No & Sí & Sí & Sí & Arduino, ZigBee, GPRS \\ \hline
 
-Detección de contaminantes con ASV \cite{fernandez2024} 
-& Sí & No & No & No & ASV, YOLOv5 \\ \hline
+  Revisión tecnológica WSN \cite{lopez2023}
+  & No & Sí & Sí & No & LPWAN, microcontroladores \\ \hline
 
-Monitoreo Lago Victoria \cite{faustine2014} 
-& No & Sí & Sí & Sí & Arduino, XBee (ZigBee), GPRS, paneles solares \\ \hline
-
-Artículo de WSN para calidad de agua \cite{lopez2023} 
-& No & Sí & Sí & No & LoRaWAN, Sigfox, NB-IoT, STM32, técnicas de ML \\ \hline
+  % ---- FILA DEL PROYECTO PROPUESTO ----
+  \textbf{Sistema Propuesto (Mónica)}
+  & \textbf{Sí} & \textbf{Sí} & \textbf{Sí} & \textbf{Sí} & \textbf{YOLOv8-seg, LoRa P2P, ESP32-S3, GPRS} \\ \hline
 
 \end{longtable}
