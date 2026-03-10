@@ -9,14 +9,29 @@
 
 ---
 
-## 🧠 Descripción del Proyecto
+# 🧠 Descripción del Proyecto
 
-Este repositorio contiene el código fuente en **LaTeX** correspondiente a la tesis titulada:  
+Este repositorio contiene el **código fuente en LaTeX** de la tesis titulada:
+
 > *Sistema de monitoreo de contaminación en cuerpos de agua basado en una red inalámbrica de sensores y visión artificial.*
 
-El documento describe el desarrollo de un sistema automatizado para monitorear parámetros de calidad del agua en cuerpos lóticos mediante una **red inalámbrica de sensores distribuida (WSN)**, capaz de medir **pH, oxigenación, temperatura, turbidez y conductividad**.  
-Además, el sistema integra **visión artificial** para la detección de **residuos sólidos flotantes** en la superficie.  
-Los datos recolectados se envían a una **central de procesamiento**, donde se analizan y visualizan mediante una **interfaz web**, proporcionando información útil para la **gestión ambiental y respuesta ante emergencias**.
+El proyecto propone el **diseño e implementación de un sistema automatizado de monitoreo ambiental** para cuerpos de agua, basado en una **Red Inalámbrica de Sensores (WSN)** combinada con **técnicas de visión artificial**.
+
+El sistema permite medir parámetros fundamentales de **calidad del agua**, entre ellos:
+
+* pH
+* Oxígeno disuelto (OD)
+* Temperatura
+* Turbidez
+* Conductividad eléctrica
+
+Adicionalmente, la plataforma incorpora **visión artificial** para la **detección de residuos sólidos flotantes** en la superficie del agua.
+
+Los datos capturados por los sensores y el sistema de visión son transmitidos a una **central de procesamiento**, donde se analizan y se visualizan mediante una **plataforma web de monitoreo**, permitiendo:
+
+* monitoreo ambiental continuo
+* detección temprana de eventos de contaminación
+* apoyo en la toma de decisiones para la gestión ambiental
 
 ---
 
@@ -28,6 +43,15 @@ Los datos recolectados se envían a una **central de procesamiento**, donde se a
 ### 🧑‍🏫 Asesores
 - **Dra. Iclia Villordo Jiménez**  
 - **Dr. Luz Noé Oliva Moreno**
+
+---
+
+## 📄 Documento de la Tesis
+
+La versión compilada de la tesis puede descargarse desde los **Releases del repositorio**.
+
+👉 **Descargar PDF:**  
+https://github.com/TU-USUARIO/TU-REPO/releases/latest
 
 ---
 
@@ -59,27 +83,113 @@ Los datos recolectados se envían a una **central de procesamiento**, donde se a
 
 ---
 
-## ⚙️ Cómo Compilar el Documento
+# ⚙️ Cómo Compilar el Documento
 
-El método recomendado para compilar el proyecto es usando **Visual Studio Code** con la extensión **LaTeX Workshop**, ya que automatiza todo el proceso.
-
-### Requisitos de Software
-
-1.  **MiKTeX:** Descarga e instala la distribución de LaTeX desde [miktex.org](https://miktex.org/). Durante la instalación, asegúrate de seleccionar la opción que permite instalar paquetes faltantes "al vuelo" (on-the-fly).
-2.  **Perl:** La extensión LaTeX Workshop utiliza `latexmk` para una compilación robusta, lo cual requiere un intérprete de Perl. Para Windows, la opción recomendada es **[Strawberry Perl](https://strawberryperl.com/)**.
-3.  **Visual Studio Code:** Descarga e instala el editor desde [code.visualstudio.com](https://code.visualstudio.com/).
-4.  **Extensión LaTeX Workshop:** Dentro de VS Code, ve a la pestaña de `Extensiones` (Ctrl+Shift+X), busca `LaTeX Workshop` y haz clic en Instalar.
-
-### Proceso de Compilación
-
-Una vez que tengas todo instalado:
-
-1.  Abre la carpeta del proyecto en VS Code.
-2.  Abre el archivo principal `main.tex`.
-3.  Guarda el archivo (`Ctrl+S`) o usa el atajo para compilar (`Ctrl+Alt+B`). LaTeX Workshop detectará los cambios y ejecutará automáticamente todas las pasadas de compilación necesarias para resolver las referencias y la bibliografía.
-4.  Para ver el PDF resultante, haz clic en el icono de **previsualización** (una lupa sobre un documento) que aparece en la esquina superior derecha del editor.
+El método recomendado para compilar el proyecto es utilizando **Visual Studio Code** con la extensión **LaTeX Workshop**, ya que automatiza todo el proceso de compilación.
 
 ---
+
+## Requisitos de Software
+
+Instalar los siguientes programas:
+
+### 1️⃣ Distribución LaTeX
+
+Instalar **MiKTeX**
+
+https://miktex.org
+
+Durante la instalación habilitar la opción:
+
+> Install missing packages on-the-fly
+
+---
+
+### 2️⃣ Intérprete de Perl
+
+La herramienta `latexmk` requiere **Perl** para ejecutar correctamente el proceso de compilación.
+
+Para Windows se recomienda:
+
+https://strawberryperl.com
+
+---
+
+### 3️⃣ Visual Studio Code
+
+https://code.visualstudio.com
+
+---
+
+### 4️⃣ Extensión LaTeX Workshop
+
+Instalar la extensión **LaTeX Workshop** desde el marketplace de extensiones de VS Code.
+
+---
+
+# 🧾 Proceso de Compilación
+
+> ⚠️ Si solo deseas leer la tesis, puedes descargar directamente el PDF desde la sección **Releases** del repositorio.
+
+### 1️⃣ Clonar el repositorio
+
+Primero descarga el repositorio en tu equipo utilizando **Git**:
+
+```bash
+git clone https://github.com/AlfredoDompablo/Proyecto-terminal
+````
+Después entra a la carpeta del proyecto:
+
+```bash
+cd Proyecto-terminal
+```
+---
+### 2️⃣ Abrir el proyecto en Visual Studio Code
+
+Abre la carpeta del proyecto en **Visual Studio Code**.
+
+También puedes hacerlo desde la terminal:
+
+```bash
+code .
+```
+
+---
+
+### 3️⃣ Abrir el archivo principal
+
+Dentro del proyecto, abre el archivo principal de la tesis:
+
+```
+main.tex
+```
+
+---
+
+### 4️⃣ Compilar el documento
+
+Guarda el archivo (`Ctrl + S`) o ejecuta el comando de compilación:
+
+```
+Ctrl + Alt + B
+```
+
+La extensión **LaTeX Workshop** ejecutará automáticamente todas las pasadas necesarias para resolver:
+
+* referencias cruzadas
+* bibliografía
+* tabla de contenido
+
+---
+
+### 5️⃣ Visualizar el PDF
+
+Para ver el resultado, abre la **vista previa del PDF** desde el icono de previsualización en el editor.
+
+
+---
+
+
 
 ## 🧱 Archivos importantes
 
@@ -103,9 +213,6 @@ Una vez que tengas todo instalado:
 
 ---
 
-> 🪶 "La tesis no se termina, se entrega." 😅
----
-
 ### 🌱 Guía de Colaboración
 
 Para mantener un historial de cambios limpio y consistente, hemos creado una [guía de colaboración con buenas prácticas y comandos de Git](./CONTRIBUTING.md).
@@ -120,16 +227,16 @@ Puedes modificar, usar y distribuir este material dando el debido crédito.
 
 ---
 
-## ✒️ Cómo Citar
+# ✒️ Cómo Citar
 
-Si encuentras este trabajo útil para tu investigación, por favor considera citarlo. Puedes usar la siguiente entrada en formato BibTeX.
+Si este trabajo resulta útil para tu investigación, por favor considera citarlo.
 
 ```bibtex
 @mastersthesis{DompabloLopez2025,
-  author    = {Dompablo Celaya, Oscar Alfredo and L\'{o}pez Ram\'{i}rez, Itzel},
-  title     = {Sistema de Monitoreo de Contaminaci\'{o}n en Cuerpos de Agua Basado en una Red Inal\'{a}mbrica de Sensores y Visi\'{o}n Artificial},
-  school    = {Instituto Polit\'{e}cnico Nacional (UPIITA)},
-  year      = {2025}, 
-  address   = {Ciudad de M\'{e}xico, M\'{e}xico},
-  type      = {Tesis de Ingenier\'{i}a Telem\'{a}tica}
+  author    = {Dompablo Celaya, Oscar Alfredo and López Ramírez, Itzel},
+  title     = {Sistema de Monitoreo de Contaminación en Cuerpos de Agua Basado en una Red Inalámbrica de Sensores y Visión Artificial},
+  school    = {Instituto Politécnico Nacional (UPIITA)},
+  year      = {2025},
+  address   = {Ciudad de México, México},
+  type      = {Tesis de Ingeniería Telemática}
 }
