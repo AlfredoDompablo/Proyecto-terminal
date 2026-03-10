@@ -51,7 +51,7 @@ Los datos capturados por los sensores y el sistema de visión son transmitidos a
 La versión compilada de la tesis puede descargarse desde los **Releases del repositorio**.
 
 👉 **Descargar PDF:**  
-https://github.com/TU-USUARIO/TU-REPO/releases/latest
+https://github.com/AlfredoDompablo/Proyecto-terminal/releases/tag/v40
 
 ---
 
