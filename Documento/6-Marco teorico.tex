@@ -1,73 +1,73 @@
 \chapter{Marco Teórico}
 
 \section{Cuerpo de Agua}
-Un cuerpo de agua es cualquier extensión que se encuentran en la superficie terrestre (ríos y lagos) o en el subsuelo (acuíferos, ríos subterráneos); tanto en estado líquido, como sólido (glaciares, casquetes polares); tanto naturales como artificiales (embalses) y pueden ser de agua salada o dulce\cite{agua2024}.
+Un cuerpo de agua se define como cualquier extensión o masa de agua que se encuentra en la superficie terrestre (ríos y lagos) o en el subsuelo (acuíferos, ríos subterráneos). Estas masas pueden presentarse en estado líquido o sólido (glaciares, casquetes polares), ser de origen natural o artificial (embalses), y estar constituidas por agua dulce o salada \cite{agua2024}.
 
-La RENAMECA establece que cuerpos de agua pueden clasificarse como lénticos (agua en reposo como lagos y estanques), lóticos (masas de agua en movimiento constante, como ríos y arroyos), costeros (aguas costeras como playas, bahías, marismas y estuarios) y subterráneos (aguas del subsuelo como pozos, cenotes, galerías y manantiales)
+De acuerdo con la Red Nacional de Medición de Calidad del Agua (RENAMECA), los cuerpos de agua pueden clasificarse como: lénticos (aguas en reposo, como lagos y estanques), lóticos (masas de agua en movimiento constante, como ríos y arroyos), costeros (playas, bahías, marismas y estuarios) y subterráneos (aguas del subsuelo como pozos, cenotes, galerías y manantiales).
 
 %referencia RENAMECA https://app.conagua.gob.mx/ICA/Contenido?n1=1&n2=1 . 
-Este proyecto se enfoca principalmente en cuerpos de agua lóticos debido a la necesidad de monitoreo continuo, ya que en ellos suelen realizarse descargas industriales y agrícolas, albergan una vida acuática importante y, en muchas ocasiones, actúan como proveedores de agua para diversos fines. 
+El presente proyecto se enfoca principalmente en los cuerpos de agua lóticos. Dada su dinámica de flujo constante, estos ecosistemas son altamente susceptibles a la rápida dispersión de contaminantes provenientes de descargas industriales y agrícolas. Por ende, la implementación de sistemas de monitoreo continuo es indispensable para salvaguardar la vida acuática que albergan y garantizar la calidad del recurso para sus diversos fines de aprovechamiento.
 
 \section{Calidad del Agua}
-La calidad del agua se refiere a la condición general y a las características físicas, químicas y biológicas que permiten su uso para un determinado fin, ayudaran a determinar si es apta, por ejemplo, para consumo humano, riego agrícola, protección de la vida acuática o uso recreativo. 
-La evaluación de la calidad del agua requiere el monitoreo de parámetros clave como pH, oxígeno disuelto, turbidez, temperatura y conductividad, entre otros parámetros químicos, los cuales proporcionan información crítica sobre el estado del ecosistema acuático y la posible presencia de contaminantes.
-La solución propuesta integra una Red Inalámbrica de Sensores (WSN) y un sistema de visión artificial, permitiendo un monitoreo continuo y automatizado que mejora la precisión al evitar errores asociados al transporte y almacenamiento de muestras.
+La calidad del agua se refiere a las condiciones generales y características físicas, químicas y biológicas que determinan su aptitud para un uso específico. Evaluar dichos atributos permite establecer si el recurso hídrico es adecuado para el consumo humano, el riego agrícola, la protección de la vida acuática o para fines recreativos.
+
+Esta evaluación requiere el monitoreo sistemático de parámetros físicos y químicos fundamentales, tales como el pH, el oxígeno disuelto, la turbidez, la temperatura y la conductividad eléctrica. Estas mediciones proporcionan información crítica sobre la salud del ecosistema acuático y facilitan la detección oportuna de posibles contaminantes.
+
+Para abordar la medición de estos parámetros, la solución propuesta integra una Red Inalámbrica de Sensores (WSN, por sus siglas en inglés) y un sistema de visión artificial. Esta arquitectura tecnológica permite un monitoreo continuo, automatizado y en tiempo real, lo que incrementa sustancialmente la precisión al mitigar los errores logísticos típicamente asociados con el muestreo manual, transporte y almacenamiento de las muestras.
 
 \section{Contaminación}
-El término contaminación se refiere a la introducción de cualquier agente químico, físico o biológico cuya presencia o acumulación tiene efectos nocivos en el entorno natural,  la salud y el bienestar de las personas.La magnitud de su impacto generalmente depende de una combinación de aspectos como la cantidad, el tipo de contaminante, la vía de ingreso  y el tipo de medio al que se incorporan.
+La contaminación se conceptualiza como la introducción de agentes químicos, físicos o biológicos en un medio, cuya presencia o acumulación genera efectos nocivos en el entorno natural, así como riesgos para la salud y el bienestar humano. La magnitud de dicho impacto depende de una combinación de factores, tales como la concentración y toxicidad del contaminante, su vía de ingreso y el nivel de resiliencia del ecosistema al que se incorpora.
 
-Se dice que el agua está contaminada cuando los agentes contaminantes repercuten negativamente en su calidad para el consumo humano, para usos posteriores o para el bienestar de los ecosistemas. Es la contaminación que ocurre en cualquier espacio que alberga agua: ríos, lagos, acuíferos o incluso el mar \cite{agua2024contaminacion}. 
+En particular, un cuerpo de agua se considera contaminado cuando la incidencia de estos agentes excede los niveles naturales de asimilación, degradando negativamente las propiedades del medio. Dicha alteración compromete la viabilidad del agua para abastecimiento humano o usos ambientales posteriores, y amenaza el equilibrio biológico de los ecosistemas. Este fenómeno adverso puede manifestarse en cualquier tipo de depósito hídrico, ya sean ríos, lagos, acuíferos o el medio marino \cite{agua2024contaminacion}.
 
 
 \section{Parámetros de la Calidad del Agua}
 
 \subsection{pH}
-El pH del agua afecta procesos como la corrosión y las incrustaciones en redes de distribución. Aunque no tiene un impacto directo en la salud, influye en el tratamiento del agua, especialmente en la coagulación y desinfección. Las aguas naturales suelen tener un pH entre 5 y 9 \cite{uno2020}. 
+El potencial de hidrógeno (pH) es un indicador físico-químico que mide la acidez o alcalinidad del medio. Aunque sus variaciones no siempre plantean un riesgo orgánico directo para la salud pública, influyen drásticamente en la eficiencia de los procesos de tratamiento (como la desinfección y coagulación) y comprometen la infraestructura hídrica, acelerando daños por corrosión o incrustación en las redes de distribución. En entornos naturales, las aguas no alteradas suelen registrar valores de pH que oscilan entre 5 y 9 \cite{uno2020}. 
 
+En México, la norma oficial NOM-127-SSA1-2021 establece que el pH para agua destinada a uso y consumo humano debe mantenerse rigurosamente dentro del rango de 6.5 a 8.5. Este acotamiento tiene el doble propósito de garantizar la potabilidad del recurso y preservar la integridad físico-química de los equipos de distribución \cite{uno2020}.
 
-En México, los niveles recomendados de pH para agua potable están regulados por la NOM-127-SSA1-2021, que establece los límites de calidad del agua para uso y consumo humano. Según esta norma, el pH del agua debe encontrarse dentro de un rango de 6.5 a 8.5 para garantizar su potabilidad y evitar problemas como corrosión o incrustaciones en las redes de distribución \cite{uno2020}.
+\subsection{Turbidez}
+La turbidez corresponde a la pérdida de transparencia del agua, provocada por la constante dispersión de luz frente a la presencia de materia finamente suspendida (como arcillas, limos, fitoplancton y otros compuestos sólidos). Su medición paramétrica se lleva a cabo mediante nefelómetros o turbidímetros, reportando los valores en Unidades Nefelométricas de Turbidez (UNT).
 
-Este rango busca no solo proteger los equipos de distribución, sino también asegurar la eficiencia en los procesos de tratamiento, como la desinfección, y garantizar que el agua sea apta para el consumo humano \cite{uno2020}.
-
-\subsection{Turbiedad}
-La turbidez del agua se produce por partículas en suspensión, como arcillas, limo y tierra fina, que reducen su transparencia. Se mide usando turbidímetros o nefelómetros, en Unidades Nefelométricas de Turbidez (UNT). Para mantener la calidad del agua potable, las normas recomiendan no superar 5 UNT, y para una desinfección eficiente, el agua filtrada debería tener menos de 1 UNT \cite{uno2020}
+Para asegurar la aptitud del agua potable y el éxito microbiológico en los procesos de saneamiento, el consenso normativo estipula no rebasar las 5 UNT. Adicionalmente, el líquido ya filtrado de una red debe manifestar niveles inferiores a 1 UNT para evitar que los sólidos residuales funjan como escudos protectores de bacterias o virus patógenos \cite{uno2020}.
 
 \subsection{Conductividad Eléctrica}
-El agua pura es un mal conductor de la electricidad, pero cuando contiene sales se convierte en un buen conductor debido a la presencia de iones con cargas eléctricas. La conductividad electrolítica es una expresión numérica de la capacidad de una solución para transportar una corriente eléctrica. Esta capacidad depende de la presencia de iones, de su concentración total, de su movilidad, valencia y concentraciones relativas, así como de la temperatura \cite{nmx2000}.
+La conductividad eléctrica (CE) define la capacidad numérica de un medio acuoso para transportar una corriente eléctrica. A diferencia del agua pura que se aproxima a un aislante dieléctrico, el agua natural contiene solutos y iones disueltos (sales minerales) que actúan como vehículos para el flujo de electrones. La magnitud de la conductividad depende de un conjunto multifactorial: la concentración global de iones, su movilidad relativa, valencia y temperatura \cite{nmx2000}.
 
-La unidad de medición estándar en el Sistema Internacional (SI) es el \textbf{Siemens por metro} ($S/m$). Sin embargo, dado que la conductividad en cuerpos de agua naturales suele presentar valores bajos, en la práctica es más común utilizar el \textbf{microSiemens por centímetro} ($\mu S/cm$) o el \textbf{miliSiemens por centímetro} ($mS/cm$). Existe una relación directa entre la conductividad y la cantidad de Sólidos Disueltos Totales (TDS), utilizándose frecuentemente la medida de conductividad como un indicador indirecto de la salinidad del agua.
+A nivel macroscópico, el Sistema Internacional (SI) adjudica el empleo del \textbf{Siemens por metro} ($S/m$). Sin embargo, las moderadas disoluciones típicas en fuentes dulceacuícolas estandarizan fuertemente el uso pragmático del \textbf{microSiemens por centímetro} ($\mu S/cm$) o \textbf{miliSiemens por centímetro} ($mS/cm$). Con base en una extensa correlación lineal, dicha variable se emplea comúnmente en la hidrología moderna como un índice subyacente para pronosticar los niveles métricos totales de la mineralización indirecta y la salinidad (Sólidos Disueltos Totales o TDS).
 
 \subsection{Temperatura}
-La temperatura es un parámetro físico clave en el agua, ya que afecta procesos biológicos y químicos como la actividad microbiana, la absorción de oxígeno, la precipitación de compuestos y la eficiencia en la desinfección. También influye en operaciones de tratamiento como la mezcla, floculación, sedimentación y filtración. La temperatura del agua varía constantemente debido a factores ambientales \cite{uno2020}.
+La temperatura es un parámetro físico determinante en el agua, ya que afecta la velocidad de procesos biológicos y químicos como la actividad microbiana, la absorción de oxígeno, la precipitación de compuestos y la eficiencia de la desinfección. También influye significativamente en operaciones complejas de tratamiento, como la mezcla, floculación, sedimentación y filtración. El perfil térmico del agua se encuentra sujeto a dinámicas atmosféricas, experimentando cambios de manera constante \cite{uno2020}.
 
-Para el monitoreo de la calidad del agua, la unidad de medida universalmente aceptada es el **grado Celsius** ($^\circ$C). Aunque en el Sistema Internacional (SI) la unidad base de temperatura es el Kelvin (K), en aplicaciones ambientales y normativas (como las establecidas por la SEMARNAT o la EPA) se utilizan los grados Celsius debido a su practicidad para describir condiciones ambientales. La precisión típica requerida para estos sensores en estudios hidrológicos oscila entre $\pm 0.1^\circ$C y $\pm 0.5^\circ$C.
+Para el escrutinio hidrológico y la trazabilidad del monitoreo, la unidad de medida universalmente aceptada es el \textbf{grado Celsius} ($^\circ$C). Aunque en el rigor del Sistema Internacional (SI) la unidad térmica base es el Kelvin (K), en aplicaciones ambientales y mandatos normativos (como las regulaciones establecidas por dependencias tales como SEMARNAT o la EPA) se prioriza el uso de grados Celsius debido a su pragmatismo para interpretar condiciones climáticas de campo. La capacidad de precisión típica requerida para estos sensores en estudios ambientales y peritajes oscila entre $\pm 0.1^\circ$C y $\pm 0.5^\circ$C.
 
-La integración de sensores en la solución propuesta permite monitorear continuamente la temperatura, ajustando las mediciones de otros parámetros como la conductividad, que depende directamente de este valor. Esto asegura un análisis más preciso y adaptado a las condiciones dinámicas de los cuerpos de agua monitoreados.
+La integración digital de sensores térmicos en la solución propuesta permite monitorear de manera constante la temperatura, logrando un doble objetivo: documentar los cambios directos del recurso y calibrar compensatoriamente las lecturas de otros parámetros (como la conductividad) que son inherentemente dependientes de este valor termodinámico. Esta estrategia asegura un análisis paramétrico más robusto, preciso y plenamente adaptado a las condiciones ambientales in situ de los ecosistemas fluviales monitoreados.
 
-\subsection{Oxigeno Disuelto}
-El oxígeno disuelto (OD) es fundamental para la supervivencia de los organismos acuáticos, ya que la mayoría de las especies dependen de niveles adecuados de oxígeno en el agua. Factores como la temperatura y la actividad biológica influyen en su concentración. A mayor temperatura, menor capacidad del agua para retener oxígeno. Además, la medición del OD puede proporcionar información valiosa sobre la presencia de contaminantes, como materia orgánica en descomposición o vertidos industriales, que disminuyen los niveles de oxígeno en el agua, afectando negativamente a la vida acuática. Los valores recomendados para cuerpos de agua que soportan vida acuática oscilan entre 5 y 8 mg/L, dependiendo de las condiciones locales \cite{swamp2023}.
+\subsection{Oxígeno Disuelto}
+El oxígeno disuelto (OD) dimensiona y cuantifica la saturación del gas molecular presente en la interfaz acuosa y es imperativo para los procesos catabólicos aeróbicos en la red trófica acuática. Este insumo experimenta descensos severos influenciados proporcionalmente y de manera inversamente exponencial por los repuntes de salinidad global y de la temperatura (el déficit en termodinámica química exacerba la desgasificación).
 
+Cuantitativamente, caídas dramáticas frente al histórico documentado, proveen información y trazabilidad diagnóstica reveladora del grado de perturbación exógena, insinuando vertidos industriales adyacentes o desequilibrio orgánico. La fermentación bacteriana encargada de mitigar este pasivo natural "secuestra" los depósitos libres de oxígeno, sofocando y extinguiendo consecuentemente la vida acuática superior. Los consensos sugieren un estándar sano y aceptable variando nominalmente en la franja asintótica de 5 a 8 mg/L \cite{swamp2023}.
 
-%\subsection{Sensor de pH}
-%Es un dispositivo que se utiliza para medir la acidez o alcalinidad de una solución, mediante la detección de la concentración de iones de hidrógeno.
-Los parámetros básicos, como pH, oxígeno disuelto, turbidez, conductividad y temperatura, son indicadores fundamentales del estado de los cuerpos de agua. Estos permiten identificar la presencia de contaminantes, evaluar la salud de los ecosistemas acuáticos y determinar la aptitud del agua para diferentes usos. Su monitoreo es clave para detectar cambios asociados a actividades humanas, como descargas industriales y agrícolas, y para garantizar la sostenibilidad de los recursos hídricos.
+La recopilación de parámetros fundamentales, a modo sinérgico (pH, OD, turbidez, CE, temperatura), forja bases medulares para validar, salvaguardar y monitorizar la salud ambiental y prospectar la sostenibilidad en el abanico totalitario del uso y explotación inminente global de los caudales de reserva y recursos hídricos.
 
 \section{Monitoreo del Agua}
-Se entiende por el proceso constante de observación, medición y análisis de parámetros que dan indicio de la calidad del agua. El monitoreo del agua permite conocer su calidad a través del tiempo, la cual se determina analíticamente por diferentes parámetros físicos, químicos y biológicos, en función del uso al cual va a ser destinada \cite{monitoreo2023}.
-
+El monitoreo hídrico se define como el proceso sistemático de observación, medición y análisis continuo de los parámetros que fungen como indicadores de la calidad del agua. Este monitoreo facilita el levantamiento de registros y asegura la documentación sobre la evolución analítica del recurso a lo largo del tiempo. Dicha valoración se determina mediante el análisis estricto de distintos parámetros físicos, químicos y biológicos, diagnosticándose la viabilidad de conformidad con los objetivos o demandas de explotación al cual va a estar sujeta \cite{monitoreo2023}.
 
 \section{Sensores e Instrumentación}
 \label{sec:marco_sensores}
 
-Un sensor se define como un dispositivo de hardware capaz de detectar cambios físicos o químicos en el entorno monitoreado (como variaciones de temperatura, presión o acidez) y producir una respuesta medible. Esta señal, que generalmente es analógica y continua, es digitalizada posteriormente mediante un convertidor analógico-digital (ADC) para ser procesada por un microcontrolador.
+Un sensor se conceptúa fundamentalmente como un módulo de hardware o dispositivo transductor, capaz de percibir alteraciones físico-químicas del medio u entorno de influencia (tales como variaciones de temperatura térmica, presiones fluctuantes o acidez potencial) para traducir y consolidarlo en una manifestación mensurable. La seña emergente (convencionalmente perfilada de manera analógica y continua), es codificada y tratada a renglón seguido mediante un convertidor analógico-digital (ADC) para favorecer su adquisición e interpretación sistémica por un núcleo integrador o microcontrolador.
 
-Para la implementación eficiente en redes de monitoreo, los sensores deben cumplir con características críticas como un tamaño reducido, bajo consumo energético para garantizar la autonomía, capacidad de operación desatendida y adaptabilidad a las condiciones ambientales \cite{fernandez2009}.
+Para perfilar un prototipo altamente efectivo en las entrañas de macro-sistemas o redes distribuidas de monitoreo, los sensores embebidos deben acatar de forma tajante rasgos estructurales obligatorios. Entre las normativas ineludibles despuntan un tamaño compacto, austeridad de consumo en reservas energéticas para asegurar extensas autonomías de labor, una notable destreza para maniobrar operaciones con nula supervisión humana e implacable versatilidad y resiliencia en la adaptabilidad cruzada hacia climas agrestes hostiles \cite{fernandez2009}.
 
-Generalmente, los sensores pueden clasificarse en tres categorías según su método de interacción con el medio:
+Considerando de forma directa el enfoque y modelo de adquisición y captura frente a un suceso paramétrico, las configuraciones sensóricas pueden ser catalogadas bajo los siguientes pilares de tres familias metodológicas integrales:
+
 \begin{itemize}
-    \item \textbf{Sensores pasivos omnidireccionales:} Captan datos del entorno sin manipularlo y sin una dirección de enfoque específica. Son autoalimentados y utilizan la energía únicamente para amplificar la señal captada.
-    \item \textbf{Sensores pasivos unidireccionales:} Similares a los anteriores, pero con una dirección de captura bien definida; un ejemplo típico son las cámaras de visión artificial.
-    \item \textbf{Sensores activos:} Sondean el ambiente emitiendo energía para medir la respuesta del entorno, como los radares o sensores sísmicos que generan ondas expansivas.
+    \item \textbf{Sensores pasivos omnidireccionales:} Son herramientas de medición de umbrales en campos no estandarizados espacialmente, dedicados a recabar sucesiones enigmáticas sin direccionar explícitamente sus mecanismos. Estas instancias, carentes de fuentes emisoras, no alteran experimentalmente el sitio en proceso y suelen invertir los residuales para amplificar de forma limpia el canal de obtención natural preestablecido.
+    \item \textbf{Sensores pasivos unidireccionales:} Heredan cabalmente la naturaleza de no emitir fuerzas al medio de monitoreo; sin embargo, ostentan una limitante angular del enfoque focal plenamente configurada; destacando como su mayor ejemplo industrial, el uso de las cámaras perimetrales integradas a plataformas de visión y óptica artificial.
+    \item \textbf{Sensores activos:} Representan a la instrumentación dedicada y son perceptores que aglomeran interrogaciones exprofeso mediante descargas direccionables de radiocontacto o emisión calórica hacia la biósfera ambiental subyacente. Las metodologías evalúan el delta emergido por rebote de la emisión nativa, figurando como insignia las capacidades perimétricas acústicas navales y de radar, proyectando de manera activa flujos cuantificables.
 \end{itemize}
 
 \subsection{Parámetros de Calidad del Agua}
@@ -90,122 +90,69 @@ En el contexto del monitoreo hídrico, se emplean sensores específicos diseñad
     Determinan la capacidad del agua para conducir corriente eléctrica, lo cual es un indicador directo de la cantidad de sólidos disueltos (sales y minerales). Funcionan aplicando una pequeña corriente entre electrodos y midiendo la caída de voltaje resultante para calcular la conductividad del medio.
 \end{itemize}
 
-Los sensores representan una solución innovadora para medir parámetros de calidad del agua de forma continua y precisa. A diferencia de los métodos manuales, estos dispositivos permiten la recolección de datos en tiempo real, incluso en condiciones ambientales adversas. Al integrarse en redes inalámbricas, los sensores facilitan la transmisión inmediata de datos a sistemas de procesamiento, lo que optimiza su análisis y visualización
-    
+Los sensores representan una solución innovadora para medir parámetros de calidad del agua de forma continua y precisa. A diferencia de los métodos manuales, estos dispositivos permiten la recolección de datos en tiempo real, incluso en condiciones ambientales adversas. Al integrarse en redes inalámbricas, los sensores facilitan la transmisión inmediata de datos a sistemas de procesamiento, lo que optimiza su análisis y visualización.
+
 \section{Red Inalámbrica de Sensores}
 
-Las redes inalámbricas de sensores (WSN, por sus siglas en inglés) están conformadas por un conjunto de nodos sensores autónomos que se comunican entre sí de manera inalámbrica para monitorear variables del entorno y transmitir los datos recolectados hacia un nodo central o estación base. Estos sistemas son ampliamente utilizados en aplicaciones como monitoreo ambiental, control de infraestructuras, agricultura inteligente, seguridad, entre otros.
+Las redes inalámbricas de sensores (WSN, por sus siglas en inglés) son sistemas embebidos fundamentales para la telemetría distribuida moderna. Están conformadas por un conjunto de nodos sensores autónomos, capaces de comunicarse mediante enlaces de radiofrecuencia (RF) para recolectar, procesar y transmitir variables físicas del entorno hacia un nodo concentrador o estación base. Su implementación abarca aplicaciones de monitoreo ambiental, domótica, agricultura de precisión y control de infraestructuras críticas \cite{fernandez2009}.
 
-Uno de los estándares más utilizados en estas redes es el IEEE 802.15.4, el cual define especificaciones para la capa física y la capa de enlace. Sobre estas capas operan diversos protocolos, como Zigbee, WirelessHART, ISA100.11a y 6LowPAN, que permiten establecer la comunicación entre nodos sensores de manera eficiente y escalable.
+Generalmente, estas redes basan su arquitectura en el estándar IEEE 802.15.4, el cual define las especificaciones para la capa física y la capa de Control de Acceso al Medio (MAC), priorizando el bajo consumo energético. Sobre esta capa operan protocolos de red como Zigbee, WirelessHART, ISA100.11a o 6LoWPAN, que resuelven los desafíos de escalabilidad y enrutamiento en estas plataformas modulares.
 
-En contextos de monitoreo de infraestructuras lineales a gran escala —como ríos, oleoductos o fronteras— se emplea un tipo particular de WSN con topología lineal. Estas redes se caracterizan por disponer los nodos a lo largo de una línea o trayectoria determinada, donde cada nodo actúa como retransmisor hacia el siguiente, formando una cadena de comunicación hasta llegar al nodo colector. Dado que la mayoría de los nodos se encuentra fuera del rango directo del nodo frontera, la comunicación se realiza mediante múltiples saltos (\textit{multi-hop}) \cite{egas2021red}.
+En escenarios enfocados en el monitoreo de infraestructura longitudinal (como ríos, oleoductos o líneas fronterizas), el diseño ideal recae en la implementación de una topología lineal. Esta variante operativa dispone los nodos de forma secuencial a lo largo de una trayectoria continua, donde cada dispositivo no solo captura datos, sino que actúa como retransmisor hacia el nodo siguiente. Dado que la mayoría de los dispositivos excede el rango de comunicación directa con la estación base (nodo colector), el flujo de información forma una cadena lógica donde los datos llegan a su destino mediante múltiples saltos (\textit{multi-hop}) \cite{egas2021red}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Marco Teorico/Topologia lineal.pdf}
-    \caption{Topología Lineal}
+    \caption{Representación esquemática de una WSN estructurada bajo topología lineal.}
     \label{fig:topologia_lineal}
 \end{figure}
 
-
 \subsection{Características de las Redes con Topología Lineal}
 
-Las redes inalámbricas de sensores con topología lineal presentan desafíos y ventajas específicas:
+Operar una arquitectura con topología lineal conlleva ventajas y desafíos técnicos específicos frente a las configuraciones tradicionales:
 
 \begin{itemize}
-    \item \textbf{Bajo consumo energético:} Los nodos operan con baterías, por lo que los protocolos deben minimizar el procesamiento y las retransmisiones innecesarias para extender la vida útil de la red.
-    \item \textbf{Infraestructura fija y predictable:} La ubicación secuencial y estática de los nodos permite asignar identificadores automáticamente sin necesidad de protocolos complejos de direccionamiento.
-    \item \textbf{Rutas definidas por defecto:} Al existir una única trayectoria de comunicación hacia el nodo frontera, no es necesario implementar capas de red completas ni algoritmos de enrutamiento convencionales.
-    \item \textbf{Escalabilidad:} Estas redes pueden extenderse fácilmente a lo largo de grandes distancias sin necesidad de rediseñar la topología.
-    \item \textbf{Limitaciones de cómputo:} Dado que los nodos son de bajo costo y con recursos limitados, se recomienda eliminar funciones innecesarias, como la capa de red, para reducir complejidad y consumo.
+    \item \textbf{Optimización estricta del consumo energético:} Al operar ininterrumpidamente mediante baterías, los protocolos de enrutamiento deben minimizar eventos fútiles como las retransmisiones innecesarias, las colisiones o la escucha inactiva (\textit{idle listening}), maximizando con ello la autonomía de la red.
+    \item \textbf{Despliegue geográfico predecible:} La disposición lineal del hardware simplifica la configuración algorítmica, permitiendo omitir procesos heurísticos complejos de identificación y localización, ya que las posiciones nodales permanecen estáticas.
+    \item \textbf{Enrutamiento determinístico:} Dado que solo existe una trayectoria predeterminada hacia el nodo colector, la red suprime las capas de enrutamiento exploratorio típicas de las redes en malla (\textit{mesh}), reduciendo con ello la latencia.
+    \item \textbf{Alta escalabilidad longitudinal:} Brinda la capacidad de extender físicamente la cobertura de monitoreo con tan solo acoplar repetidores subsiguientes en paralelo a lo largo del cauce, sin necesidad de reestructurar u alterar el diseño del núcleo original.
+    \item \textbf{Limitaciones en la capacidad de cómputo:} Ya que se emplean microcontroladores de bajo costo y recursos discretos, la red debe acotar funciones prescindibles propias del modelo OSI para priorizar la ejecución del programa sin retrasos.
 \end{itemize}
 
-\begin{comment}
-\subsection*{Ventajas para Monitoreo Ambiental}
+\subsection{Arquitectura y Tipología de Nodos en una WSN}
 
-Este tipo de redes es especialmente adecuado para el monitoreo de cuerpos de agua como ríos, ya que:
+Los nodos asumen el rol de elementos fundamentales y unidades de procesamiento descentralizado dentro de una infraestructura WSN. Están configurados para solventar las encomiendas de captura de datos locales, preprocesamiento y transmisión estructurada hacia otros módulos de la red o hacia un nodo colector (\textit{sink node}).
 
-\begin{itemize}
-    \item Permiten cubrir grandes tramos longitudinales con una cantidad razonable de nodos.
-    \item Pueden operar durante largos periodos sin intervención humana gracias a su bajo consumo energético.
-    \item Su arquitectura simplificada reduce los costos de implementación y mantenimiento.
-\end{itemize}
-
-Por estas razones, las WSN con topología lineal representan una solución viable y eficiente para proyectos de monitoreo ambiental distribuido, como el que se propone en este trabajo.
-\end{comment}
-
-
-
-\begin{comment}
-    
-
-\subsection{Nodos}
-Las WSN o redes inalámbricas de sensores están compuestas por nodos de bajo costo y bajo consumo de energía que pueden recolectar información del medio ambiente, procesarla y enviarla a través de conexiones inalámbricas a un nodo central de coordinación. Los nodos actúan como parte de la 
-infraestructura de comunicaciones, retransmitiendo los mensajes de los nodos más alejados hasta llegar al centro de coordinación.  La red de sensores inalámbricos está formada por numerosos dispositivos distribuidos espacialmente, que utilizan sensores para monitorear diversas condiciones en distintos puntos, entre ellas la temperatura, el sonido, la vibración, la presión y movimiento o los contaminan
-tes. Los sensores pueden ser fijos o móviles\cite{fernandez2008}. Los dispositivos son unidades autónomas que constan de un microcontrolador, una fuente de energía (casi siempre una batería), un
- radio transceptor(RF), un elemento sensor y en de manera opcional actuadores. 
-
-En la figura [\ref{fig:Componentes_nodo}] se muestran los componentes que conforman a un nodo\cite{fernandez2009}.
-\begin{figure}[H]
-    \centering
-    %\includegraphics[width=0.5\linewidth]{nodos.png}
-    \includegraphics[width=0.6\linewidth]{Documento/Imagenes/compNodoSen.png}
-    %\caption{Componentes que conforman a un nodo \cite{fernandez2008}}
-    \caption{Componentes que conforman a un nodo}
-    \label{fig:Componentes_nodo}
-\end{figure}
-
-\begin{enumerate}
-    \item \textbf{Procesador:} 
-    Es el componente que interpreta y procesa los datos para transmitirlos a otra estación. También gestiona el almacenamiento de datos en la memoria. Puesto que de un nodo sensor se espera una comunicación y una recogida de datos mediante sensores, debe existir una unidad de procesado que se encargue de gestionar todas estas operaciones \cite{fernandez2009}.
-    \item \textbf{Sensor:} 
-    Los sensores son dispositivos hardware que producen una respuesta medible ante un cambio en un estado físico, como puede ser temperatura o presión. Los sensores detectan o miden cambios físicos en el área que están monitoreando. La señal analógica continua detectada es digitalizada por un convertidor analógico-digital y enviada a un controlador para ser procesada. Las características y requerimientos que un sensor debe tener son un pequeño tamaño, un consumo bajo de energía, operar en densidades volumétricas altas, ser autónomo y funcionar desatendidamente, además de tener capacidad para adaptarse al ambiente \cite{fernandez2009}.
-
-    \item \textbf{Transceptor:} 
-    El dispositivo de comunicación utilizado por los nodos en una WSN es un dispositivo vía radio que se comunica con otros dispositivos dentro de su rango de transmisión. Los nodos utilizan la banda ISM, que es una banda reservada para uso no comercial de radiofrecuencia electromagnética en áreas industriales, científicas y médicas. Esta banda de frecuencia está disponible para todo el mundo sin necesidad de licencia, siempre que se respeten las regulaciones que limitan los niveles de potencia transmitida \cite{fernandez2009}. Los medios a elegir para realizar una comunicación inalámbrica son varios: radiofrecuencia, comunicación óptica mediante láser e infrarrojos. La radiofrecuencia (RF) es la más adecuada para usar en aplicaciones inalámbricas. Las WSN usan las frecuencias de comunicación que van entre 433 MHz y 2.4 GHz. El transceptor es un dispositivo que combina las funciones de emisión y recepción. Tiene diferentes estados de operación, incluyendo el modo de emisión, el modo de recepción, el modo de dormir y el modo de inactividad. En los modelos actuales de transceptor, el modo de inactividad consume casi la misma cantidad de energía que el modo de recepción, por lo que es mejor apagar completamente las comunicaciones de radio cuando no se están emitiendo ni recibiendo. Además, el cambio de modo de dormir a transmisión de datos también consume una cantidad significativa de energía \cite{fernandez2009}.
-\end{enumerate}
-\end{comment}
-\subsection{Tipos de Nodos en una WSN}
-
-Los nodos son los elementos fundamentales de una red inalámbrica de sensores (WSN), y están diseñados para operar de manera autónoma en entornos distribuidos. Cada nodo es capaz de sensar parámetros físicos, realizar un procesamiento básico local y transmitir la información recolectada hacia otros nodos o un nodo recolector (sink), a través de enlaces inalámbricos.
 \subsubsection*{Nodo Sensor}
-La arquitectura típica de un nodo sensor está compuesta por cuatro módulos principales:
+La arquitectura de un nodo sensor típico está enfocada en la eficiencia operativa y consta generalmente de cuatro subsistemas medulares:
 
 \begin{itemize}
-    \item \textbf{Módulo de sensado:} Incluye sensores encargados de capturar variables del entorno, como temperatura, humedad, presión, vibraciones, entre otros. Los datos analógicos son digitalizados mediante un convertidor ADC (Analógico-Digital) para su posterior procesamiento.
-    
-    \item \textbf{Unidad de procesamiento:} Se encarga de controlar el nodo, ejecutar rutinas de sensado, realizar tareas básicas de filtrado o compresión de datos, y gestionar las operaciones de transmisión.
-    
-    \item \textbf{Módulo de comunicación inalámbrica:} Utiliza tecnologías como Zigbee, 6LowPAN o protocolos basados en IEEE 802.15.4. Este módulo permite enviar y recibir datos entre nodos en configuraciones ad hoc de múltiples saltos.
-    
-    \item \textbf{Fuente de energía:} Usualmente se emplean baterías de larga duración. Dado que el reemplazo o recarga puede no ser viable, la eficiencia energética es un factor crítico. Algunas aplicaciones avanzadas incorporan sistemas de recolección de energía ambiental (harvesting).
+    \item \textbf{Módulo de Sensado:} Interacciona directamente con el entorno para capturar variables físicas (como temperatura, turbidez, pH o conductividad). La magnitud resultante es digitalizada transversalmente por un Convertidor Analógico-Digital (ADC) integrado, posibilitando que el microcontrolador la tabule lógicamente.
+    \item \textbf{Unidad de Procesamiento:} Regulada mediante el microcontrolador empotrado, funge como el cerebro del nodo. Ejecuta los periodos de muestreo, realiza tareas de mitigación de ruido o filtrado básico, y se encarga de acoplar y comprimir ordenadamente los paquetes de datos previo a su emisión inalámbrica.
+    \item \textbf{Módulo Emisor-Receptor (RF):} Implementa el protocolo de comunicación preestablecido para transmitir. Es responsable de orquestar el intercambio fiable por medio de las antenas, tramitando la encriptación directa y garantizando que el nodo asista como repetidor en la matriz de ruteo multisalto.
+    \item \textbf{Fuente Energética:} Se solventa la mayoría de la veces mediante tecnología química (baterías recargables). En entornos geográficos hostiles (como las franjas hídricas), se incentiva la implementación de módulos recolectores de energía (\textit{energy harvesting}) apoyados de pequeños paneles solares o micro-biodigestores.
 \end{itemize}
 
-Dependiendo de la aplicación, los nodos pueden estar complementados con otros elementos como sistemas de localización o actuadores. Además, pueden desplegarse de forma fija o móvil, en espacios abiertos, ambientes industriales o entornos hostiles.
-
-En el contexto de aplicaciones como el monitoreo ambiental de ríos, los nodos se despliegan linealmente a lo largo del cauce, formando una red multisalto donde cada nodo transmite sus datos y actúa como repetidor de otros. Esta función requiere una arquitectura eficiente, ya que cada retransmisión incrementa el consumo energético y los retardos de comunicación.
-
-Dado que los nodos operan frecuentemente en condiciones de aislamiento, deben ser tolerantes a fallos. Esto implica que la red debe seguir funcionando aun si algunos nodos fallan por pérdida de energía, daño físico o interferencias ambientales. Por esta razón, los protocolos utilizados deben ser robustos, autoorganizados y adaptables al entorno \cite{perez2014metodologia}.
-
-El diseño del nodo y la elección de sus componentes deben considerar: tamaño, autonomía, capacidad de cómputo, tipo de sensor, alcance de transmisión, y compatibilidad con la topología de red definida (estrella, malla, lineal, etc.). Estas decisiones impactan directamente en la escalabilidad, fiabilidad y costo del sistema completo.
+Bajo estrictas circunstancias de enrutamiento lineal, cada terminal debe asistir en los reenvíos de datos hacia el destino final. Por tal motivo, los nodos requieren integrar extrema autonomía y modularidad algorítmica; asegurando que una falla energética puntual en un solo nodo sensor no repercuta dramáticamente, ni corrompa el eslabón completo de comunicación del sistema monitoreado \cite{perez2014metodologia}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{Documento/Imagenes/Marco Teorico/Nodo sensor.pdf}
-    \caption{Componentes que conforman a un nodo sensor inalámbrico.}
+    \caption{Componentes básicos que estructuran la arquitectura interna en un nodo sensor WSN.}
     \label{fig:Componentes_nodo}
 \end{figure}
-\subsubsection*{Nodo Concentrador o Puerta de Enlace}
 
-El nodo coordinador, también conocido como \textit{sink node} o puerta de enlace, es el elemento central encargado de recibir los datos transmitidos por los nodos sensores distribuidos en el campo. A diferencia de los nodos comunes, el coordinador suele contar con mayores capacidades de procesamiento, almacenamiento y conectividad, ya que su función principal es consolidar la información generada por la red y transmitirla hacia una red de mayor alcance, como una red local (LAN) o la Internet \cite{perez2014metodologia}.
+\subsubsection*{Nodo Concentrador (Sink / Gateway)}
 
-Este nodo tiene la responsabilidad de:
+El Nodo Concentrador o puerta de enlace (\textit{gateway}) es el dispositivo perimetral crítico encargado de abanderar la convergencia entre las fronteras de la WSN y la red global de análisis en tiempo real (una red local LAN, Internet o bases de datos). Respecto a su diseño de hardware, suele equiparse con un amplio margen de conectividad, memoria de procesamiento y conectores alámbricos que sobrepasan exponencialmente la austeridad propia de la instrumentación sensórica regular \cite{perez2014metodologia}.
+
+Sus asignaciones directivas asisten en el siguiente rango de labores dentro de la matriz organizativa:
 
 \begin{itemize}
-    \item Establecer y mantener la red inalámbrica, incluyendo la asignación del canal de comunicación y el identificador de red (PAN ID).
-    \item Actuar como intermediario entre la red de sensores y los sistemas de supervisión o análisis centralizados.
-    \item Coordinar el tráfico de datos, minimizando colisiones y asegurando que los paquetes lleguen de forma ordenada.
-    \item En algunos casos, participar en el enrutamiento de los datos cuando la red lo requiere.
+    \item \textbf{Inicialización y Gestión de Topología:} Establece los cimientos lógicos sobre canales y segmentación perimetral, dotando de identificadores en su espacio aéreo (como redes mediante PAN ID) para agrupar operativamente a la red o cuadrilla de dispositivos remotos.
+    \item \textbf{Centro Concentrador Integral:} Media y recolecta secuencialmente todas las lecturas de telemetría extraídas de manera independiente a lo largo de los eslabones, empaquetando un sumario uniforme general en el sistema para inyectarlo ordenadamente hacia repositorios o plataformas estáticas visuales.
+    \item \textbf{Asignador y Supervisor Transaccional:} Controla cronológicamente los instantes y vectores en la línea, fungiendo a su vez con lógicas enfocadas a prevenir las caídas de señal y caóticas colisiones por latencia excesiva originadas por saturaciones transaccionales asincrónicas en red continua. 
+    \item \textbf{Promover Ruteo Escalable Alternativo:} Interviene sobre directrices primordiales in situ permitiendo el rediseño algorítmico, por si una avería total paraliza el tramo perimetral primario comunicativo y forzase al desvío lateral contingente del resto de transmisiones anexas.
 \end{itemize}
 
 Dependiendo del diseño de la red, este nodo puede estar físicamente conectado a una computadora, un servidor o una interfaz gráfica de usuario que permite visualizar y procesar los datos en tiempo real. También puede incorporar funcionalidades adicionales como almacenamiento local (mediante dataloggers), sincronización horaria, o reglas de gestión de eventos.
@@ -215,27 +162,11 @@ En redes con topología estrella, el nodo coordinador es el punto único de cone
 Debido a su papel crítico, este nodo suele alimentarse con una fuente de energía permanente y estar protegido físicamente, ya que una falla en este componente puede comprometer la operatividad de toda la red.
 
 
-\begin{comment}
+\section{Tecnologías de Transmisión de Datos para Redes Inalámbricas}
 
-\section{Tecnologías de transmision de datos}
-Las redes inalámbricas de sensores utilizan diversos protocolos para la transmisión de datos. A continuación, se describen los más relevantes y ampliamente utilizados:
-%https://biblat.unam.mx/hevila/Gerenciatecnologicainformatica/2013/vol12/no33/6.pdf no se si ya esta pero son todos los protocolos
-\begin{itemize}
-    \item Zigbee (802.15.4):  Este protocolo de radiofrecuencia, basado en el estándar IEEE 802.15.4, se emplea principalmente en aplicaciones domóticas. Ofrece velocidades teóricas entre 40 Kbps y 250 Kbps y es conocido por su bajo costo. Los dispositivos Zigbee tienen un rango de conexión de 10 a 75 metros, dependiendo de la potencia de salida. Opera en tres bandas libres: 868 MHz, 915 MHz y 2.4 GHz \cite{gerenciatecnologicainformatica2013}.
-    \item Bluetooth (802.15.1): Tecnología inalámbrica de corto alcance diseñada para eliminar cables entre dispositivos, excepto los de alimentación. Funciona en la banda ISM de 2.4 GHz, lo que permite su uso en cualquier parte del mundo. Es comúnmente utilizado en dispositivos portátiles y fijos, ofreciendo una conexión sencilla y confiable \cite{gerenciatecnologicainformatica2013}.
-    \item IrDA (Infrarrojos): Protocolo de comunicación punto a punto que destaca por su bajo costo y bajo consumo energético. Proporciona tasas de transferencia desde 115 Kbps (estándar) hasta 4 Mbps en su versión Fast IR (FIR). Sin embargo, tiene un alcance limitado a un metro y requiere una línea visual directa entre emisor y receptor, con un ángulo de incidencia máximo de 15 grados. No puede atravesar paredes ni obstáculos, y es susceptible a interferencias de luz infrarroja, especialmente bajo luz solar directa \cite{gerenciatecnologicainformatica2013}.
-    \item 802.11b/g/n (Wi-Fi): Este conjunto de protocolos permite la transmisión de datos de manera inalámbrica a mayores distancias y velocidades en comparación con los anteriores. Uno de los estándares más comunes, el IEEE 802.11g, introducido en 2003, permite transmisiones de hasta 54 Mbps en la banda de frecuencia de 2.4 GHz, utilizando tecnología OFDM (Orthogonal Frequency Division Multiplexing). Es ampliamente utilizado en redes locales y aplicaciones de alto rendimiento \cite{gerenciatecnologicainformatica2013}.
-    
-\end{itemize}
+La viabilidad operativa y la diseminación ininterrumpida de la información en una red WSN dependen estructuralmente del protocolo de comunicación seleccionado. Cada protocolo define reglas nativas de operación para la Capa Física (PHY) y de Control de Acceso al Medio (MAC), estableciendo un compromiso directo entre el ancho de banda disponible, la resiliencia a interferencias, la mitigación del consumo energético y el alcance métrico efectivo.
 
-Estos protocolos ofrecen diversas capacidades y limitaciones, lo que permite su adaptación a diferentes escenarios y necesidades dentro de las WSN.
-
-La implementación de una red inalámbrica de sensores es fundamental para lograr un monitoreo continuo de los cuerpos de agua. Esta tecnología permite la conexión de múltiples sensores distribuidos en áreas críticas, facilitando la recolección y transmisión de datos de manera continua. Las redes inalámbricas eliminan la necesidad de infraestructura física extensa, lo que las hace ideales para cuerpos de agua dinámicos y de difícil acceso, como ríos y arroyos.
-La integración de una WSN asegura que los datos recopilados por los sensores, se transmitan de manera confiable a un servidor central para su procesamiento.
-\end{comment}
-
-\section{Tecnologías de Transmisión de Datos Inalámbricos para Redes de Sensores}
-Esta sección describe los fundamentos técnicos de protocolos inalámbricos relevantes para redes de sensores, centrándose en sus características en la capa física y de acceso al medio (MAC).
+A continuación, se detallan y contrastan los fundamentos técnicos que gobiernan a los estándares inalámbricos de vanguardia con mayor relevancia e influencia analítica para implementaciones de telemetría distribuida:
 
 \subsection*{Caracterización Técnica de Protocolos}
 \begin{itemize}
@@ -293,300 +224,6 @@ Esta sección describe los fundamentos técnicos de protocolos inalámbricos rel
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %      SECCION: VISION ARTIFICIAL        %
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- \begin{comment}
- \section{Visión Artificial}
- 
- 
-La \textbf{Inteligencia Artificial } o \textbf{\textit{Intelligent Artificial (IA)}} busca diseñar mecanismos inteligentes y tiene como objetivo desarrollar sistemas que realicen tareas que normalmente requieren de inteligencia humana, como el razonamiento, la toma de decisiones y la percepción. Tiene diferentes técnicas cuando un sistema informático requiere simular el razonamiento humano, toma de decisiones y percepción\cite{iaunam}.
-%ref: http://fcaenlinea1.unam.mx/apuntes/interiores/docs/98/7/Apuntes%20de%20Inteligencia%20Artificial.pdf %
-
-La Inteligencia Artificial ha propiciado al aparición de términos: Aprendizaje Profundo(tambien conocido como \textit{Machine Learning, ML}) y Aprendizaje Automático (tambien conocido como \textit{Deep Learning, DL}).que procesan una gran cantidad de datos de modo que permite al algoritmo reconocer, aprender y tomar decisiones mediante la creación de patrones\cite{avila2020plant}\cite{centeno2019deep}. 
-%ref : http://ricaxcan.uaz.edu.mx/jspui/bitstream/20.500.11845/1623/1/Articulo%20AMIA_%20STUDY%20AND%20COMPARISON%20OF%20OBJECTS%20DETECTION%20ALGORITHMS%20USING%20CONVOLUTIONAL%20NEURAL%20NETWORKS%20FOR%20PLANT%20DISEASES%20DETECTION%20IN%20LEAVES.pdf 
-%
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.5\linewidth]{Documento/Imagenes/Marco Teorico/CamposysubcamposIA.pdf}
-        \caption{Campo \textit{Machine Learning} y subcampo \textit{Deep Learning} de la \textit{Inteligencia Artificial}}
-        \label{fig:MLDL}
-    \end{figure}
-
-El \textbf{\textit{Machine Learning}} es un enfoque dentro de la IA que permite a las máquinas analizar y aprender de los datos mediante el uso de algoritmos sin ser programadas explícitamente para realizar una tarea. Utiliza algoritmos para reconocer patrones en grandes volúmenes de datos y hacer predicciones o tomar decisiones basadas en esos datos \cite{sanchez2020evaluacion}.  
-%ref: https://uvadoc.uva.es/bitstream/handle/10324/43277/TFG-G4450.pdf?sequence=1 %
-
-Técnicas de Machine Learning más utilizadas: 
-\begin{itemize}
-    \item SVM (Máquinas de Soporte Vectorial): Se usan para la clasificación de imágenes al identificar márgenes que separan diferentes clases de datos.
-    \item Árboles de Decisión: Utilizados para clasificar y segmentar imágenes basándose en características específicas.
-    \item k-NN (k-Nearest Neighbors): Un algoritmo de clasificación que asigna etiquetas a las imágenes según la proximidad a los ejemplos de entrenamiento.
-\end{itemize}
-
-
-El \textbf{\textit{Deep Learning}} es una técnica o subconjunto dentro del campo de \textit{Machine Learning} que emplea redes neuronales profundas para aprender representaciones jerárquicas de los datos, mejorando la capacidad de realizar tareas complejas como el reconocimiento de imágenes y la traducción automática \cite{avila2020plant}.
-%ref: http://ricaxcan.uaz.edu.mx/jspui/bitstream/20.500.11845/1623/1/Articulo%20AMIA_%20STUDY%20AND%20COMPARISON%20OF%20OBJECTS%20DETECTION%20ALGORITHMS%20USING%20CONVOLUTIONAL%20NEURAL%20NETWORKS%20FOR%20PLANT%20DISEASES%20DETECTION%20IN%20LEAVES.pdf %
-A diferencia de la IA simbólica, donde los humanos proporcionan reglas para procesar datos, en el Aprendizaje Automático los humanos solo suministran datos y las respuestas esperadas. El sistema aprende las reglas que relacionan las entradas con sus salidas, y luego puede aplicarlas a nuevos datos para generar respuestas automáticamente, sin intervención directa de los programadores. El \textit{Deep Learning} se ha convertido en la técnica predominante en visión artificial especialmente adecuada para tareas complejas como la detección de objetos en imágenes \cite{Goodfellow-et-al-2016}\cite{centeno2019deep}.
-%ref: file:///C:/Users/itzel_dlz6lv9/Downloads/52%20Deep%20Learning%20autor%20Alba%20Centeno%20Franco.pdf %
-
-La inteligencia artificial (IA) busca dotar a las máquinas de capacidades cognitivas humanas, como la percepción visual. Dentro de la IA, el aprendizaje automático (machine learning) permite a los sistemas aprender de los datos, y el aprendizaje profundo (deep learning), una subdisciplina del aprendizaje automático, utiliza redes neuronales profundas, como las CNNs, para detectar patrones complejos en grandes volúmenes de datos visuales.
-
-Una \textbf{Red Neuronal Artificial (RNA)} es un modelo matemático inspirado en el comportamiento biológico de las neuronas y la estructura del cerebro, utilizado para resolver una amplia variedad de problemas. En una RNA, las neuronas artificiales procesan información de manera similar a las neuronas biológicas. Cada neurona recibe entradas ponderadas, las suma, y pasa el resultado a través de una función de activación. Este proceso permite que la red aprenda patrones y tome decisiones basadas en los datos que recibe\cite{centeno2019deep}.
-
-Las neuronas en una RNA se organizan en capas que facilitan el procesamiento de la información. Las tres capas principales son:
-\begin{enumerate}
-    \item Capa de entrada: Recibe los datos iniciales y los transmite a la siguiente capa.
-    \item Capas ocultas: Realizan el procesamiento intermedio mediante la transformación de las entradas a través de funciones de activación. Pueden ser múltiples en redes profundas.
-    \item Capa de salida: Produce el resultado final del modelo, como una clasificación o predicción.
-\end{enumerate}
-
-\begin{figure}[H]
-        \centering
-        \includegraphics[width=0.6\linewidth]{Documento/Imagenes/Marco Teorico/RNA.pdf}
-        \caption{Capas de una Red Neuronal Artificial}
-        \label{fig:RNA}
-\end{figure}
-
-Cada neurona dentro de una capa recibe señales ponderadas de la capa anterior, las procesa y pasa el resultado a la siguiente capa. Este flujo de información permite que las redes neuronales aprendan a reconocer patrones y realizar tareas complejas.
-En una RNA, los enlaces sinápticos (flechas que conectan las neuronas) indican el flujo de información entre las neuronas de diferentes capas. Estos enlaces tienen asignados pesos sinápticos, que controlan la influencia de las entradas. El número de capas de una RNA se calcula sumando las capas ocultas y la capa de salida.
-En una Red Neuronal Artificial, el algoritmo o método de aprendizaje se refiere al procedimiento que asigna valores a los coeficientes sinápticos (pesos y umbral de activación). 
-Existen diferentes tipos de aprendizaje en las Redes Neuronales Artificiales\cite{centeno2019deep}:
-\begin{itemize}
-    \item \textbf{Aprendizaje Supervisado}: La red aprende a partir de ejemplos con entradas y salidas correctas.
-    \item \textbf{Aprendizaje No Supervisado}: La red aprende solo de las entradas, sin salidas correctas.
-    \item \textbf{Aprendizaje Híbrido}: Combina aprendizaje supervisado en algunas capas y no supervisado en otras.
-    \item \textbf{Aprendizaje por Refuerzo}: La red aprende a través de recompensas o castigos, sin ejemplos de salidas correctas.
-\end{itemize}
-
-%ref: Goodfellow, Ian, Yoshua Bengio, and Aaron Courville. Deep Learning. MIT Press, 2016.%
-%ref: file:///C:/Users/itzel_dlz6lv9/Downloads/52%20Deep%20Learning%20autor%20Alba%20Centeno%20Franco.pdf %
-
-Las redes neuronales son técnicas que pueden utilizarse tanto en \textit{Machine Learning (ML)} como en \textit{Deep Learning (DL)}. Sin embargo, la diferencia clave radica en su profundidad y capacidad de aprendizaje, en DL tenemos la disponibilidad de conjuntos de datos masivos.
-
-La \textbf{\textit{Visión Artificial}} permite a las máquinas comprender el mundo a partir de imágenes. A través de procesos como la adquisición, el preprocesamiento, la segmentación y el reconocimiento de patrones, las máquinas pueden identificar y clasificar objetos. Esto permite automatizar tareas repetitivas de inspección, controlar la calidad de productos, realizar procesos de inspección sin contacto físico, reducir el tiempo de ciclo en procesos automatizados \cite{visionartificial}.
-
-Se trata de deducir automáticamente la estructura y propiedades de un entorno tridimensional a partir de imágenes bidimensionales. Estas propiedades incluyen tanto aspectos geométricos (como forma, tamaño y ubicación) como materiales (como color, textura e iluminación) de los objetos \cite{visionartificialunirioja}. 
-
-En \cite{visionporcomputador} se definen cuatro fases principales de un sistema de Visión Artificial:
-\begin{itemize}
-    \item \textbf{Fase sensorial}: Captura de imágenes mediante sensores.
-    \item \textbf{Preprocesamiento}: Eliminación de ruido y realce de características importantes.
-    \item \textbf{Segmentación}: Aislamiento de regiones de interés en la imagen mediante técnicas de umbralización, detección de bordes o clustering, permitiendo la identificación de objetos dentro de la escena.
-    \item \textbf{Reconocimiento/Clasificación}: Identificación de objetos segmentados mediante análisis de características y algoritmos de aprendizaje automático
-\end{itemize}
-
-Como muestra la Figura \ref{fig:proceso_vision}, este flujo no es estrictamente secuencial sino iterativo: cuando falla la clasificación, se retrocede a etapas anteriores (segmentación o preprocesamiento), e incluso se repite la captura si se detectan artefactos irreparables en la imagen fuente \cite{visionporcomputador}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Marco Teorico/Dig_blo_VA.pdf}
-    \caption{Diagrama de bloques de las etapas típicas en un sistema de visión artificial\cite{visionporcomputador}}
-    \label{fig:proceso_vision}
-\end{figure}
-
-%ref: https://publicaciones.unirioja.es/catalogo/online/VisionArtificial.pdf
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%          Tecnicas            %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\subsection{Técnicas y Algoritmos de Visión Artificial}
-
-El documento \cite{visionArtificial2024} presenta diversas metodologías empleadas en el procesamiento y análisis de imágenes. A continuación, se resumen los principales algoritmos y técnicas:
-
-\begin{itemize}
-    \item \textbf{Preprocesamiento de Imágenes}:
-    \begin{itemize}
-        \item \textbf{Filtrado espacial}: Uso de máscaras para resaltar características o reducir el ruido.
-        \item \textbf{Transformaciones geométricas}: Ajustes como traslación, rotación y escalado.
-        \item \textbf{Corrección de iluminación}: Mejora de la iluminación para uniformidad en los datos visuales.
-    \end{itemize}
-
-    \item \textbf{Segmentación de Imágenes}:
-    \begin{itemize}
-        \item \textbf{Umbralización}: Separación de objetos del fondo.
-        \item \textbf{Detección de bordes}: Identificación de contornos con operadores como Sobel o Canny.
-        \item \textbf{Regiones de interés (ROI)}: Aislamiento de áreas específicas para análisis detallado.
-    \end{itemize}
-
-    \item \textbf{Extracción de Características}:
-    \begin{itemize}
-        \item \textbf{Análisis de formas}: Cálculo de propiedades geométricas.
-        \item \textbf{Textura}: Evaluación de patrones de intensidad.
-        \item \textbf{Color}: Uso de la cromática para distinguir y clasificar elementos.
-    \end{itemize}
-
-    \item \textbf{Reconocimiento de Patrones}:
-    \begin{itemize}
-        \item \textbf{Clasificación supervisada}: Uso de algoritmos como SVM o redes neuronales.
-        \item \textbf{Clasificación no supervisada}: Técnicas como clustering para agrupar datos.
-    \end{itemize}
-
-    \item \textbf{Seguimiento de Objetos}:
-    \begin{itemize}
-        \item \textbf{Filtros de Kalman}: Estimación de la posición y movimiento en secuencias de imágenes.
-        \item \textbf{Algoritmos de correlación}: Comparación de regiones a lo largo del tiempo.
-    \end{itemize}
-\end{itemize}
-
-En el Reconocimiento de Patrones, la Clasificación Supervisada es una tarea clave dentro del Aprendizaje Supervisado, donde el modelo asigna una etiqueta a cada entrada según las salidas proporcionadas durante el entrenamiento.
-
-Dentro de las Redes Neuronales Artificiales (RNA), las \textbf{Redes Neuronales Profundas} o \textbf{\textit{Deep Neural Network(DNN)}} son fundamentales, están compuestas por múltiples capas que permiten a las máquinas aprender representaciones jerárquicas de los datos. En el caso de las imágenes, las primeras capas pueden detectar bordes simples, mientras que las capas posteriores pueden reconocer patrones más complejos, como formas o incluso objetos completos, sin intervención humana directa en el diseño de esas características\cite{centeno2019deep}.
-%ref: https://www.researchgate.net/publication/277411157_Deep_Learning%
-
-Existen diferentes redes dentro de las DNN, como las RNN y sus variantes LSTM/GRU son útiles para tareas secuenciales como reconocimiento de voz, traducción automática y escritura a mano. Las CNN se destacan en reconocimiento de imágenes, análisis de video y procesamiento de lenguaje natural. Las DBN son eficaces en recuperación de información y predicción de fallas, mientras que las DSN ayudan en reconocimiento continuo de voz y clasificación de imágenes. Las GAN son ideales para generación de imágenes y síntesis de datos, y los Transformers son fundamentales en procesamiento de lenguaje natural, traducción automática y generación de texto. Cada una de estas redes está optimizada para tareas específicas y tiene ventajas particulares en diversos campos de la inteligencia artificial\cite{centeno2019deep}.
-%ref: file:///C:/Users/itzel_dlz6lv9/Downloads/52%20Deep%20Learning%20autor%20Alba%20Centeno%20Franco.pdf %
-
-En la etapa de Segmentación en un sistema de Visión Artificial podemos encontrar la detección de objetos, es una tarea clave que busca identificar y localizar objetos dentro de una imagen, utilizando métodos como cuadros delimitadores o segmentación. Antes del deep learning, se usaban técnicas como  SIFT (Scale-Invariant Feature Transform) y HOG (Histogram of Oriented Gradients) para extraer características y comparar imágenes con plantillas de objetos. Con la llegada de las Redes Neuronales Convolucionales (CNN), este proceso se simplificó y mejoró, permitiendo la detección automática de características complejas\cite{sanchez2020evaluacion}.
-%ref: https://uvadoc.uva.es/bitstream/handle/10324/43277/TFG-G4450.pdf?sequence=1%
-
-\subsection*{Algoritmos para la detección de objetos} 
-
-\textbf{CNN (Redes Neuronales Convolucionales)}: Las redes neuronales convolucionales (CNN, por sus siglas en inglés) son una técnica dentro del campo del aprendizaje profundo (\textit{Deep Learning}). Específicamente, son un tipo de red neuronal artificial que se utiliza para procesar datos con una estructura en forma de rejilla, como las imágenes, la diferencia fundamental entre las redes neuronales convencionales y las redes neuronales convolucionales es que estas últimas están específicamente diseñadas para que los datos de entrada sean imágenes. Son ampliamente utilizadas en tareas de clasificación, detección y segmentación de objetos\cite{centeno2019deep}\cite{sanchez2020evaluacion}\cite{iaavanzada}.
-
-Su arquitectura se compone de múltiples capas, incluyendo capas convolucionales, capas de activación (como ReLU), capas de agrupamiento (\textbf{pooling}) y capas completamente conectadas. Las capas convolucionales aplican filtros a las imágenes para detectar características como bordes, formas y texturas, mientras que las capas profundas permiten la identificación de patrones complejos de alto nivel.
-    
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Marco Teorico/CNN.pdf}
-        \caption{Ejemplo del proceso de convolución entre una matriz de entrada y un filtro 3×3. Se ilustra el cálculo del primer elemento del mapa de características resultante (output array).}
-        \label{fig:cnnIBM}
-    \end{figure}
-    
-    Gracias a su capacidad de aprendizaje automático y a su robustez frente a variaciones en iluminación, escala o rotación, las CNN se han convertido en el estándar para muchas aplicaciones de visión por computadora con tareas complejas como el reconocimiento y la clasificación, incluyendo el reconocimiento facial, la conducción autónoma y el análisis médico por imágenes \cite{cnnIBM}.
-
-\textbf{R-CNN}: Fue uno de los primeros modelos de detección de objetos basados en aprendizaje profundo. R-CNN es un método de detección de objetos de dos etapas que divide el proceso en dos fases: generación de propuestas de objetos y clasificación de esas propuestas. Primero, utiliza el algoritmo de búsqueda selectiva para generar alrededor de 2000 propuestas de regiones en la imagen. Luego, estas propuestas son procesadas por una red neuronal convolucional (CNN) para extraer características de cada una. Después de esto, se utiliza un clasificador SVM para identificar los objetos en cada región. Aunque R-CNN representó un avance importante en la detección de objetos basada en aprendizaje profundo, su principal desventaja es la lentitud en el proceso, debido a la redundancia en el cálculo de características a través de un gran número de propuestas de regiones superpuestas, lo que hace que el modelo sea muy lento, incluso con aceleración por GPU\cite{wang2024yolosurvey}\cite{sapkota2025yolo}.
-
-\textbf{Fast R-CNN}: Mejoró la eficiencia de R-CNN al integrar la extracción de características y la clasificación en un solo paso, reduciendo el tiempo de procesamiento al eliminar los cálculos redundantes. Esto permitió una detección más rápida y eficiente \cite{sapkota2025yolo}.
-
-\textbf{Faster R-CNN}: Es la evolución de R-CNN y Fast R-CNN. Comenzó con "Rich feature hierarchies for accurate object detection and semantic segmentation" (R-CNN), utilizando un algoritmo de búsqueda selectiva para proponer posibles regiones de interés y una CNN estándar para clasificarlas y ajustarlas. Fast R-CNN, introdujo "Region of Interest Pooling", que permitió compartir cálculos costosos, haciendo el modelo mucho más rápido. Finalmente, Faster R-CNN propuso el primer modelo de esta arquitectura, mejorando la eficiencia en la detección de objetos\cite{centeno2019deep}\cite{sanchez2020evaluacion}.
-
-\textbf{SSD (Single Shot MultiBox Detector)}: SSD realiza tanto la localización como la clasificación de objetos en un solo paso de la red. Utiliza una técnica llamada "MultiBox" para la regresión del cuadro delimitador, haciendo que la red clasifique y detecte objetos de manera eficiente. Mejoró la detección al utilizar cajas delimitadoras predeterminadas de diversas escalas y proporciones, y predecir las puntuaciones de los objetos y ajustar las formas de las cajas. Utiliza mapas de características multiescala para manejar objetos de diferentes tamaños, eliminando la necesidad de un paso separado de generación de propuestas y mejorando el rendimiento en la detección de objetos pequeños. Revolucionó la detección de objetos al simplificar el proceso con un enfoque de una sola etapa, inspirando desarrollos posteriores en los modelos YOLO. A diferencia de los modelos de dos etapas como R-CNN, que dependen de una etapa de propuesta de región antes de la detección real, SSD y, por extensión, las variantes de YOLO, realizan la detección y clasificación en una sola pasada por la imagen. Este cambio de paradigma mejora el proceso de detección al eliminar pasos intermedios, lo que facilita una detección de objetos más rápida y eficiente, adecuada para aplicaciones en tiempo real. La arquitectura de SSD, que los modelos YOLO han adaptado, utiliza múltiples mapas de características a diferentes resoluciones para detectar objetos de varios tamaños, empleando una variedad de cajas ancla en cada ubicación del mapa de características para mejorar la precisión de la localización.
-
-YOLO incorpora los principios arquitectónicos de SSD para mejorar las capacidades de detección en tiempo real mediante una mejor extracción de características utilizando capas de atención multi-cabeza. Esta adopción de la metodología SSD mejora significativamente la velocidad de procesamiento y la precisión de detección de modelos como YOLOv8, YOLOv9 y YOLOv10, haciéndolos ideales para la detección rápida y confiable de objetos en entornos con recursos limitados. El mecanismo eficiente de detección de un solo paso, que clasifica y localiza objetos directamente, destaca la evolución continua de la serie YOLO para cumplir con los requisitos de precisión y velocidad en diversos escenarios del mundo real\cite{sapkota2025yolo}\cite{sanchez2020evaluacion}.
-
-\textbf{YOLO (You Only Look Once)}: Es un algoritmo de detección de objetos que se distingue por su capacidad para realizar esta tarea en un solo paso, a diferencia de métodos previos como R-CNN que emplean un pipeline de múltiples etapas. Al tomar una imagen de entrada y pasarla a través de una red neuronal convolucional (CNN), YOLO predice simultáneamente las coordenadas de las cajas delimitadoras y las clases de los objetos. Este enfoque simplifica el proceso de detección y mejora su eficiencia, abordando la tarea como un único problema de regresión.
-Este enfoque permite que YOLO es extremadamente rápido, lo que lo convierte en una opción ideal para aplicaciones en tiempo real, como vehículos autónomos, vigilancia de video y robótica. Además, ha mejorado con el tiempo, ofreciendo mayor precisión, especialmente en la detección de objetos pequeños y en diferentes escalas, sin sacrificar su rapidez.
-Si bien su principal ventaja es la detección en tiempo real, también se emplea en áreas donde la velocidad no es crítica. En campos como la agricultura y la medicina, se prioriza la precisión y fiabilidad del modelo, ayudando en tareas como la clasificación de cultivos o la detección de enfermedades, donde la rapidez y procesamiento en tiempo real no es un factor esencial\cite{sanchez2020evaluacion}\cite{terven2023yolo}.
-
-Las versiones de YOLO para la detección de objetos, destacando sus innovaciones clave, son\cite{sapkota2025yolo}\cite{terven2023yolo}:
-
-\begin{itemize}
-     
-    \item \textbf{YOLOv1 (2016):} Introdujo la detección de objetos en tiempo real con una única red neuronal convolucional (CNN), permitiendo realizar la detección en un solo paso. Fue revolucionario en cuanto a velocidad, pero presentaba limitaciones en la precisión de localización.
-    \textbf{Arquitectura:} 24 capas convolucionales, 2 capas completamente conectadas. Utiliza Leaky ReLU - ativación, última capa - activación lineal. Backbone: Darknet24, AP(\%): 63.4.
-    
-    \item \textbf{YOLOv2/YOLO9000 (2017):} Mejoró la precisión con la introducción de anclajes (anchor boxes) y normalización por lotes, lo que aumentó la estabilidad y rendimiento del modelo. También adoptó una arquitectura completamente convolucional, mejorando la flexibilidad y desempeño. La arquitectura de YOLOv2 mantiene la estructura de YOLOv1, pero con mejoras clave. 
-    \textbf{Arquitectura:} 19 capas convolucionales y cinco capas de max pooling capas convolucionales, implementación de anchor boxes para precision. Utiliza Leaky ReLU - ativación, última capa - activación lineal. Backbone: Darknet19, AP(\%): 78.6.
-    
-    \item \textbf{YOLOv3 (2018):} Incorporó una arquitectura más profunda (Darknet-53) y la capacidad de realizar predicciones multi-escala, mejorando la detección de objetos pequeños y en diferentes escalas. Se enfocó en equilibrar precisión y velocidad sin sacrificar rendimiento. YOLOv3 introdujo tres variantes principales, cada una diseñada para equilibrar el tamaño del modelo y el rendimiento: YOLOv3-spp (Small), Standard y YOLOv3-tiny (Tiny), adaptadas a diferentes compensaciones entre velocidad y precisión.  Este modelo introduce predicción multiescala, utilizando tres diferentes tamaños de grilla para detectar objetos en distintas escalas. El neck es una combinación de PANet (Path Aggregation Network), lo que mejora la fusión de características a través de diferentes niveles. El head predice las cajas y clases en tres escalas diferentes.
-    \textbf{Arquitectura:} 53 capas convolucionales y residual connections para facilitar el flujo de gradientes y mejorar el aprendizaje profundo; utiliza Leaky ReLU - ativación, última capa - activación lineal. Backbone: Darknet53; AP(\%):36.2.
-    
-    \item \textbf{YOLOv4 (2020):} Implementó CSPNet, la función de activación Mish y técnicas avanzadas como SPP (Spatial Pyramid Pooling) y PANet (Path Aggregation Network), lo que mejoró la precisión y eficiencia computacional sin sacrificar la velocidad. YOLOv4 introdujo cuatro variantes principales: la versión estándar, YOLOv4-CSP, que incorpora redes Cross-Stage Partial (CSP) para mejorar el rendimiento y reducir los costos computacionales; YOLOv4x-mish, que utiliza la función de activación Mish para mejorar la precisión mientras mantiene la eficiencia; y YOLOv4-tiny, una versión ligera optimizada para aplicaciones en tiempo real y dispositivos de borde, sacrificando algo de precisión por velocidad. YOLOv4 utiliza el backbone CSPDarknet-53, con Cross-Stage Partial connections que permiten una mayor eficiencia computacional. Esta versión introduce técnicas avanzadas como Mish activation, DropBlock regularization, y Bag of Freebies (BoF) para mejorar la precisión sin aumentar la carga computacional. El neck está compuesto por PANet para una mejor fusión de características multiescala, mientras que el head optimiza la salida usando técnicas como Label Smoothing y CutMix.   
-    \textbf{Arquitectura:} 53 capas convolucionales y residual connections para facilitar el flujo de gradientes y mejorar el aprendizaje profundo. Backbone: CSPDarknet-53; AP(\%):43.5.
-   
-     \item \textbf{Scaled-YOLOv4 (2020):} Utilizó un enfoque de escalado para generar modelos más grandes y pequeños según las necesidades de la aplicación. Scaled-YOLOv4 logró un AP de 56\% en MS COCO con la versión más grande, mientras que su versión más pequeña, YOLOv4-tiny, se ejecutó a 440 FPS en un RTX2080Ti. Mejoró la detección de objetos al eliminar los pasos de preentrenamiento y entrenar desde cero, lo que permitió obtener resultados de alta calidad. Introdujo mejoras clave como CSPNet en PAN, modelos escalables (P5, P6, P7) para dispositivos de borde, y técnicas de escala de modelos combinada para optimizar la eficiencia. Además, utilizó una arquitectura amigable con el hardware y resolvió la inconsistencia de resolución entre modelos preentrenados y datos de entrada mediante un método de escalado eficiente. Estas mejoras le permitieron alcanzar la más alta precisión y velocidad de inferencia en su categoría.
-     \textbf{Arquitectura:} Backbone: CSPDarknet; AP(\%):56.0.
-     
-    \item \textbf{YOLOv5 (2020):} Aunque no es una versión oficial de la serie, se destacó por su facilidad de uso, optimización en Pytorch y un excelente rendimiento en tiempo real. Ofrece versiones escalables (como YOLOv5n, YOLOv5s, etc.) para adaptarse a diferentes necesidades. Introdujo cinco variantes principales para satisfacer diversas necesidades de rendimiento: YOLOv5s (pequeña), optimizada para velocidad y eficiencia en entornos con recursos limitados; YOLOv5m (media), ofreciendo un balance entre velocidad y precisión; YOLOv5l (grande), diseñada para mayor precisión a costa de recursos; YOLOv5x (extra grande), enfocada en la precisión de alto nivel para hardware potente; y YOLOv5n (nano), una versión ligera adaptada para inferencia rápida y bajas demandas computacionales, ideal para aplicaciones en tiempo real y dispositivos de borde.
-    \textbf{Arquitectura:} Backbone: ModifiedCSPv7; AP(\%):55.8.
-     
-    \item \textbf{PP-YOLO (2020):} Basado en YOLOv3, mejoró con aumentos como Mixup y distorsión de colores, logrando un rendimiento sólido en tiempo real. Se mejora sobre YOLOv3, utilizando diversas técnicas de entrenamiento de YOLOv4, además de añadir métodos como CoordConv [39], Matrix NMS [40], y un mejor modelo preentrenado de ImageNet.
-    \textbf{Arquitectura:} Backbone: ResNet50-vd; AP(\%):45.9.
-    
-    \item \textbf{PP-YOLOv2 (2021):} Mejoró PP-YOLO con un cambio de backbone de ResNet50 a ResNet101 y la implementación de una red de agregación de rutas (PAN) en lugar de FPN.  Introduce además el CSPPAN de YOLOv4 escalado y otros mecanismos.
-    \textbf{Arquitectura:} Backbone: ResNet50-vd; AP(\%):50.3.
-    
-    \item \textbf{YOLOR (2021):} Introdujo un enfoque de aprendizaje multitarea, donde se crea un solo modelo para diversas tareas como clasificación, detección y estimación de poses. Utiliza el conocimiento implícito de las redes neuronales para mejorar la eficiencia en múltiples tareas.
-    \textbf{Arquitectura:} Backbone: CSPDarknet; AP(\%):55.4.
-    
-    \item \textbf{YOLOX (2021):} Revertió a una arquitectura sin anclajes y mejoró la precisión mediante center sampling y un head desacoplado para separar las tareas de clasificación y localización. Utilizó aumentaciones fuertes como MixUp y Mosaic, lo que aumentó el AP en 2.4 puntos. 
-    \textbf{Arquitectura:} Backbone:  ResNet50-vd; AP(\%):50.3.
-    
-    \item \textbf{PP-YOLOE (2022):} Mejoró sobre PP-YOLOv2 utilizando una arquitectura sin anclajes y un nuevo backbone y neck con RepResBlocks. Implementó un aprendizaje de alineación de tareas (TAL) y una pérdida focal Varifocal (VFL). Realiza cambios importantes, modificando RepVGG y diseñando el CSPRepResStage, además de usar regresión de cajas delimitadoras en el proceso de regresión basado en distribución de TOOD. 
-    \textbf{Arquitectura:} Backbone: ModifiedCSPv5; AP(\%):51.2.
-
-    \item \textbf{YOLOv6 (2020):}  Introdujo un detector sin anclajes y un backbone basado en EfficientRep, optimizado para eficiencia. Mejoró las pérdidas de clasificación y regresión y utilizó auto-destilación para optimizar la precisión. Implementó un esquema de cuantización para acelerar el proceso sin sacrificar precisión, y fue diseñado para dispositivos con bajos recursos. Las variantes incluyen: YOLOv6 (precisión y velocidad equilibradas), YOLOv6-Nano (optimizado para velocidad en tiempo real), y YOLOv6-Tiny (inferencias rápidas en hardware limitado). RepVGG + QAT (Quantization Aware Training).
-    \textbf{Arquitectura:} Backbone: EfficientRep; AP(\%):52.5.
-
-    \item \textbf{YOLOv7 (2022):} Superó a otros detectores en velocidad y precisión, introduciendo la E-ELAN para un aprendizaje eficiente y un modelo de escalado adaptativo. Implementó RepConv para mejorar la eficiencia de las convoluciones y YOLOR para mejor generalización. Sus variantes son: YOLOv7 (equilibrio entre velocidad y precisión), YOLOv7-X (mayor rendimiento, más recursos), y YOLOv7-Tiny (ligero para aplicaciones en tiempo real).
-    \textbf{Arquitectura:} Backbone: RepConvN; AP(\%):56.8.
-    
-    \item \textbf{DAMO-YOLO (2022):} Introdujo la búsqueda de arquitectura neuronal (NAS) y optimizó la arquitectura con un neck eficiente llamado Efficient-RepGFPN. Implementó un enfoque de destilación de conocimiento para mejorar la precisión. 
-    \textbf{Arquitectura:} Backbone:   MAE-NAS; AP(\%):50.0.
-    
-    \item \textbf{YOLOv8 (2023):}  Presenta una arquitectura más eficiente, técnicas de entrenamiento mejoradas y soporte para conjuntos de datos más grandes. Su implementación fácil de usar en PyTorch lo hace accesible tanto para la investigación como para la producción, que optimiza el proceso de NMS (Supresión de No Máximos), mejora la precisión y la velocidad, además de implementar una arquitectura sin anclajes, facilitando su rendimiento y flexibilidad. También utiliza aumentos de datos avanzados y técnicas de optimización para mejorar la generalización del modelo. Tiene cuatro variantes YOLOv8-S, optimizada para inferencia rápida en dispositivos de borde con algunas compensaciones en precisión; YOLOv8-M, equilibrando precisión y velocidad para tareas generales; YOLOv8-L, priorizando la precisión a costa de la demanda computacional; y YOLOv8-Tiny, una versión ligera para aplicaciones en tiempo real.
-    \textbf{Arquitectura:} Backbone: YOLOv8; AP(\%):53.8.
-
-    \item \textbf{YOLOv9 (2024):} Propone el concepto de información de gradiente programable (PGI) para enfrentar los diversos cambios requeridos por las redes profundas para lograr múltiples objetivos. PGI puede proporcionar información completa de entrada para la tarea objetivo para calcular la función objetivo, de modo que se pueda obtener información de gradiente confiable para actualizar los pesos de la red. Además, se diseñó una nueva arquitectura de red ligera, Generalized Efficient Layer Aggregation Network (GELAN), basada en la planificación de rutas de gradiente. 
-    \textbf{Arquitectura:} Backbone:  ResNet50-vd; AP(\%):50.3.
-
-    \item \textbf{YOLOv10 (2024):} Introduce un enfoque novedoso para la detección de objetos en tiempo real, abordando las limitaciones tanto del postprocesamiento como de la arquitectura del modelo en versiones anteriores de YOLO. Al eliminar la supresión de no máximos (NMS) y optimizar componentes clave del modelo, ofrece mejoras significativas en eficiencia y rendimiento. Esta versión introduce seis variantes distintas: YOLOv10-N, YOLOv10-S, YOLOv10-M, YOLOv10-B, YOLOv10-L y YOLOv10-X. Es destacable que YOLOv10-N y YOLOv10-S presentan las latencias más bajas, de 1.84 ms y 2.49 ms, respectivamente, lo que los hace altamente adecuados para aplicaciones que requieren baja latencia. YOLOv10-X logra el mAP más alto de 54.4\% y una latencia de 10.70 ms, reflejando una mejora equilibrada tanto en precisión como en velocidad de inferencia.
-
-    \item \textbf{YOLOv11 (2024): } Avance en la detección de objetos, por su arquitectura sofisticada de backbone y neck para una mejor extracción de características. Optimiza la velocidad y eficiencia mientras mantiene una alta precisión. Equilibra precisión y eficiencia computacional, siendo adecuado para diversas aplicaciones, desde sistemas embebidos hasta implementaciones a gran escala. Tiene cinco variantes: YOLOv11n, YOLOv11s, YOLOv11m, YOLOv11L y YOLOv11x, basadas en la profundidad de la red.
-
-    \item \textbf{YOLOv12 (2025):} Enfoque centrado en la atención. Introduce el módulo de Atención de Área (A2) y Redes de Agregación de Capa Eficiente Residual (R-ELAN) para un procesamiento mejorado de características. Utilizando estos cambios arquitectónicos,logra un rendimiento de vanguardia mientras mantiene las capacidades de detección en tiempo real. Sus variantes YOLOv12-N logró un mAP del 40.6\% con una latencia de inferencia de 1.64 ms en una GPU T4, superando a YOLOv10-N y YOLOv11-N por 2.1 mAP con una velocidad comparable. Mejor definición de contornos de objetos y activación de primeros planos en comparación con sus predecesores.
-    
-\end{itemize}
-
-\subsection*{Metricas de detección de objetos}
-\subsubsection*{mAP}
-La Precisión Promedio (AP), tradicionalmente llamada Precisión Promedio Media (mAP), es la métrica comúnmente utilizada para evaluar el rendimiento de los modelos de detección de objetos. Mide la precisión promedio a través de todas las categorías, proporcionando un valor único para comparar diferentes modelos. 
-
-En YOLOv1 y YOLOv2, el conjunto de datos utilizado para el entrenamiento y la evaluación fue PASCAL VOC 2007, y VOC 2012. Sin embargo, desde YOLOv3 en adelante, el conjunto de datos utilizado es Microsoft COCO (Common Objects in Context). La AP se calcula de manera diferente para estos conjuntos de datos. 
-
-La métrica AP se basa en las métricas de precisión y recall, manejando múltiples categorías de objetos y utilizando la Intersección sobre Unión (IoU) para definir predicciones positivas.
-
-\begin{itemize}
-    \item Precisión y Recall: La precisión mide la exactitud de las predicciones positivas, mientras que el recall mide la proporción de objetos reales detectados. Hay un compromiso entre ambas, ya que aumentar el recall puede disminuir la precisión. La AP balancea estos factores utilizando la curva precisión-recall, que evalúa la precisión para diferentes umbrales de confianza.
-    
-    \item Manejo de múltiples categorías: Para evaluar el rendimiento en múltiples categorías de objetos, la AP calcula la precisión promedio de cada categoría y luego promedia estos valores, proporcionando una evaluación más completa del modelo.
-    
-    \item Intersección sobre Unión (IoU): IoU mide la superposición entre las cajas delimitadoras predichas y las reales, y se utiliza para evaluar la calidad de la localización de los objetos. El conjunto de datos COCO considera múltiples umbrales de IoU para evaluar el rendimiento del modelo en diferentes niveles de precisión en la localización.
-\end{itemize}
-
-La AP se calcula de manera diferente en los conjuntos de datos VOC y COCO:
-
-\textbf{VOC}: Para calcular la AP en VOC (20 categorías de objetos), se sigue este proceso:
-\begin{enumerate}
-    \item Calcular la curva de precisión-recall variando el umbral de confianza.
-    \item Calcular la precisión promedio de cada categoría usando una interpolación de 11 puntos.
-    \item Promediar las APs de todas las categorías para obtener la AP final.
-\end{enumerate}
-
-\textbf{COCO}: Para COCO (80 categorías de objetos), se utiliza un método más complejo:
-
-\begin{enumerate}
-    \item Calcular la curva de precisión-recall variando el umbral de confianza.
-    \item Calcular la precisión promedio usando 101 umbrales de recall.
-    \item Calcular la AP en diferentes umbrales de IoU (de 0.5 a 0.95 con un paso de 0.05).
-    \item Promediar las APs de las 80 categorías para cada umbral de IoU.
-    \item Calcular el AP general promediando los resultados de todos los umbrales de IoU.
-\end{enumerate}
-
-La diferencia en el cálculo de AP hace difícil comparar el rendimiento entre los conjuntos de datos. El estándar actual usa COCO AP debido a su evaluación más detallada en diferentes niveles de IoU.
-
-\textbf{Supresión de No Máximos (NMS)}:
-La NMS es una técnica de postprocesamiento que reduce las cajas delimitadoras superpuestas y mejora la calidad de la detección:
-
-\begin{itemize}
-    \item Se filtran las cajas predichas usando un umbral de confianza.
-    \item Se ordenan las cajas por sus puntajes de confianza en orden descendente.
-    \item Se selecciona la caja con el puntaje más alto y se eliminan las cajas restantes si su IoU con la seleccionada excede un umbral predefinido.
-\end{itemize}
-
-\textbf{Backbone}: Es responsable de extraer características útiles de la imagen de entrada. Típicamente es una red neuronal convolucional (CNN) entrenada en una tarea de clasificación de imágenes a gran escala, como ImageNet. El backbone captura características jerárquicas en diferentes escalas: características de bajo nivel (como bordes y texturas) en las primeras capas, y características de alto nivel (como partes de objetos e información semántica) en las capas más profundas.
-
-\textbf{Neck}: Es un componente intermedio que conecta el backbone con el head. Su función es agregar y refinar las características extraídas por el backbone, mejorando la información espacial y semántica a través de diferentes escalas. El neck puede incluir capas convolucionales adicionales, redes piramidales de características (FPN), o mecanismos similares para mejorar la representación de las características.
-
-\textbf{Head}: Es el componente final del detector de objetos. Se encarga de realizar las predicciones basadas en las características proporcionadas por el backbone y el neck. Normalmente consiste en una o más subredes específicas para tareas como clasificación, localización y, más recientemente, segmentación de instancias y estimación de poses. El head procesa las características proporcionadas por el neck, generando predicciones para cada objeto candidato. Finalmente, un paso de postprocesamiento, como la supresión de no máximos (NMS), filtra las predicciones superpuestas y retiene solo las detecciones más confiables.
-
-En los modelos YOLO, las arquitecturas se describen utilizando estas tres partes: backbone, neck y head.
-
-
-% refpara yolo: https://uvadoc.uva.es/bitstream/handle/10324/43277/TFG-G4450.pdf?sequence=1
-%file:///C:/Users/itzel_dlz6lv9/Downloads/2304.00501v1.pdf
-%https://arxiv.org/pdf/2406.19407
-\end{comment}
-
 
 \section{Visión Artificial}
 \label{sec:vision_artificial}
