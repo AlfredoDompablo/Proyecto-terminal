@@ -1,5 +1,8 @@
 \chapter{Marco Teórico}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%       SECCION: CUERPO DE AGUA         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Cuerpo de Agua}
 Un cuerpo de agua se define como cualquier extensión o masa de agua que se encuentra en la superficie terrestre (ríos y lagos) o en el subsuelo (acuíferos, ríos subterráneos). Estas masas pueden presentarse en estado líquido o sólido (glaciares, casquetes polares), ser de origen natural o artificial (embalses), y estar constituidas por agua dulce o salada \cite{agua2024}.
 
@@ -8,6 +11,9 @@ De acuerdo con la Red Nacional de Medición de Calidad del Agua (RENAMECA), los 
 %referencia RENAMECA https://app.conagua.gob.mx/ICA/Contenido?n1=1&n2=1 . 
 El presente proyecto se enfoca principalmente en los cuerpos de agua lóticos. Dada su dinámica de flujo constante, estos ecosistemas son altamente susceptibles a la rápida dispersión de contaminantes provenientes de descargas industriales y agrícolas. Por ende, la implementación de sistemas de monitoreo continuo es indispensable para salvaguardar la vida acuática que albergan y garantizar la calidad del recurso para sus diversos fines de aprovechamiento.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%      SECCION: CALIDAD DEL AGUA        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Calidad del Agua}
 La calidad del agua se refiere a las condiciones generales y características físicas, químicas y biológicas que determinan su aptitud para un uso específico. Evaluar dichos atributos permite establecer si el recurso hídrico es adecuado para el consumo humano, el riego agrícola, la protección de la vida acuática o para fines recreativos.
 
@@ -15,12 +21,18 @@ Esta evaluación requiere el monitoreo sistemático de parámetros físicos y qu
 
 Para abordar la medición de estos parámetros, la solución propuesta integra una Red Inalámbrica de Sensores (WSN, por sus siglas en inglés) y un sistema de visión artificial. Esta arquitectura tecnológica permite un monitoreo continuo, automatizado y en tiempo real, lo que incrementa sustancialmente la precisión al mitigar los errores logísticos típicamente asociados con el muestreo manual, transporte y almacenamiento de las muestras.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        SECCION: CONTAMINACION         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Contaminación}
 La contaminación se conceptualiza como la introducción de agentes químicos, físicos o biológicos en un medio, cuya presencia o acumulación genera efectos nocivos en el entorno natural, así como riesgos para la salud y el bienestar humano. La magnitud de dicho impacto depende de una combinación de factores, tales como la concentración y toxicidad del contaminante, su vía de ingreso y el nivel de resiliencia del ecosistema al que se incorpora.
 
 En particular, un cuerpo de agua se considera contaminado cuando la incidencia de estos agentes excede los niveles naturales de asimilación, degradando negativamente las propiedades del medio. Dicha alteración compromete la viabilidad del agua para abastecimiento humano o usos ambientales posteriores, y amenaza el equilibrio biológico de los ecosistemas. Este fenómeno adverso puede manifestarse en cualquier tipo de depósito hídrico, ya sean ríos, lagos, acuíferos o el medio marino \cite{agua2024contaminacion}.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  SECCION: PARAMETROS DE CALIDAD AGUA  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Parámetros de la Calidad del Agua}
 
 \subsection{pH}
@@ -52,9 +64,15 @@ Cuantitativamente, caídas dramáticas frente al histórico documentado, proveen
 
 La recopilación de parámetros fundamentales, a modo sinérgico (pH, OD, turbidez, CE, temperatura), forja bases medulares para validar, salvaguardar y monitorizar la salud ambiental y prospectar la sostenibilidad en el abanico totalitario del uso y explotación inminente global de los caudales de reserva y recursos hídricos.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%      SECCION: MONITOREO DEL AGUA      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Monitoreo del Agua}
 El monitoreo hídrico se define como el proceso sistemático de observación, medición y análisis continuo de los parámetros que fungen como indicadores de la calidad del agua. Este monitoreo facilita el levantamiento de registros y asegura la documentación sobre la evolución analítica del recurso a lo largo del tiempo. Dicha valoración se determina mediante el análisis estricto de distintos parámetros físicos, químicos y biológicos, diagnosticándose la viabilidad de conformidad con los objetivos o demandas de explotación al cual va a estar sujeta \cite{monitoreo2023}.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  SECCION: SENSORES E INSTRUMENTACION  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Sensores e Instrumentación}
 \label{sec:marco_sensores}
 
@@ -92,6 +110,9 @@ En el contexto del monitoreo hídrico, se emplean sensores específicos diseñad
 
 Los sensores representan una solución innovadora para medir parámetros de calidad del agua de forma continua y precisa. A diferencia de los métodos manuales, estos dispositivos permiten la recolección de datos en tiempo real, incluso en condiciones ambientales adversas. Al integrarse en redes inalámbricas, los sensores facilitan la transmisión inmediata de datos a sistemas de procesamiento, lo que optimiza su análisis y visualización.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECCION: RED INALAMBRICA DE SENSORES  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Red Inalámbrica de Sensores}
 
 Las redes inalámbricas de sensores (WSN, por sus siglas en inglés) son sistemas embebidos fundamentales para la telemetría distribuida moderna. Están conformadas por un conjunto de nodos sensores autónomos, capaces de comunicarse mediante enlaces de radiofrecuencia (RF) para recolectar, procesar y transmitir variables físicas del entorno hacia un nodo concentrador o estación base. Su implementación abarca aplicaciones de monitoreo ambiental, domótica, agricultura de precisión y control de infraestructuras críticas \cite{fernandez2009}.
@@ -162,6 +183,9 @@ En redes con topología estrella, el nodo coordinador es el punto único de cone
 Debido a su papel crítico, este nodo suele alimentarse con una fuente de energía permanente y estar protegido físicamente, ya que una falla en este componente puede comprometer la operatividad de toda la red.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  SECCION: TECNOLOGIAS DE TRANSMISION  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Tecnologías de Transmisión de Datos para Redes Inalámbricas}
 
 La viabilidad operativa y la diseminación ininterrumpida de la información en una red WSN dependen estructuralmente del protocolo de comunicación seleccionado. Cada protocolo define reglas nativas de operación para la Capa Física (PHY) y de Control de Acceso al Medio (MAC), estableciendo un compromiso directo entre el ancho de banda disponible, la resiliencia a interferencias, la mitigación del consumo energético y el alcance métrico efectivo.
@@ -209,22 +233,53 @@ A continuación, se detallan y contrastan los fundamentos técnicos que gobierna
             \item \textit{Potencia típica}: 14-20 dBm (25-100 mW) con modos de sueño profundo
             \item \textit{Aplicaciones}: Smart cities, agricultura de precisión, WSN de largo alcance \cite{Adame2014}
         \end{itemize}
-    \item \textbf{LoRa (Long Range)}:
-        \begin{itemize}
-            \item \textit{Técnica de acceso al medio}: ALOHA (en redes LoRaWAN) o CAD (Channel Activity Detection) en implementaciones P2P
-            \item \textit{Modulación}: CSS (Chirp Spread Spectrum)
-            \item \textit{Tasa de transmisión}: 292 bps - 50 kbps (Adaptable según Factor de Dispersión SF7-SF12 y Ancho de Banda)
-            \item \textit{Alcance}: 2-5 km (entornos urbanos), 15 km o más (rural/línea de vista)
-            \item \textit{Potencia típica}: +14 dBm a +22 dBm (25-150 mW), altamente eficiente en receptor
-            \item \textit{Aplicaciones}: Agricultura inteligente, medición de servicios públicos (metering), rastreo de activos, IoT industrial \cite{TTN_LoRaWAN}
-        \end{itemize}
+\end{itemize}
+
+\subsection{El Protocolo LoRa (Long Range)}
+\label{subsec:lora}
+
+\textbf{LoRa} (del inglés \textit{Long Range}) es una tecnología de comunicación inalámbrica patentada por la compañía Semtech, diseñada para redes de área amplia y baja potencia (LPWAN) \cite{devalal2018_overview}. Esta tecnología fue creada para satisfacer las necesidades del Internet de las Cosas (IoT), permitiendo la transmisión de datos a largas distancias con un consumo de energía muy reducido y a bajo costo \cite{jebril2018_overcoming, staikopoulos2020_survey}.
+
+El método de modulación de LoRa se basa en la técnica de expansión del espectro y utiliza una variación de la modulación de espectro ensanchado por gorjeo (\textit{Chirp Spread Spectrum}, CSS) junto con la corrección de errores directa (\textit{Forward Error Correction}, FEC) \cite{bor2016_lora, semtech_sx1261}. La implementación de la modulación CSS es el factor clave que permite a LoRa mantener enlaces de alta calidad y largo alcance, siendo capaz de demodular señales que se encuentran hasta 19,5 dB por debajo del nivel de ruido \cite{bor2016_lora, jebril2018_overcoming}.
+
+\subsubsection{Diferencia entre LoRa y LoRaWAN}
+Es fundamental establecer una distinción técnica clara entre LoRa y LoRaWAN para comprender la arquitectura de la red:
+\begin{itemize}
+    \item \textbf{LoRa es la Capa Física (PHY):} Representa la tecnología de radiofrecuencia en sí misma. Es el método de modulación de la señal que define el ``cómo'' viaja el mensaje a nivel electromagnético \cite{devalal2018_overview}.
+    \item \textbf{LoRaWAN es la Capa de Control de Acceso al Medio (MAC) y el protocolo de red:} Define la arquitectura del sistema, cómo los dispositivos finales se conectan a los \textit{gateways} (puertas de enlace), y cómo se enrutan los datos a los servidores de red \cite{bor2016_lora}. Actúa como la normativa que rige la red completa, permitiendo que esta sea escalable y segura.
+\end{itemize}
+
+\subsubsection{Parámetros Físicos de Transmisión}
+El protocolo físico de LoRa permite configurar varios parámetros que determinan el rendimiento de la red, ofreciendo un equilibrio entre la distancia de transmisión, la velocidad de los datos y el consumo energético \cite{semtech_sx1261, jebril2018_overcoming}.
+
+\begin{itemize}
+    \item \textbf{Factor de Dispersión (\textit{Spreading Factor} - SF):} El Factor de Dispersión es la relación entre la tasa de símbolos y la tasa de \textit{chips}. En LoRa, el SF puede configurarse en valores que van típicamente de 7 a 12 \cite{semtech_sx1261, wei2020_comparison}. Un SF mayor incrementa la sensibilidad del receptor, la relación señal-ruido (SNR) y el alcance de comunicación \cite{bor2016_lora}. Sin embargo, aumentar el SF reduce la velocidad de transmisión de datos y duplica el Tiempo en el Aire (\textit{Time on Air}, TOA) por cada incremento, lo que eleva el consumo energético \cite{jebril2018_overcoming}. Las transmisiones con diferentes SF son ortogonales entre sí, múltiples señales pueden transmitirse simultáneamente en el mismo canal sin interferir \cite{bor2016_lora, wei2019_various}.
+    
+    \item \textbf{Ancho de Banda (\textit{Bandwidth} - BW):} El ancho de banda es el rango de frecuencias en la banda de transmisión, con valores ajustables comunes de 125 kHz, 250 kHz y 500 kHz \cite{semtech_sx1261}. Un ancho de banda mayor permite una mayor tasa de transmisión de datos y reduce el tiempo en el aire, pero a costa de integrar más ruido, lo que reduce la sensibilidad del receptor \cite{jebril2018_overcoming}.
+    
+    \item \textbf{Tasa de Codificación (\textit{Coding Rate} - CR):} El protocolo LoRa utiliza Corrección de Errores Directa (FEC) para proteger la transmisión contra interferencias \cite{jebril2018_overcoming}. El CR determina la cantidad de bits redundantes añadidos al paquete de datos para su corrección y puede ajustarse a 4/5, 4/6, 4/7 o 4/8 \cite{semtech_sx1261}. Una tasa de codificación mayor proporciona mayor robustez y tolerancia a fallos, pero aumenta la longitud del paquete y el consumo de energía \cite{jebril2018_overcoming}.
+    
+    \item \textbf{Potencia de Transmisión (\textit{Transmission Power} - TP):} La potencia de salida del transmisor se puede configurar dinámicamente, generalmente en un rango de -4 dBm a +20 dBm (e incluso hasta +22 dBm en transceptores específicos como el SX1262) \cite{semtech_sx1261}. Aumentar la potencia mejora la relación señal-ruido y extiende el alcance, pero eleva el consumo de batería del nodo \cite{wei2020_comparison}.
+\end{itemize}
+
+\subsubsection{Ventajas y Limitaciones de la Tecnología LoRa}
+\textbf{Ventajas Principales:}
+\begin{itemize}
+    \item \textbf{Largo Alcance:} Puede lograr comunicaciones desde cientos de metros en interiores, hasta decenas de kilómetros en exteriores (se han documentado distancias de 15 a 30 km en aplicaciones marítimas y urbanas) \cite{jebril2018_overcoming, staikopoulos2020_survey}.
+    \item \textbf{Bajo Consumo de Energía:} Los nodos pueden operar con baterías durante años \cite{bor2016_lora}.
+    \item \textbf{Robustez:} Alta resistencia a interferencias y desvanecimientos gracias a la modulación CSS \cite{devalal2018_overview}.
+\end{itemize}
+
+\textbf{Limitaciones Inherentes:}
+\begin{itemize}
+    \item \textbf{Baja Tasa de Datos:} La velocidad de transmisión es baja, lo que hace que la transmisión de datos voluminosos o continuos, como imágenes, sea un gran desafío \cite{jebril2018_overcoming, tonghao2019_efficient}.
+    \item \textbf{Tamaño de Carga Útil (\textit{Payload}) Limitado:} El tamaño máximo de datos que se puede enviar en un solo paquete es muy pequeño (usualmente entre 51 y 242 bytes, dependiendo de la configuración regional y el factor de dispersión). Esto obliga a fragmentar la información si se requiere enviar mediciones complejas, lo que aumenta el tiempo en el aire y la probabilidad de pérdida de paquetes \cite{semtech_sx1261}.
 \end{itemize}
 
 
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- %      SECCION: VISION ARTIFICIAL        %
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%      SECCION: VISION ARTIFICIAL       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Visión Artificial}
 \label{sec:vision_artificial}
 
@@ -324,19 +379,6 @@ Para evaluar cuantitativamente el rendimiento de un modelo de detección de obje
 \end{itemize}
 
 
-
-
-
-
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 \subsection{Cámaras}
 \label{subsec:camaras}
 
@@ -354,10 +396,9 @@ Un módulo de cámara, especialmente en sistemas embebidos, se compone de varios
 
 La selección de una cámara adecuada, por lo tanto, depende de un balance entre la resolución del sensor, las características de la óptica y la compatibilidad de su interfaz con la unidad de procesamiento del nodo sensor.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%       SECCION PAGINA WEB          %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    SECCION: PAGINA Y APLICACION WEB   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Página Web y Aplicación Web}
 \label{sec:pagina_web}
 
@@ -375,10 +416,9 @@ Las aplicaciones web modernas se construyen sobre tres tecnologías fundamentale
 
 En el contexto de este proyecto, la aplicación web permitirá centralizar y presentar de forma clara y accesible los datos recopilados sobre calidad del agua y detección de residuos. Facilitará la consulta dinámica por parámetros, fechas o ubicaciones, fomentando la transparencia, la conciencia pública y la participación ciudadana.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%       SECCION Servdores           %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           SECCION: SERVIDOR           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Servidor}
 
 En el ámbito de la informática, un servidor es un sistema de cómputo —compuesto por hardware y software— que provee recursos, datos, servicios o programas a otros dispositivos, denominados clientes, a través de una red \cite{Espana2003}. Esta interacción se rige por el \textbf{modelo cliente-servidor}, una arquitectura de software distribuida que centraliza la gestión de recursos y la lógica de negocio en el servidor, mientras que los clientes se encargan de la interfaz de usuario y la solicitud de servicios \cite{Britannica2024}.
@@ -419,9 +459,9 @@ Para el presente proyecto, la arquitectura del servidor se basará en una combin
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%       SECCION: Base de datos      %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%         SECCION: BASE DE DATOS        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Base de Datos}
 \label{sec:base_de_datos}
 
