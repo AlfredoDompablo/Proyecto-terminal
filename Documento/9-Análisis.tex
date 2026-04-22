@@ -1,6 +1,10 @@
 \chapter{Análisis}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECCION: ANALISIS DEL SISTEMA Y REQUERIMIENTOS DEL PROTOTIPO %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Análisis del Sistema y Requerimientos del Prototipo}
+\label{sec:analisis_del_sistema_y_requerimientos_del_prototipo}
 
 A continuación, se presenta una lista con los posibles requerimientos identificados para el desarrollo del prototipo de monitoreo ambiental. Estos requerimientos están organizados en subsistemas funcionales y servirán como guía para el diseño e implementación del sistema.
 
@@ -150,14 +154,14 @@ La página web permite consultar los datos recopilados por los nodos sensores y 
 %\input{Documento/Tablas/Requerimientos}
 \input{Documento/Tablas/Analisis/Requerimientos2}
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: Analisis sensores           %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    SECCION: SELECCION DE SENSORES     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Selección de Sensores}
 \label{sec:analisis_sensores}
+Una vez establecidos los requerimientos funcionales y las variables a monitorear, el primer paso en el diseño de la arquitectura de hardware es la selección de los transductores físicos. Estos dispositivos serán los encargados de traducir los fenómenos químicos e hídricos en señales digitales cuantificables.
+
+
 La selección de los transductores más adecuados para el sistema se rige por los requerimientos funcionales y no funcionales previamente definidos. Como base para la evaluación, cada sensor debe cumplir con las especificaciones mínimas derivadas de la Tabla~\ref{tab:parametros_calidad_agua} (Parámetros Normativos) y el requerimiento RNF01 (Precisión), las cuales se resumen a continuación:
 
 \begin{itemize}
@@ -176,12 +180,11 @@ Adicionalmente, se consideran como criterios clave la compatibilidad con una ten
 
 A continuación, se presenta el análisis comparativo de las opciones de mercado frente a estos criterios.
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: pH                          %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   SUBSECCION: ANALISIS SENSORES PH    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Análisis Sensores pH}
+\label{subsec:analisis_sensores_ph}
 \input{Documento/Tablas/Analisis/Sensores/S.pH}
 Para la medición de pH, se han considerado dos alternativas principales de sensores de la línea Gravity de DFRobot: el \textit{Analog pH Meter V2} y el \textit{Industrial Analog pH Meter Pro Kit V2}. Ambos dispositivos ofrecen un rango de medición de 0 a 14 pH y una precisión de $\pm$0.1 pH a 25°C, con salidas analógicas compatibles con microcontroladores basados en ESP32.
 
@@ -189,11 +192,11 @@ La elección definitiva entre estos sensores dependerá de la evaluación del en
 
 Considerando que el proyecto contempla la instalación de sensores en cuerpos de agua lóticos, donde se enfrentan condiciones variables de corriente y turbidez, el \textit{Industrial Analog pH Meter Pro Kit V2} se perfila como la opción más adecuada. No obstante, la selección final será confirmada tras la validación de las condiciones ambientales específicas del sitio de prueba.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: Oxigeno Disuelto            %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: ANALISIS SENSORES OXIGENO DISUELTO %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Análisis Sensores Oxigeno Disuelto}
+\label{subsec:analisis_sensores_oxigeno_disuelto}
 \input{Documento/Tablas/Analisis/Sensores/S.OxigenDis}
 
 Para la medición de oxígeno disuelto (OD) en el agua, se consideran dos opciones principales: el sensor Gravity: Analog Dissolved Oxygen Sensor (SEN0237) de DFRobot y el Atlas Scientific EZO-DO™.
@@ -204,22 +207,22 @@ Por otro lado, el sensor Atlas Scientific EZO-DO™ utiliza tecnología óptica,
 
 Debido a que el sistema propuesto busca un equilibrio entre costos razonables y confiabilidad operativa, el sensor Gravity Analog se perfila como la opción más viable para su implementación inicial. No obstante, se mantiene abierta la posibilidad de considerar el sensor Atlas Scientific EZO-DO™ en futuras fases de ampliación o mejora del sistema, en caso de que se requiera una mayor precisión y robustez frente a condiciones ambientales extremas.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: Turbidez                    %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: ANALISIS SENSOR DE TURBIDEZ %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Análisis Sensor de Turbidez}
+\label{subsec:analisis_sensor_de_turbidez}
 \input{Documento/Tablas/Analisis/Sensores/S.turbidez}
 
 Para la medición de turbidez en el sistema propuesto se ha seleccionado el sensor Gravity: Analog Turbidity Sensor (SKU: SEN0189) de DFRobot. Este sensor permite medir niveles de turbidez en un rango de 0 a 1000 NTU, entregando una señal analógica proporcional a la concentración de partículas suspendidas en el agua. Su compatibilidad con microcontroladores basados en ESP32, su facilidad de integración mediante conversión analógica lo hacen adecuado para el presente proyecto.
 
 Aunque su precisión es limitada en comparación con sensores digitales o de grado industrial, y su desempeño puede verse afectado por condiciones extremas de suciedad o humedad prolongada, su bajo costo y facilidad de implementación representan una alternativa viable para una primera fase de monitoreo distribuido en cuerpos de agua lóticos. La utilización de este sensor permitirá realizar una estimación práctica del nivel de sólidos suspendidos en el agua y, de ser necesario, futuras iteraciones del sistema podrán contemplar la adopción de tecnologías más robustas.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: Conductividad               %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: ANALISIS SENSORES CONDUCTIVIDAD %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Análisis Sensores Conductividad}
+\label{subsec:analisis_sensores_conductividad}
 \input{Documento/Tablas/Analisis/Sensores/S.conductividad}
 
 Para la medición de conductividad eléctrica (EC) en el sistema propuesto se consideraron dos opciones: el sensor Gravity: Analog Electrical Conductivity Sensor V2 (SKU: DFR0300) de DFRobot y el Atlas Scientific EZO-EC™.
@@ -229,11 +232,12 @@ El sensor Gravity EC V2 ofrece un rango de medición de 0 a 20 mS/cm, con una pr
 En contraste, el sensor Atlas Scientific EZO-EC™ proporciona un rango extendido de hasta 200 mS/cm, alta precisión de $\pm$2\%, y mínimas necesidades de calibración. Sin embargo, su costo elevado y su integración más compleja lo hacen menos accesible para un sistema que busca un equilibrio entre funcionalidad y viabilidad económica.
 
 Considerando los objetivos de este Proyecto y las restricciones presupuestarias, se selecciona el sensor Gravity: Analog Electrical Conductivity Sensor V2 como la opción más adecuada para la medición de conductividad, dejando abierta la posibilidad de futuras mejoras en etapas posteriores del proyecto.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: Temperatura                 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: ANALISIS SENSORES TEMPERATURA %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Análisis Sensores Temperatura}
+\label{subsec:analisis_sensores_temperatura}
 \input{Documento/Tablas/Analisis/Sensores/S.temperatura}
 
 Para la medición de temperatura en el sistema propuesto se consideraron dos alternativas: el sensor digital sumergible DS18B20 y el sensor industrial Atlas Scientific EZO-RTD™.
@@ -244,15 +248,104 @@ Por su parte, el sensor Atlas Scientific EZO-RTD™ proporciona una mayor precis
 
 Considerando los objetivos de este Proyecto y las condiciones operativas previstas, se selecciona el sensor DS18B20 sumergible como la opción más adecuada para la medición de temperatura en cuerpos de agua lóticos.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: Topologia de red            %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     SECCION: ANALISIS DE CAMARAS      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Análisis de Cámaras}
+\label{sec:analisis_de_camaras}
+De manera paralela a la adquisición de datos de calidad del agua, el sistema requiere recolectar evidencia visual en su entorno para automatizar la métrica de recolección de basura, labor que depende directamente de un sensor óptico.
 
+Para la selección de la cámara que formará parte del sistema de visión artificial, se evaluaron cuatro módulos de uso frecuente en plataformas embebidas: la OV2640, la OV5640, la Raspberry Pi Camera Module v2 y la Raspberry Pi Camera Module v3. La comparación se realizó con base en criterios como resolución, tipo de interfaz, compatibilidad con microcontroladores y computadoras de placa reducida, consumo energético, facilidad de integración y costo. Estos factores son determinantes para garantizar que el sistema sea eficiente en la captura de imágenes, considerando tanto la calidad visual necesaria para la detección de residuos sólidos flotantes en cuerpos de agua como las limitaciones energéticas y de procesamiento propias de una red de sensores. Además, la elección final también dependerá de la correspondencia entre las características de la cámara y la calidad de las imágenes disponibles en los conjuntos de datos utilizados para el entrenamiento del modelo de visión artificial, ya que la coherencia entre ambos elementos influye directamente en el desempeño del sistema.
+
+\input{Documento/Tablas/Analisis/Cámaras2}
+
+Con base en las restricciones de interfaz del microcontrolador seleccionado para la captura visual (ESP32-S3), el cual opera de manera óptima y nativa con buses periféricos paralelos (DVP) en lugar de arquitecturas MIPI CSI-2, se descartaron los módulos de cámara de Raspberry Pi. Dentro de las opciones DVP, se determinó utilizar la cámara \textbf{OV5640}. A pesar de presentar un consumo de corriente ligeramente superior frente a su predecesora (OV2640), esta cámara proporciona autoenfoque y una resolución nativa de 5 megapíxeles (2592$\times$1944). Estas métricas ópticas son indispensables para capturar detalles definidos sobre los cuerpos de agua, garantizando que el algoritmo YOLO disponga de información fidedigna para segmentar con exactitud el área cubierta por residuos.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECCION: ANALISIS DE RECEPTORES GNSS  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Análisis de Receptores GNSS}
+\label{sec:analisis_gps}
+Toda la telemetría recolectada por los sensores hídricos y visuales carece de valor analítico profundo si está desprovista de contexto espacial; por ende, resulta vital integrar un sistema capaz de geolocalizar estáticamente las posiciones desde donde se emiten dichas lecturas climáticas.
+
+Para seleccionar la solución de posicionamiento más adecuada para el sistema de monitoreo, se evaluaron distintos módulos GNSS de bajo consumo comparables al integrado en la plataforma \textbf{Heltec Wireless Tracker V1.1}. El análisis considera tres criterios fundamentales:
+
+\begin{enumerate}
+    \item \textbf{Consumo energético}: Determina la autonomía del nodo durante el proceso de adquisición y seguimiento satelital, especialmente importante cuando el GPS se despierta periódicamente desde estados de bajo consumo.
+    \item \textbf{Sensibilidad de recepción}: Capacidad del receptor para detectar señales GNSS de baja potencia, particularmente relevante en entornos con obstrucciones parciales como vegetación densa, humedad elevada y ausencia de cielo abierto total.
+    \item \textbf{Tiempo a Primera Fijación (TTFF)}: Mide el tiempo necesario para obtener una posición válida. Influye directamente en el ciclo de operación del nodo y en el consumo energético total.
+\end{enumerate}
+
+La Tabla~\ref{tab:comparativa_chips_gnss} presenta un resumen de tecnologías GNSS de bajo consumo comúnmente utilizadas en sistemas IoT y WSN. Dichas soluciones se caracterizan por ofrecer un equilibrio entre sensibilidad, consumo y precisión métrica suficiente para aplicaciones ambientales, aunque presentan desafíos en zonas con follaje denso debido a pérdidas adicionales superiores a \SI{10}{dB} por atenuación vegetal.
+
+\input{Documento/Tablas/Analisis/ComparativaGPS.tex}
+
+Derivado del análisis comparativo previo, se opta por el módulo \textbf{UC6580} como la solución GNSS para el sistema de monitoreo. Este dispositivo presenta una relación idónea entre sensibilidad, consumo energético y dimensiones físicas, aspectos cruciales para nodos alimentados por baterías operando en entornos fluviales y áreas de difícil acceso.
+
+Su sensibilidad de \SI{-165}{dBm} permite mantener una recepción estable incluso en escenarios con obstrucción parcial del cielo, como cuando hay árboles, humedad elevada y topografía irregular. Además, su soporte multiconstelación (GPS, GLONASS, Galileo) mejora significativamente la disponibilidad de satélites y reduce la probabilidad de pérdida de posicionamiento en zonas de vegetación densa, algo crucial en los entornos de monitoreo ambiental.
+
+El consumo aproximado de \SI{25}{\milli\ampere} durante el seguimiento satelital, combinado con tiempos de adquisición de \SI{\sim 30}{\second} en \textit{cold start}, permite adoptar una estrategia eficiente basada en ciclos de activación breve y optimización energética.
+
+La estrategia de operación se detalla a continuación:
+
+\begin{enumerate}
+    \item \textbf{Activación del GPS solo cuando sea necesario:} El módulo GNSS se activa únicamente para obtener las coordenadas de los sensores, y se apaga inmediatamente después de capturar la información. Esto reduce el consumo energético y prolonga la autonomía del sistema.
+    
+    \item \textbf{Esperar hasta obtener un \textit{fix} válido:} Antes de proceder con la transmisión de datos, el sistema espera a que el GPS obtenga una solución válida, minimizando el riesgo de transmitir coordenadas incorrectas.
+    
+    \item \textbf{Uso de un ciclo de baja potencia:} Una vez obtenido el fix, el GPS se apaga para entrar en el modo de baja potencia hasta que se necesite realizar una nueva adquisición de ubicación.
+    
+    \item \textbf{Posicionamiento y monitoreo remoto:} El UC6580 proporciona la precisión necesaria para el seguimiento geográfico a lo largo del río, facilitando la geolocalización precisa y el monitoreo en tiempo real de los nodos en la red.
+\end{enumerate}
+
+La elección del UC6580, al equilibrar sensibilidad, consumo y precisión, garantiza que el sistema de monitoreo se adapte eficazmente a las exigencias del entorno y optimice la eficiencia energética, asegurando así un rendimiento confiable y autonomía prolongada en zonas de difícil acceso.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECCION: ANALISIS DE MICROCONTROLADORES %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Análisis de Microcontroladores} 
+\label{sec:analisis_microcontroladores}   
+Con el catálogo completo de instrumentos periféricos definido —sensores químicos, cámara de imagen y módulo GNSS— es inherente designar y evaluar a una central de procesamiento local capaz de orquestarlos a todos de manera equilibrada y eficiente.
+
+
+La selección del microcontrolador constituye una decisión crítica en el diseño del sistema, determinando directamente las capacidades de integración sensorial, gestión energética, conectividad inalámbrica y procesamiento local de datos. Considerando los requerimientos específicos del proyecto, se llevó a cabo un análisis comparativo entre diversas placas de desarrollo ampliamente adoptadas en sistemas embebidos. Este estudio evaluó parámetros clave como arquitectura, capacidad de memoria, interfaces de comunicación, opciones de conectividad inalámbrica y costo. El objetivo fundamental es identificar la solución que optimice el equilibrio entre rendimiento computacional, eficiencia energética y viabilidad de implementación. A continuación, se presenta la comparativa técnica de las alternativas evaluadas.  
+
+\input{Documento/Tablas/Analisis/Microcontroladores2} 
+
+\begin{table}[H]
+\centering
+\caption{Comparativa de microcontroladores para nodos fluviales}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\textbf{MCU} & \textbf{Periféricos} & \textbf{Memoria} & \textbf{Consumo Activo} & \textbf{Consumo Sleep} & \textbf{Conectividad} \\ \hline
+\shortstack[l]{\textbf{Heltec Wireless}\\\textbf{Tracker}} & \textbf{ADC, SPI, I2C, UART} & \textbf{8MB Flash} & \textbf{\SI{\sim 110}{\milli\ampere}} & \textbf{\SI{\sim 20}{\micro\ampere}} & \shortstack[c]{\\ \textbf{LoRa + GNSS +}  \\\textbf{Wi-Fi + BLE}} \\ \hline
+Xiao ESP32-S3 & 11 GPIOs, 8 ADC & 8MB Flash & 91 mA & 240 µA & WiFi 2.4GHz + BLE \\ \hline
+LilyGO T-HaLow & 36 GPIOs, 20 ADC & 16MB Flash & 91 mA & 240 µA & WiFi HaLow (900MHz) \\ \hline
+RPi Pico W & 23 GPIOs, 3 ADC & 2MB Flash & 50 mA & 390 µA & WiFi 2.4GHz \\ \hline
+ESP8266 NodeMCU & 17 GPIOs, 1 ADC & 4MB Flash & 80 mA & 20 µA & WiFi 2.4GHz \\ \hline
+RPi Zero W & 40 GPIOs (sin ADC) & Micro SD & 2.5 A & - & WiFi 2.4GHz + BLE 4.0 \\ \hline
+RPi Zero 2 W & 40 GPIOs (sin ADC) & Micro SD & 2.5 A & - & WiFi 2.4GHz + BLE 4.2 \\ \hline
+\end{tabular}
+}
+\end{table}
+
+Para el nodo sensor, se ha optado por una arquitectura de procesamiento distribuido utilizando dos unidades de desarrollo. Como controlador principal, encargado de la lectura de sensores físico-químicos (pH, turbidez, oxígeno disuelto) y la comunicación de largo alcance, se selecciona la placa Heltec Wireless Tracker V1.1. Esta elección se basa en su superioridad de integración, al unificar en un solo PCB el microcontrolador ESP32-S3, el transceptor LoRa SX1262 y el módulo GNSS UC6580, lo cual simplifica el diseño físico, elimina fallos por cableado externo y ofrece un consumo en reposo optimizado.
+
+Para complementar este sistema, se selecciona la tarjeta de desarrollo Freenove ESP32-S3 dedicada exclusivamente a la captura y pre-procesamiento de imágenes. Al aislar las operaciones intensivas de control de la cámara y compresión de la imagen en esta segunda placa, se garantiza que el flujo crítico de comunicación LoRa y telemetría en la Heltec no se vea interrumpido por el manejo de archivos multimedia, resultando en un nodo más robusto y eficiente.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECCION: ANALISIS DE LA TOPOLOGIA DE RED %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Análisis de la Topología de Red}
-
+\label{sec:analisis_de_la_topologia_de_red}
+Habiendo conceptualizado la estructura de hardware individual del nodo físico, nos enfrentamos al desafío de intercomunicar a estos agentes dentro de extensiones fluviales adversas. Para ello, es primordial esquematizar primeramente la estructura y flujo direccional del enrutamiento.
 
 El diseño de la Red Inalámbrica de Sensores (WSN) es fundamental para garantizar la conectividad fiable y eficiente entre los nodos distribuidos y el sistema central de procesamiento. Para este proyecto, se ha seleccionado una \textbf{topología lineal multisalto} (\textit{multi-hop linear topology}).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: DESCRIPCION DE LA TOPOLOGIA SELECCIONADA %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Descripción de la Topología Seleccionada}
 \label{subsec:descripcion_topologia}
 
@@ -267,7 +360,9 @@ La red se compone de cuatro nodos sensores (N=4) desplegados secuencialmente a l
 
 El \textit{gateway} actúa como punto de agregación final. Recibe toda la información de la WSN a través del enlace inalámbrico proveniente del último nodo sensor (Nodo 4). Posteriormente, utiliza una interfaz de comunicación distinta, Wi-Fi estándar (IEEE 802.11n/g), para transmitir los datos consolidados al servidor central alojado en la nube. Esta elección para el enlace final (\textit{backhaul}) facilita la integración con infraestructuras de red comunes (routers Wi-Fi) para el acceso a Internet.
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: JUSTIFICACION DE LA TOPOLOGIA LINEAL %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Justificación de la Topología Lineal}
 \label{subsec:justificacion_topologia}
 
@@ -280,11 +375,17 @@ La topología lineal se considera la más adecuada para el monitoreo de entornos
 \end{itemize}
 Alternativas como topologías en estrella o malla presentarían desventajas en términos de alcance o complejidad para esta aplicación específica.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: ESQUEMA DE COMUNICACION INTER-NODO %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Esquema de Comunicación Inter-Nodo}
 \label{subsec:esquema_comunicacion_inter_nodo} 
 
 La comunicación \textit{entre} los nodos sensores y hacia el \textit{gateway} utilizará una tecnología inalámbrica de medio alcance y bajo consumo (cuya selección se detalla en la Sección \ref{sec:analisis_tecnologias}). Esta tecnología deberá operar en modo \textit{half-duplex}, lo cual impacta el tiempo total de comunicación, como se analizó en la Sección \ref{ssubsec:tiempo_general_comm}. El esquema de retransmisión es \textit{store-and-forward}, requiriendo mecanismos básicos de fiabilidad como confirmaciones de recepción (ACK) para asegurar la entrega entre saltos.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: IMPLICACIONES TECNICAS Y LIMITACIONES %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Implicaciones Técnicas y Limitaciones}
 \label{subsec:implicaciones_topologia}
 
@@ -298,15 +399,14 @@ La topología lineal seleccionada presenta ciertas implicaciones:
 
 A pesar de la limitación en la tolerancia a fallos, la simplicidad, eficiencia y adecuación geográfica de la topología lineal la validan como la opción más pragmática para la fase actual del proyecto. La conexión final del \textit{gateway} mediante Wi-Fi estándar simplifica la integración con la infraestructura de nube.
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: Transceptores               %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECCION: ANALISIS DE TRANSCEPTORES INALAMBRICOS %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Análisis de Transceptores Inalámbricos}
 \label{sec:analisis_tecnologias}
+Con sustento en la topología lineal seleccionada para el seguimiento del cauce, el siguiente hito recae en elegir la interfaz electromagnética, un protocolo o tecnología física que pueda penetrar la vegetación garantizando las comunicaciones a largas distancias.
+
+
 
 Para seleccionar la tecnología más adecuada para la transmisión de datos en el sistema de monitoreo, se evaluaron distintos estándares inalámbricos considerando tres criterios fundamentales:
 
@@ -355,9 +455,6 @@ En la Tabla \ref{tab:imagenes_transceptore} se presentan imágenes representativ
 }
 \end{table}
 
-%\subsection{Justificación y Estrategia de Implementación}
-%\label{subsec:justificacion_lora}
-
 Con base en la comparativa anterior, se selecciona el transceptor \textbf{Semtech SX1262} como el elemento de comunicación central del sistema. Esta decisión se fundamenta en dos ventajas técnicas decisivas para el entorno fluvial: su \textbf{presupuesto de enlace superior} y su \textbf{eficiencia energética}.
 
 Con una potencia de salida de \SI{+22}{dBm} y una sensibilidad de \SI{-148}{dBm}, el SX1262 proporciona un margen de enlace de \SI{170}{dB}, indispensable para superar la atenuación severa causada por la vegetación ribereña y la falta de línea de vista directa, condiciones donde tecnologías como Wi-Fi o Zigbee fallarían. Además, su consumo en recepción de solo \SI{4.2}{\milli\ampere} extiende significativamente la vida útil de la batería en los nodos de la red lineal, que deben permanecer en modo de escucha para retransmitir datos.
@@ -384,243 +481,20 @@ Por lo tanto, para equilibrar la robustez del enlace con la eficiencia operativa
     \item \textbf{Transmisión de Imágenes (Fragmentación):} Para el envío de la evidencia visual, se utiliza el protocolo de fragmentación hexadecimal validado por Jebril et al. \cite{jebril2018overcoming} para transmitir la imagen completa a través de la capa física LoRa. Se acepta el mayor costo energético temporal (\SI{\sim 118}{\milli\ampere} durante la transmisión) a cambio de garantizar que la información llegue al destino a pesar de los obstáculos del entorno.
 \end{enumerate}
 
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: GPS               %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Análisis de Receptores GNSS}
-\label{sec:analisis_gps}
-
-Para seleccionar la solución de posicionamiento más adecuada para el sistema de monitoreo, se evaluaron distintos módulos GNSS de bajo consumo comparables al integrado en la plataforma \textbf{Heltec Wireless Tracker V1.1}. El análisis considera tres criterios fundamentales:
-
-\begin{enumerate}
-    \item \textbf{Consumo energético}: Determina la autonomía del nodo durante el proceso de adquisición y seguimiento satelital, especialmente importante cuando el GPS se despierta periódicamente desde estados de bajo consumo.
-    \item \textbf{Sensibilidad de recepción}: Capacidad del receptor para detectar señales GNSS de baja potencia, particularmente relevante en entornos con obstrucciones parciales como vegetación densa, humedad elevada y ausencia de cielo abierto total.
-    \item \textbf{Tiempo a Primera Fijación (TTFF)}: Mide el tiempo necesario para obtener una posición válida. Influye directamente en el ciclo de operación del nodo y en el consumo energético total.
-\end{enumerate}
-
-La Tabla~\ref{tab:comparativa_chips_gnss} presenta un resumen de tecnologías GNSS de bajo consumo comúnmente utilizadas en sistemas IoT y WSN. Dichas soluciones se caracterizan por ofrecer un equilibrio entre sensibilidad, consumo y precisión métrica suficiente para aplicaciones ambientales, aunque presentan desafíos en zonas con follaje denso debido a pérdidas adicionales superiores a \SI{10}{dB} por atenuación vegetal.
-
-\input{Documento/Tablas/Analisis/ComparativaGPS.tex}
-
-%\subsection*{Justificación y estrategia de implementación}
-
-Derivado del análisis comparativo previo, se opta por el módulo \textbf{UC6580} como la solución GNSS para el sistema de monitoreo. Este dispositivo presenta una relación idónea entre sensibilidad, consumo energético y dimensiones físicas, aspectos cruciales para nodos alimentados por baterías operando en entornos fluviales y áreas de difícil acceso.
-
-Su sensibilidad de \SI{-165}{dBm} permite mantener una recepción estable incluso en escenarios con obstrucción parcial del cielo, como cuando hay árboles, humedad elevada y topografía irregular. Además, su soporte multiconstelación (GPS, GLONASS, Galileo) mejora significativamente la disponibilidad de satélites y reduce la probabilidad de pérdida de posicionamiento en zonas de vegetación densa, algo crucial en los entornos de monitoreo ambiental.
-
-El consumo aproximado de \SI{25}{\milli\ampere} durante el seguimiento satelital, combinado con tiempos de adquisición de \SI{\sim 30}{\second} en \textit{cold start}, permite adoptar una estrategia eficiente basada en ciclos de activación breve y optimización energética.
-
-La estrategia de operación se detalla a continuación:
-
-\begin{enumerate}
-    \item \textbf{Activación del GPS solo cuando sea necesario:} El módulo GNSS se activa únicamente para obtener las coordenadas de los sensores, y se apaga inmediatamente después de capturar la información. Esto reduce el consumo energético y prolonga la autonomía del sistema.
-    
-    \item \textbf{Esperar hasta obtener un \textit{fix} válido:} Antes de proceder con la transmisión de datos, el sistema espera a que el GPS obtenga una solución válida, minimizando el riesgo de transmitir coordenadas incorrectas.
-    
-    \item \textbf{Uso de un ciclo de baja potencia:} Una vez obtenido el fix, el GPS se apaga para entrar en el modo de baja potencia hasta que se necesite realizar una nueva adquisición de ubicación.
-    
-    \item \textbf{Posicionamiento y monitoreo remoto:} El UC6580 proporciona la precisión necesaria para el seguimiento geográfico a lo largo del río, facilitando la geolocalización precisa y el monitoreo en tiempo real de los nodos en la red.
-\end{enumerate}
-
-La elección del UC6580, al equilibrar sensibilidad, consumo y precisión, garantiza que el sistema de monitoreo se adapte eficazmente a las exigencias del entorno y optimice la eficiencia energética, asegurando así un rendimiento confiable y autonomía prolongada en zonas de difícil acceso.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\begin{comment}
-\section{Análisis de Transceptores Inalámbricos}
-\label{sec:analisis_tecnologias}
-
-Para seleccionar la tecnología más adecuada para la transmisión de datos en el sistema de monitoreo, se evaluaron distintos estándares inalámbricos considerando tres criterios fundamentales:
-
-\begin{enumerate}
-    \item \textbf{Consumo energético}: Factor determinante para asegurar una operación prolongada mediante baterías, minimizando la necesidad de mantenimiento.
-    \item \textbf{Alcance efectivo}: Capacidad del protocolo para cubrir distancias en una topología lineal, considerando la presencia de obstáculos naturales como vegetación y accidentes geográficos.
-    \item \textbf{Tasa máxima de transmisión}: Velocidad teórica máxima con la que se pueden enviar datos, clave para asegurar el envío oportuno de lecturas y archivos, como imágenes capturadas por el sistema.
-\end{enumerate}
-
-La Tabla~\ref{tab:redes_corto_alcance} presenta un resumen comparativo de soluciones de red de corto alcance comúnmente utilizadas en aplicaciones de monitoreo ambiental con WSN. Se incluyen tecnologías basadas en los estándares IEEE 802.15.4 y 802.15.1, como ZigBee, 6LoWPAN, Bluetooth y BLE, analizando sus tasas de transmisión, topologías soportadas, rango típico de cobertura, frecuencia de operación y consumo energético. Estas soluciones priorizan eficiencia energética y bajo costo de despliegue, aunque con limitaciones en velocidad o alcance.
-
-\input{Documento/Tablas/ResumenTecnologiasWL}
-
-
-La Tabla~\ref{tab:redes_alcance_medio} complementa el análisis anterior al enfocarse en redes de alcance medio. Se comparan dos variantes del estándar IEEE 802.11: Wi-Fi tradicional y Wi-Fi HaLow (802.11ah). Aunque Wi-Fi convencional ofrece altas tasas de transferencia, su consumo energético es elevado y su cobertura limitada. En cambio, Wi-Fi HaLow opera en bandas sub-GHz, permitiendo mayor alcance, menor consumo y adecuada velocidad, lo que lo hace más apropiado para entornos remotos como cuerpos de agua lóticos.
-
-\input{Documento/Tablas/ResumenTecnologiasWM}
-
-Dadas las posibles soluciones, en la Tabla~\ref{tab:comparativa_transceptores} se comparan módulos transceptores comerciales representativos de cada tecnología evaluada. Se contrastan parámetros clave como tasa máxima de transmisión, potencia de transmisión y sensibilidad de recepción, alcance en línea de vista (LOS), y consumo de corriente en modos activo y en reposo. 
-
-\input{Documento/Tablas/ComparativaTransceptores}
-
-Esta comparativa refuerza la selección de Wi-Fi HaLow mediante el módulo FGH100M, al ofrecer un equilibrio favorable entre alcance, velocidad, consumo y viabilidad de integración en nodos autónomos. En la tabla \ref{tab:imagenes_transceptore} se presentan imágenes representativas de cada transceptor evaluado para facilitar su identificación visual.
-
-
-\begin{table}[H]
-\renewcommand{\arraystretch}{1.5}
-\centering
-\caption{Ilustraciones transceptores}
-\label{tab:imagenes_transceptore}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{|C{3.5cm}|C{3.5cm}|C{3.5cm}|C{3.5cm}|C{3.5cm}|}
-\hline
- \textbf{FGH100M} & \textbf{ESP32-S3} & \textbf{XBee S2C} & \textbf{HC-05} & \textbf{Wio E5 LE} \\ \hline
-
-\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/Xiao Halow.jpg}}
-&
-\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/Esp32.jpg}}
-&
-\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/zigbee.jpg}}
-&
-\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/HC-05.jpg}}
-&
-\shortstack{\\ \includegraphics[width=1 \linewidth]{Documento/Imagenes/Análisis/Transceptores/Lorawan.jpg}}
-\\ \hline
-\end{tabular}
-}
-\end{table}
-
-
-Como solución óptima para la transmisión bidireccional de los datos, en este caso, datos de los sensores e imagenes captadas en entornos fluviales, se propone el módulo FGH100M (Wi-Fi HaLow) como transceptor preliminar. Esta selección se fundamenta por su  exelente equilibrio entre alcance efectivo (1 km en condiciones ideales) y consumo energético moderado (54 mA en TX/43 mA en RX), características críticas para la operación prolongada en topologías lineales con nodos distribuidos. Su operación en banda sub-1 GHz (902-928 MHz) proporciona mayor penetración en vegetación ribereña comparado con soluciones en 2.4 GHz, manteniendo compatibilidad con el estándar IEEE 802.11ah para gestión adaptativa de energía mediante mecanismos TIM/RAW. Adicionalmente, soporta tasas de transferencia suficientes (32.5 Mbps) para la transmisión eficiente de datos sensoriales e imágenes comprimidas, cumpliendo con los requisitos de bidireccionalidad para recepción de comandos desde el servidor central.
-\end{comment}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: Cámaras                    %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Análisis de Cámaras}
-
-Para la selección de la cámara que formará parte del sistema de visión artificial, se evaluaron cuatro módulos de uso frecuente en plataformas embebidas: la OV2640, la OV5640, la Raspberry Pi Camera Module v2 y la Raspberry Pi Camera Module v3. La comparación se realizó con base en criterios como resolución, tipo de interfaz, compatibilidad con microcontroladores y computadoras de placa reducida, consumo energético, facilidad de integración y costo. Estos factores son determinantes para garantizar que el sistema sea eficiente en la captura de imágenes, considerando tanto la calidad visual necesaria para la detección de residuos sólidos flotantes en cuerpos de agua como las limitaciones energéticas y de procesamiento propias de una red de sensores. Además, la elección final también dependerá de la correspondencia entre las características de la cámara y la calidad de las imágenes disponibles en los conjuntos de datos utilizados para el entrenamiento del modelo de visión artificial, ya que la coherencia entre ambos elementos influye directamente en el desempeño del sistema.
-%Para la selección de la cámara que formará parte del sistema de visión artificial, se evaluaron dos módulos ampliamente utilizados en plataformas embebidas: la OV2640 y la OV5640. La comparación se basó en criterios como resolución, tipo de interfaz, compatibilidad con microcontroladores, consumo energético, facilidad de integración y costo. Estos factores son determinantes para garantizar que el sistema sea eficiente en la captura de imágenes para la detección de residuos sólidos flotantes en cuerpos de agua.
-
-
-\input{Documento/Tablas/Analisis/Cámaras2}
-
-%Ambas cámaras, OV2640 y OV5640, ofrecen características valiosas dependiendo de los requerimientos del sistema. La OV2640 es reconocida por su bajo consumo energético y facilidad de integración con microcontroladores de recursos limitados, lo que la hace adecuada para aplicaciones donde la eficiencia energética es prioritaria. La OV5640 mejora la resolución y la calidad de imagen, pero implica mayor consumo y complejidad. No obstante, debido a la necesidad de capturar imágenes de alta calidad para el análisis visual de residuos flotantes, se optó por la Raspberry Pi Camera Module 3. Esta cámara proporciona imágenes en alta resolución, mejor rendimiento en condiciones de baja iluminación y soporte para autoenfoque, lo que la convierte en la opción más adecuada para el sistema propuesto, a pesar de su mayor consumo energético.
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: Microcontroladores          %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\section{Análisis de Microcontroladores} 
-\label{sec:analisis_microcontroladores}   
-La selección del microcontrolador constituye una decisión crítica en el diseño del sistema, determinando directamente las capacidades de integración sensorial, gestión energética, conectividad inalámbrica y procesamiento local de datos. Considerando los requerimientos específicos del proyecto, se llevó a cabo un análisis comparativo entre diversas placas de desarrollo ampliamente adoptadas en sistemas embebidos. Este estudio evaluó parámetros clave como arquitectura, capacidad de memoria, interfaces de comunicación, opciones de conectividad inalámbrica y costo. El objetivo fundamental es identificar la solución que optimice el equilibrio entre rendimiento computacional, eficiencia energética y viabilidad de implementación. A continuación, se presenta la comparativa técnica de las alternativas evaluadas.  
-
-\input{Documento/Tablas/Analisis/Microcontroladores2} 
-
-\begin{table}[H]
-\centering
-\caption{Comparativa de microcontroladores para nodos fluviales}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{|l|c|c|c|c|c|}
-\hline
-\textbf{MCU} & \textbf{Periféricos} & \textbf{Memoria} & \textbf{Consumo Activo} & \textbf{Consumo Sleep} & \textbf{Conectividad} \\ \hline
-\shortstack[l]{\textbf{Heltec Wireless}\\\textbf{Tracker}} & \textbf{ADC, SPI, I2C, UART} & \textbf{8MB Flash} & \textbf{\SI{\sim 110}{\milli\ampere}} & \textbf{\SI{\sim 20}{\micro\ampere}} & \shortstack[c]{\\ \textbf{LoRa + GNSS +}  \\\textbf{Wi-Fi + BLE}} \\ \hline
-Xiao ESP32-S3 & 11 GPIOs, 8 ADC & 8MB Flash & 91 mA & 240 µA & WiFi 2.4GHz + BLE \\ \hline
-LilyGO T-HaLow & 36 GPIOs, 20 ADC & 16MB Flash & 91 mA & 240 µA & WiFi HaLow (900MHz) \\ \hline
-RPi Pico W & 23 GPIOs, 3 ADC & 2MB Flash & 50 mA & 390 µA & WiFi 2.4GHz \\ \hline
-ESP8266 NodeMCU & 17 GPIOs, 1 ADC & 4MB Flash & 80 mA & 20 µA & WiFi 2.4GHz \\ \hline
-RPi Zero W & 40 GPIOs (sin ADC) & Micro SD & 2.5 A & - & WiFi 2.4GHz + BLE 4.0 \\ \hline
-RPi Zero 2 W & 40 GPIOs (sin ADC) & Micro SD & 2.5 A & - & WiFi 2.4GHz + BLE 4.2 \\ \hline
-\end{tabular}
-}
-\end{table}
-
-Para el nodo sensor, se ha optado por una arquitectura de procesamiento distribuido utilizando dos unidades de desarrollo. Como controlador principal, encargado de la lectura de sensores físico-químicos (pH, turbidez, oxígeno disuelto) y la comunicación de largo alcance, se selecciona la placa Heltec Wireless Tracker V1.1. Esta elección se basa en su superioridad de integración, al unificar en un solo PCB el microcontrolador ESP32-S3, el transceptor LoRa SX1262 y el módulo GNSS UC6580, lo cual simplifica el diseño físico, elimina fallos por cableado externo y ofrece un consumo en reposo optimizado.
-
-Para complementar este sistema, se selecciona la tarjeta de desarrollo Freenove ESP32-S3 dedicada exclusivamente a la captura y pre-procesamiento de imágenes. Al aislar las operaciones intensivas de control de la cámara y compresión de la imagen en esta segunda placa, se garantiza que el flujo crítico de comunicación LoRa y telemetría en la Heltec no se vea interrumpido por el manejo de archivos multimedia, resultando en un nodo más robusto y eficiente.
-
-\begin{comment}
-\subsection{Comparativa de microcontroladores PIC para control de sensores}
-\label{subsec:comparativa_pic}
-
-Dado que el Xiao ESP32-S3 Sense presenta un número limitado de pines GPIO disponibles (especialmente al estar asignados a la cámara OV5640 y al módulo Wi-Fi HaLow), se decidió incorporar un microcontrolador auxiliar dedicado exclusivamente a la gestión de sensores. Este microcontrolador debe ser de bajo consumo, tamaño reducido, fácil de programar y con recursos suficientes para:
-
-\begin{itemize}
-    \item Controlar encendido y apagado de sensores vía demultiplexor (74HC238).
-    \item Leer señales analógicas mediante entradas ADC.
-    \item Comunicarse con la Xiao ESP32.
-    \item Mantener una operación eficiente en modo \textit{sleep}.
-\end{itemize}
-
-Con estos criterios, se evaluaron tres microcontroladores PIC de arquitectura de 8 bits con tecnología \textit{nanoWatt XLP}, comparados en la Tabla~\ref{tab:comparativa_pic}.
-
-\begin{table}[H]
-\centering
-\caption{Comparativa de microcontroladores PIC para nodo sensor}
-\label{tab:comparativa_pic}
-\renewcommand{\arraystretch}{1.4}
-\begin{tabular}{@{}|l|c|c|c|@{}}
-\hline
-\textbf{Característica} & \textbf{PIC12LF1822} \cite{microchip2020_PIC12LF1822_16LF1823}
-                        & \textbf{PIC16LF1823} \cite{microchip2020_PIC12LF1822_16LF1823}
-                        & \textbf{PIC16LF1847} \cite{microchip2013_PIC16LF1847}\\
-\hline
-Arquitectura         & 8-bit & 8-bit & 8-bit \\ \hline
-GPIO disponibles     & 6     & 12    & 16 \\ \hline
-Entradas ADC         & 4     & 8     & 12 \\ \hline
-Módulo UART (EUSART) & Sí    & Sí    & Sí \\ \hline
-Módulo SPI & Sí    & Sí    & Sí \\ \hline
-Módulo I2C & Sí    & Sí    & Sí \\ \hline
-Frecuencia máx. (MHz)& 32    & 32    & 32 \\ \hline
-Consumo \textit{Sleep} & 20 nA & 20 nA & 20 nA \\ \hline
-Consumo activo (@1MHz) & 30~\unit{uA} & 30~\unit{uA} & 65~\unit{uA} \\ \hline
-Memoria Flash (Bytes) & 2048  & 2048  & 8192 \\ \hline
-RAM (Bytes)           & 128   & 128   & 1024 \\ \hline
-Tamaño encapsulado    & 8 pines & 14 pines & 28 pines \\ \hline
-Precio aproximado (USD) & \$3 & \$3 & \$3 \\ \hline
-\end{tabular}
-\end{table}
-
-
-El modelo seleccionado para el diseño del nodo es el \textbf{PIC16LF1823}, ya que representa el punto óptimo entre capacidad, eficiencia y costo:
-
-\begin{itemize}
-    \item Dispone de 11 pines GPIO, suficientes para controlar el DEMUX (3 líneas), adquirir hasta 8 señales analógicas y mantener UART dedicado.
-    \item Integra un módulo EUSART que permite comunicación estable con el Xiao ESP32.
-    \item Su bajo consumo en modo \textit{sleep} (20nA) y modo activo (50\unit{uA}/MHz) lo hacen ideal para sistemas alimentados por batería.
-    \item Su encapsulado de 14 pines facilita el montaje en placas compactas sin sacrificar funcionalidad.
-    \item Presenta compatibilidad con herramientas estándar de Microchip (MPLAB X, XC8).
-\end{itemize}
-
-En contraste, el PIC12LF1822 resulta limitado en pines y entradas ADC, mientras que el PIC16LF1847 ofrece mayores recursos a costa de un tamaño físico mayor, mayor consumo y un costo menos competitivo, innecesario para esta aplicación específica.
-
-\end{comment}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: Alimentación                %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECCION: ANALISIS DE LA ALIMENTACION  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Análisis de la Alimentación}
 \label{sec:analisis_alimentacion}
+Finalmente, como paso definitivo para cerrar y validar el esquema físico completo del hardware (microcontroladores, sensores y radios de alta potencia en la intemperie), se debe diseñar una matriz de ingeniería energética autosustentable que mantenga vivos estos elementos independientemente de las infraestructuras de la red eléctrica comercial.
+
+
 
 El sistema de monitoreo propuesto está diseñado para operar de forma autónoma en entornos naturales remotos, donde no se dispone de infraestructura eléctrica. Por ello, el subsistema de alimentación eléctrica representa un componente crítico para garantizar la continuidad operativa. La solución adoptada se basa en el uso de baterías recargables de ion-litio, complementadas con paneles solares y un módulo de gestión de carga, asegurando la autosuficiencia energética de los nodos sensores distribuidos.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: REQUERIMIENTOS DE ALIMENTACION DE LOS COMPONENTES %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Requerimientos de Alimentación de los Componentes}
 \label{subsec:reqs_alimentacion}
 
@@ -628,45 +502,11 @@ La Tabla~\ref{tab:componentes_energia} presenta los principales componentes sele
 
 \input{Documento/Tablas/Analisis/ConsumosElectricos}
 
-
-
-\begin{comment}
-\begin{table}[H]
-\centering
-\caption{Consumo eléctrico estimado de componentes del nodo sensor.}
-\label{tab:componentes_energia}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{l l S[table-format=1.1] S[table-format=3.3] l}
-\toprule
-\textbf{Componente} & \textbf{Modo} & {\textbf{Voltaje}} & {\textbf{Corriente}} & \textbf{Ref.} \\
- & & {(\unit{\volt})} & {(\unit{\milli\ampere})} & \\
-\midrule
-\multirow{3}{*}{Transceptor FGH100M} & Tx & 3.3 & 54 & \cite{QuectelFGH100M} \\ 
- & Rx & 3.3 & 43 & \cite{QuectelFGH100M} \\
- & Sleep & 3.3 & <0.010 & \cite{QuectelFGH100M} \\
-\midrule
-\multirow{2}{*}{MCU Xiao ESP32-S3} & Activo & 3.3 & 91 & \cite{espressif2023_ESP32-S3} \\ 
- & Sleep & 3.3 & 0.240 & \cite{espressif2023_ESP32-S3} \\
-\midrule
-MCU PIC16LF1823 & Activo (@ \SI{1}{\mega\hertz}) & 3.3 & 0.050 & \cite{microchip2020_PIC12LF1822_16LF1823} \\ 
- & Sleep & 3.3 & <0.001 & \cite{microchip2020_PIC12LF1822_16LF1823} \\
-\midrule
-Sensor pH (Industrial V2) & Activo & 5.0 & 10 & \cite{DFRobot_pH_Sensor} \\ 
-Sensor OD (SEN0237) & Activo & 5.0 & 40 & \cite{DFRobot_DO_Sensor} \\
-Sensor Turbidez (SEN0189) & Activo & 5.0 & 30 & \cite{DFRobot_Turbidity_Sensor} \\ 
-Sensor EC (DFR0300) & Activo & 5.0 & 40 & \cite{DFRobot_EC_Sensor} \\
-Sensor Temp (DS18B20) & Activo & 3.3 & 4 & \cite{DFRobot_DS18B20} \\ 
-\midrule
-\multirow{2}{*}{Cámara OV5640} & Activo & 3.3 & 140 & \cite{omnivision2011_OV5640} \\ 
- & Standby & 3.3 & 0.020 & \cite{omnivision2011_OV5640} \\
-\bottomrule
-\end{tabular}
-\end{table}
-\end{comment}
-
-
-
 Para estimar de forma realista el consumo energético del sistema, es indispensable cuantificar la duración efectiva de las fases de transmisión. Este análisis utiliza los parámetros de rendimiento del transceptor seleccionados en la Sección \ref{sec:analisis_tecnologias}, diferenciando entre el envío rutinario de datos de sensores y la transmisión eventual de imágenes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: ANALISIS DE TIEMPOS DE TRANSMISION Y CARGA DE RED %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Análisis de Tiempos de Transmisión y Carga de Red}
 \label{subsec:analisis_tiempos}
 El diseño de la red lineal P2P con modulación LoRa impone restricciones de tiempo que deben ser calculadas paso a paso para dimensionar la batería. A continuación, se detallan los cálculos realizados para determinar el volumen de datos a transmitir y el tiempo total de comunicación por nodo.
@@ -775,21 +615,9 @@ En este proyecto, se tienen $N=4$ nodos sensores. El nodo más cargado es el Nod
 
 Este valor representa el tiempo total que el Nodo 4 pasa activo comunicándose en cada ciclo de monitoreo. A diferencia de la transmisión de solo datos sensoriales, la inclusión de imágenes incrementa significativamente el tiempo de actividad del transceptor, lo cual representa una carga energética considerable que ha sido contemplada en el dimensionamiento del sistema de alimentación.
 
-
-\begin{comment}
-\paragraph{Ejemplo de Cálculo para el Nodo 4 (N=4) - Ciclo Nominal:}
-En este proyecto, se tienen $N=4$ nodos sensores. El nodo más cargado es el Nodo 4. Aplicando la Ecuación \eqref{eq:tiempo_comm_nodo_n} con $n=4$ y utilizando el tiempo base de transmisión de sensores $T_{base} \approx \SI{8.8}{\milli\second}$ (calculado en la subsección \ref{ssubsec:tiempo_tx}):
-
-\[
-T_{comm}(4) = (2 \times 4 - 1) \times \SI{8.8}{\milli\second} = 7 \times \SI{8.8}{\milli\second} = \boxed{\SI{61.6}{\milli\second}}
-\]
-
-Este valor representa el tiempo total que el Nodo 4 pasa activo comunicándose en cada ciclo de monitoreo estándar. Es extremadamente bajo (\SI{< 0.1}{\second}), lo cual valida la eficiencia de la topología lineal para el tráfico de sensores.
-
-\textit{Nota: En el caso eventual de transmitir una imagen ($T_{base} \approx \SI{56}{\second}$), el tiempo acumulado para el Nodo 4 sería de $7 \times 56 \approx \SI{392}{\second}$ (\SI{\sim 6.5}{\minute}), lo que confirma la necesidad de restringir el envío de imágenes a eventos bajo demanda.}
-\end{comment}
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    SUBSECCION: ESCENARIO OPERATIVO    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Escenario Operativo}
 \label{subsec:escenario_operativo}
 
@@ -856,12 +684,19 @@ La Tabla \ref{tab:consumo_detallado_semanal} detalla el cálculo completo.
 
 El análisis arroja un consumo energético semanal de \SI{25.921}{\milli\ampere\hour} para el nodo crítico. Este resultado demuestra que la adopción de un ciclo de trabajo de baja frecuencia es una medida eficaz para asegurar la sostenibilidad energética del sistema.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: ANALISIS Y SELECCION DE COMPONENTES DE ALIMENTACION %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Análisis y Selección de Componentes de Alimentación}
 \label{subsec:seleccion_hardware_alimentacion}
 
 Basándose en el consumo energético semanal estimado de \SI{25.921}{\milli\ampere\hour}, se procede a seleccionar los componentes del subsistema de alimentación: batería, panel solar y módulo de carga, buscando un balance entre capacidad, eficiencia, costo y seguridad.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSUBSECCION: ANALISIS Y SELECCION DE LA BATERIA %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Análisis y Selección de la Batería}
+\label{subsubsec:analisis_y_seleccion_de_la_bateria}
 La elección de la batería recargable es crucial para la autonomía del nodo. Se compararon opciones Li-ion y LiPo disponibles comercialmente (Tabla \ref{tab:baterias}), considerando capacidad, ciclos de vida, seguridad (presencia de BMS) y dimensiones.
 
 % --- Tabla Comparativa Baterías ---
@@ -930,7 +765,11 @@ Con la batería seleccionada, la autonomía estimada sin recarga solar es:
 \end{equation}
 Este cálculo sugiere una autonomía teórica de \textbf{casi dos años} (aprox. 1.8 años), ofreciendo una excelente resiliencia ante periodos prolongados sin sol.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSUBSECCION: ANALISIS Y SELECCION DEL PANEL SOLAR %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Análisis y Selección del Panel Solar}
+\label{subsubsec:analisis_y_seleccion_del_panel_solar}
 Para garantizar la operación continua, se necesita un panel solar que reponga el consumo energético. Se evaluaron paneles compactos (Tabla \ref{tab:paneles_solares}) en función de su potencia, voltaje/corriente de salida y dimensiones.
 
 \begin{table}[H]
@@ -977,8 +816,11 @@ Se selecciona el \textbf{Panel Solar de \SI{6}{\volt} / \SI{1.92}{\watt}}. Aunqu
 \end{itemize}
 El excedente energético diario ($\text{Generación}_{\text{diaria}} - \text{Consumo}_{\text{diario}} \approx \SI{956.3}{\milli\ampere\hour}$) es extremadamente amplio (más de 250 veces el consumo diario), lo que garantiza la recarga completa de la batería incluso bajo condiciones de irradiación solar subóptimas (días nublados, sombra parcial). El tiempo teórico necesario para reponer el consumo de una semana completa con sol directo sería mínimo: $\SI{25.92}{\milli\ampere\hour} / \SI{320}{\milli\ampere} \approx \SI{0.08}{\hour} \approx \SI{5}{\minute}$.
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSUBSECCION: ANALISIS DE MODULOS DE CARGA %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Análisis de Módulos de Carga}
+\label{subsubsec:analisis_de_modulos_de_carga}
 
 El módulo de carga es el componente encargado de gestionar la recarga segura de la batería desde el panel solar. Su función principal es proteger la batería contra sobrecargas, sobredescargas y controlar el flujo de corriente, lo cual es esencial para extender su vida útil. Esta subsección presenta una comparativa entre distintos módulos de carga compatibles con baterías Li-ion o LiPo, considerando su capacidad de carga, compatibilidad con paneles solares, protección integrada y facilidad de integración con el sistema(Tabla \ref{tab:modulos_carga}).
 
@@ -1031,13 +873,14 @@ Se selecciona el módulo basado en el chip \textbf{CN3065}. Este circuito integr
 
 Los módulos basados en el popular chip TP4056, aunque económicos, están optimizados para carga a través de USB (\SI{5}{\volt}) y no manejan de forma nativa la variabilidad de voltaje de un panel solar \cite{chipTP4056}. El módulo CN3791, si bien incluye MPPT (Maximum Power Point Tracking) para maximizar la extracción de energía del panel, representa una complejidad y costo innecesarios dado el enorme excedente energético ya calculado; el MPPT es más beneficioso en sistemas con paneles más grandes o consumos mucho más ajustados \cite{chipCN3791}. Por lo tanto, el CN3065 ofrece la solución más simple, económica y adecuada para este sistema.
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: Cálculo de residuos         %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECCION: ANALISIS DE LA MEDICION DE RESIDUOS SOLIDOS FLOTANTES %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Análisis de la Medición de Residuos Sólidos Flotantes}
 \label{sec:analisis_medicion_residuos}
+Asegurado y resuelto el funcionamiento ininterrumpido del soporte en hardware en el río, el análisis muta e incursiona hacia el apartado analítico de métricas y \textit{software}. La meta imperante inicial recae formalmente en proyectar y matematizar la estimación concreta de qué representa una afectación por contaminación visual plástica.
+
+
 
 La acumulación de residuos sólidos flotantes representa un problema crítico en cuerpos de agua lóticos, actuando como vectores de transporte de contaminantes. Para su evaluación, se toma como referencia la metodología de ``observación visual'' establecida en las guías operacionales de la UNEP/IOC para la basura marina \cite{cheshire2009directrices}, adaptándola al contexto fluvial y a las restricciones del sistema IoT.
 
@@ -1048,6 +891,9 @@ La estrategia de monitoreo se fundamenta en tres pilares:
     \item \textbf{Procesamiento Automatizado:} Aplicación de algoritmos de segmentación de instancias para cuantificar la superficie ocupada por los residuos.
 \end{itemize}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: CALCULO DE LA DENSIDAD DE COBERTURA %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Cálculo de la Densidad de Cobertura}
 \label{subsec:calculo_densidad}
 
@@ -1067,139 +913,14 @@ Donde:
 \end{itemize}
 El uso de esta métrica basada en segmentación ofrece una ventaja significativa sobre el simple conteo de objetos, ya que permite diferenciar, por ejemplo, entre un río con 50 botellas dispersas y uno con una gran isla de basura compacta. Esta distinción facilita una evaluación más precisa de la magnitud real de la contaminación y ayuda a identificar zonas críticas de acumulación de manera más efectiva que los métodos de conteo tradicionales. No obstante, es necesario considerar que factores externos, como la iluminación ambiental o la reflectancia de los materiales, pueden introducir incertidumbre en la estimación del parámetro $A_{residuos}$.
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: Servidores                  %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Análisis de Servidor}
-
-El servidor constituye el núcleo central de la arquitectura del sistema, operando bajo el modelo cliente-servidor, donde actúa como proveedor de recursos y servicios para los nodos de la red y la interfaz web \cite{supermicro2024}. La selección de una plataforma de servidor adecuada es crítica para garantizar la escalabilidad, fiabilidad y rendimiento del sistema, especialmente considerando el procesamiento de imágenes y la gestión de series temporales de datos.
-
-El análisis se centra en dos modelos de despliegue principales: servidores locales (\textit{on-premise}) y servidores en la nube (\textit{cloud computing}), evaluando su idoneidad frente a los requerimientos del proyecto.
-
-%\subsection*{Requerimientos Clave del Servidor}
-%\label{subsec:reqs_servidor}
-
-Para cumplir con sus funciones, la plataforma servidora debe satisfacer los siguientes requerimientos técnicos:
-
-\begin{enumerate}
-    \item \textbf{Capacidad de Cómputo:} Debe disponer de recursos de CPU (y opcionalmente GPU) suficientes para ejecutar el algoritmo de visión artificial (YOLO) para la detección de residuos en las imágenes recibidas.
-    \item \textbf{Almacenamiento Escalable:} Requiere una solución de almacenamiento capaz de gestionar eficientemente tanto los datos estructurados de los sensores (series temporales) como los datos no estructurados (imágenes en formato JPEG).
-    \item \textbf{Alta Disponibilidad y Fiabilidad:} El sistema debe operar de forma continua para recibir y procesar los datos de la WSN sin interrupciones.
-    \item \textbf{Conectividad de Red:} Debe contar con una conexión a internet estable y de ancho de banda suficiente para recibir los datos del nodo concentrador y servir la interfaz web.
-    \item \textbf{Seguridad:} Es imperativo implementar medidas de seguridad para proteger la integridad y confidencialidad de los datos, así como para controlar el acceso a la API.
-    \item \textbf{Viabilidad Económica:} La solución debe ser rentable, considerando los costos iniciales y operativos a largo plazo.
-\end{enumerate}
-
-\subsection*{Comparativa de Modelos de Despliegue}
-\label{subsec:modelos_despliegue}
-
-Se evaluaron dos paradigmas fundamentales para la implementación del servidor:
-
-\begin{itemize}
-    \item \textbf{Servidor Local (On-Premise):} Implica la adquisición y mantenimiento de hardware físico en una ubicación controlada. El equipo es responsable de la instalación, configuración y seguridad \cite{nordlayer2024}.
-        \begin{itemize}
-            \item \textit{Ventajas:} Control total sobre el hardware y los datos, lo cual puede ser preferible para cumplir con estrictas normativas de cumplimiento regulatorio \cite{nordlayer2024}.
-            \item \textit{Desventajas:} Alta inversión inicial en hardware y licencias, complejidad en la gestión, escalabilidad limitada y necesidad de asegurar la infraestructura de soporte (energía, red) \cite{softteco2024}.
-        \end{itemize}
-    \item \textbf{Servidor en la Nube (Cloud):} Utiliza un modelo para el acceso bajo demanda a un conjunto compartido de recursos de cómputo configurables que pueden ser rápidamente aprovisionados con un esfuerzo de gestión mínimo \cite{mell2011nist}.
-        \begin{itemize}
-            \item \textit{Ventajas:} Alta escalabilidad y elasticidad, fiabilidad garantizada por el proveedor (SLA), seguridad robusta y un modelo de costos basado en el pago por uso que elimina la inversión inicial en hardware \cite{softteco2024}.
-            \item \textit{Desventajas:} Costos operativos recurrentes y dependencia de la conectividad a internet \cite{softteco2024}.
-        \end{itemize}
-\end{itemize}
-
-\subsection*{Análisis de Proveedores de Servicios en la Nube}
-\label{subsec:proveedores_nube}
-
-Dado que el proyecto requiere flexibilidad, escalabilidad y alta disponibilidad, el modelo de servidor en la nube se identifica como el más adecuado. A continuación, se comparan los tres principales proveedores de servicios en la nube, reconocidos como líderes en el sector por analistas de la industria como Gartner \cite{gartner2023magic}.
-
-\input{Documento/Tablas/Analisis/servidores.tex}
-
-
-Considerando los requerimientos del proyecto, se selecciona una arquitectura basada en la nube como la solución óptima. Entre los proveedores, \textbf{Amazon Web Services (AWS)} se elige como la plataforma para el desarrollo de este prototipo. La justificación se basa en los siguientes puntos:
-
-\begin{enumerate}
-    \item \textbf{Madurez y Ecosistema:} AWS es la plataforma más madura y con la mayor cuota de mercado, ofreciendo el ecosistema de servicios más amplio y una vasta documentación \cite{coursera2024}.
-    \item \textbf{Capa Gratuita Robusta:} El \textit{Free Tier} de AWS permite desplegar los recursos necesarios para un prototipo funcional (ej. EC2, S3, RDS) sin costo durante el primer año, lo cual es ideal para un proyecto de tesis \cite{aws2024freetier}.
-    \item \textbf{Servicios IoT Integrados:} AWS IoT Core proporciona una solución robusta y bien documentada para gestionar la comunicación desde el nodo concentrador, simplificando la autenticación de dispositivos y la ingesta de datos.
-\end{enumerate}
-
-La arquitectura de servicios propuesta en AWS consistiría en:
-\begin{itemize}
-    \item Un servidor de cómputo virtual (\textbf{Amazon EC2}) para ejecutar el \textit{backend} de la aplicación y el algoritmo de visión artificial.
-    \item Un servicio de almacenamiento de objetos (\textbf{Amazon S3}) para el almacenamiento durable de las imágenes capturadas.
-    \item Un \textbf{servicio de base de datos gestionada} para la persistencia, integridad y consulta de los datos de los sensores y los metadatos de las imágenes.
-    \item Un servicio de conexión de dispositivos (\textbf{AWS IoT Core}) para gestionar la comunicación segura desde el nodo concentrador.
-\end{itemize}
-
-La selección específica del motor y el tipo de servicio de base de datos se justifica en detalle en la siguiente sección, basándose en un análisis de los modelos de datos del proyecto.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: Bases de datos              %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Análisis de Base de Datos}
-\label{sec:analisis_db}
-
-La base de datos es un componente crítico del servidor, responsable de la persistencia, integridad y disponibilidad de los datos generados por la WSN. La elección de una tecnología de base de datos adecuada impacta directamente en el rendimiento de las consultas, la escalabilidad del sistema y la facilidad con la que se pueden realizar análisis históricos.
-
-%\subsection{Requerimientos de la Base de Datos}
-%\label{subsec:reqs_db}
-
-Con base en la arquitectura del sistema, la base de datos debe cumplir con los siguientes requerimientos específicos:
-
-\begin{enumerate}
-    \item \textbf{Manejo de Series Temporales:} El sistema debe almacenar eficientemente las mediciones de los sensores (pH, turbidez, etc.), que son datos de series temporales, caracterizados por tener una marca de tiempo (\textit{timestamp}) y un valor \cite{influxdata2024timeseries}. Esto requiere optimización para inserciones rápidas y consultas complejas basadas en rangos de tiempo.
-    \item \textbf{Almacenamiento de Metadatos de Imágenes:} Debe gestionar los metadatos asociados a cada imagen capturada, incluyendo la URL de almacenamiento, la marca de tiempo, la identificación del nodo sensor y los resultados del análisis de visión artificial.
-    \item \textbf{Escalabilidad:} La base de datos debe ser capaz de escalar horizontalmente para manejar el volumen creciente de datos a medida que la red de sensores opera a lo largo del tiempo o se expande con nuevos nodos \cite{mongodb2024scalability}.
-    \item \textbf{Integridad y Consistencia:} Debe garantizar la integridad de los datos, asegurando que las mediciones se almacenen de forma fiable y consistente, siguiendo principios como los definidos por el modelo ACID en sistemas transaccionales \cite{oracle2024acid}.
-    \item \textbf{Rendimiento de Consultas:} El sistema debe permitir consultas de baja latencia para alimentar la interfaz web con datos históricos y en tiempo real.
-\end{enumerate}
-
-\subsection*{Análisis de Modelos de Base de Datos: SQL vs. NoSQL}
-%\label{subsec:modelos_db}
-
-Para satisfacer estos requerimientos, se analizaron los dos modelos de bases de datos predominantes: relacional (SQL) y no relacional (NoSQL).
-
-\begin{itemize}
-    \item \textbf{Bases de Datos Relacionales (SQL):} Organizan los datos en tablas estructuradas con un esquema predefinido y son conocidas por su robustez y consistencia (propiedades ACID) \cite{oracle2024sql}. Son muy adecuadas para almacenar los metadatos de las imágenes y las relaciones entre nodos y mediciones \cite{mongodb2024sqlvsnosql}.
-    \item \textbf{Bases de Datos No Relacionales (NoSQL):} Utilizan modelos de datos flexibles y priorizan la escalabilidad y la disponibilidad, a menudo siguiendo el modelo BASE (Basically Available, Soft state, Eventually consistent) \cite{mongodb2024sqlvsnosql}. Son ideales para el almacenamiento de datos de series temporales, donde el volumen de inserciones es alto \cite{aws2024sqlvsnosql}.
-\end{itemize}
-
-\subsection*{Comparativa de Servicios de Base de Datos en AWS}
-\label{subsec:comparativa_db_aws}
-
-Dada la selección de AWS como proveedor de nube, se comparan sus servicios de bases de datos gestionadas más relevantes, incluyendo opciones relacionales y una opción especializada en series temporales.
-
-\input{Documento/Tablas/Analisis/ComparativaBD.tex}
-
-Tras analizar los requerimientos y las plataformas disponibles, se ha decidido optar por una \textbf{arquitectura de base de datos unificada} para simplificar el diseño del sistema, reducir la complejidad operativa y centralizar la gestión de los datos.
-
-La elección se inclina hacia un sistema de gestión de bases de datos relacional (RDBMS), ya que ofrece la versatilidad necesaria para manejar tanto los datos estructurados de los metadatos como las series temporales de los sensores, garantizando al mismo tiempo la máxima integridad de los datos.
-
-Entre las opciones relacionales evaluadas, se selecciona \textbf{Amazon RDS para PostgreSQL} como la plataforma de base de datos única para el proyecto. Esta decisión se fundamenta en los siguientes puntos clave:
-
-\begin{enumerate}
-    \item \textbf{Versatilidad y Potencia:} PostgreSQL es conocido por su robustez y su estricto cumplimiento del estándar SQL. Es capaz de gestionar eficientemente los datos relacionales (configuración de nodos, metadatos de imágenes) y, al mismo tiempo, puede ser optimizado para manejar cargas de trabajo de series temporales mediante técnicas avanzadas como la partición de tablas por rangos de fecha y el uso de índices especializados, asegurando un buen rendimiento en las consultas temporales.
-    
-    \item \textbf{Superioridad para Datos Complejos:} En comparación con MySQL, PostgreSQL ofrece un manejo más avanzado de tipos de datos complejos y un ecosistema de extensiones más rico, como \textbf{PostGIS}, que podría ser crucial en futuras fases del proyecto para realizar análisis geoespaciales sobre la ubicación de los nodos \cite{postgresql2024about}. Esta capacidad de extensión lo convierte en una opción más sólida y preparada para el futuro en aplicaciones científicas y de monitoreo.
-
-    \item \textbf{Viabilidad para el Prototipo:} Amazon Aurora, aunque técnicamente superior en rendimiento, se descarta para esta fase debido a su mayor costo y a que sus capacidades exceden los requerimientos del prototipo. Por su parte, Amazon Timestream se descarta como solución única, ya que su modelo NoSQL no es el adecuado para gestionar las relaciones y la integridad de los metadatos del sistema.
-\end{enumerate}
-
-Por lo tanto, Amazon RDS para PostgreSQL representa el balance óptimo entre rendimiento, costo, integridad de los datos y flexibilidad, proporcionando una base sólida y unificada para todas las necesidades de almacenamiento del proyecto.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%       SECCIÓN: Arquitectura de Cómputo           %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECCION: ANALISIS DE ARQUITECTURA DE COMPUTO PARA VISION ARTIFICIAL %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Análisis de Arquitectura de Cómputo para Visión Artificial}
 \label{sec:analisis_edge_vs_cloud}
+Una vez cimentado matemáticamente el indicador, se precisa ejecutar la segmentación de redes neuronales sobre los caudales. Esto despliega inevitablemente un dilema fundacional en aplicaciones de \textit{Internet of Things} modernas: ¿a qué nivel arquitectónico y bajo qué limitantes se procesarán algorítmicamente las pruebas?
+
+
 
 Una decisión de diseño fundamental en cualquier sistema de IoT que integra IA es determinar \textit{dónde} se realizará el procesamiento de los datos. Para la tarea de visión artificial de este proyecto, existen dos paradigmas principales: el cómputo en la nube y el cómputo en el borde \cite{shi2016edge}. A continuación, se analizan ambos enfoques.
 
@@ -1228,16 +949,16 @@ Para la presente fase del proyecto, \textbf{se ha seleccionado la arquitectura d
 
 No obstante, se reconoce que una arquitectura de cómputo en el borde es una optimización altamente deseable. En el capítulo de ``Conclusiones y Trabajo Futuro'', se propondrá la exploración de un modelo híbrido o de borde como una evolución natural de este sistema.
 
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECCION: ANALISIS DE MODELOS PARA DETECCION Y SEGMENTACION DE OBJETOS %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Análisis de Modelos para Detección y Segmentación de Objetos}
 \label{sec:analisis_vision}
+Una vez determinado que el procesamiento de imágenes se realizará en la nube, el siguiente paso consiste en seleccionar el modelo de inteligencia artificial adecuado. Este algoritmo será el responsable de identificar y aislar visualmente los residuos flotantes dentro de cada imagen capturada.
+
+
 
 La selección de un algoritmo adecuado para identificar y cuantificar los residuos sólidos flotantes es un componente central de la funcionalidad de visión artificial del sistema. Dada la necesidad de estimar la densidad de basura (posiblemente a través del área cubierta en píxeles), se requiere un modelo capaz no solo de detectar objetos (\textit{object detection}) sino también de delinear sus contornos precisos (\textit{instance segmentation}). La familia de modelos \textbf{YOLO (\textit{You Only Look Once})} ofrece arquitecturas que cubren ambas tareas con un buen balance entre velocidad y precisión \cite{sapkota2025yolo}. Se realizó un análisis comparativo para identificar la versión más apropiada.
-
-%\subsection{Criterios de Selección}
-%\label{subsec:criterios_vision}
 
 La elección del modelo se basa en los siguientes criterios prioritarios:
 
@@ -1324,9 +1045,6 @@ YOLOv11
 \end{longtable}
 
 
-%\subsection{Justificación y Selección del Modelo}
-%\label{subsec:justificacion_yolo}
-
 La necesidad explícita de realizar segmentación de instancias para estimar la densidad de residuos mediante el área cubierta en píxeles inclina la balanza hacia modelos que ofrezcan esta funcionalidad de manera integrada y eficiente.
 
 \begin{itemize}
@@ -1350,7 +1068,128 @@ Esta elección ofrece el mejor compromiso entre:
 
 Si bien YOLOv5 sigue siendo una excelente opción si la detección simple fuese suficiente, la necesidad de cuantificar el área cubierta por los residuos hace que YOLOv8 sea la opción técnicamente superior para los objetivos planteados.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     SECCION: ANALISIS DE SERVIDOR     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Análisis de Servidor}
+\label{sec:analisis_de_servidor}
+Habiendo seleccionado el modelo YOLO para la segmentación de imágenes, es necesario definir la infraestructura tecnológica que permitirá ejecutar el algoritmo de forma continua y confiable. Por lo tanto, se debe diseñar la arquitectura del servidor central que procesará estos datos.
 
 
 
+El servidor constituye el núcleo central de la arquitectura del sistema, operando bajo el modelo cliente-servidor, donde actúa como proveedor de recursos y servicios para los nodos de la red y la interfaz web \cite{supermicro2024}. La selección de una plataforma de servidor adecuada es crítica para garantizar la escalabilidad, fiabilidad y rendimiento del sistema, especialmente considerando el procesamiento de imágenes y la gestión de series temporales de datos.
+
+El análisis se centra en dos modelos de despliegue principales: servidores locales (\textit{on-premise}) y servidores en la nube (\textit{cloud computing}), evaluando su idoneidad frente a los requerimientos del proyecto.
+
+
+Para cumplir con sus funciones, la plataforma servidora debe satisfacer los siguientes requerimientos técnicos:
+
+\begin{enumerate}
+    \item \textbf{Capacidad de Cómputo:} Debe disponer de recursos de CPU (y opcionalmente GPU) suficientes para ejecutar el algoritmo de visión artificial (YOLO) para la detección de residuos en las imágenes recibidas.
+    \item \textbf{Almacenamiento Escalable:} Requiere una solución de almacenamiento capaz de gestionar eficientemente tanto los datos estructurados de los sensores (series temporales) como los datos no estructurados (imágenes en formato JPEG).
+    \item \textbf{Alta Disponibilidad y Fiabilidad:} El sistema debe operar de forma continua para recibir y procesar los datos de la WSN sin interrupciones.
+    \item \textbf{Conectividad de Red:} Debe contar con una conexión a internet estable y de ancho de banda suficiente para recibir los datos del nodo concentrador y servir la interfaz web.
+    \item \textbf{Seguridad:} Es imperativo implementar medidas de seguridad para proteger la integridad y confidencialidad de los datos, así como para controlar el acceso a la API.
+    \item \textbf{Viabilidad Económica:} La solución debe ser rentable, considerando los costos iniciales y operativos a largo plazo.
+\end{enumerate}
+
+\subsection*{Comparativa de Modelos de Despliegue}
+\label{subsec:modelos_despliegue}
+
+Se evaluaron dos paradigmas fundamentales para la implementación del servidor:
+
+\begin{itemize}
+    \item \textbf{Servidor Local (On-Premise):} Implica la adquisición y mantenimiento de hardware físico en una ubicación controlada. El equipo es responsable de la instalación, configuración y seguridad \cite{nordlayer2024}.
+        \begin{itemize}
+            \item \textit{Ventajas:} Control total sobre el hardware y los datos, lo cual puede ser preferible para cumplir con estrictas normativas de cumplimiento regulatorio \cite{nordlayer2024}.
+            \item \textit{Desventajas:} Alta inversión inicial en hardware y licencias, complejidad en la gestión, escalabilidad limitada y necesidad de asegurar la infraestructura de soporte (energía, red) \cite{softteco2024}.
+        \end{itemize}
+    \item \textbf{Servidor en la Nube (Cloud):} Utiliza un modelo para el acceso bajo demanda a un conjunto compartido de recursos de cómputo configurables que pueden ser rápidamente aprovisionados con un esfuerzo de gestión mínimo \cite{mell2011nist}.
+        \begin{itemize}
+            \item \textit{Ventajas:} Alta escalabilidad y elasticidad, fiabilidad garantizada por el proveedor (SLA), seguridad robusta y un modelo de costos basado en el pago por uso que elimina la inversión inicial en hardware \cite{softteco2024}.
+            \item \textit{Desventajas:} Costos operativos recurrentes y dependencia de la conectividad a internet \cite{softteco2024}.
+        \end{itemize}
+\end{itemize}
+
+\subsection*{Análisis de Proveedores de Servicios en la Nube}
+\label{subsec:proveedores_nube}
+
+Dado que el proyecto requiere flexibilidad, escalabilidad y alta disponibilidad, el modelo de servidor en la nube se identifica como el más adecuado. A continuación, se comparan los tres principales proveedores de servicios en la nube, reconocidos como líderes en el sector por analistas de la industria como Gartner \cite{gartner2023magic}.
+
+\input{Documento/Tablas/Analisis/servidores.tex}
+
+
+Considerando los requerimientos del proyecto, se selecciona una arquitectura basada en la nube como la solución óptima. Entre los proveedores, \textbf{Amazon Web Services (AWS)} se elige como la plataforma para el desarrollo de este prototipo. La justificación se basa en los siguientes puntos:
+
+\begin{enumerate}
+    \item \textbf{Madurez y Ecosistema:} AWS es la plataforma más madura y con la mayor cuota de mercado, ofreciendo el ecosistema de servicios más amplio y una vasta documentación \cite{coursera2024}.
+    \item \textbf{Capa Gratuita Robusta:} El \textit{Free Tier} de AWS permite desplegar los recursos necesarios para un prototipo funcional (ej. EC2, S3, RDS) sin costo durante el primer año, lo cual es ideal para un proyecto de tesis \cite{aws2024freetier}.
+    \item \textbf{Servicios IoT Integrados:} AWS IoT Core proporciona una solución robusta y bien documentada para gestionar la comunicación desde el nodo concentrador, simplificando la autenticación de dispositivos y la ingesta de datos.
+\end{enumerate}
+
+La arquitectura de servicios propuesta en AWS consistiría en:
+\begin{itemize}
+    \item Un servidor de cómputo virtual (\textbf{Amazon EC2}) para ejecutar el \textit{backend} de la aplicación y el algoritmo de visión artificial.
+    \item Un servicio de almacenamiento de objetos (\textbf{Amazon S3}) para el almacenamiento durable de las imágenes capturadas.
+    \item Un \textbf{servicio de base de datos gestionada} para la persistencia, integridad y consulta de los datos de los sensores y los metadatos de las imágenes.
+    \item Un servicio de conexión de dispositivos (\textbf{AWS IoT Core}) para gestionar la comunicación segura desde el nodo concentrador.
+\end{itemize}
+
+La selección específica del motor y el tipo de servicio de base de datos se justifica en detalle en la siguiente sección, basándose en un análisis de los modelos de datos del proyecto.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  SECCION: ANALISIS DE BASE DE DATOS   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Análisis de Base de Datos}
+\label{sec:analisis_db}
+Finalmente, como complemento indispensable de la arquitectura del servidor, se requiere un sistema que pueda almacenar y organizar la información generada. Esta base de datos será responsable de salvaguardar el histórico de mediciones de los nodos y los resultados del análisis de visión artificial.
+
+
+
+La base de datos es un componente crítico del servidor, responsable de la persistencia, integridad y disponibilidad de los datos generados por la WSN. La elección de una tecnología de base de datos adecuada impacta directamente en el rendimiento de las consultas, la escalabilidad del sistema y la facilidad con la que se pueden realizar análisis históricos.
+
+Con base en la arquitectura del sistema, la base de datos debe cumplir con los siguientes requerimientos específicos:
+
+\begin{enumerate}
+    \item \textbf{Manejo de Series Temporales:} El sistema debe almacenar eficientemente las mediciones de los sensores (pH, turbidez, etc.), que son datos de series temporales, caracterizados por tener una marca de tiempo (\textit{timestamp}) y un valor \cite{influxdata2024timeseries}. Esto requiere optimización para inserciones rápidas y consultas complejas basadas en rangos de tiempo.
+    \item \textbf{Almacenamiento de Metadatos de Imágenes:} Debe gestionar los metadatos asociados a cada imagen capturada, incluyendo la URL de almacenamiento, la marca de tiempo, la identificación del nodo sensor y los resultados del análisis de visión artificial.
+    \item \textbf{Escalabilidad:} La base de datos debe ser capaz de escalar horizontalmente para manejar el volumen creciente de datos a medida que la red de sensores opera a lo largo del tiempo o se expande con nuevos nodos \cite{mongodb2024scalability}.
+    \item \textbf{Integridad y Consistencia:} Debe garantizar la integridad de los datos, asegurando que las mediciones se almacenen de forma fiable y consistente, siguiendo principios como los definidos por el modelo ACID en sistemas transaccionales \cite{oracle2024acid}.
+    \item \textbf{Rendimiento de Consultas:} El sistema debe permitir consultas de baja latencia para alimentar la interfaz web con datos históricos y en tiempo real.
+\end{enumerate}
+
+\subsection*{Análisis de Modelos de Base de Datos: SQL vs. NoSQL}
+
+Para satisfacer estos requerimientos, se analizaron los dos modelos de bases de datos predominantes: relacional (SQL) y no relacional (NoSQL).
+
+\begin{itemize}
+    \item \textbf{Bases de Datos Relacionales (SQL):} Organizan los datos en tablas estructuradas con un esquema predefinido y son conocidas por su robustez y consistencia (propiedades ACID) \cite{oracle2024sql}. Son muy adecuadas para almacenar los metadatos de las imágenes y las relaciones entre nodos y mediciones \cite{mongodb2024sqlvsnosql}.
+    \item \textbf{Bases de Datos No Relacionales (NoSQL):} Utilizan modelos de datos flexibles y priorizan la escalabilidad y la disponibilidad, a menudo siguiendo el modelo BASE (Basically Available, Soft state, Eventually consistent) \cite{mongodb2024sqlvsnosql}. Son ideales para el almacenamiento de datos de series temporales, donde el volumen de inserciones es alto \cite{aws2024sqlvsnosql}.
+\end{itemize}
+
+\subsection*{Comparativa de Servicios de Base de Datos en AWS}
+\label{subsec:comparativa_db_aws}
+
+Dada la selección de AWS como proveedor de nube, se comparan sus servicios de bases de datos gestionadas más relevantes, incluyendo opciones relacionales y una opción especializada en series temporales.
+
+\input{Documento/Tablas/Analisis/ComparativaBD.tex}
+
+Tras analizar los requerimientos y las plataformas disponibles, se ha decidido optar por una \textbf{arquitectura de base de datos unificada} para simplificar el diseño del sistema, reducir la complejidad operativa y centralizar la gestión de los datos.
+
+La elección se inclina hacia un sistema de gestión de bases de datos relacional (RDBMS), ya que ofrece la versatilidad necesaria para manejar tanto los datos estructurados de los metadatos como las series temporales de los sensores, garantizando al mismo tiempo la máxima integridad de los datos.
+
+Entre las opciones relacionales evaluadas, se selecciona \textbf{Amazon RDS para PostgreSQL} como la plataforma de base de datos única para el proyecto. Esta decisión se fundamenta en los siguientes puntos clave:
+
+\begin{enumerate}
+    \item \textbf{Versatilidad y Potencia:} PostgreSQL es conocido por su robustez y su estricto cumplimiento del estándar SQL. Es capaz de gestionar eficientemente los datos relacionales (configuración de nodos, metadatos de imágenes) y, al mismo tiempo, puede ser optimizado para manejar cargas de trabajo de series temporales mediante técnicas avanzadas como la partición de tablas por rangos de fecha y el uso de índices especializados, asegurando un buen rendimiento en las consultas temporales.
+    
+    \item \textbf{Superioridad para Datos Complejos:} En comparación con MySQL, PostgreSQL ofrece un manejo más avanzado de tipos de datos complejos y un ecosistema de extensiones más rico, como \textbf{PostGIS}, que podría ser crucial en futuras fases del proyecto para realizar análisis geoespaciales sobre la ubicación de los nodos \cite{postgresql2024about}. Esta capacidad de extensión lo convierte en una opción más sólida y preparada para el futuro en aplicaciones científicas y de monitoreo.
+
+    \item \textbf{Viabilidad para el Prototipo:} Amazon Aurora, aunque técnicamente superior en rendimiento, se descarta para esta fase debido a su mayor costo y a que sus capacidades exceden los requerimientos del prototipo. Por su parte, Amazon Timestream se descarta como solución única, ya que su modelo NoSQL no es el adecuado para gestionar las relaciones y la integridad de los metadatos del sistema.
+\end{enumerate}
+
+Por lo tanto, Amazon RDS para PostgreSQL representa el balance óptimo entre rendimiento, costo, integridad de los datos y flexibilidad, proporcionando una base sólida y unificada para todas las necesidades de almacenamiento del proyecto.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
