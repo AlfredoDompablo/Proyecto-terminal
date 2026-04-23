@@ -1,85 +1,44 @@
-\begin{comment}
 \chapter{Diseño}
-\section{Diseño de boya para nodos sensores y nodo concentrador}
-\section{Diagrama de circuito fuente de alimentacion}
-\section{Diagrama de circuitos de nodo sensor}
-\section{Diagrama de circuitos de nodo concentrado}
-\section{Diseño de boya para nodo sensor}
-\section{Diagrama de comunicacion del nodo concentrador con el servidor}
-\section{Diseño de Base de datos}
-\section{Modelo Relacional}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%         SECCION: ARQUITECTURA         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Arquitectura}
-\section{Diagramas UML}
-\section{Diagramas de caso de uso}
-\section{Diagramas de secuencia}
-\section{Diccionario de Datos}
-\section{Diseño de Mock-up para la pagina web}
-\section{Pagina principal}
-\section{Diseño de la interfaz para la página Web}
-\section{Integracion Final del Sistema}
-\section{Escenario de pruebas}
-\end{comment}
+\label{sec:arquitectura}
 
-%opcion 2
+El diagrama de arquitectura presentado describe la organización y los componentes principales del sistema de monitoreo ambiental basado en una Red inalámbrica de sensores. El sistema se compone de tres bloques principales: la red inalámbrica de sensores, el servidor, y la visualización web.
 
-\chapter{Diseño}
-\begin{comment}
-\section{Diseño del Sistema}
-\subsection{Arquitectura del Sistema}
+\textbf{Red inalámbrica de sensores}\\
+Este bloque incluye los nodos sensores y el nodo concentrador(Gateway). Los nodos sensores, equipados con el microcontrolador Heltec ESP32, los sensores (pH, oxígeno disuelto, turbidez, temperatura y conductividad.), y la cámara, están interconectados mediante el protocolo de comunicación LoRa. Los nodos sensores capturan datos de las condiciones del agua y los envían al Nodo Concentrador a través de LoRa.
 
-\section{Diseño de Hardware}
+El Nodo Concentrador tiene la función de recibir los paquetes de datos de los nodos sensores y retransmitirlos hacia la nube utilizando Wi-Fi/4G. El nodo concentrador también está integrado con AWS IoT Core, lo que le permite comunicarse con el servidor en la nube.
 
-\subsection{Diagrama eléctrico de los nodos}
-\label{sec:diagrama_electrico}
-
-La red está conformada por nodos sensores y un nodo concentrador. Cada nodo sensor se encarga de medir parámetros físico-químicos del agua y transmitir la información recopilada hacia el nodo final, el cual actúa como concentrador. Con base en los componentes analizados y seleccionados en capítulos anteriores, se presenta el diseño esquemático del circuito electrónico del nodo sensor (Figura~\ref{fig:esquema_nodo_sensor}).
-
-\subsection*{Descripción general del circuito}
-
-El circuito del nodo sensor se compone de dos microcontroladores principales: un \textbf{PIC16F1823} y un \textbf{Xiao ESP32-S3}. El primero se encarga del sensado y control energético, mientras que el segundo maneja la comunicación inalámbrica con el siguiente nodo (o concentrador) a través de un módulo \textbf{Wi-Fi HaLow FGH100M}.
-
+\textbf{Servidor}\\
+El servidor en la nube se encarga de gestionar los datos enviados desde los nodos concentradores. Este bloque se divide en tres componentes principales:
 \begin{itemize}
-    \item \textbf{PIC16F1823}: gestiona la activación secuencial de los sensores mediante un demultiplexor \textbf{74HC238}, activando solo un sensor a la vez para minimizar el consumo energético. Los sensores analógicos (pH, conductividad, OD, turbidez) son activados por MOSFETs \textbf{AO3400A} y su señal de salida se dirige a entradas ADC del PIC.
-
-    \item \textbf{Sensor de temperatura DS18B20}: se conecta directamente al PIC mediante una línea digital dedicada para adquisición por protocolo 1-Wire.
-
-    \item \textbf{Demultiplexor 74HC238}: permite seleccionar cuál de los sensores analógicos se activa en cada momento, controlado por tres líneas digitales del PIC.
-
-    \item \textbf{Xiao ESP32-S3}: se encarga de la comunicación inalámbrica. Recibe los datos procesados por el PIC a través de un canal \textbf{UART}, y los transmite al siguiente nodo o al concentrador mediante el módulo HaLow conectado en sus pines digitales.
-
-    \item \textbf{Módulo HaLow FGH100M}: es operado por el Xiao ESP32 y sirve como interfaz de comunicación bajo el estándar IEEE 802.11ah.
-
-    \item \textbf{Fuente de alimentación}: el sistema se alimenta desde una batería Li-ion de 3.7 V regulada por un cargador solar \textbf{CN3065}. La salida alimenta un convertidor \textbf{step-up} que genera 5V, y un LDO que provee 3.3V para los componentes lógicos.
+  \item Almacenamiento: Utiliza Amazon RDS para almacenar los datos estructurados (en PostgreSQL) y Amazon S3 para almacenar las imágenes procesadas y otros archivos.
+  \item Backend y Frontend: El backend está basado en Amazon EC2 y utiliza Node.js y HTML5 para procesar las solicitudes, analizar los datos y gestionar la comunicación con la base de datos y el almacenamiento. El frontend está relacionado con la interfaz de usuario que consulta los datos procesados.
+  \item Conexión a través de HTTPS: El servidor gestiona la recepción de datos de los nodos concentradores y la entrega de información al frontend utilizando el protocolo seguro HTTPS, empleando una arquitectura basada en API RESTful para la transmisión eficiente de la telemetría y fotografías.
+  \item API Rest: La API REST proporciona la capa de comunicación entre el frontend y el backend, permitiendo que la aplicación web recupere y presente los datos al usuario.
 \end{itemize}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{Documento/Imagenes/Diseño/Diagramas electricos/Controller Sensor_fit.pdf}
-\caption{Diagrama eléctrico del control de sensores.}
-\label{fig:esquema_nodo_sensor}
-\end{figure}
+\textbf{Visualización web}\\
+El bloque de visualización web está dedicado a la interfaz de usuario, donde los usuarios pueden consultar los datos monitoreados, visualizar gráficos sobre la calidad del agua y revisar las imágenes procesadas. La comunicación entre el frontend y el backend se realiza a través de la API Rest.
+
+Este diagrama destaca las interacciones entre los componentes del sistema, incluyendo la transmisión de datos desde los nodos sensores a través del nodo concentrador, el procesamiento y almacenamiento en la nube, y la entrega de resultados al usuario final a través de la página web.
 
 \begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{Documento/Imagenes/Diseño/Diagramas electricos/microcontroller_fit.pdf}
-\caption{Diagrama eléctrico comunicación inalámbrica y fuente de alimentación.}
-\label{fig:esquema_nodo_sensor2}
+  \centering
+  \includegraphics[width=1\linewidth]{Documento/Imagenes/Diseño/Diagrama_arq_corr.pdf}
+  \caption{Diagrama de arquitectura del sistema}
+  \label{fig:DiagramaArq}
 \end{figure}
 
-\subsection*{Funcionamiento del sistema}
 
-Durante cada ciclo de adquisición:
-
-\begin{enumerate}
-    \item El PIC activa uno por uno los sensores mediante el demultiplexor y sus respectivas compuertas MOSFET.
-    \item Cada sensor permanece encendido aproximadamente 5 segundos para estabilizar la medición.
-    \item El PIC adquiere los valores analógicos o digitales, almacena las lecturas y las envía por UART al Xiao ESP32.
-    \item El Xiao ESP32 activa la cámara, captura una imagen (JPG), y empaqueta los datos sensados junto con la imagen.
-    \item Finalmente, activa el módulo HaLow para transmitir toda la información al nodo siguiente o al nodo concentrador.
-    \item Al finalizar, el sistema entra en modo \textit{sleep} hasta el próximo ciclo.
-\end{enumerate}
-\end{comment}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECCION: DISENO DEL CIRCUITO ELECTRONICO %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Diseño del Circuito Electrónico}
 \label{sec:diseno_circuito}
 
@@ -87,66 +46,72 @@ El diseño electrónico del nodo sensor implementa una arquitectura de \textbf{p
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=0.95\linewidth]{Documento/Imagenes/Diseño/circuitos/circuitopt_1.pdf}
+  \includegraphics[width=0.95\linewidth]{Documento/Imagenes/Diseño/circuitos/CircuitoPT_BW.pdf}
   \caption{Diagrama esquemático del nodo sensor, mostrando la interconexión entre microcontroladores y el bloque de sensores.}
   \label{fig:diagrama_circuito}
 \end{figure}
 
 El sistema se estructura en tres bloques funcionales interconectados:
 
-\subsection{Unidad Central de Control y Telemetría (MCU1)}
-El núcleo del nodo es la plataforma \textbf{Heltec Wireless Tracker V1.1} (basada en ESP32-S3 + SX1262). Este microcontrolador actúa como el coordinador principal del sistema y es responsable de:
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: ARQUITECTURA DE PROCESAMIENTO DISTRIBUIDO Y TELEMETRIA %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Arquitectura de Procesamiento Distribuido y Telemetría}
+\label{subsec:arquitectura_procesamiento_distribuido}
+
+El nodo sensor emplea una topología de procesamiento asimétrico basada en dos microcontroladores de la familia ESP32-S3, lo que permite segmentar las tareas críticas de temporización de aquellas con alta demanda computacional:
 
 \begin{itemize}
-  \item \textbf{Gestión de Sensores:} Controla directamente el encendido y apagado de los sensores mediante un multiplexor y realiza la lectura de las señales analógicas y digitales.
-  \item \textbf{Comunicación LoRa:} Administra el transceptor SX1262 integrado para el envío de paquetes de datos y fragmentos de imagen a la red.
-  \item \textbf{Geolocalización:} Obtiene las coordenadas del módulo GNSS integrado.
-  \item \textbf{Coordinación de Imagen:} Envía la orden de captura al módulo de cámara (MCU2) y recibe el flujo de bytes de la imagen procesada vía UART.
+  \item \textbf{Unidad de Control Maestra (MCU1):} Implementada mediante una placa de desarrollo Heltec Wireless Tracker. Esta unidad funge como el orquestador principal del sistema. Es la encargada de administrar los ciclos de energía (\textit{Deep Sleep}), ejecutar la secuenciación para la lectura de sensores físico-químicos y transmitir la telemetría recolectada a la estación base utilizando su transceptor LoRa integrado.
+  \item \textbf{Unidad de Captura de Borde (MCU2):} Constituida por una placa Freenove ESP32-S3 CAM. Para maximizar la eficiencia energética, esta unidad opera estrictamente bajo demanda como un periférico esclavo (arquitectura \textit{Edge Capture}). Su única función es energizarse mediante la señal \texttt{CAM\_EN}, capturar imágenes del cuerpo de agua en alta resolución y transmitirlas, delegando el procesamiento de inferencia (YOLO) a un servidor externo.
+  \item \textbf{Bus de Intercomunicación:} El enlace de datos entre ambas unidades se realiza a través de un bus serial cruzado asíncrono (\texttt{UART\_H2F} y \texttt{UART\_F2H}). Una vez que la unidad maestra energiza a la placa Freenove (\texttt{CAM\_EN}), utiliza este mismo canal serial para enviarle la petición de captura de imagen.
 \end{itemize}
 
-\subsection{Módulo de Adquisición de Imágenes (MCU2)}
-Para aislar el manejo de la cámara y asegurar la estabilidad del sistema principal, se utiliza un módulo \textbf{ESP32-CAM} dedicado exclusivamente a la visión. Sus funciones son:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: SUBSISTEMA DE GESTION ENERGETICA (PMU) Y FALLA SEGURA %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Subsistema de Gestión Energética (PMU) y Falla Segura}
+\label{subsec:subsistema_gestion_energetica}
+
+Para garantizar la supervivencia autónoma del nodo en un entorno remoto, se diseñó un Módulo de Gestión Energética centrado en el aislamiento de cargas y la conmutación de estado sólido:
+
 \begin{itemize}
-  \item \textbf{Control de la Cámara:} Inicializa y configura el sensor OV5640.
-  \item \textbf{Captura y Compresión:} Toma la fotografía en alta resolución y realiza la compresión JPEG en hardware.
-  \item \textbf{Transmisión Serial:} Envía la imagen comprimida al MCU1 a través de un puerto serie de alta velocidad, actuando como un periférico esclavo.
+  \item \textbf{Relé Solar de Falla Segura (\textit{Failsafe}):} El control de carga proveniente del panel solar (\texttt{SOL+}) hacia el gestor de batería (\texttt{IN+}) se realiza mediante un arreglo topológico de tres MOSFETs (Q13, Q14 y Q15). La compuerta del transistor de potencia principal (Q15, Canal P) se mantiene referenciada a tierra a través de una resistencia \textit{Pull-Down} de \SI{100}{\kilo\ohm} (R25). Esto crea una configuración Normalmente Cerrada (NC), garantizando que el flujo de energía hacia la batería sea continuo e independiente del estado del microcontrolador. La señal \texttt{SOL\_EN} activa los transistores Q13 y Q14 únicamente para inducir un corte temporal de la carga, permitiendo lecturas precisas del Voltaje de Circuito Abierto (OCV) de la celda de litio.
+  \item \textbf{Aislamiento de Módulos de Potencia:} Los subsistemas de mayor consumo, como el convertidor elevador (\textit{Boost Converter}) y la unidad de visión (Freenove), están desacoplados de la red de alimentación principal mediante interruptores \textit{High-Side} dedicados (\texttt{BOOST\_EN} y \texttt{CAM\_EN}), eliminando por completo las corrientes de fuga (\textit{quiescent currents}) durante los periodos de inactividad.
 \end{itemize}
 
-\subsection{Subsistema de Alimentación y Regulación}
-\label{subsec:diseno_alimentacion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: LOGICA DE MULTIPLEXACION DUAL Y ACTIVACION SINCRONA DE POTENCIA %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Lógica de Multiplexación Dual y Activación Síncrona de Potencia}
+\label{subsec:logica_multiplexacion_dual}
 
-Para garantizar la estabilidad operativa de los microcontroladores y la precisión de las mediciones analógicas, el diseño implementa una arquitectura de alimentación distribuida que gestiona la conversión de energía y los niveles de voltaje.
+La innovación central del acondicionamiento de señales radica en la utilización de un multiplexor analógico dual (U1, 74HC4052D) para sincronizar la energización de las sondas con la lectura de sus datos y de esta forma minimizar el número de pines requeridos (GPIO):
 
-\begin{enumerate}
-  \item \textbf{Gestión de Carga Solar:} Se integra el módulo basado en el controlador CN3065, encargado de administrar el flujo de energía desde el panel solar hacia la batería LiPo (\SI{3.7}{\volt}). Este módulo protege la batería contra sobrecargas y optimiza la corriente de carga disponible.
+\begin{itemize}
+  \item \textbf{Saturación Reforzada a \SI{5}{\volt}:} El circuito integrado U1 se alimenta con un voltaje de operación (VCC) de \SI{+5}{\volt}. El puerto de entrada común del Canal 1 (1Z) se conectó intencionalmente de forma permanente a esta misma red de \SI{+5}{\volt}. El microcontrolador Heltec, operando a \SI{3.3}{\volt} lógicos, gobierna los pines de selección (S0, S1) y habilitación (E\#), lo cual es eléctricamente compatible con los umbrales lógicos del multiplexor.
+  \item \textbf{Conmutación de Potencia Síncrona:} Al direccionar un canal específico (ej. 00 para el sensor de pH), el multiplexor envía \SI{+5}{\volt} hacia la línea de control correspondiente (ej. \texttt{PH\_EN}). Esta señal activa el primer transistor \textit{N-Channel} (AO3400), el cual a su vez enciende de forma encadenada al transistor \textit{P-Channel} superior. En conjunto, ambos transistores funcionan como un interruptor electrónico que deja pasar la energía para encender exclusivamente la sonda seleccionada.
+  \item \textbf{Enrutamiento Analógico y Apagado Seguro:} Simultáneamente, el Canal 2 del multiplexor enlaza la señal analógica resultante del sensor activo hacia una única línea de retorno (\texttt{SIG\_OUT}) conectada al ADC de la Heltec. Al cambiar de canal o inhabilitar el multiplexor (\texttt{MUX\_EN} en HIGH), las redes de resistencias \textit{Pull-Down} de \SI{10}{\kilo\ohm} acopladas a cada línea de control (R2, R4, R6, R8, R10) descargan la capacitancia de las compuertas de forma inmediata, apagando el sensor y evitando estados de alta impedancia o encendidos parásitos por ruido ambiental.
+\end{itemize}
 
-  \item \textbf{Regulación Principal (Bus de \SI{5}{\volt}):} Dado que el voltaje de la batería varía durante la descarga (\SIrange{3.2}{4.2}{\volt}), se utiliza un convertidor DC-DC tipo \textit{Step-Up} (Boost) para elevar y estabilizar la tensión a \textbf{\SI{5}{\volt}}. Este bus alimenta las entradas de potencia de las placas de desarrollo principales:
-    \begin{itemize}
-      \item \textbf{Heltec Wireless Tracker (MCU1):} Se alimenta a través de su pin de \SI{5}{\volt}, permitiendo que su regulador LDO interno genere el voltaje lógico de \SI{3.3}{\volt} limpio para el ESP32 y la radio LoRa.
-      \item \textbf{ESP32-CAM (MCU2):} Recibe \SI{5}{\volt} estables para garantizar el correcto funcionamiento de la cámara, evitando reinicios por caídas de tensión (\textit{Brown-out}).
-    \end{itemize}
-\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: ETAPA DE ACONDICIONAMIENTO Y PROTECCION ANALOGICA %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Etapa de Acondicionamiento y Protección Analógica}
+\label{subsec:etapa_acondicionamiento_proteccion}
 
-\subsection{Subsistema de Sensores y Eficiencia Energética}
-\label{subsec:diseno_sensores_control}
+Debido a que el voltaje de tolerancia máxima en los pines del ADC del ESP32-S3 es de \SI{3.3}{\volt}, y las sondas operan en un dominio de \SI{5}{\volt}, se implementaron divisores de tensión calculados para preservar el rango dinámico sin riesgo de daño por sobrevoltaje:
 
-Los sensores analógicos y digitales se alimentan a \textbf{\SI{3.3}{\volt}} para igualar los niveles de referencia del Conversor Analógico-Digital (ADC) del ESP32-S3. Para optimizar el consumo de corriente (que puede ser elevado en sensores como OD o Turbidez), se implementa una estrategia de energía bajo demanda (\textit{Power Gating}) controlada por el MCU1.
+\begin{itemize}
+  \item \textbf{Sensor de Turbidez:} La señal cruda del sensor (\texttt{TB\_RAW}), con un rango operativo de \SIrange{0}{4.5}{\volt}, es atenuada mediante un divisor resistivo conformado por R19 (\SI{10}{\kilo\ohm}) y R22 (\SI{20}{\kilo\ohm}). Esto comprime la señal a una salida máxima teórica de \SI{3.0}{\volt} (\texttt{TB\_ACON}).
+  \item \textbf{Sensor de Conductividad Eléctrica (EC):} La lectura analógica \texttt{EC\_RAW}, que oscila entre \SIrange{0}{3.4}{\volt}, se ajusta mediante R20 (\SI{1}{\kilo\ohm}) y R21 (\SI{10}{\kilo\ohm}) para limitar la excursión máxima a \SI{3.09}{\volt} (\texttt{EC\_ACON}).
+  \item \textbf{Sensor de Temperatura:} Tratándose de un bus de datos digital OneWire (DS18B20), la línea \texttt{TEM\_SIG} cuenta con la resistencia \textit{Pull-Up} obligatoria de \SI{4.7}{\kilo\ohm} (R23) referenciada a la red lógica de \SI{3.3}{\volt}, garantizando la correcta transición de estados sin requerir multiplexación analógica.
+\end{itemize}
 
-\begin{enumerate}
-  \item \textbf{Multiplexación de Potencia:} El circuito incorpora un decodificador/demultiplexor 74HC238 y un arreglo de transistores MOSFET que actúan como interruptores de potencia.
-
-  \item \textbf{Lógica de Control:}
-    \begin{itemize}
-      \item El MCU1 envía la dirección binaria del sensor requerido al multiplexor.
-      \item La salida correspondiente del 74HC238 activa la compuerta (\textit{Gate}) del transistor MOSFET asociado a ese sensor específico.
-      \item Esto permite el paso de los \SI{3.3}{\volt} únicamente al sensor seleccionado, manteniendo los demás físicamente desconectados y con consumo cero.
-    \end{itemize}
-
-  \item \textbf{Adquisición:} Una vez estabilizado el sensor activo, el MCU1 realiza la lectura a través de sus entradas analógicas (ADC) o digitales (OneWire) y procede inmediatamente a apagar el sensor antes de activar el siguiente o entrar en reposo.
-\end{enumerate}
-
-Esta arquitectura garantiza que el consumo pico del sistema se mantenga dentro de los límites soportados por la batería y evita interferencias cruzadas entre las lecturas de los sensores.
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: DISENO ELECTRONICO DEL NODO CONCENTRADOR (GATEWAY) %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Diseño Electrónico del Nodo Concentrador (Gateway)}
 \label{subsec:diseno_gateway}
 
@@ -168,21 +133,25 @@ El funcionamiento del concentrador se diseña bajo un esquema de concurrencia de
     \begin{itemize}
       \item Mantiene la conexión con el punto de acceso local o router móvil.
       \item Empaqueta los datos recibidos en formato JSON.
-      \item Realiza la transmisión segura (HTTPS/MQTT) hacia el servidor en la nube (Backend) para su almacenamiento y visualización.
+      \item Realiza la transmisión segura vía HTTPS hacia el servidor en la nube (Backend) para su almacenamiento y procesamiento continuo.
     \end{itemize}
 \end{enumerate}
 
 Esta arquitectura monoplaca reduce significativamente la complejidad del montaje físico, el costo del sistema y el tamaño del dispositivo final. Al ubicarse en un punto con infraestructura, la alimentación se suministra de forma continua a través de su puerto \textbf{USB Tipo-C} (\SI{5}{\volt}), garantizando una operación ininterrumpida sin depender de baterías externas.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%        SECCIÓN: diseño del protocolo             %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECCION: DISENO DEL PROTOCOLO DE COMUNICACION %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Diseño del Protocolo de Comunicación}
 \label{sec:diseno_protocolo}
 
 Dada la arquitectura de red lineal P2P y las limitaciones de ancho de banda de la modulación LoRa, se ha diseñado un protocolo de comunicación a medida que gestiona dos tipos de tráfico con requerimientos opuestos: la telemetría ligera (sensores) y la transmisión pesada (imágenes).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: ESTRUCTURA DE LA TRAMA DE DATOS %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Estructura de la Trama de Datos}
 \label{subsec:estructura_trama}
 
@@ -210,9 +179,18 @@ Donde:
   \item \textbf{Secuencia (Pkt Index):} Contador para ordenar los fragmentos en el receptor.
 \end{itemize}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: TRANSMISION DE DATOS DE SENSORES (TELEMETRIA) %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Transmisión de Datos de Sensores (Telemetría)}
+\label{subsec:transmision_de_datos_de_sensores_telemetria}
 Los datos de los sensores (pH, OD, Turbidez, Temperatura, Batería) y la geolocalización (GNSS) se empaquetan en una sola trama de tamaño fijo ($\approx \SI{24}{bytes}$). Esta trama se transmite en una sola ráfaga LoRa, con un tiempo en el aire mínimo ($\approx \SI{9}{\milli\second}$), garantizando la máxima eficiencia energética.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: TRANSMISION DE IMAGENES MEDIANTE FRAGMENTACION %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Transmisión de Imágenes Mediante Fragmentación}
 \label{subsec:transmision_fragmentada}
 
@@ -239,263 +217,141 @@ El proceso de diseño, ilustrado en la Figura \ref{fig:flujo_fragmentacion}, con
 
 Esta estrategia hace viable la transmisión de archivos de gran tamaño a través de un canal de banda estrecha, superando las estrictas restricciones de tamaño de paquete (MTU) inherentes a la tecnología LoRa y garantizando la reconstrucción íntegra de la evidencia visual en el nodo concentrador.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Arquitectura General del Sistema}
 
-La arquitectura propuesta consiste en una red lineal multi-salto en la cual los nodos sensores se encuentran distribuidos a lo largo del cauce del río. Cada nodo es capaz de medir parámetros de calidad del agua, capturar imágenes del entorno y transmitir la información hacia un nodo concentrador.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  SECCION: DIAGRAMAS DE CASOS DE USO   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Diagramas de Casos de Uso}
+\label{sec:diagramas_casos_uso}
 
-Los nodos sensores incluyen los siguientes componentes principales:
+Para modelar el comportamiento funcional del sistema y las interacciones entre los actores (usuarios, hardware y entorno) con los distintos módulos, se han elaborado diagramas de casos de uso basados en los requerimientos definidos en la Sección \ref{sec:analisis_requerimientos}. Debido a la naturaleza distribuida del sistema, se presentan tres vistas correspondientes a los subsistemas principales.
 
-\begin{itemize}
-  \item Microcontrolador ESP32
-  \item Módulo de comunicación LoRa
-  \item Sensores de calidad del agua
-  \item Cámara digital OV5640
-  \item Sistema de alimentación basado en batería y panel solar
-\end{itemize}
 
-Los parámetros monitoreados por los sensores incluyen:
-
-\begin{itemize}
-  \item pH
-  \item Turbidez
-  \item Conductividad eléctrica
-  \item Oxígeno disuelto
-  \item Temperatura del agua
-\end{itemize}
-
-El nodo concentrador recibe la información transmitida por los nodos sensores y la envía a un servidor central mediante un enlace de mayor capacidad.
-
-\section{Topología de la Red}
-
-La red adopta una topología lineal debido a la naturaleza geográfica del escenario de despliegue, en el cual los nodos se ubican a lo largo del curso del río.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: CASOS DE USO DEL SUBSISTEMA DE ADQUISICION (WSN) %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Casos de Uso del Subsistema de Adquisición (WSN)}
+\label{subsec:casos_de_uso_del_subsistema_de_adquisicion_wsn}
+La Figura \ref{fig:uc_wsn} ilustra las operaciones autónomas realizadas por los nodos sensores y el nodo concentrador (Gateway). Se destaca el rol del \textbf{Entorno Fluvial} como un actor externo que provee los estímulos físicos (parámetros y luz para la imagen) que activan el proceso de monitoreo. El diagrama muestra el flujo de datos en la topología lineal multisalto, donde cada nodo intermedio no solo genera su información, sino que también recibe y retransmite datos de sus vecinos (\textit{store-and-forward}).
 
 \begin{figure}[H]
   \centering
-\begin{verbatim}
-Nodo3 ---- Nodo2 ---- Nodo1 ---- Sink
-\end{verbatim}
-  \caption{Topología lineal de la red de sensores}
+  \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Diseño/UML/UMLNodos.pdf}
+  \caption{Diagrama de casos de uso para la Red Inalámbrica de Sensores y el Gateway, mostrando la interacción con el entorno y el relevo de datos.}
+  \label{fig:uc_wsn}
 \end{figure}
 
-En esta configuración, los nodos intermedios actúan como retransmisores, permitiendo la transmisión multi-salto de la información hacia el nodo concentrador.
 
-\section{Diseño del Protocolo de Comunicación}
-
-Para coordinar la transmisión de datos entre los nodos de la red se propone un protocolo de comunicación basado en acceso múltiple por división de tiempo (TDMA), sincronizado mediante mensajes de control denominados \textit{Beacon}.
-
-\subsection{Mensajes Beacon}
-
-El nodo concentrador transmite periódicamente un mensaje Beacon cuyo objetivo es sincronizar temporalmente a los nodos de la red e indicar el inicio de un nuevo ciclo de transmisión.
-
-La estructura del mensaje Beacon se define en la Tabla \ref{tab:beacon}.
-
-\begin{table}[H]
-  \centering
-  \caption{Estructura del mensaje Beacon}
-  \label{tab:beacon}
-  \begin{tabular}{|c|c|c|}
-    \hline
-    Campo & Tamaño (bytes) & Descripción \\
-    \hline
-    Tipo & 1 & Identificador del mensaje \\
-    Timestamp & 4 & Tiempo de referencia del ciclo \\
-    Periodo & 2 & Duración del ciclo de comunicación \\
-    Slot\_time & 1 & Duración de cada slot TDMA \\
-    CRC & 2 & Verificación de errores \\
-    \hline
-  \end{tabular}
-\end{table}
-
-\subsection{Acceso al Medio}
-
-Después de recibir el mensaje Beacon, cada nodo transmite sus datos en un intervalo de tiempo previamente asignado. Los slots de transmisión se organizan desde el nodo más lejano hacia el nodo más cercano al concentrador.
-
-Este esquema permite:
-
-\begin{itemize}
-  \item Evitar colisiones
-  \item Reducir el consumo energético
-  \item Garantizar transmisión determinista
-\end{itemize}
-
-\section{Transmisión de Imágenes}
-
-Debido a las limitaciones del tamaño de carga útil de los paquetes LoRa, las imágenes capturadas por la cámara deben ser fragmentadas antes de su transmisión.
-
-\subsection{Fragmentación}
-
-La imagen capturada se comprime en formato JPEG y posteriormente se divide en fragmentos de tamaño fijo.
-
-Si el tamaño de la imagen es:
-
-\[
-  S_{img}
-\]
-
-y el tamaño de cada fragmento es:
-
-\[
-  S_{frag}
-\]
-
-el número total de fragmentos se calcula como:
-
-\[
-  N_{frag} = \frac{S_{img}}{S_{frag}}
-\]
-
-Cada fragmento incluye un encabezado que contiene la información necesaria para su reensamblado.
-
-\subsection{Formato de Fragmento}
-
-La estructura de cada fragmento se muestra en la Tabla \ref{tab:fragmento}.
-
-\begin{table}[H]
-  \centering
-  \caption{Formato de fragmento de imagen}
-  \label{tab:fragmento}
-  \begin{tabular}{|c|c|c|}
-    \hline
-    Campo & Tamaño (bytes) & Descripción \\
-    \hline
-    Node\_ID & 1 & Identificador del nodo \\
-    Image\_ID & 1 & Identificador de imagen \\
-    Fragment\_ID & 2 & Número de fragmento \\
-    Total\_Fragments & 2 & Número total de fragmentos \\
-    Payload & N & Datos de la imagen \\
-    CRC & 2 & Verificación de errores \\
-    \hline
-  \end{tabular}
-\end{table}
-
-\section{Codificación de Corrección de Errores}
-
-Con el objetivo de mejorar la confiabilidad de la transmisión en enlaces inalámbricos, se implementa un mecanismo de corrección de errores hacia adelante (FEC) basado en el algoritmo Reed-Solomon.
-
-El algoritmo Reed-Solomon permite agregar símbolos redundantes a un bloque de datos con el fin de recuperar información perdida durante la transmisión.
-
-\subsection{Modelo Reed-Solomon}
-
-Un código Reed-Solomon se define como:
-
-\[
-  RS(n,k)
-\]
-
-donde:
-
-\begin{itemize}
-  \item $k$ representa el número de símbolos de datos
-  \item $n$ representa el número total de símbolos transmitidos
-  \item $n-k$ corresponde a los símbolos de redundancia
-\end{itemize}
-
-La capacidad de corrección de errores está dada por:
-
-\[
-  t = \frac{n-k}{2}
-\]
-
-donde $t$ representa el número máximo de símbolos erróneos que pueden corregirse.
-
-\subsection{Aplicación por Ventanas}
-
-En el sistema propuesto, la codificación Reed-Solomon se aplica sobre ventanas de fragmentos de imagen.
-
-Por ejemplo, una ventana puede estar compuesta por:
-
-\begin{itemize}
-  \item 10 fragmentos de datos
-  \item 2 fragmentos de redundancia
-\end{itemize}
-
-Por lo tanto:
-
-\[
-  RS(12,10)
-\]
-
-Este esquema permite recuperar hasta dos fragmentos perdidos sin necesidad de retransmisión.
-
-\section{Proceso de Transmisión}
-
-El flujo general de transmisión se describe en la Figura \ref{fig:flujo}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: CASOS DE USO DEL SERVIDOR Y PROCESAMIENTO %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Casos de Uso del Servidor y Procesamiento}
+\label{subsec:casos_de_uso_del_servidor_y_procesamiento}
+La Figura \ref{fig:uc_backend} detalla el flujo de información en el servidor (Backend). Este subsistema actúa como el núcleo de procesamiento, iniciando su operación con la recepción de datos desde el Gateway. Se ilustra la secuencia de procesamiento que incluye el reensamblaje de imágenes fragmentadas, la ejecución de los algoritmos de Inteligencia Artificial (segmentación de residuos) y el almacenamiento persistente de los resultados para su posterior consulta vía API.
 
 \begin{figure}[H]
   \centering
-\begin{verbatim}
-Captura Imagen
-       |
-Compresión JPEG
-       |
-Fragmentación
-       |
-Codificación FEC
-       |
-Transmisión LoRa
-       |
-Reenvío Multi-hop
-       |
-Nodo Sink
-       |
-Decodificación FEC
-       |
-Reconstrucción Imagen
-\end{verbatim}
-  \caption{Flujo del proceso de transmisión}
-  \label{fig:flujo}
+  \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Diseño/UML/servidor.pdf}
+  \caption{Diagrama de casos de uso para el Backend, abarcando la ingesta, procesamiento de IA y almacenamiento de datos.}
+  \label{fig:uc_backend}
 \end{figure}
 
-\section{Máquina de Estados del Nodo}
 
-El comportamiento de los nodos sensores puede representarse mediante la máquina de estados mostrada en la Figura \ref{fig:estados}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: CASOS DE USO DE LA INTERFAZ WEB %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Casos de Uso de la Interfaz Web}
+\label{subsec:casos_de_uso_de_la_interfaz_web}
+La Figura \ref{fig:uc_webapp} muestra las interacciones disponibles para los usuarios humanos a través de la plataforma web. Se modelan tres niveles de actores:
+\begin{itemize}
+  \item \textbf{Usuario Público:} Con acceso libre a la visualización de datos actuales, históricos y evidencia visual.
+  \item \textbf{Administrador:} Hereda los permisos de visualización y añade capacidades de gestión sobre los nodos sensores (altas, bajas, configuración) previo inicio de sesión.
+  \item \textbf{Dueño (Owner):} Actor con el máximo nivel de privilegios, capaz de gestionar las cuentas de los administradores del sistema.
+\end{itemize}
 
 \begin{figure}[H]
   \centering
-\begin{verbatim}
-SLEEP
-  |
-WAIT_BEACON
-  |
-SENSE
-  |
-CAPTURE_IMAGE
-  |
-FRAGMENT
-  |
-TRANSMIT
-  |
-FORWARD
-  |
-SLEEP
-\end{verbatim}
-  \caption{Máquina de estados del nodo sensor}
-  \label{fig:estados}
+  \includegraphics[width=0.6\linewidth]{Documento/Imagenes/Diseño/UML/aplicacionWeb.pdf}
+  \caption{Diagrama de casos de uso para la Aplicación Web, detallando los roles de usuario y sus privilegios.}
+  \label{fig:uc_webapp}
 \end{figure}
 
-\section{Consideraciones Energéticas}
 
-Dado que los nodos sensores operan con alimentación basada en batería y panel solar, el protocolo de comunicación fue diseñado para minimizar el tiempo de actividad de los nodos.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    SECCION: DIGRAMAS DE SECUENCIAS    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Digramas de Secuencias}
+\label{sec:digramas_de_secuencias}
 
-El uso de sincronización mediante Beacon y acceso TDMA permite que los nodos permanezcan en modo de bajo consumo durante la mayor parte del tiempo, activándose únicamente durante los intervalos de transmisión asignados.
 
-\section{Resumen del Diseño}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: SECUENCIA DEL NODO SENSOR %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Secuencia del Nodo Sensor}
+\label{subsec:secuencia_del_nodo_sensor}
 
-El sistema propuesto integra una arquitectura de red lineal multi-salto con un protocolo de comunicación determinista basado en TDMA. La transmisión de imágenes se realiza mediante fragmentación y protección de errores utilizando códigos Reed-Solomon aplicados por ventanas de fragmentos.
+En la \ref{fig:SDNodosensor}, se muestra el diagrama de secuencia del ciclo de monitorización del nodo sensor describe las interacciones entre los componentes internos y los elementos de comunicación del nodo.  El proceso comienza cuando el temporizador despierta al microcontrolador.
+El microcontrolador activa un sensor, espera a que se estabilice, lee el parámetro correspondiente, guarda el valor en un buffer de memoria y después desactiva el sensor.  Este ciclo se repite para cada uno de los sensores de calidad del agua (temperatura, turbidez, pH, oxígeno disuelto y conductividad) mediante un fragmento de bucle.  A continuación, el microcontrolador activa la cámara integrada, captura una imagen de la superficie y la fragmenta en bloques para su transmisión posterior.
+Los datos de los sensores y los fragmentos de la imagen se empaquetan en un mismo mensaje y se almacenan temporalmente.  El microcontrolador activa el transceptor LoRa, transmite el paquete al nodo vecino y, tras recibir la confirmación, desactiva el transceptor.
+Finalmente, vuelve a un modo de bajo consumo (\emph{sleep}) hasta el próximo ciclo de muestreo.  Este comportamiento se ajusta a la estructura de un nodo de medición WSN, que reúne componentes como la radio, la batería, el microcontrolador y la interfaz con los sensores.
 
-Este enfoque permite mejorar la confiabilidad de la comunicación en enlaces LoRa de largo alcance, al tiempo que mantiene un consumo energético adecuado para nodos alimentados mediante sistemas autónomos.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Diseño/UML/SD Nodo Sensor - Página 1.pdf}
+  \caption{Diagrama de secuencia del nodo sensor, detallando el flujo.}
+  \label{fig:SDNodosensor}
+\end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: base de datos         %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: SECUENCIA DE LA RED INALAMBRICA DE SENSORES %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Secuencia de la Red Inalámbrica de Sensores}
+\label{subsec:secuencia_de_la_red_inalambrica_de_sensores}
+
+El diagrama de secuencia de la red inalámbrica de sensores (WSN), \ref{fig:SDWSN}, ilustra la transmisión multi‑salto de paquetes a lo largo de la cadena de nodos. Cada nodo sensor genera sus propias mediciones y, cuando corresponde, las imágenes capturadas. A continuación envía este paquete al nodo siguiente de la cadena, que lo recibe, agrega sus propias mediciones y reenvía el conjunto ampliado al nodo posterior.
+De este modo, los datos se acumulan a medida que avanzan hacia la pasarela o nodo concentrador.  Este comportamiento responde al diseño de las WSN, en el que los nodos de medición están conectados de forma inalámbrica y la pasarela se encarga de recopilar los datos de cada nodo y enviarlos al servidor central.  Tras cada envío, el nodo receptor confirma la recepción para garantizar la fiabilidad de la comunicación.
+Cuando el paquete consolidado llega al concentrador, éste lo transmite al servidor para su almacenamiento y procesamiento.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Diseño/UML/SDWSN.pdf}
+  \caption{Diagrama de secuencia de la red inalámbrica de sensores, detallando la transmisión de datos entre nodos sensores}
+  \label{fig:SDWSN}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: SECUENCIA DE LA CONSULTA DEL USUARIO %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Secuencia de la Consulta del Usuario}
+\label{subsec:secuencia_de_la_consulta_del_usuario}
+
+El diagrama de secuencia en la \ref{fig:SD User}, representa el proceso de obtención de datos y visualización en el navegador por parte del usuario. Cuando el usuario accede a la aplicación web, el frontend muestra un panel de información y ofrece diferentes opciones de visualización. Al seleccionar una opción, la interfaz realiza una petición al APIREST alojado en el servidor.  El API transmite la solicitud al backend, que procesa los parámetros recibidos y consulta la base de datos para recuperar las mediciones y los resultados de la detección de residuos flotantes.
+Una vez obtenida la información, el backend la devuelve estructurada al API, que a su vez la proporciona al frontend en un formato adecuado.
+La aplicación web transforma los datos en tablas, gráficos e imágenes y presenta los resultados al usuario.
+Este flujo ejemplifica la separación entre cliente y servidor en un sistema web y cómo la API REST sirve de puente entre la interfaz y la base de datos.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Diseño/UML/SD User - Página 1.pdf}
+  \caption{Diagrama de secuencia de la consulta de usuario, detallando la obtencion y visualización de datos}
+  \label{fig:SD User}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  SECCION: DISENO DE LA BASE DE DATOS  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Diseño de la Base de Datos}
 \label{sec:diseno_bd}
 
 Con base en el análisis previo, se ha diseñado un esquema de base de datos relacional implementado sobre el motor \textbf{PostgreSQL} (alojado en AWS RDS). Este diseño tiene como objetivo garantizar la persistencia, integridad y disponibilidad de los datos generados por la Red Inalámbrica de Sensores y los resultados del procesamiento de visión artificial.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: MODELO CONCEPTUAL (ENTIDAD-RELACION) %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Modelo Conceptual (Entidad-Relación)}
 \label{subsec:modelo_er}
 
@@ -523,6 +379,10 @@ La Figura \ref{fig:diagrama_er} ilustra el Diagrama Entidad-Relación (ER) del s
   \label{fig:diagrama_er}
 \end{figure}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: DISENO LOGICO Y DICCIONARIO DE DATOS %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Diseño Lógico y Diccionario de Datos}
 \label{subsec:diccionario_datos}
 
@@ -547,139 +407,19 @@ Almacena las credenciales de acceso para los administradores y el dueño del sis
 
 \input{Documento/Tablas/DiccionarioBD/user}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: casos de uso         %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Diagramas de Casos de Uso}
-\label{sec:diagramas_casos_uso}
 
-Para modelar el comportamiento funcional del sistema y las interacciones entre los actores (usuarios, hardware y entorno) con los distintos módulos, se han elaborado diagramas de casos de uso basados en los requerimientos definidos en la Sección \ref{sec:analisis_requerimientos}. Debido a la naturaleza distribuida del sistema, se presentan tres vistas correspondientes a los subsistemas principales.
-
-\subsection{Casos de Uso del Subsistema de Adquisición (WSN)}
-La Figura \ref{fig:uc_wsn} ilustra las operaciones autónomas realizadas por los nodos sensores y el nodo concentrador (Gateway). Se destaca el rol del \textbf{Entorno Fluvial} como un actor externo que provee los estímulos físicos (parámetros y luz para la imagen) que activan el proceso de monitoreo. El diagrama muestra el flujo de datos en la topología lineal multisalto, donde cada nodo intermedio no solo genera su información, sino que también recibe y retransmite datos de sus vecinos (\textit{store-and-forward}).
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Diseño/UML/UMLNodos.pdf}
-  \caption{Diagrama de casos de uso para la Red Inalámbrica de Sensores y el Gateway, mostrando la interacción con el entorno y el relevo de datos.}
-  \label{fig:uc_wsn}
-\end{figure}
-
-\subsection{Casos de Uso del Servidor y Procesamiento}
-La Figura \ref{fig:uc_backend} detalla el flujo de información en el servidor (Backend). Este subsistema actúa como el núcleo de procesamiento, iniciando su operación con la recepción de datos desde el Gateway. Se ilustra la secuencia de procesamiento que incluye el reensamblaje de imágenes fragmentadas, la ejecución de los algoritmos de Inteligencia Artificial (segmentación de residuos) y el almacenamiento persistente de los resultados para su posterior consulta vía API.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Diseño/UML/servidor.pdf}
-  \caption{Diagrama de casos de uso para el Backend, abarcando la ingesta, procesamiento de IA y almacenamiento de datos.}
-  \label{fig:uc_backend}
-\end{figure}
-
-\subsection{Casos de Uso de la Interfaz Web}
-La Figura \ref{fig:uc_webapp} muestra las interacciones disponibles para los usuarios humanos a través de la plataforma web. Se modelan tres niveles de actores:
-\begin{itemize}
-  \item \textbf{Usuario Público:} Con acceso libre a la visualización de datos actuales, históricos y evidencia visual.
-  \item \textbf{Administrador:} Hereda los permisos de visualización y añade capacidades de gestión sobre los nodos sensores (altas, bajas, configuración) previo inicio de sesión.
-  \item \textbf{Dueño (Owner):} Actor con el máximo nivel de privilegios, capaz de gestionar las cuentas de los administradores del sistema.
-\end{itemize}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.6\linewidth]{Documento/Imagenes/Diseño/UML/aplicacionWeb.pdf}
-  \caption{Diagrama de casos de uso para la Aplicación Web, detallando los roles de usuario y sus privilegios.}
-  \label{fig:uc_webapp}
-\end{figure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: Diagramas de secuencia       %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Digramas de Secuencias}
-
-\subsection{Secuencia del Nodo Sensor}
-
-En la \ref{fig:SDNodosensor}, se muestra el diagrama de secuencia del ciclo de monitorización del nodo sensor describe las interacciones entre los componentes internos y los elementos de comunicación del nodo.  El proceso comienza cuando el temporizador despierta al microcontrolador.
-El microcontrolador activa un sensor, espera a que se estabilice, lee el parámetro correspondiente, guarda el valor en un buffer de memoria y después desactiva el sensor.  Este ciclo se repite para cada uno de los sensores de calidad del agua (temperatura, turbidez, pH, oxígeno disuelto y conductividad) mediante un fragmento de bucle.  A continuación, el microcontrolador activa la cámara integrada, captura una imagen de la superficie y la fragmenta en bloques para su transmisión posterior.
-Los datos de los sensores y los fragmentos de la imagen se empaquetan en un mismo mensaje y se almacenan temporalmente.  El microcontrolador activa el transceptor LoRa, transmite el paquete al nodo vecino y, tras recibir la confirmación, desactiva el transceptor.
-Finalmente, vuelve a un modo de bajo consumo (\emph{sleep}) hasta el próximo ciclo de muestreo.  Este comportamiento se ajusta a la estructura de un nodo de medición WSN, que reúne componentes como la radio, la batería, el microcontrolador y la interfaz con los sensores.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Diseño/UML/SD Nodo Sensor - Página 1.pdf}
-  \caption{Diagrama de secuencia del nodo sensor, detallando el flujo.}
-  \label{fig:SDNodosensor}
-\end{figure}
-
-\subsection{Secuencia de la Red Inalámbrica de Sensores}
-
-El diagrama de secuencia de la red inalámbrica de sensores (WSN), \ref{fig:SDWSN}, ilustra la transmisión multi‑salto de paquetes a lo largo de la cadena de nodos. Cada nodo sensor genera sus propias mediciones y, cuando corresponde, las imágenes capturadas. A continuación envía este paquete al nodo siguiente de la cadena, que lo recibe, agrega sus propias mediciones y reenvía el conjunto ampliado al nodo posterior.
-De este modo, los datos se acumulan a medida que avanzan hacia la pasarela o nodo concentrador.  Este comportamiento responde al diseño de las WSN, en el que los nodos de medición están conectados de forma inalámbrica y la pasarela se encarga de recopilar los datos de cada nodo y enviarlos al servidor central.  Tras cada envío, el nodo receptor confirma la recepción para garantizar la fiabilidad de la comunicación.
-Cuando el paquete consolidado llega al concentrador, éste lo transmite al servidor para su almacenamiento y procesamiento.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Diseño/UML/SDWSN.pdf}
-  \caption{Diagrama de secuencia de la red inalámbrica de sensores, detallando la transmisión de datos entre nodos sensores}
-  \label{fig:SDWSN}
-\end{figure}
-
-\subsection{Secuencia de la Consulta del Usuario}
-
-El diagrama de secuencia en la \ref{fig:SD User}, representa el proceso de obtención de datos y visualización en el navegador por parte del usuario. Cuando el usuario accede a la aplicación web, el frontend muestra un panel de información y ofrece diferentes opciones de visualización. Al seleccionar una opción, la interfaz realiza una petición al APIREST alojado en el servidor.  El API transmite la solicitud al backend, que procesa los parámetros recibidos y consulta la base de datos para recuperar las mediciones y los resultados de la detección de residuos flotantes.
-Una vez obtenida la información, el backend la devuelve estructurada al API, que a su vez la proporciona al frontend en un formato adecuado.
-La aplicación web transforma los datos en tablas, gráficos e imágenes y presenta los resultados al usuario.
-Este flujo ejemplifica la separación entre cliente y servidor en un sistema web y cómo la API REST sirve de puente entre la interfaz y la base de datos.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.8\linewidth]{Documento/Imagenes/Diseño/UML/SD User - Página 1.pdf}
-  \caption{Diagrama de secuencia de la consulta de usuario, detallando la obtencion y visualización de datos}
-  \label{fig:SD User}
-\end{figure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: Diagrama de Arquitectura    %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Arquitectura}
-
-El diagrama de arquitectura presentado describe la organización y los componentes principales del sistema de monitoreo ambiental basado en una Red inalámbrica de sensores. El sistema se compone de tres bloques principales: la red inalámbrica de sensores, el servidor, y la visualización web.
-
-\textbf{Red inalámbrica de sensores}\\
-Este bloque incluye los nodos sensores y el nodo concentrador(Gateway). Los nodos sensores, equipados con el microcontrolador Heltec ESP32, los sensores (pH, oxígeno disuelto, turbidez, temperatura y conductividad.), y la cámara, están interconectados mediante el protocolo de comunicación LoRa. Los nodos sensores capturan datos de las condiciones del agua y los envían al Nodo Concentrador a través de LoRa.
-
-El Nodo Concentrador tiene la función de recibir los paquetes de datos de los nodos sensores y retransmitirlos hacia la nube utilizando Wi-Fi/4G. El nodo concentrador también está integrado con AWS IoT Core, lo que le permite comunicarse con el servidor en la nube.
-
-\textbf{Servidor}\\
-El servidor en la nube se encarga de gestionar los datos enviados desde los nodos concentradores. Este bloque se divide en tres componentes principales:
-\begin{itemize}
-  \item Almacenamiento: Utiliza Amazon RDS para almacenar los datos estructurados (en PostgreSQL) y Amazon S3 para almacenar las imágenes procesadas y otros archivos.
-  \item Backend y Frontend: El backend está basado en Amazon EC2 y utiliza Node.js y HTML5 para procesar las solicitudes, analizar los datos y gestionar la comunicación con la base de datos y el almacenamiento. El frontend está relacionado con la interfaz de usuario que consulta los datos procesados.
-  \item Conexión a través de HTTP/MQTT: El servidor gestiona la comunicación entre los diferentes módulos a través de los protocolos HTTP y MQTT. El protocolo MQTT se usa para la comunicación eficiente entre los nodos concentradores y el backend.
-  \item API Rest: La API REST proporciona la capa de comunicación entre el frontend y el backend, permitiendo que la aplicación web recupere y presente los datos al usuario.
-\end{itemize}
-
-\textbf{Visualización web}\\
-El bloque de visualización web está dedicado a la interfaz de usuario, donde los usuarios pueden consultar los datos monitoreados, visualizar gráficos sobre la calidad del agua y revisar las imágenes procesadas. La comunicación entre el frontend y el backend se realiza a través de la API Rest.
-
-Este diagrama destaca las interacciones entre los componentes del sistema, incluyendo la transmisión de datos desde los nodos sensores a través del nodo concentrador, el procesamiento y almacenamiento en la nube, y la entrega de resultados al usuario final a través de la página web.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.5\linewidth]{Documento/Imagenes/Diseño/Diagramadearq.pdf}
-  \caption{Diagrama de arquitectura del sistema}
-  \label{fig:DiagramaArq}
-\end{figure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             SECCIÓN: Mockups         %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECCION: DISENO DE INTERFAZ DE USUARIO %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Diseño de Interfaz de Usuario}
 \label{sec:diseno_interfaz}
 
 La interfaz de usuario se ha diseñado bajo un enfoque web responsivo, dividida en dos entornos claramente diferenciados según el perfil del actor: un \textbf{Portal Público} de acceso libre para la consulta ciudadana y un \textbf{Portal Administrativo} para la gestión técnica del sistema. A continuación, se describen las pantallas principales diseñadas.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%      SUBSECCION: PORTAL PUBLICO       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Portal Público}
 \label{subsec:portal_publico}
 
@@ -734,6 +474,10 @@ Esta sección muestra las imágenes capturadas por los nodos sensores. Permite a
   \label{fig:mockup_galeria}
 \end{figure}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   SUBSECCION: PORTAL ADMINISTRATIVO   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Portal Administrativo}
 \label{subsec:portal_admin}
 
@@ -793,12 +537,21 @@ Este módulo permite la gestión integral de la información recolectada por el 
   \label{fig:mockup_reportes_img}
 \end{figure}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     SECCION: ESCENARIO DE PRUEBAS     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Escenario de Pruebas}
 \label{sec:escenario_pruebas}
 
 Con el objetivo de validar el funcionamiento integral del sistema MONICA antes de su despliegue final en el cuerpo de agua real, se ha diseñado un escenario de pruebas controlado en exteriores. Este entorno permite evaluar el desempeño de la red de sensores inalámbrica (WSN), la precisión de la telemetría y la eficacia del sistema de visión artificial bajo condiciones manipulables pero representativas.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: DISPOSICION FISICA Y TOPOLOGIA %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Disposición Física y Topología}
+\label{subsec:disposicion_fisica_y_topologia}
 Para simular la distribución lineal del río, se dispondrá de una serie de \textbf{contenedores de agua} (capacidad mínima de 20 litros) alineados geográficamente. Cada contenedor alojará un nodo sensor completo, garantizando que las sondas se encuentren sumergidas y la cámara tenga un campo de visión despejado hacia la superficie del agua.
 
 Cumpliendo con los objetivos de alcance del proyecto, se establece una \textbf{separación física de al menos 50 m} entre cada contenedor. Esta distancia es crítica para validar:
@@ -810,7 +563,12 @@ Cumpliendo con los objetivos de alcance del proyecto, se establece una \textbf{s
 
 El Nodo Concentrador (Gateway) se ubicará en el extremo final de la línea, proveyendo la conexión Wi-Fi necesaria para retransmitir los datos acumulados hacia el servidor en la nube.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: PROTOCOLO DE VALIDACION DE VARIABLES %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Protocolo de Validación de Variables}
+\label{subsec:protocolo_de_validacion_de_variables}
 La funcionalidad del sistema se evaluará mediante la alteración intencional y controlada de las condiciones del entorno en los contenedores:
 
 \begin{enumerate}
@@ -827,60 +585,12 @@ La funcionalidad del sistema se evaluará mediante la alteración intencional y 
     \end{itemize}
 \end{enumerate}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: VALIDACION DE CONECTIVIDAD Y PLATAFORMA %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Validación de Conectividad y Plataforma}
+\label{subsec:validacion_de_conectividad_y_plataforma}
 Finalmente, el escenario contempla la verificación del flujo de información \textit{extremo a extremo} (End-to-End). Se cotejarán los estímulos físicos aplicados en los contenedores con los registros almacenados en la base de datos y su representación gráfica en la aplicación web.
 
 Asimismo, se pondrán a prueba los roles de usuario definidos, verificando que la gestión de nodos sea exclusiva del administrador y que el acceso público a los datos sea fluido y en tiempo real, validando así la arquitectura completa del sistema de monitoreo.
-
-\begin{comment}
-\section{Diseño de Software}
-\begin{table}[H]
-\centering
-\caption{Tabla Nodo.}
-\label{tab:usuario}
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Campo}              & \textbf{Tipo de dato} & \textbf{Llave}   \\ \hline
-idNodo                  & int                   & primaria         \\ \hline
-Nombre                    & varchar               & N/A              \\ \hline
-apellido                  & varchar               & N/A              \\ \hline
-seg\_apellido             & varchar               & N/A              \\ \hline
-correo                    & varchar               & N/A              \\ \hline
-fecha\_nacimiento         & date                  & N/A              \\ \hline
-genero                    & varchar               & N/A              \\ \hline
-bandera\_administrador    & tinyint               & N/A              \\ \hline
-nodo                      & int                   & N/A              \\ \hline
-\end{tabular}
-\end{table}
-
-\subsection{Conexión entre nodos, concentrador y servidor}.
-
-En el sistema propuesto, los nodos sensores distribuidos a lo largo del entorno fluvial establecen comunicación con un nodo concentrador central mediante una red inalámbrica local basada en el estándar Wi-Fi HaLow (IEEE 802.11ah). Esta tecnología opera en la banda sub-1 GHz, lo cual le otorga ventajas significativas en términos de alcance (hasta 1 km en condiciones ideales) y penetración en entornos con vegetación densa, además de un consumo energético moderado que favorece la operación autónoma con baterías o paneles solares.
-
-El nodo concentrador cumple una función crítica dentro de la arquitectura, ya que actúa como gateway inalámbrico. Es decir, se encarga de recibir la información sensorial proveniente de los nodos HaLow y reenviarla al servidor central utilizando una interfaz de red externa. Esta interfaz puede implementarse mediante un módulo de red celular (4G/5G), ideal para zonas con baja infraestructura de conectividad, o a través de una red WLAN convencional (2.4/5 GHz) disponible en estaciones fijas cercanas al sitio de monitoreo.
-
-Para establecer la comunicación entre el nodo concentrador y el servidor, se asume que el concentrador cuenta con dicha interfaz de red externa, permitiendo el envío de datos a través del protocolo HTTP. Esta suposición garantiza la interoperabilidad con servicios web modernos y facilita la integración con plataformas de almacenamiento, análisis o visualización de datos.
-
-Una vez recibidos, los datos son procesados por el servidor y almacenados en una base de datos estructurada, permitiendo su consulta posterior, análisis automatizado o incluso la generación de comandos que puedan enviarse de regreso a los nodos sensores, habilitando así una comunicación bidireccional dentro del sistema.
-\end{comment}
-
-%\subsection{Base de datos}
-%\subsubsection{Diseño de base de datos}
-%\subsubsection{Modelo Relacional}
-%\subsubsection{Diccionario de datos}
-
-%\section{Diseño de Comunicación}
-%\subsection{Diagrama de comunicación del nodo concentrador con el servidor}
-
-%\section{Diseño de Interfaces de Usuario}
-%\subsection{Diseño de Mock-up para la página web}
-%\subsection{Página principal}
-
-%\section{Modelado del Sistema}
-%\subsection{Diagramas UML}
-%\subsubsection{Diagramas de caso de uso}
-%\subsubsection{Diagramas de secuencia}
-
-%\section{Integración y Pruebas}
-%\subsection{Integración final del sistema}
-%\subsection{Escenario de pruebas}
