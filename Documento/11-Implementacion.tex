@@ -14,6 +14,39 @@ Con el objetivo de determinar la arquitectura más apta para el proyecto, se lle
 
 Desarrollado por Ultralytics como la última evolución diseñada específicamente para dispositivos de borde (\textit{Edge}) y bajo consumo, YOLO26 introduce una arquitectura nativa de extremo a extremo que elimina el paso de post-procesamiento de supresión no máxima (NMS) y el módulo DFL. Además, incorpora el innovador optimizador MuSGD (un híbrido de SGD y Muon), el cual mejora la estabilidad y velocidad de convergencia del entrenamiento. En conjunto, estas optimizaciones logran una implementación significativamente más ligera y una inferencia en CPU hasta un 43\% más rápida, características idóneas para operar en sistemas con recursos limitados como el nodo concentrador del presente sistema.
 
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECCION: MUESTREO DEL CONJUNTO DE DATOS %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Muestreo del Conjunto de Datos}
+\label{subsec:muestreo_del_conjunto_de_datos}
+
+Previo al análisis de las métricas de desempeño, es fundamental visualizar la naturaleza y calidad de los datos utilizados para el entrenamiento. En el proceso de preparación del conjunto de datos, se implementó una técnica de segmentación por mosaicos o \textit{slicing} mediante la biblioteca SAHI (\textit{Slicing Aided Hyper Inference}). Esta técnica fue necesaria debido a la alta resolución de las imágenes originales y al tamaño relativamente reducido de los residuos en el campo de visión. 
+
+Este procedimiento permite automatizar la división de las imágenes originales en mosaicos de $1024 \times 1024$ píxeles con un solapamiento (\textit{overlap}) del 25\%. Esta estrategia permite que el modelo procese detalles finos sin perder el contexto espacial en los bordes, mejorando la detección de objetos pequeños. 
+
+En la Figura \ref{fig:muestras_dataset} se presenta un mosaico de validación general, mientras que la Figura \ref{fig:muestras_fucsia} exhibe muestras individuales con las máscaras de segmentación en color fucsia.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{Documento/Imagenes/Implementación/Entrenamiento/muestras_dataset.jpg}
+    \caption{Mosaico de validación generado durante el entrenamiento con etiquetas de segmentación.}
+    \label{fig:muestras_dataset}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Muestra 1]{\includegraphics[width=0.48\textwidth]{Documento/Imagenes/Implementación/Entrenamiento/1.jpeg}}
+    \hfill
+    \subfigure[Muestra 2]{\includegraphics[width=0.48\textwidth]{Documento/Imagenes/Implementación/Entrenamiento/2.jpeg}}
+    \\
+    \subfigure[Muestra 3]{\includegraphics[width=0.48\textwidth]{Documento/Imagenes/Implementación/Entrenamiento/3.jpeg}}
+    \hfill
+    \subfigure[Muestra 4]{\includegraphics[width=0.48\textwidth]{Documento/Imagenes/Implementación/Entrenamiento/5.png}}
+    \caption{Ejemplos de imágenes del dataset procesadas con \textit{slicing} y visualizadas con máscaras fucsia de alto contraste.}
+    \label{fig:muestras_fucsia}
+\end{figure}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SUBSECCION: ANALISIS DE METRICAS DE DESEMPENO %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -44,7 +77,7 @@ Para complementar esta evaluación estática, la Figura \ref{fig:metricas_yolo_m
 
 De acuerdo con estas curvas de aprendizaje, \textbf{YOLOv11} no solo alcanzó el pico de rendimiento absoluto con un mAP50 de \textbf{\num{0.786}} y un mAP50-95 de \num{0.560}, sino que demostró la convergencia más estable y la menor pérdida de validación final. Le sigue muy de cerca el modelo \textbf{YOLO26}, con un mAP50 de \num{0.781}, el cual a pesar de su diseño \textit{NMS-free} para ejecución rápida en el borde, registró un rendimiento ligeramente inferior en la zona estricta de intersección (mAP50-95 de \num{0.547}). El YOLOv8 clásico cerró con \num{0.770} en mAP50.
 
-Con base en esta implementación impulsada por la plataforma Modal, se determina que la arquitectura YOLOv11 proporciona el equilibrio óptimo entre capacidad predictiva, estabilidad de convergencia y generalización para la identificación de contaminantes superficiales en el nodo concentrador.
+Con base en esta implementación impulsada por la plataforma Modal, se determina que la arquitectura YOLOv11 proporciona el equilibrio óptimo entre capacidad predictiva, estabilidad de convergencia y generalización para la identificación de contaminantes superficiales en el agua.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SECCION: DESARROLLO DEL SISTEMA WEB DE MONITOREO %
@@ -88,17 +121,46 @@ El modelo relacional (\textit{schema}) fue diseñado a la medida para capturar l
 
 Debido al carácter delicado de los datos medioambientales recopilados, el acceso a la plataforma se encuentra estrictamente protegido. La autenticación se implementó mediante el estándar \textbf{NextAuth.js}, el cual cifra y valida las credenciales de los usuarios empleando \textit{bcryptjs} antes de extender \textit{tokens} de sesión JWT para autorizar el acceso al Panel de Control (\textit{Dashboard}).
 
-Para transformar la extensa base de datos crudos en información accionable y digerible para los operadores, la interfaz de usuario integra componentes de visualización analítica de vanguardia:
+Para transformar la extensa base de datos crudos en información accionable y digerible para los operadores, la interfaz de usuario integra componentes de visualización analítica de vanguardia distribuidos en módulos especializados:
 \begin{enumerate}
-    \item \textbf{Geolocalización en Tiempo Real}: Mediante la integración de las librerías \textbf{Leaflet} y \textit{react-leaflet}, la plataforma renderiza un mapa interactivo global. Este componente extrae la latitud y longitud de la base de datos para posicionar marcadores de cada nodo sensor, permitiendo al usuario auditar el área de despliegue y consultar el estado general de red de un solo vistazo.
-    \item \textbf{Análisis Gráfico Evolutivo}: El comportamiento histórico de la calidad del agua no se presenta en tablas estáticas, sino que se despliega mediante gráficos de series temporales altamente dinámicos construidos con \textbf{Recharts}. Esta representación visual permite a los investigadores identificar fluctuaciones inusuales, patrones cíclicos y anomalías en los parámetros fisicoquímicos a lo largo del tiempo con extrema facilidad.
+    \item \textbf{Panel de Inicio y Visión General}: La página principal del sistema (Figura \ref{fig:web_inicio}) presenta la misión del proyecto y los pilares tecnológicos, sirviendo como punto de acceso intuitivo para los usuarios.
+    \item \textbf{Geolocalización en Tiempo Real}: Mediante la integración de las librerías \textbf{Leaflet} y \textit{react-leaflet}, la plataforma renderiza un mapa interactivo global (Figura \ref{fig:web_mapa}). Este componente extrae la latitud y longitud de la base de datos para posicionar marcadores de cada nodo sensor, permitiendo al usuario auditar el área de despliegue y consultar el estado general de red de un solo vistazo.
+    \item \textbf{Análisis de Métricas Vitales e ICA}: Se implementó un panel dedicado a la salud del cuerpo de agua (Figura \ref{fig:web_estadisticas}) que calcula y muestra el Índice de Calidad del Agua (ICA) ponderado, además de tarjetas informativas con los valores actuales de cada sensor.
+    \item \textbf{Análisis Gráfico Evolutivo}: El comportamiento histórico de la calidad del agua se despliega mediante gráficos de series temporales dinámicos construidos con \textbf{Recharts} (Figura \ref{fig:web_graficas}). Esta representación permite identificar tendencias, fluctuaciones inusuales y anomalías en los parámetros fisicoquímicos.
+    \item \textbf{Registro de Vigilancia y Evidencia Visual}: Finalmente, el sistema cuenta con una galería de evidencia (Figura \ref{fig:web_galeria}) donde se almacenan y filtran las detecciones realizadas por el modelo de visión artificial, permitiendo la auditoría visual de los eventos de contaminación.
 \end{enumerate}
 
-% [TODO: INSERCIÓN DE IMAGEN PENDIENTE]
-% Cuando tengas las capturas de pantalla, descomenta y ajusta el siguiente bloque:
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Implementación/dashboard_monica.png}
-%   \caption{Interfaz principal (Dashboard) del Sistema Web de Monitoreo.}
-%   \label{fig:dashboard_web}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Implementación/Pagina_web/pagina1.png}
+    \caption{Interfaz de inicio del Sistema Web de Monitoreo.}
+    \label{fig:web_inicio}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Implementación/Pagina_web/pagina2.png}
+    \caption{Módulo de geolocalización interactiva de nodos sensores mediante Leaflet.}
+    \label{fig:web_mapa}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Implementación/Pagina_web/pagina3.png}
+    \caption{Panel de análisis de métricas vitales e Índice de Calidad del Agua (ICA).}
+    \label{fig:web_estadisticas}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Implementación/Pagina_web/pagina4.png}
+    \caption{Visualización de series temporales históricas mediante Recharts.}
+    \label{fig:web_graficas}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Documento/Imagenes/Implementación/Pagina_web/pagina5.png}
+    \caption{Galería de evidencia visual y registro de vigilancia de residuos sólidos.}
+    \label{fig:web_galeria}
+\end{figure}
